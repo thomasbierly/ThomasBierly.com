@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thomas Bierly — AI Researcher & Workforce Futurist</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Animated background canvas -->
+  <canvas id="matrix-canvas"></canvas>
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Scanline overlay -->
+  <div class="scanline-overlay"></div>
+
+  <!-- Navigation -->
+  <nav id="main-nav">
+    <div class="nav-brand glitch" data-text="TB">TB</div>
+    <ul class="nav-links">
+      <li><a href="#hero" data-kanji="始">Home</a></li>
+      <li><a href="#about" data-kanji="人">About</a></li>
+      <li><a href="#research" data-kanji="研">Research</a></li>
+      <li><a href="#projects" data-kanji="作">Projects</a></li>
+      <li><a href="#cv" data-kanji="歴">CV</a></li>
+      <li><a href="#contact" data-kanji="連">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-terminal">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">thomas@bierly:~</span>
+        </div>
+        <div class="terminal-body">
+          <p class="typing-line line-1"><span class="prompt">$</span> <span class="cmd">whoami</span></p>
+          <p class="typing-line line-2 output">Thomas Bierly</p>
+          <p class="typing-line line-3"><span class="prompt">$</span> <span class="cmd">cat mission.txt</span></p>
+          <p class="typing-line line-4 output">Exploring the intersection of AI &amp; workforce transformation</p>
+          <p class="typing-line line-5"><span class="prompt">$</span> <span class="cmd">./launch_portfolio.sh</span></p>
+          <p class="typing-line line-6 output blink-cursor">Initializing...</p>
+        </div>
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-line-1 glitch" data-text="THOMAS">THOMAS</span>
+        <span class="hero-line-2 glitch" data-text="BIERLY">BIERLY</span>
+      </h1>
+      <p class="hero-subtitle">
+        <span class="kanji-accent">人工知能</span> AI Researcher
+        <span class="separator">|</span>
+        <span class="kanji-accent">未来</span> Workforce Futurist
+        <span class="separator">|</span>
+        <span class="kanji-accent">革新</span> Innovator
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary cyber-btn">
+          <span>View Projects</span>
+          <div class="btn-glitch"></div>
+        </a>
+        <a href="#about" class="btn btn-secondary cyber-btn">
+          <span>Learn More</span>
+          <div class="btn-glitch"></div>
+        </a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+      <p>Scroll Down</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="section-header">
+      <h2 class="section-title" data-kanji="自己紹介">
+        <span class="title-decoration">&lt;</span>
+        About Me
+        <span class="title-decoration">/&gt;</span>
+      </h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-card manga-panel">
+        <div class="card-corner top-left"></div>
+        <div class="card-corner top-right"></div>
+        <div class="card-corner bottom-left"></div>
+        <div class="card-corner bottom-right"></div>
+        <div class="about-avatar">
+          <div class="avatar-frame">
+            <div class="avatar-placeholder">
+              <span class="avatar-icon">TB</span>
+            </div>
+            <div class="avatar-ring"></div>
+          </div>
+        </div>
+        <div class="about-text">
+          <p class="about-intro">
+            I'm <strong>Thomas Bierly</strong> — a researcher, builder, and thinker operating at the bleeding edge of artificial intelligence and its implications for the future of work.
+          </p>
+          <p>
+            My work sits at a critical intersection: understanding how AI systems reshape industries, transform job markets, and redefine what it means to be a knowledge worker in the 21st century. I don't just study these changes — I build tools and frameworks that help organizations navigate them.
+          </p>
+          <p>
+            Whether I'm training models, writing research papers, or prototyping new applications, I bring a hacker's mindset: move fast, question assumptions, and always look for the elegant solution hiding in plain sight.
+          </p>
+        </div>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card" data-delay="0">
+          <div class="stat-icon">&#x2F2F;</div>
+          <div class="stat-label">Research Focus</div>
+          <div class="stat-value">AI & Workforce</div>
+        </div>
+        <div class="stat-card" data-delay="1">
+          <div class="stat-icon">&#x00BB;</div>
+          <div class="stat-label">Passion</div>
+          <div class="stat-value">Building the Future</div>
+        </div>
+        <div class="stat-card" data-delay="2">
+          <div class="stat-icon">&#x2261;</div>
+          <div class="stat-label">Approach</div>
+          <div class="stat-value">Ship & Iterate</div>
+        </div>
+        <div class="stat-card" data-delay="3">
+          <div class="stat-icon">&#x00A7;</div>
+          <div class="stat-label">Philosophy</div>
+          <div class="stat-value">Question Everything</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Section -->
+  <section id="research" class="section">
+    <div class="section-header">
+      <h2 class="section-title" data-kanji="研究">
+        <span class="title-decoration">&lt;</span>
+        Research
+        <span class="title-decoration">/&gt;</span>
+      </h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="research-grid">
+      <div class="research-card manga-panel" data-aos="fade-up">
+        <div class="card-corner top-left"></div>
+        <div class="card-corner top-right"></div>
+        <div class="card-corner bottom-left"></div>
+        <div class="card-corner bottom-right"></div>
+        <div class="research-icon">
+          <svg viewBox="0 0 100 100" class="circuit-icon">
+            <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="50" y1="0" x2="50" y2="30" stroke="currentColor" stroke-width="2"/>
+            <line x1="50" y1="70" x2="50" y2="100" stroke="currentColor" stroke-width="2"/>
+            <line x1="0" y1="50" x2="30" y2="50" stroke="currentColor" stroke-width="2"/>
+            <line x1="70" y1="50" x2="100" y2="50" stroke="currentColor" stroke-width="2"/>
+            <circle cx="50" cy="50" r="8" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>AI & Workforce Transformation</h3>
+        <p>Investigating how large language models, automation, and intelligent systems are fundamentally reshaping labor markets, skill requirements, and organizational structures across industries.</p>
+        <div class="research-tags">
+          <span class="tag">LLMs</span>
+          <span class="tag">Labor Economics</span>
+          <span class="tag">Automation</span>
+        </div>
+      </div>
+      <div class="research-card manga-panel" data-aos="fade-up" data-aos-delay="100">
+        <div class="card-corner top-left"></div>
+        <div class="card-corner top-right"></div>
+        <div class="card-corner bottom-left"></div>
+        <div class="card-corner bottom-right"></div>
+        <div class="research-icon">
+          <svg viewBox="0 0 100 100" class="circuit-icon">
+            <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2" rx="5"/>
+            <line x1="40" y1="20" x2="40" y2="80" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="60" y1="20" x2="60" y2="80" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="20" y1="40" x2="80" y2="40" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="20" y1="60" x2="80" y2="60" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="40" cy="40" r="4" fill="currentColor"/>
+            <circle cx="60" cy="60" r="4" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Human-AI Collaboration</h3>
+        <p>Exploring frameworks for effective human-AI teaming — how people can leverage AI as a force multiplier while maintaining agency, creativity, and critical thinking in their work.</p>
+        <div class="research-tags">
+          <span class="tag">HCI</span>
+          <span class="tag">Augmentation</span>
+          <span class="tag">Productivity</span>
+        </div>
+      </div>
+      <div class="research-card manga-panel" data-aos="fade-up" data-aos-delay="200">
+        <div class="card-corner top-left"></div>
+        <div class="card-corner top-right"></div>
+        <div class="card-corner bottom-left"></div>
+        <div class="card-corner bottom-right"></div>
+        <div class="research-icon">
+          <svg viewBox="0 0 100 100" class="circuit-icon">
+            <polygon points="50,10 90,35 90,75 50,100 10,75 10,35" fill="none" stroke="currentColor" stroke-width="2"/>
+            <polygon points="50,25 75,40 75,65 50,80 25,65 25,40" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="50" cy="52" r="10" fill="currentColor" opacity="0.6"/>
+          </svg>
+        </div>
+        <h3>Applied AI Systems</h3>
+        <p>Building practical AI applications that solve real problems — from intelligent agents and workflow automation to novel interfaces that make complex AI systems accessible to everyone.</p>
+        <div class="research-tags">
+          <span class="tag">Agents</span>
+          <span class="tag">Tooling</span>
+          <span class="tag">Systems Design</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="section">
+    <div class="section-header">
+      <h2 class="section-title" data-kanji="作品">
+        <span class="title-decoration">&lt;</span>
+        Projects
+        <span class="title-decoration">/&gt;</span>
+      </h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card manga-panel featured">
+        <div class="card-corner top-left"></div>
+        <div class="card-corner top-right"></div>
+        <div class="card-corner bottom-left"></div>
+        <div class="card-corner bottom-right"></div>
+        <div class="project-number">01</div>
+        <div class="project-content">
+          <h3 class="project-title">AI Workforce Analyzer</h3>
+          <p class="project-desc">A comprehensive tool that maps AI capability growth against job task decompositions to forecast workforce disruption timelines across industries.</p>
+          <div class="project-tech">
+            <span>Python</span>
+            <span>LLMs</span>
+            <span>Data Viz</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">View Project <span class="arrow">→</span></a>
+            <a href="#" class="project-link">Source <span class="arrow">→</span></a>
+          </div>
+        </div>
+        <div class="project-visual">
+          <div class="code-rain-mini"></div>
+        </div>
+      </div>
+      <div class="project-card manga-panel">
+        <div class="card-corner top-left"></div>
+        <div class="card-corner top-right"></div>
+        <div class="card-corner bottom-left"></div>
+        <div class="card-corner bottom-right"></div>
+        <div class="project-number">02</div>
+        <div class="project-content">
+          <h3 class="project-title">Intelligent Agent Framework</h3>
+          <p class="project-desc">An open-source framework for building autonomous AI agents that can reason, plan, and execute complex multi-step tasks with human oversight.</p>
+          <div class="project-tech">
+            <span>TypeScript</span>
+            <span>Agents</span>
+            <span>RAG</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">View Project <span class="arrow">→</span></a>
+            <a href="#" class="project-link">Source <span class="arrow">→</span></a>
+          </div>
+        </div>
+        <div class="project-visual">
+          <div class="code-rain-mini"></div>
+        </div>
+      </div>
+      <div class="project-card manga-panel">
+        <div class="card-corner top-left"></div>
+        <div class="card-corner top-right"></div>
+        <div class="card-corner bottom-left"></div>
+        <div class="card-corner bottom-right"></div>
+        <div class="project-number">03</div>
+        <div class="project-content">
+          <h3 class="project-title">Skills Gap Visualizer</h3>
+          <p class="project-desc">Interactive data visualization platform that helps organizations identify emerging skill gaps and design targeted upskilling programs for the AI era.</p>
+          <div class="project-tech">
+            <span>D3.js</span>
+            <span>React</span>
+            <span>NLP</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">View Project <span class="arrow">→</span></a>
+            <a href="#" class="project-link">Source <span class="arrow">→</span></a>
+          </div>
+        </div>
+        <div class="project-visual">
+          <div class="code-rain-mini"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CV Section -->
+  <section id="cv" class="section">
+    <div class="section-header">
+      <h2 class="section-title" data-kanji="履歴書">
+        <span class="title-decoration">&lt;</span>
+        Curriculum Vitae
+        <span class="title-decoration">/&gt;</span>
+      </h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="cv-container">
+      <div class="cv-download">
+        <a href="#" class="btn btn-primary cyber-btn">
+          <span>Download Full CV (PDF)</span>
+          <div class="btn-glitch"></div>
+        </a>
+      </div>
+      <div class="cv-timeline">
+        <div class="timeline-track"></div>
+
+        <div class="timeline-item manga-panel">
+          <div class="card-corner top-left"></div>
+          <div class="card-corner top-right"></div>
+          <div class="card-corner bottom-left"></div>
+          <div class="card-corner bottom-right"></div>
+          <div class="timeline-marker">
+            <div class="marker-pulse"></div>
+          </div>
+          <div class="timeline-date">Present</div>
+          <h3>AI Research & Development</h3>
+          <p>Leading research initiatives at the intersection of artificial intelligence and workforce transformation. Building tools and frameworks for the future of work.</p>
+          <div class="timeline-tags">
+            <span class="tag">AI/ML</span>
+            <span class="tag">Research</span>
+            <span class="tag">Leadership</span>
+          </div>
+        </div>
+
+        <div class="timeline-item manga-panel">
+          <div class="card-corner top-left"></div>
+          <div class="card-corner top-right"></div>
+          <div class="card-corner bottom-left"></div>
+          <div class="card-corner bottom-right"></div>
+          <div class="timeline-marker">
+            <div class="marker-pulse"></div>
+          </div>
+          <div class="timeline-date">Previous</div>
+          <h3>Technology Consulting</h3>
+          <p>Advised organizations on AI adoption strategies, digital transformation, and workforce planning for emerging technologies.</p>
+          <div class="timeline-tags">
+            <span class="tag">Strategy</span>
+            <span class="tag">Consulting</span>
+            <span class="tag">Digital Transformation</span>
+          </div>
+        </div>
+
+        <div class="timeline-item manga-panel">
+          <div class="card-corner top-left"></div>
+          <div class="card-corner top-right"></div>
+          <div class="card-corner bottom-left"></div>
+          <div class="card-corner bottom-right"></div>
+          <div class="timeline-marker">
+            <div class="marker-pulse"></div>
+          </div>
+          <div class="timeline-date">Education</div>
+          <h3>Academic Background</h3>
+          <p>Interdisciplinary education spanning computer science, data science, and organizational behavior — building the foundation for cross-domain research.</p>
+          <div class="timeline-tags">
+            <span class="tag">Computer Science</span>
+            <span class="tag">Data Science</span>
+            <span class="tag">Research Methods</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-skills">
+        <h3 class="skills-title">Technical Arsenal</h3>
+        <div class="skills-grid">
+          <div class="skill-bar">
+            <div class="skill-name">Python / ML Frameworks</div>
+            <div class="skill-track"><div class="skill-fill" data-level="95"></div></div>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-name">Large Language Models</div>
+            <div class="skill-track"><div class="skill-fill" data-level="90"></div></div>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-name">Data Analysis & Visualization</div>
+            <div class="skill-track"><div class="skill-fill" data-level="88"></div></div>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-name">Web Development</div>
+            <div class="skill-track"><div class="skill-fill" data-level="82"></div></div>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-name">Research & Technical Writing</div>
+            <div class="skill-track"><div class="skill-fill" data-level="92"></div></div>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-name">Systems Architecture</div>
+            <div class="skill-track"><div class="skill-fill" data-level="80"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section">
+    <div class="section-header">
+      <h2 class="section-title" data-kanji="連絡">
+        <span class="title-decoration">&lt;</span>
+        Contact
+        <span class="title-decoration">/&gt;</span>
+      </h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-terminal manga-panel">
+        <div class="card-corner top-left"></div>
+        <div class="card-corner top-right"></div>
+        <div class="card-corner bottom-left"></div>
+        <div class="card-corner bottom-right"></div>
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">contact@thomas:~</span>
+        </div>
+        <div class="terminal-body">
+          <p><span class="prompt">$</span> echo "Let's connect"</p>
+          <p class="output">I'm always excited to discuss AI, workforce transformation, new research collaborations, or interesting project ideas.</p>
+          <p><span class="prompt">$</span> cat channels.txt</p>
+          <div class="contact-links">
+            <a href="mailto:thomas@thomasbierly.com" class="contact-link">
+              <span class="link-icon">&gt;</span>
+              <span>thomas@thomasbierly.com</span>
+            </a>
+            <a href="https://github.com/thomasbierly" class="contact-link" target="_blank" rel="noopener">
+              <span class="link-icon">&gt;</span>
+              <span>github.com/thomasbierly</span>
+            </a>
+            <a href="https://linkedin.com/in/thomasbierly" class="contact-link" target="_blank" rel="noopener">
+              <span class="link-icon">&gt;</span>
+              <span>linkedin.com/in/thomasbierly</span>
+            </a>
+            <a href="https://twitter.com/thomasbierly" class="contact-link" target="_blank" rel="noopener">
+              <span class="link-icon">&gt;</span>
+              <span>twitter.com/thomasbierly</span>
+            </a>
+          </div>
+          <p class="blink-cursor"><span class="prompt">$</span> _</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-kanji">未来を創る</div>
+      <p>&copy; 2026 Thomas Bierly. All rights reserved.</p>
+      <p class="footer-tagline">Built with code, caffeine, and curiosity.</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
