@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Animated background canvas -->
@@ -19,14 +19,14 @@
 
   <!-- Navigation -->
   <nav id="main-nav">
-    <div class="nav-brand glitch" data-text="TB">TB</div>
+    <div class="nav-brand">TB<span class="brand-dot">.</span></div>
     <ul class="nav-links">
-      <li><a href="#hero" data-kanji="始">Home</a></li>
-      <li><a href="#about" data-kanji="人">About</a></li>
-      <li><a href="#research" data-kanji="研">Research</a></li>
-      <li><a href="#projects" data-kanji="作">Projects</a></li>
-      <li><a href="#cv" data-kanji="歴">CV</a></li>
-      <li><a href="#contact" data-kanji="連">Contact</a></li>
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#cv">CV</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="nav-toggle" aria-label="Toggle navigation">
       <span></span><span></span><span></span>
@@ -57,11 +57,11 @@
         <span class="hero-line-2 glitch" data-text="BIERLY">BIERLY</span>
       </h1>
       <p class="hero-subtitle">
-        <span class="kanji-accent">人工知能</span> AI Researcher
-        <span class="separator">|</span>
-        <span class="kanji-accent">未来</span> Workforce Futurist
-        <span class="separator">|</span>
-        <span class="kanji-accent">革新</span> Innovator
+        AI Researcher
+        <span class="separator">//</span>
+        Workforce Futurist
+        <span class="separator">//</span>
+        Builder
       </p>
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary cyber-btn">
@@ -85,7 +85,7 @@
   <!-- About Section -->
   <section id="about" class="section">
     <div class="section-header">
-      <h2 class="section-title" data-kanji="自己紹介">
+      <h2 class="section-title">
         <span class="title-decoration">&lt;</span>
         About Me
         <span class="title-decoration">/&gt;</span>
@@ -93,7 +93,7 @@
       <div class="section-line"></div>
     </div>
     <div class="about-grid">
-      <div class="about-card manga-panel">
+      <div class="about-card panel">
         <div class="card-corner top-left"></div>
         <div class="card-corner top-right"></div>
         <div class="card-corner bottom-left"></div>
@@ -120,22 +120,22 @@
       </div>
       <div class="about-stats">
         <div class="stat-card" data-delay="0">
-          <div class="stat-icon">&#x2F2F;</div>
+          <div class="stat-icon">//</div>
           <div class="stat-label">Research Focus</div>
           <div class="stat-value">AI & Workforce</div>
         </div>
         <div class="stat-card" data-delay="1">
-          <div class="stat-icon">&#x00BB;</div>
+          <div class="stat-icon">&gt;&gt;</div>
           <div class="stat-label">Passion</div>
           <div class="stat-value">Building the Future</div>
         </div>
         <div class="stat-card" data-delay="2">
-          <div class="stat-icon">&#x2261;</div>
+          <div class="stat-icon">&&</div>
           <div class="stat-label">Approach</div>
           <div class="stat-value">Ship & Iterate</div>
         </div>
         <div class="stat-card" data-delay="3">
-          <div class="stat-icon">&#x00A7;</div>
+          <div class="stat-icon">?!</div>
           <div class="stat-label">Philosophy</div>
           <div class="stat-value">Question Everything</div>
         </div>
@@ -146,7 +146,7 @@
   <!-- Research Section -->
   <section id="research" class="section">
     <div class="section-header">
-      <h2 class="section-title" data-kanji="研究">
+      <h2 class="section-title">
         <span class="title-decoration">&lt;</span>
         Research
         <span class="title-decoration">/&gt;</span>
@@ -154,7 +154,7 @@
       <div class="section-line"></div>
     </div>
     <div class="research-grid">
-      <div class="research-card manga-panel" data-aos="fade-up">
+      <div class="research-card panel">
         <div class="card-corner top-left"></div>
         <div class="card-corner top-right"></div>
         <div class="card-corner bottom-left"></div>
@@ -177,7 +177,7 @@
           <span class="tag">Automation</span>
         </div>
       </div>
-      <div class="research-card manga-panel" data-aos="fade-up" data-aos-delay="100">
+      <div class="research-card panel">
         <div class="card-corner top-left"></div>
         <div class="card-corner top-right"></div>
         <div class="card-corner bottom-left"></div>
@@ -201,7 +201,7 @@
           <span class="tag">Productivity</span>
         </div>
       </div>
-      <div class="research-card manga-panel" data-aos="fade-up" data-aos-delay="200">
+      <div class="research-card panel">
         <div class="card-corner top-left"></div>
         <div class="card-corner top-right"></div>
         <div class="card-corner bottom-left"></div>
@@ -227,7 +227,7 @@
   <!-- Projects Section -->
   <section id="projects" class="section">
     <div class="section-header">
-      <h2 class="section-title" data-kanji="作品">
+      <h2 class="section-title">
         <span class="title-decoration">&lt;</span>
         Projects
         <span class="title-decoration">/&gt;</span>
@@ -235,7 +235,7 @@
       <div class="section-line"></div>
     </div>
     <div class="projects-grid">
-      <div class="project-card manga-panel featured">
+      <div class="project-card panel featured">
         <div class="card-corner top-left"></div>
         <div class="card-corner top-right"></div>
         <div class="card-corner bottom-left"></div>
@@ -250,15 +250,15 @@
             <span>Data Viz</span>
           </div>
           <div class="project-links">
-            <a href="#" class="project-link">View Project <span class="arrow">→</span></a>
-            <a href="#" class="project-link">Source <span class="arrow">→</span></a>
+            <a href="#" class="project-link">View Project <span class="arrow">&rarr;</span></a>
+            <a href="#" class="project-link">Source <span class="arrow">&rarr;</span></a>
           </div>
         </div>
         <div class="project-visual">
           <div class="code-rain-mini"></div>
         </div>
       </div>
-      <div class="project-card manga-panel">
+      <div class="project-card panel">
         <div class="card-corner top-left"></div>
         <div class="card-corner top-right"></div>
         <div class="card-corner bottom-left"></div>
@@ -273,15 +273,15 @@
             <span>RAG</span>
           </div>
           <div class="project-links">
-            <a href="#" class="project-link">View Project <span class="arrow">→</span></a>
-            <a href="#" class="project-link">Source <span class="arrow">→</span></a>
+            <a href="#" class="project-link">View Project <span class="arrow">&rarr;</span></a>
+            <a href="#" class="project-link">Source <span class="arrow">&rarr;</span></a>
           </div>
         </div>
         <div class="project-visual">
           <div class="code-rain-mini"></div>
         </div>
       </div>
-      <div class="project-card manga-panel">
+      <div class="project-card panel">
         <div class="card-corner top-left"></div>
         <div class="card-corner top-right"></div>
         <div class="card-corner bottom-left"></div>
@@ -296,8 +296,8 @@
             <span>NLP</span>
           </div>
           <div class="project-links">
-            <a href="#" class="project-link">View Project <span class="arrow">→</span></a>
-            <a href="#" class="project-link">Source <span class="arrow">→</span></a>
+            <a href="#" class="project-link">View Project <span class="arrow">&rarr;</span></a>
+            <a href="#" class="project-link">Source <span class="arrow">&rarr;</span></a>
           </div>
         </div>
         <div class="project-visual">
@@ -310,7 +310,7 @@
   <!-- CV Section -->
   <section id="cv" class="section">
     <div class="section-header">
-      <h2 class="section-title" data-kanji="履歴書">
+      <h2 class="section-title">
         <span class="title-decoration">&lt;</span>
         Curriculum Vitae
         <span class="title-decoration">/&gt;</span>
@@ -327,7 +327,7 @@
       <div class="cv-timeline">
         <div class="timeline-track"></div>
 
-        <div class="timeline-item manga-panel">
+        <div class="timeline-item panel">
           <div class="card-corner top-left"></div>
           <div class="card-corner top-right"></div>
           <div class="card-corner bottom-left"></div>
@@ -345,7 +345,7 @@
           </div>
         </div>
 
-        <div class="timeline-item manga-panel">
+        <div class="timeline-item panel">
           <div class="card-corner top-left"></div>
           <div class="card-corner top-right"></div>
           <div class="card-corner bottom-left"></div>
@@ -363,7 +363,7 @@
           </div>
         </div>
 
-        <div class="timeline-item manga-panel">
+        <div class="timeline-item panel">
           <div class="card-corner top-left"></div>
           <div class="card-corner top-right"></div>
           <div class="card-corner bottom-left"></div>
@@ -417,7 +417,7 @@
   <!-- Contact Section -->
   <section id="contact" class="section">
     <div class="section-header">
-      <h2 class="section-title" data-kanji="連絡">
+      <h2 class="section-title">
         <span class="title-decoration">&lt;</span>
         Contact
         <span class="title-decoration">/&gt;</span>
@@ -425,7 +425,7 @@
       <div class="section-line"></div>
     </div>
     <div class="contact-grid">
-      <div class="contact-terminal manga-panel">
+      <div class="contact-terminal panel">
         <div class="card-corner top-left"></div>
         <div class="card-corner top-right"></div>
         <div class="card-corner bottom-left"></div>
@@ -467,7 +467,6 @@
   <!-- Footer -->
   <footer>
     <div class="footer-content">
-      <div class="footer-kanji">未来を創る</div>
       <p>&copy; 2026 Thomas Bierly. All rights reserved.</p>
       <p class="footer-tagline">Built with code, caffeine, and curiosity.</p>
     </div>

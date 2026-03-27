@@ -1,5 +1,5 @@
 /* ========================================
-   CYBER-MANGA PORTFOLIO — Animations & Interactivity
+   PORTFOLIO — Animations & Interactivity
    ======================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,16 +24,16 @@ function initMatrixRain() {
   resize();
   window.addEventListener('resize', resize);
 
-  const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF<>/{}[]()=+*';
+  const chars = '0123456789ABCDEFabcdef<>/{}[]()=+*~@#$%^&|\\;:,.?!_-';
   const charArray = chars.split('');
   const fontSize = 14;
   const columns = Math.floor(canvas.width / fontSize);
   const drops = new Array(columns).fill(1);
 
   function draw() {
-    ctx.fillStyle = 'rgba(10, 10, 15, 0.05)';
+    ctx.fillStyle = 'rgba(8, 10, 18, 0.06)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#00ff41';
+    ctx.fillStyle = '#c8a44e';
     ctx.font = `${fontSize}px monospace`;
 
     for (let i = 0; i < drops.length; i++) {
@@ -47,7 +47,7 @@ function initMatrixRain() {
     }
   }
 
-  setInterval(draw, 50);
+  setInterval(draw, 55);
 }
 
 /* --- Particle Network Background --- */
@@ -64,9 +64,9 @@ function initParticleNetwork() {
   window.addEventListener('resize', resize);
 
   const particles = [];
-  const particleCount = Math.min(80, Math.floor(window.innerWidth / 20));
-  const connectionDistance = 150;
-  const mouse = { x: null, y: null, radius: 200 };
+  const particleCount = Math.min(70, Math.floor(window.innerWidth / 22));
+  const connectionDistance = 140;
+  const mouse = { x: null, y: null, radius: 180 };
 
   window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX;
@@ -77,10 +77,10 @@ function initParticleNetwork() {
     constructor() {
       this.x = Math.random() * canvas.width;
       this.y = Math.random() * canvas.height;
-      this.vx = (Math.random() - 0.5) * 0.5;
-      this.vy = (Math.random() - 0.5) * 0.5;
-      this.radius = Math.random() * 2 + 0.5;
-      this.baseAlpha = Math.random() * 0.5 + 0.1;
+      this.vx = (Math.random() - 0.5) * 0.4;
+      this.vy = (Math.random() - 0.5) * 0.4;
+      this.radius = Math.random() * 1.8 + 0.5;
+      this.baseAlpha = Math.random() * 0.4 + 0.08;
     }
 
     update() {
@@ -90,19 +90,17 @@ function initParticleNetwork() {
       if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
       if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
 
-      // Mouse interaction
       if (mouse.x !== null) {
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < mouse.radius) {
           const force = (mouse.radius - dist) / mouse.radius;
-          this.vx -= (dx / dist) * force * 0.02;
-          this.vy -= (dy / dist) * force * 0.02;
+          this.vx -= (dx / dist) * force * 0.015;
+          this.vy -= (dy / dist) * force * 0.015;
         }
       }
 
-      // Dampen velocity
       this.vx *= 0.999;
       this.vy *= 0.999;
     }
@@ -110,7 +108,7 @@ function initParticleNetwork() {
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 229, 255, ${this.baseAlpha})`;
+      ctx.fillStyle = `rgba(200, 164, 78, ${this.baseAlpha})`;
       ctx.fill();
     }
   }
@@ -122,7 +120,6 @@ function initParticleNetwork() {
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw connections
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
@@ -130,18 +127,17 @@ function initParticleNetwork() {
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < connectionDistance) {
-          const alpha = (1 - dist / connectionDistance) * 0.15;
+          const alpha = (1 - dist / connectionDistance) * 0.1;
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(0, 229, 255, ${alpha})`;
+          ctx.strokeStyle = `rgba(200, 164, 78, ${alpha})`;
           ctx.lineWidth = 0.5;
           ctx.stroke();
         }
       }
     }
 
-    // Update and draw particles
     particles.forEach(p => {
       p.update();
       p.draw();
@@ -159,7 +155,6 @@ function initNavigation() {
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
 
-  // Scroll effect
   let lastScroll = 0;
   window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
@@ -171,7 +166,6 @@ function initNavigation() {
     lastScroll = currentScroll;
   });
 
-  // Mobile toggle
   if (toggle) {
     toggle.addEventListener('click', () => {
       links.classList.toggle('active');
@@ -179,7 +173,6 @@ function initNavigation() {
     });
   }
 
-  // Smooth scroll for nav links
   document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -192,7 +185,6 @@ function initNavigation() {
     });
   });
 
-  // Active link highlighting
   const sections = document.querySelectorAll('section');
   const navLinks = document.querySelectorAll('.nav-links a');
 
@@ -209,7 +201,7 @@ function initNavigation() {
       link.classList.remove('active');
       if (link.getAttribute('href') === `#${current}`) {
         link.classList.add('active');
-        link.style.color = 'var(--neon-cyan)';
+        link.style.color = 'var(--accent-gold)';
       } else {
         link.style.color = '';
       }
@@ -228,7 +220,6 @@ function initScrollAnimations() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        // Don't unobserve — keep it simple
       }
     });
   }, observerOptions);
@@ -259,45 +250,31 @@ function initSkillBars() {
   skillFills.forEach(fill => observer.observe(fill));
 }
 
-/* --- Random Glitch Effects --- */
+/* --- Subtle Glitch Effects --- */
 function initGlitchEffects() {
   const glitchElements = document.querySelectorAll('.glitch');
 
-  // Periodic intense glitch
   setInterval(() => {
     glitchElements.forEach(el => {
       el.style.animation = 'none';
-      void el.offsetHeight; // Force reflow
+      void el.offsetHeight;
       el.style.animation = '';
     });
-  }, 5000);
+  }, 6000);
 
-  // Random color shift on hero text
   const heroLines = document.querySelectorAll('.hero-line-1, .hero-line-2');
   setInterval(() => {
     heroLines.forEach(line => {
-      if (Math.random() > 0.7) {
+      if (Math.random() > 0.75) {
         line.style.textShadow = `
-          ${Math.random() * 4 - 2}px ${Math.random() * 4 - 2}px 0 rgba(255, 0, 255, 0.7),
-          ${Math.random() * 4 - 2}px ${Math.random() * 4 - 2}px 0 rgba(0, 229, 255, 0.7)
+          ${Math.random() * 3 - 1.5}px ${Math.random() * 3 - 1.5}px 0 rgba(168, 50, 50, 0.5),
+          ${Math.random() * 3 - 1.5}px ${Math.random() * 3 - 1.5}px 0 rgba(200, 164, 78, 0.5)
         `;
         setTimeout(() => {
           line.style.textShadow = '';
-        }, 100);
+        }, 80);
       }
     });
-  }, 3000);
-
-  // Flicker effect on stat cards
-  const statCards = document.querySelectorAll('.stat-card');
-  setInterval(() => {
-    const randomCard = statCards[Math.floor(Math.random() * statCards.length)];
-    if (randomCard) {
-      randomCard.style.opacity = '0.7';
-      setTimeout(() => {
-        randomCard.style.opacity = '1';
-      }, 50);
-    }
   }, 4000);
 }
 
