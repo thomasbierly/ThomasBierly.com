@@ -374,18 +374,29 @@ a:hover {
 }
 
 .hero-subtitle {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
   color: var(--text-secondary);
-  margin-bottom: 2.5rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.5px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .separator {
   margin: 0 0.6rem;
   color: var(--accent-crimson);
   opacity: 0.5;
+}
+
+.hero-affiliation {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.5px;
 }
 
 /* --- Buttons --- */
@@ -721,32 +732,40 @@ a:hover {
 }
 
 /* --- Research Section --- */
-.research-grid {
+.research-body {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.research-card {
-  padding: 2.5rem 2rem;
-  text-align: center;
+.research-intro {
+  padding: 2.5rem;
 }
 
-.research-icon {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 1.5rem;
+.research-intro p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.research-intro p:last-of-type {
+  margin-bottom: 1.5rem;
+}
+
+.research-intro em {
   color: var(--accent-gold);
-  opacity: 0.6;
+  font-style: italic;
 }
 
-.circuit-icon {
-  filter: drop-shadow(0 0 4px rgba(200, 164, 78, 0.15));
+.research-publications {
+  padding: 2rem 2.5rem;
 }
 
-.research-card h3 {
+.research-publications h3 {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--white);
   text-transform: uppercase;
@@ -754,11 +773,11 @@ a:hover {
   margin-bottom: 1rem;
 }
 
-.research-card p {
+.publications-placeholder {
   font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   line-height: 1.8;
-  margin-bottom: 1.5rem;
+  font-style: italic;
 }
 
 .research-tags, .timeline-tags {
@@ -822,6 +841,16 @@ a:hover {
 
 .project-content {
   z-index: 1;
+}
+
+.project-meta {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent-crimson-bright);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+  opacity: 0.7;
 }
 
 .project-title {
@@ -1010,6 +1039,15 @@ a:hover {
   font-weight: 600;
 }
 
+.timeline-org {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent-gold);
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+  opacity: 0.7;
+}
+
 .timeline-item p {
   font-size: 0.85rem;
   color: var(--text-secondary);
@@ -1068,6 +1106,54 @@ a:hover {
 
 .skill-fill.animated {
   width: var(--level);
+}
+
+/* --- Teaching Section --- */
+.teaching-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.teaching-intro {
+  padding: 2rem 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.teaching-intro p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.teaching-courses {
+  display: grid;
+  gap: 1rem;
+}
+
+.course-card {
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+}
+
+.course-level {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--accent-crimson-bright);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  min-width: 180px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.course-card h3 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 1px;
 }
 
 /* --- Contact Section --- */
@@ -1139,10 +1225,13 @@ footer p {
 /* --- Intersection Observer Animations --- */
 .section-header,
 .about-card,
-.research-card,
+.research-intro,
+.research-publications,
 .project-card,
 .timeline-item,
-.cv-skills {
+.cv-skills,
+.teaching-intro,
+.course-card {
   opacity: 0;
   transform: translateY(25px);
   transition: opacity 0.8s ease, transform 0.8s ease;
@@ -1150,19 +1239,26 @@ footer p {
 
 .section-header.visible,
 .about-card.visible,
-.research-card.visible,
+.research-intro.visible,
+.research-publications.visible,
 .project-card.visible,
 .timeline-item.visible,
-.cv-skills.visible {
+.cv-skills.visible,
+.teaching-intro.visible,
+.course-card.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.research-card:nth-child(2) { transition-delay: 0.12s; }
-.research-card:nth-child(3) { transition-delay: 0.24s; }
+.research-publications { transition-delay: 0.12s; }
 
 .project-card:nth-child(2) { transition-delay: 0.12s; }
 .project-card:nth-child(3) { transition-delay: 0.24s; }
+
+.course-card:nth-child(2) { transition-delay: 0.08s; }
+.course-card:nth-child(3) { transition-delay: 0.16s; }
+.course-card:nth-child(4) { transition-delay: 0.24s; }
+.course-card:nth-child(5) { transition-delay: 0.32s; }
 
 .timeline-item:nth-child(3) { transition-delay: 0.1s; }
 .timeline-item:nth-child(4) { transition-delay: 0.2s; }
@@ -1220,10 +1316,13 @@ footer p {
     font-size: 0.7rem;
   }
 
-  .separator {
-    display: block;
-    margin: 0.2rem 0;
-    font-size: 0;
+  .course-card {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .course-level {
+    min-width: unset;
   }
 }
 

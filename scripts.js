@@ -225,7 +225,7 @@ function initScrollAnimations() {
   }, observerOptions);
 
   const animatedElements = document.querySelectorAll(
-    '.section-header, .about-card, .research-card, .project-card, .timeline-item, .cv-skills'
+    '.section-header, .about-card, .research-intro, .research-publications, .project-card, .timeline-item, .cv-skills, .teaching-intro, .course-card'
   );
 
   animatedElements.forEach(el => observer.observe(el));
