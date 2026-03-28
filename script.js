@@ -71,9 +71,10 @@ updateNav();
 
   const particles = [];
   const scale = Math.max(1, (window.innerWidth * window.innerHeight) / (1280 * 800));
+  const distScale = Math.max(1, Math.sqrt(scale));
   const count = Math.round(120 * scale);
-  const connectionDist = 160;
-  const mouse = { x: null, y: null, radius: 200 };
+  const connectionDist = 160 * distScale;
+  const mouse = { x: null, y: null, radius: 200 * distScale };
 
   window.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
@@ -95,7 +96,7 @@ updateNav();
       this.y = Math.random() * h();
       this.vx = (Math.random() - 0.5) * 0.4;
       this.vy = (Math.random() - 0.5) * 0.4;
-      this.radius = Math.random() * 3 + 1.5;
+      this.radius = (Math.random() * 3 + 1.5) * distScale;
       this.alpha = Math.random() * 0.5 + 0.2;
     }
     update() {
@@ -161,7 +162,7 @@ updateNav();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.strokeStyle = `rgba(176, 141, 87, ${alpha})`;
-          ctx.lineWidth = 0.6;
+          ctx.lineWidth = 0.6 * distScale;
           ctx.stroke();
         }
       }
@@ -179,7 +180,7 @@ updateNav();
           ctx.moveTo(mouse.x, mouse.y);
           ctx.lineTo(p.x, p.y);
           ctx.strokeStyle = `rgba(176, 141, 87, ${alpha})`;
-          ctx.lineWidth = 0.4;
+          ctx.lineWidth = 0.4 * distScale;
           ctx.stroke();
         }
       });
