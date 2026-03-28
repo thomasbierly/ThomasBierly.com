@@ -3,549 +3,314 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thomas Bierly — AI, Work & Human Potential</title>
+  <title>Thomas Bierly</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Animated background canvas -->
-  <canvas id="matrix-canvas"></canvas>
-  <canvas id="particle-canvas"></canvas>
 
-  <!-- Scanline overlay -->
-  <div class="scanline-overlay"></div>
-
-  <!-- Navigation -->
-  <nav id="main-nav">
-    <div class="nav-brand">TB<span class="brand-dot">.</span></div>
-    <ul class="nav-links">
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#teaching">Teaching</a></li>
-      <li><a href="#cv">CV</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button class="nav-toggle" aria-label="Toggle navigation">
-      <span></span><span></span><span></span>
-    </button>
+  <nav>
+    <a href="#" class="nav-name">Thomas Bierly</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#cv">CV</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </div>
   </nav>
 
-  <!-- Hero Section -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Hero — full viewport, cinematic opening -->
   <section id="hero">
-    <div class="hero-content">
-      <div class="hero-terminal">
-        <div class="terminal-header">
-          <span class="terminal-dot red"></span>
-          <span class="terminal-dot yellow"></span>
-          <span class="terminal-dot green"></span>
-          <span class="terminal-title">thomas@bierly:~</span>
-        </div>
-        <div class="terminal-body">
-          <p class="typing-line line-1"><span class="prompt">$</span> <span class="cmd">whoami</span></p>
-          <p class="typing-line line-2 output">Thomas Bierly</p>
-          <p class="typing-line line-3"><span class="prompt">$</span> <span class="cmd">cat mission.txt</span></p>
-          <p class="typing-line line-4 output">Researcher, educator, and builder at the intersection of AI, work, and human potential.</p>
-          <p class="typing-line line-5"><span class="prompt">$</span> <span class="cmd">./launch_portfolio.sh</span></p>
-          <p class="typing-line line-6 output blink-cursor">Initializing...</p>
-        </div>
-      </div>
-      <h1 class="hero-title">
-        <span class="hero-line-1 glitch" data-text="THOMAS">THOMAS</span>
-        <span class="hero-line-2 glitch" data-text="BIERLY">BIERLY</span>
+    <div class="hero-inner">
+      <p class="hero-label fade-up">RMIT University &middot; Associate Lecturer</p>
+      <h1 class="fade-up delay-1">
+        <span class="line">I study what happens</span>
+        <span class="line">to work when machines</span>
+        <span class="line accent">get smarter.</span>
       </h1>
-      <p class="hero-subtitle">
-        Researcher, educator, and builder at the intersection of AI, work, and human potential.
-      </p>
-      <p class="hero-affiliation">
-        Associate Lecturer &amp; Academic Career Development Fellow &middot; RMIT University &middot; PhD Candidate in Economics
-      </p>
-      <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary cyber-btn">
-          <span>View Projects</span>
-          <div class="btn-glitch"></div>
-        </a>
-        <a href="#about" class="btn btn-secondary cyber-btn">
-          <span>Learn More</span>
-          <div class="btn-glitch"></div>
-        </a>
-      </div>
+      <p class="hero-sub fade-up delay-2">Thomas Bierly — researcher, educator, and builder<br>at the intersection of AI, work, and human potential.</p>
     </div>
-    <div class="scroll-indicator">
-      <div class="mouse">
-        <div class="wheel"></div>
-      </div>
-      <p>Scroll Down</p>
+    <div class="scroll-hint fade-up delay-3">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section id="about" class="section">
-    <div class="section-header">
-      <h2 class="section-title">
-        <span class="title-decoration">&lt;</span>
-        About Me
-        <span class="title-decoration">/&gt;</span>
-      </h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="about-grid">
-      <div class="about-card panel">
-        <div class="card-corner top-left"></div>
-        <div class="card-corner top-right"></div>
-        <div class="card-corner bottom-left"></div>
-        <div class="card-corner bottom-right"></div>
-        <div class="about-avatar">
-          <div class="avatar-frame">
-            <div class="avatar-placeholder">
-              <span class="avatar-icon">TB</span>
-            </div>
-            <div class="avatar-ring"></div>
-          </div>
+  <!-- About — split layout -->
+  <section id="about">
+    <div class="container">
+      <div class="split">
+        <div class="split-left">
+          <span class="section-label reveal">About</span>
+          <h2 class="reveal">From hacking government systems to teaching the next generation of leaders.</h2>
         </div>
-        <div class="about-text">
-          <p class="about-intro">
-            I study what happens to work when machines get smarter — and I teach people how to lead through it.
-          </p>
-          <p>
-            Based in Melbourne, I'm an Associate Lecturer at RMIT University's School of Management, where I coordinate and teach MBA and Masters courses on AI &amp; Workforce Transformation, Technology &amp; Innovation, People Analytics, and Digital Entrepreneurship. I have also previously taught at UNSW and the University of Melbourne.
-          </p>
-          <p>
-            My PhD research at RMIT's School of Economics examines automation, task reallocation, and sub-occupational labour market dynamics — using machine learning on large-scale job advertisement data to surface how work is quietly being reorganised beneath the surface of traditional occupational categories.
-          </p>
-          <p>
-            Before academia, I led Learning &amp; Development and Organisational Development teams at Telstra, Accenture, and KPMG — where I built some of Australia's first AI-assisted workforce readiness systems, VR retail environments, and data-driven talent platforms. I bring that industry scar tissue into every classroom.
-          </p>
-        </div>
-      </div>
-      <div class="about-stats">
-        <div class="stat-card" data-delay="0">
-          <div class="stat-icon">//</div>
-          <div class="stat-label">Current</div>
-          <div class="stat-value">RMIT University</div>
-        </div>
-        <div class="stat-card" data-delay="1">
-          <div class="stat-icon">&&</div>
-          <div class="stat-label">Research</div>
-          <div class="stat-value">PhD Candidate</div>
-        </div>
-        <div class="stat-card" data-delay="2">
-          <div class="stat-icon">~$</div>
-          <div class="stat-label">Location</div>
-          <div class="stat-value">Melbourne, Australia</div>
-        </div>
-      </div>
-      <div class="about-stats about-stats-previous">
-        <div class="stat-card" data-delay="3">
-          <div class="stat-icon">++</div>
-          <div class="stat-label">Previously</div>
-          <div class="stat-value">UNSW</div>
-        </div>
-        <div class="stat-card" data-delay="4">
-          <div class="stat-icon">**</div>
-          <div class="stat-label">Previously</div>
-          <div class="stat-value">UniMelb</div>
-        </div>
-        <div class="stat-card" data-delay="5">
-          <div class="stat-icon">::</div>
-          <div class="stat-label">Previously</div>
-          <div class="stat-value">Telstra</div>
-        </div>
-        <div class="stat-card" data-delay="6">
-          <div class="stat-icon">&gt;&gt;</div>
-          <div class="stat-label">Previously</div>
-          <div class="stat-value">Accenture</div>
-        </div>
-        <div class="stat-card" data-delay="7">
-          <div class="stat-icon">##</div>
-          <div class="stat-label">Previously</div>
-          <div class="stat-value">KPMG</div>
-        </div>
-        <div class="stat-card" data-delay="8">
-          <div class="stat-icon">\/</div>
-          <div class="stat-label">Previously</div>
-          <div class="stat-value">Vanguard</div>
-        </div>
-        <div class="stat-card" data-delay="9">
-          <div class="stat-icon">%%</div>
-          <div class="stat-label">Previously</div>
-          <div class="stat-value">BNY Mellon</div>
+        <div class="split-right">
+          <p class="reveal">I'm an Associate Lecturer at RMIT University's School of Management, where I coordinate and teach MBA and Masters courses on AI &amp; Workforce Transformation, Technology &amp; Innovation, Cybersecurity, People Analytics, and Digital Entrepreneurship.</p>
+          <p class="reveal">My PhD research examines automation, task reallocation, and sub-occupational labour market dynamics, using machine learning on large-scale job advertisement data to surface how work is quietly being reorganised beneath the surface of traditional occupational categories.</p>
+          <p class="reveal">Before academia, I spent a decade in industry: performing penetration testing for the U.S. Government at KPMG, designing training solutions for Fortune 500 clients at Accenture, and leading M&amp;A integrations and building VR retail environments at Telstra. I bring that perspective into every classroom.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Research Section -->
-  <section id="research" class="section">
-    <div class="section-header">
-      <h2 class="section-title">
-        <span class="title-decoration">&lt;</span>
-        Research
-        <span class="title-decoration">/&gt;</span>
-      </h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="research-body">
-      <div class="research-intro panel">
-        <div class="card-corner top-left"></div>
-        <div class="card-corner top-right"></div>
-        <div class="card-corner bottom-left"></div>
-        <div class="card-corner bottom-right"></div>
-        <p>
-          My research sits at the intersection of labour economics, automation, and organisational behaviour. Using clustering methods on large-scale job advertisement data, I examine how occupational tasks are being quietly redistributed — often in ways that aggregate statistics miss entirely.
-        </p>
-        <p>
-          I am currently completing my PhD thesis at RMIT and preparing empirical work for submission to journals including <em>Labour Economics</em> and <em>Organization Science</em>.
-        </p>
-        <div class="research-tags">
-          <span class="tag">Labour Economics</span>
-          <span class="tag">Automation</span>
-          <span class="tag">Task Reallocation</span>
-          <span class="tag">Machine Learning</span>
-          <span class="tag">Organisational Behaviour</span>
-          <span class="tag">Job Advertisement Data</span>
+  <!-- Numbers band -->
+  <section id="numbers">
+    <div class="container">
+      <div class="numbers-grid">
+        <div class="number-item reveal">
+          <span class="number">93%</span>
+          <span class="number-label">Average Good Teaching Score</span>
         </div>
-      </div>
-      <div class="research-publications panel">
-        <div class="card-corner top-left"></div>
-        <div class="card-corner top-right"></div>
-        <div class="card-corner bottom-left"></div>
-        <div class="card-corner bottom-right"></div>
-        <h3>Publications</h3>
-        <p class="publications-placeholder">
-          — Working papers and forthcoming publications will appear here. In the meantime, feel free to <a href="#contact">get in touch</a> if you'd like to discuss the research.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Projects Section -->
-  <section id="projects" class="section">
-    <div class="section-header">
-      <h2 class="section-title">
-        <span class="title-decoration">&lt;</span>
-        Projects
-        <span class="title-decoration">/&gt;</span>
-      </h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="projects-grid">
-      <div class="project-card panel featured">
-        <div class="card-corner top-left"></div>
-        <div class="card-corner top-right"></div>
-        <div class="card-corner bottom-left"></div>
-        <div class="card-corner bottom-right"></div>
-        <div class="project-number">01</div>
-        <div class="project-content">
-          <div class="project-meta">Research &amp; EdTech &middot; In Development</div>
-          <h3 class="project-title">Augmented Double Diamond AI Platform</h3>
-          <p class="project-desc">A multi-agent web application grounded in the peer-reviewed Augmented Double Diamond (ADD) framework — designed to guide teams through AI-assisted problem framing, divergent exploration, and convergent decision-making. Built for deployment across corporate, consulting, and educational contexts.</p>
-          <div class="project-tech">
-            <span>Multi-Agent</span>
-            <span>AI-Assisted Design</span>
-            <span>EdTech</span>
-          </div>
-          <div class="project-links">
-            <a href="#" class="project-link">View Project <span class="arrow">&rarr;</span></a>
-          </div>
+        <div class="number-item reveal">
+          <span class="number">40+</span>
+          <span class="number-label">M&amp;A deals led at Telstra</span>
         </div>
-        <div class="project-visual">
-          <div class="code-rain-mini"></div>
+        <div class="number-item reveal">
+          <span class="number">40,000</span>
+          <span class="number-label">Personnel trained across enterprise</span>
         </div>
-      </div>
-      <div class="project-card panel">
-        <div class="card-corner top-left"></div>
-        <div class="card-corner top-right"></div>
-        <div class="card-corner bottom-left"></div>
-        <div class="card-corner bottom-right"></div>
-        <div class="project-number">02</div>
-        <div class="project-content">
-          <div class="project-meta">EdTech &middot; In Development</div>
-          <h3 class="project-title">AI Virtual Human</h3>
-          <p class="project-desc">An immersive simulation platform pairing AI-driven MetaHuman avatars with real-time voice synthesis to create high-stakes roleplay experiences for learners. Students negotiate, coach, and present to virtual executives — receiving scored, structured feedback without needing a live counterpart.</p>
-          <div class="project-tech">
-            <span>MetaHuman</span>
-            <span>Voice Synthesis</span>
-            <span>Simulation</span>
-          </div>
-          <div class="project-links">
-            <a href="#" class="project-link">View Project <span class="arrow">&rarr;</span></a>
-          </div>
-        </div>
-        <div class="project-visual">
-          <div class="code-rain-mini"></div>
-        </div>
-      </div>
-      <div class="project-card panel">
-        <div class="card-corner top-left"></div>
-        <div class="card-corner top-right"></div>
-        <div class="card-corner bottom-left"></div>
-        <div class="card-corner bottom-right"></div>
-        <div class="project-number">03</div>
-        <div class="project-content">
-          <div class="project-meta">Higher Education Operations &middot; In Development</div>
-          <h3 class="project-title">EOI Teaching Optimisation Platform</h3>
-          <p class="project-desc">A purpose-built tool that streamlines the expression-of-interest and allocation process for sessional and casual teaching staff — reducing administrative overhead, improving transparency, and surfacing better matching between teaching loads and academic expertise.</p>
-          <div class="project-tech">
-            <span>Operations</span>
-            <span>Allocation</span>
-            <span>Higher Ed</span>
-          </div>
-          <div class="project-links">
-            <a href="#" class="project-link">View Project <span class="arrow">&rarr;</span></a>
-          </div>
-        </div>
-        <div class="project-visual">
-          <div class="code-rain-mini"></div>
+        <div class="number-item reveal">
+          <span class="number">80+</span>
+          <span class="number-label">Federal servers pen tested</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Teaching Section -->
-  <section id="teaching" class="section">
-    <div class="section-header">
-      <h2 class="section-title">
-        <span class="title-decoration">&lt;</span>
-        Teaching
-        <span class="title-decoration">/&gt;</span>
-      </h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="teaching-container">
-      <div class="teaching-intro panel">
-        <div class="card-corner top-left"></div>
-        <div class="card-corner top-right"></div>
-        <div class="card-corner bottom-left"></div>
-        <div class="card-corner bottom-right"></div>
-        <p>I teach at the MBA and Masters level, with a focus on making technically demanding material genuinely accessible — and connecting theory directly to industry practice.</p>
-      </div>
-      <div class="teaching-courses">
-        <div class="course-card panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="course-level">Postgraduate</div>
-          <h3>Leading AI and Workforce Transformation</h3>
-        </div>
-        <div class="course-card panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="course-level">Postgraduate</div>
-          <h3>Management of Technology and Innovation</h3>
-        </div>
-        <div class="course-card panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="course-level">Postgraduate</div>
-          <h3>Technology Futures</h3>
-        </div>
-        <div class="course-card panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="course-level">Postgraduate</div>
-          <h3>Business Consulting</h3>
-        </div>
-        <div class="course-card panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="course-level">Postgraduate</div>
-          <h3>Digital Entrepreneurship</h3>
-        </div>
-        <div class="course-card panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="course-level">Undergraduate</div>
-          <h3>People Analytics</h3>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CV Section -->
-  <section id="cv" class="section">
-    <div class="section-header">
-      <h2 class="section-title">
-        <span class="title-decoration">&lt;</span>
-        Curriculum Vitae
-        <span class="title-decoration">/&gt;</span>
-      </h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="cv-container">
-      <div class="cv-download">
-        <a href="#" class="btn btn-primary cyber-btn">
-          <span>Download Full CV (PDF)</span>
-          <div class="btn-glitch"></div>
-        </a>
-      </div>
-      <div class="cv-timeline">
-        <div class="timeline-track"></div>
-
-        <div class="timeline-item panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="timeline-marker">
-            <div class="marker-pulse"></div>
-          </div>
-          <div class="timeline-date">Present</div>
-          <h3>Associate Lecturer &amp; Academic Career Development Fellow</h3>
-          <p class="timeline-org">RMIT University &middot; School of Management</p>
-          <p>Coordinating and teaching MBA and Masters courses on AI &amp; Workforce Transformation, Technology &amp; Innovation, People Analytics, and Digital Entrepreneurship.</p>
-          <div class="timeline-tags">
-            <span class="tag">Teaching</span>
-            <span class="tag">Course Coordination</span>
-            <span class="tag">AI &amp; Workforce</span>
-          </div>
-        </div>
-
-        <div class="timeline-item panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="timeline-marker">
-            <div class="marker-pulse"></div>
-          </div>
-          <div class="timeline-date">In Progress</div>
-          <h3>PhD Candidate in Economics</h3>
-          <p class="timeline-org">RMIT University &middot; School of Economics</p>
-          <p>Examining automation, task reallocation, and sub-occupational labour market dynamics using machine learning on large-scale job advertisement data.</p>
-          <div class="timeline-tags">
+  <!-- Research — dark cinematic section -->
+  <section id="research" class="dark">
+    <div class="container">
+      <span class="section-label reveal">Research</span>
+      <h2 class="reveal">Essays on Automation</h2>
+      <div class="research-body">
+        <p class="large reveal">My research sits at the intersection of labour economics, automation, and organisational behaviour. Using clustering methods on large-scale job advertisement data, I examine how occupational tasks are being quietly redistributed.</p>
+        <div class="research-details reveal">
+          <p>I am completing my PhD thesis at RMIT and preparing empirical work for submission to journals including <em>Labour Economics</em> and <em>Organization Science</em>.</p>
+          <div class="tag-row">
             <span class="tag">Labour Economics</span>
-            <span class="tag">Machine Learning</span>
             <span class="tag">Automation</span>
-          </div>
-        </div>
-
-        <div class="timeline-item panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="timeline-marker">
-            <div class="marker-pulse"></div>
-          </div>
-          <div class="timeline-date">Industry</div>
-          <h3>Learning &amp; Development</h3>
-          <p class="timeline-org">Telstra</p>
-          <p>Built some of Australia's first AI-assisted workforce readiness systems and VR retail environments.</p>
-          <div class="timeline-tags">
-            <span class="tag">L&amp;D</span>
-            <span class="tag">AI Systems</span>
-            <span class="tag">VR</span>
-          </div>
-        </div>
-
-        <div class="timeline-item panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="timeline-marker">
-            <div class="marker-pulse"></div>
-          </div>
-          <div class="timeline-date">Industry</div>
-          <h3>Organisational Development</h3>
-          <p class="timeline-org">Accenture</p>
-          <p>Led organisational development initiatives and data-driven talent platforms.</p>
-          <div class="timeline-tags">
-            <span class="tag">OD</span>
-            <span class="tag">Talent Platforms</span>
-          </div>
-        </div>
-
-        <div class="timeline-item panel">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner top-right"></div>
-          <div class="card-corner bottom-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <div class="timeline-marker">
-            <div class="marker-pulse"></div>
-          </div>
-          <div class="timeline-date">Industry</div>
-          <h3>Learning &amp; Development</h3>
-          <p class="timeline-org">KPMG</p>
-          <p>Designed and delivered learning programs and workforce capability frameworks.</p>
-          <div class="timeline-tags">
-            <span class="tag">L&amp;D</span>
-            <span class="tag">Capability Building</span>
+            <span class="tag">Task Reallocation</span>
+            <span class="tag">Machine Learning</span>
+            <span class="tag">Job Advertisement Data</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="section">
-    <div class="section-header">
-      <h2 class="section-title">
-        <span class="title-decoration">&lt;</span>
-        Get in Touch
-        <span class="title-decoration">/&gt;</span>
-      </h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-terminal panel">
-        <div class="card-corner top-left"></div>
-        <div class="card-corner top-right"></div>
-        <div class="card-corner bottom-left"></div>
-        <div class="card-corner bottom-right"></div>
-        <div class="terminal-header">
-          <span class="terminal-dot red"></span>
-          <span class="terminal-dot yellow"></span>
-          <span class="terminal-dot green"></span>
-          <span class="terminal-title">thomas@bierly:~</span>
-        </div>
-        <div class="terminal-body">
-          <p><span class="prompt">$</span> <span class="cmd">cat README.md</span></p>
-          <p class="output">I'm always open to conversations about AI, the future of work, research collaborations, or teaching partnerships. The best way to reach me is by email.</p>
-          <p><span class="prompt">$</span> <span class="cmd">cat channels.txt</span></p>
-          <div class="contact-links">
-            <a href="mailto:thomas@thomasbierly.com" class="contact-link">
-              <span class="link-icon">&gt;</span>
-              <span>Email</span>
-            </a>
-            <a href="https://linkedin.com/in/thomasbierly" class="contact-link" target="_blank" rel="noopener">
-              <span class="link-icon">&gt;</span>
-              <span>LinkedIn</span>
-            </a>
-            <a href="#" class="contact-link" target="_blank" rel="noopener">
-              <span class="link-icon">&gt;</span>
-              <span>RMIT Profile</span>
-            </a>
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <span class="section-label reveal">Projects</span>
+      <h2 class="reveal">Things I'm building</h2>
+      <div class="project-grid">
+        <article class="project-card reveal">
+          <span class="project-status">In Progress</span>
+          <h3>Book: Leading AI and Workforce Transformation</h3>
+          <p>Bridging the gap between technical AI literacy, HR strategy, and leadership practice — a practical guide for leaders navigating workforce transformation.</p>
+          <div class="tag-row">
+            <span class="tag">Book</span>
+            <span class="tag">AI &amp; Leadership</span>
+            <span class="tag">Workforce Strategy</span>
           </div>
-          <p class="blink-cursor"><span class="prompt">$</span> _</p>
+          <a href="projects/coming-soon.html" class="project-link">Learn more &rarr;</a>
+        </article>
+        <article class="project-card reveal">
+          <span class="project-status">In Development</span>
+          <h3>Augmented Double Diamond AI Platform</h3>
+          <p>A multi-agent web application grounded in the peer-reviewed ADD framework — guiding teams through AI-assisted problem framing, divergent exploration, and convergent decision-making.</p>
+          <div class="tag-row">
+            <span class="tag">Multi-Agent</span>
+            <span class="tag">AI-Assisted Design</span>
+            <span class="tag">EdTech</span>
+          </div>
+          <a href="projects/coming-soon.html" class="project-link">Learn more &rarr;</a>
+        </article>
+        <article class="project-card reveal">
+          <span class="project-status">In Development</span>
+          <h3>AI Virtual Human</h3>
+          <p>An immersive simulation platform pairing AI-driven MetaHuman avatars with real-time voice synthesis. Students negotiate, coach, and present to virtual executives — receiving scored, structured feedback.</p>
+          <div class="tag-row">
+            <span class="tag">MetaHuman</span>
+            <span class="tag">Voice Synthesis</span>
+            <span class="tag">Simulation</span>
+          </div>
+          <a href="projects/coming-soon.html" class="project-link">Learn more &rarr;</a>
+        </article>
+        <article class="project-card reveal">
+          <span class="project-status">In Development</span>
+          <h3>EOI Teaching Optimisation Platform</h3>
+          <p>Streamlining the expression-of-interest and allocation process for sessional teaching staff — reducing administrative overhead and surfacing better matching between teaching loads and expertise.</p>
+          <div class="tag-row">
+            <span class="tag">Workforce Optimisation</span>
+            <span class="tag">Higher Ed</span>
+          </div>
+          <a href="projects/coming-soon.html" class="project-link">Learn more &rarr;</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teaching — dark -->
+  <section id="teaching" class="dark">
+    <div class="container">
+      <span class="section-label reveal">Teaching</span>
+      <h2 class="reveal">Current Courses</h2>
+      <p class="large reveal">I teach at the MBA and Masters level, making technically demanding material genuinely accessible — and connecting theory directly to industry practice.</p>
+      <div class="course-list">
+        <div class="course-item reveal">
+          <span class="course-level">Postgraduate</span>
+          <span class="course-name">Leading AI and Workforce Transformation</span>
+        </div>
+        <div class="course-item reveal">
+          <span class="course-level">Postgraduate</span>
+          <span class="course-name">Management of Technology and Innovation</span>
+        </div>
+        <div class="course-item reveal">
+          <span class="course-level">Postgraduate</span>
+          <span class="course-name">Fundamentals of Cybersecurity</span>
+        </div>
+        <div class="course-item reveal">
+          <span class="course-level">Postgraduate</span>
+          <span class="course-name">Technology Futures</span>
+        </div>
+        <div class="course-item reveal">
+          <span class="course-level">Postgraduate</span>
+          <span class="course-name">Business Consulting</span>
+        </div>
+        <div class="course-item reveal">
+          <span class="course-level">Postgraduate</span>
+          <span class="course-name">Digital Entrepreneurship</span>
+        </div>
+        <div class="course-item reveal">
+          <span class="course-level">Undergraduate</span>
+          <span class="course-name">People Analytics</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- CV -->
+  <section id="cv">
+    <div class="container">
+      <span class="section-label reveal">CV</span>
+      <h2 class="reveal">Experience</h2>
+      <div class="cv-columns">
+        <div class="cv-col">
+          <h3 class="reveal">Academic</h3>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2025 &ndash; Present</span>
+            <strong>Associate Lecturer &amp; ACDF</strong>
+            <span class="cv-org">RMIT University</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2020 &ndash; 2025</span>
+            <strong>Research Assistant &amp; Sessional Lecturer</strong>
+            <span class="cv-org">RMIT University</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2024 &ndash; 2025</span>
+            <strong>Course Convenor &amp; Lecturer</strong>
+            <span class="cv-org">UNSW</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2020</span>
+            <strong>Sessional Lecturer</strong>
+            <span class="cv-org">University of Melbourne</span>
+          </div>
+        </div>
+        <div class="cv-col">
+          <h3 class="reveal">Industry</h3>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2013 &ndash; 2017</span>
+            <strong>Senior L&amp;OD / M&amp;A Lead</strong>
+            <span class="cv-org">Telstra</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2011 &ndash; 2013</span>
+            <strong>Instructional Design Team Lead</strong>
+            <span class="cv-org">Accenture</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2009</span>
+            <strong>Federal Associate &mdash; IT Advisory</strong>
+            <span class="cv-org">KPMG</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2007 &ndash; 2010</span>
+            <strong>Instructional Systems &amp; Web Dev</strong>
+            <span class="cv-org">Penn State University</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2007</span>
+            <strong>Business Analyst</strong>
+            <span class="cv-org">BNY Mellon</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2007</span>
+            <strong>Systems Analyst</strong>
+            <span class="cv-org">Vanguard</span>
+          </div>
+        </div>
+        <div class="cv-col">
+          <h3 class="reveal">Education</h3>
+          <div class="cv-entry reveal">
+            <span class="cv-date">Expected 2026</span>
+            <strong>PhD in Economics</strong>
+            <span class="cv-org">RMIT University</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2015</span>
+            <strong>Master of Education</strong>
+            <span class="cv-org">Monash University</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2010</span>
+            <strong>BSc IST / BSc Security &amp; Risk</strong>
+            <span class="cv-org">Penn State University</span>
+          </div>
+          <h3 class="reveal" style="margin-top: 2rem;">Awards</h3>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2021</span>
+            <strong>VC's Award &mdash; Sessional Staff Member of the Year</strong>
+            <span class="cv-org">RMIT University</span>
+          </div>
+          <div class="cv-entry reveal">
+            <span class="cv-date">2023</span>
+            <strong>Teaching Philosophy Award &middot; Outstanding Contribution</strong>
+            <span class="cv-org">RMIT Online</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 3rem;" class="reveal">
+        <a href="#" class="btn">Download Full CV</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact — dark, cinematic close -->
+  <section id="contact" class="dark">
+    <div class="container contact-section">
+      <span class="section-label reveal">Contact</span>
+      <h2 class="reveal">Let's talk.</h2>
+      <p class="large reveal">Research collaborations, teaching partnerships, or conversations about AI and the future of work.</p>
+      <div class="contact-links reveal">
+        <a href="mailto:tombierly@gmail.com" class="contact-btn">Email</a>
+        <a href="#" class="contact-btn">LinkedIn</a>
+        <a href="#" class="contact-btn">RMIT Profile</a>
+      </div>
+    </div>
+  </section>
+
   <footer>
-    <div class="footer-content">
-      <p>&copy; 2026 Thomas Bierly. All rights reserved.</p>
-      <p class="footer-tagline">Built with code, caffeine, and curiosity.</p>
-    </div>
+    <p>&copy; 2026 Thomas Bierly</p>
   </footer>
 
-  <script src="scripts.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
