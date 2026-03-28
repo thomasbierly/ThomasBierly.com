@@ -70,7 +70,8 @@ updateNav();
   const h = () => canvas.offsetHeight;
 
   const particles = [];
-  const count = 120;
+  const scale = Math.max(1, (window.innerWidth * window.innerHeight) / (1280 * 800));
+  const count = Math.round(120 * scale);
   const connectionDist = 160;
   const mouse = { x: null, y: null, radius: 200 };
 
