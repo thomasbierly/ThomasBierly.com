@@ -17,9 +17,15 @@ const observer = new IntersectionObserver((entries) => {
     } else {
       const { top, bottom } = entry.boundingClientRect;
       if (bottom < exitTop) {
-        // Element has cleared the top zone — slide it off
-        el.classList.add('exit-top');
-        el.classList.remove('visible');
+        if (window.innerWidth > 900) {
+          // Desktop: slide off upward
+          el.classList.add('exit-top');
+          el.classList.remove('visible');
+        } else {
+          // Mobile: just reset so it slides back in on next scroll
+          el.classList.remove('visible');
+          el.classList.remove('exit-top');
+        }
       } else if (top > window.innerHeight - 60) {
         // Element is clearly below the fold — reset for next entry
         el.classList.remove('visible');
