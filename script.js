@@ -21,9 +21,14 @@ const observer = new IntersectionObserver((entries) => {
           // Desktop: slide off upward
           el.classList.add('exit-top');
           el.classList.remove('visible');
+        } else if (bottom < 0) {
+          // Mobile: only reset once completely above the viewport —
+          // translateY(40px) then can't reach the zone, so no feedback loop,
+          // and the element will slide back in when scrolled back to
+          el.classList.remove('visible');
+          el.classList.remove('exit-top');
         }
-        // Mobile: leave visible — resetting here triggers the translateY
-        // feedback loop, and the exit animation isn't needed on small screens
+        // Mobile gray zone (0 ≤ bottom < exitTop): leave state unchanged
       } else if (top > window.innerHeight - 60) {
         // Element is clearly below the fold — reset for next entry
         el.classList.remove('visible');
