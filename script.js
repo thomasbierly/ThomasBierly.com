@@ -16,26 +16,16 @@ const observer = new IntersectionObserver((entries) => {
       el.classList.remove('exit-top');
     } else {
       const { top, bottom } = entry.boundingClientRect;
-      if (bottom < exitTop) {
-        if (window.innerWidth > 900) {
-          // Desktop: slide off upward
-          el.classList.add('exit-top');
-          el.classList.remove('visible');
-        } else if (bottom < 0) {
-          // Mobile: only reset once completely above the viewport —
-          // translateY(40px) then can't reach the zone, so no feedback loop,
-          // and the element will slide back in when scrolled back to
-          el.classList.remove('visible');
-          el.classList.remove('exit-top');
-        }
-        // Mobile gray zone (0 ≤ bottom < exitTop): leave state unchanged
+      if (window.innerWidth > 900 && bottom < exitTop) {
+        // Desktop: slide off upward
+        el.classList.add('exit-top');
+        el.classList.remove('visible');
       } else if (top > window.innerHeight - 60) {
-        // Element is clearly below the fold — reset for next entry
+        // Clearly below fold: reset to slide-up-from-below state
         el.classList.remove('visible');
         el.classList.remove('exit-top');
       }
-      // Gray zone (between viewport top and nav margin): leave state unchanged
-      // to avoid the translateY feedback loop that causes shaking
+      // Gray zone: leave unchanged — avoids translateY feedback loop
     }
   });
 }, {
@@ -43,7 +33,23 @@ const observer = new IntersectionObserver((entries) => {
   rootMargin: `-${exitTop}px 0px -60px 0px`
 });
 
-reveals.forEach(el => observer.observe(el));
+// Mobile only: watch the real viewport edge (no rootMargin).
+// When an element goes fully above the viewport, prime it with exit-top
+// so it slides DOWN back into view when scrolled back to — no feedback
+// loop because translateY(-40px) moves it further above, not back in.
+const mobileTopObserver = window.innerWidth <= 900 ? new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting && entry.boundingClientRect.bottom < 0) {
+      entry.target.classList.remove('visible');
+      entry.target.classList.add('exit-top');
+    }
+  });
+}, { threshold: 0 }) : null;
+
+reveals.forEach(el => {
+  observer.observe(el);
+  mobileTopObserver?.observe(el);
+});
 
 function updateNav() {
   const scrollY = window.scrollY;
