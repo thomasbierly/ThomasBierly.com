@@ -1,22 +1,40 @@
-/* --- Scroll reveal --- */
-const reveals = document.querySelectorAll('.reveal');
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, {
-  threshold: 0.15,
-  rootMargin: '0px 0px -50px 0px'
-});
-
-reveals.forEach(el => observer.observe(el));
-
 /* --- Nav background on scroll + dark section detection --- */
 const nav = document.querySelector('nav');
 const darkSections = document.querySelectorAll('.dark');
+const navH = Math.round(nav.getBoundingClientRect().height);
+
+/* --- Scroll reveal (bidirectional) --- */
+const reveals = document.querySelectorAll('.reveal');
+
+const exitTop = navH + 100; // px from viewport top where exit triggers
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const el = entry.target;
+    if (entry.isIntersecting) {
+      el.classList.add('visible');
+      el.classList.remove('exit-top');
+    } else {
+      const { top, bottom } = entry.boundingClientRect;
+      if (bottom < exitTop) {
+        // Element has cleared the top zone — slide it off
+        el.classList.add('exit-top');
+        el.classList.remove('visible');
+      } else if (top > window.innerHeight - 60) {
+        // Element is clearly below the fold — reset for next entry
+        el.classList.remove('visible');
+        el.classList.remove('exit-top');
+      }
+      // Gray zone (between viewport top and nav margin): leave state unchanged
+      // to avoid the translateY feedback loop that causes shaking
+    }
+  });
+}, {
+  threshold: 0,
+  rootMargin: `-${exitTop}px 0px -60px 0px`
+});
+
+reveals.forEach(el => observer.observe(el));
 
 function updateNav() {
   const scrollY = window.scrollY;
@@ -48,6 +66,62 @@ function updateNav() {
 
 window.addEventListener('scroll', updateNav, { passive: true });
 updateNav();
+
+/* --- Show nav name only after hero h1 scrolls behind the nav --- */
+const heroH1 = document.querySelector('#hero h1');
+if (heroH1) {
+  const heroNameObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        nav.classList.remove('past-hero');
+      } else {
+        nav.classList.add('past-hero');
+      }
+    });
+  }, {
+    threshold: 0,
+    rootMargin: `-${navH}px 0px 0px 0px`
+  });
+  heroNameObserver.observe(heroH1);
+}
+
+/* --- Hamburger / mobile menu --- */
+const hamburger = document.querySelector('.nav-hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileOverlay = document.getElementById('mobile-overlay');
+
+function openMenu() {
+  hamburger.classList.add('open');
+  hamburger.setAttribute('aria-expanded', 'true');
+  mobileMenu.classList.add('open');
+  mobileMenu.setAttribute('aria-hidden', 'false');
+  mobileOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMenu() {
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  mobileMenu.classList.remove('open');
+  mobileMenu.setAttribute('aria-hidden', 'true');
+  mobileOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+if (hamburger) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.contains('open') ? closeMenu() : openMenu();
+  });
+}
+
+if (mobileOverlay) {
+  mobileOverlay.addEventListener('click', closeMenu);
+}
+
+// Close menu when a link is tapped
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', closeMenu);
+});
 
 /* --- Particle Network (top-right corner) --- */
 (function initParticles() {
