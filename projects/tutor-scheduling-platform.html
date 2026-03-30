@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutor Scheduling Platform — Thomas Bierly</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf8f4;
+      --bg-dark: #0c0c0c;
+      --text: #1a1a1a;
+      --text-light: #e8e6e0;
+      --text-mid: #555;
+      --text-muted: #999;
+      --accent: #b08d57;
+      --accent-hover: #c9a265;
+      --border: #e0dcd4;
+      --border-dark: #2a2a2a;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+
+    /* ── Back navigation ── */
+    .back-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      background: rgba(250, 248, 244, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .back-nav a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s, letter-spacing 0.3s;
+    }
+
+    .back-nav a:hover {
+      color: var(--text);
+      letter-spacing: 0.15em;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 10rem 3rem 6rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .subtitle {
+      font-size: 1.15rem;
+      color: var(--text-mid);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.85rem 2.25rem;
+      border: 1px solid var(--text);
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.3s;
+    }
+
+    .cta-btn:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    /* ── Content sections ── */
+    .content-section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 3rem;
+    }
+
+    .content-section + .content-section {
+      padding-top: 0;
+    }
+
+    .section-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 3rem;
+    }
+
+    .content-section h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .content-section p {
+      color: var(--text-mid);
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .content-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ── Workflow steps ── */
+    .workflow {
+      list-style: none;
+      counter-reset: step;
+      margin-top: 2rem;
+    }
+
+    .workflow li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 3.5rem;
+      margin-bottom: 2rem;
+      color: var(--text-mid);
+      font-size: 1rem;
+    }
+
+    .workflow li::before {
+      content: counter(step, decimal-leading-zero);
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .workflow li strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── Constraint lists ── */
+    .constraint-group {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .constraint-group-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .constraint-list {
+      list-style: none;
+      border-left: 1px solid var(--border);
+      padding-left: 1.5rem;
+    }
+
+    .constraint-list li {
+      color: var(--text-mid);
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+
+    .constraint-list li::before {
+      content: '';
+      position: absolute;
+      left: -1.5rem;
+      top: 0.6rem;
+      width: 6px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Objective function callout ── */
+    .formula-block {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      border-radius: 6px;
+      padding: 2rem 2.5rem;
+      margin: 2rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    .formula-block .formula-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .formula-block .formula {
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+
+    .formula-block p {
+      color: rgba(255, 255, 255, 0.55);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      line-height: 1.65;
+      margin-bottom: 0.75rem;
+    }
+
+    .formula-block p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ── Tech stack grid ── */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+
+    .stack-item {
+      background: var(--bg);
+      padding: 1.5rem 1.75rem;
+    }
+
+    .stack-item .stack-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .stack-item .stack-tech {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .stack-item .stack-why {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── Security callout ── */
+    .security-block {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .security-block .security-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .security-block p {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    /* ── Demo credentials ── */
+    .demo-section {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      padding: 5rem 3rem;
+      margin-top: 4rem;
+    }
+
+    .demo-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .demo-section h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    .demo-section .demo-intro {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .credential-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .credential-card {
+      background: var(--bg-dark);
+      padding: 1.75rem;
+    }
+
+    .credential-card .role {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .credential-card .cred-row {
+      margin-bottom: 0.5rem;
+    }
+
+    .credential-card .cred-label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.35);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .credential-card .cred-value {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-light);
+      word-break: break-all;
+    }
+
+    .demo-hint {
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .demo-cta {
+      display: inline-block;
+      margin-top: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.85rem 2.25rem;
+      border: 1px solid var(--text-light);
+      color: var(--text-light);
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.3s;
+    }
+
+    .demo-cta:hover {
+      background: var(--text-light);
+      color: var(--bg-dark);
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 3rem;
+      text-align: center;
+    }
+
+    .page-footer a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s, letter-spacing 0.3s;
+    }
+
+    .page-footer a:hover {
+      color: var(--text);
+      letter-spacing: 0.15em;
+    }
+
+    /* ── Animations ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .fade-up-delay-1 { animation-delay: 0.1s; }
+    .fade-up-delay-2 { animation-delay: 0.2s; }
+    .fade-up-delay-3 { animation-delay: 0.35s; }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .back-nav { padding: 1.25rem 1.5rem; }
+      .hero { padding: 8rem 1.5rem 4rem; }
+      .content-section { padding: 3rem 1.5rem; }
+      .stack-grid { grid-template-columns: 1fr; }
+      .credential-cards { grid-template-columns: 1fr; }
+      .demo-section { padding: 4rem 1.5rem; }
+      .page-footer { padding: 3rem 1.5rem; }
+      .formula-block { padding: 1.5rem; font-size: 0.75rem; }
+      .security-block { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="back-nav">
+    <a href="../index.html#projects">&larr; Back to projects</a>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <span class="hero-label fade-up">Project</span>
+    <h1 class="fade-up fade-up-delay-1">RMIT Tutor Scheduling Platform</h1>
+    <p class="subtitle fade-up fade-up-delay-2">Automated sessional tutor allocation for higher education &mdash; built end-to-end as a solo engineering project.</p>
+    <a href="https://tutor.thomasbierly.com" class="cta-btn fade-up fade-up-delay-3">Visit the platform &rarr;</a>
+  </header>
+
+  <!-- The Problem -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>The Problem</h2>
+    <p>Every semester, RMIT University's course coordinators spend days manually matching hundreds of sessional tutors to class slots &mdash; cross-referencing availability spreadsheets, avoiding double-bookings, ensuring workload fairness, and chasing acceptances via email. It's a process that's error-prone, time-consuming, and doesn't scale.</p>
+    <p>I built a platform to automate it entirely.</p>
+  </section>
+
+  <!-- What It Does -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>What It Does</h2>
+    <p>The platform manages the full lifecycle of sessional tutor allocation &mdash; from application through to confirmed teaching assignment.</p>
+    <ol class="workflow">
+      <li><strong>Tutors</strong> submit their availability, course interests, and CV through a self-service portal.</li>
+      <li><strong>Administrators</strong> review applicants, upload class schedules and historical performance data via CSV, and manage the semester calendar.</li>
+      <li><strong>Course coordinators</strong> run a mathematical optimisation algorithm that produces a globally conflict-free, quality-weighted allocation across all classes in under two minutes &mdash; then review results, make adjustments on a drag-and-drop calendar, and send digital offers.</li>
+      <li><strong>Tutors</strong> accept or reject offers through the portal, with email notifications at every step.</li>
+    </ol>
+  </section>
+
+  <!-- The Optimisation Engine -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>The Optimisation Engine</h2>
+    <p>The core of the platform is a constraint programming solver built in Python using Google's OR-Tools CP-SAT engine &mdash; the same solver used in Google's own logistics and scheduling systems.</p>
+    <p>The allocation problem is formulated as a Constraint Satisfaction and Optimisation Problem (CSOP). The solver must assign tutors to classes while simultaneously satisfying hard constraints and maximising a quality objective.</p>
+
+    <div class="constraint-group">
+      <span class="constraint-group-label">Hard Constraints</span>
+      <ul class="constraint-list">
+        <li>Every class receives exactly one tutor</li>
+        <li>No tutor is double-booked across overlapping time slots, including across different courses running simultaneously</li>
+        <li>Every assigned tutor receives a minimum of 2 classes (prevents impractical single-class assignments)</li>
+        <li>No tutor exceeds a configurable maximum load (default: 6 classes)</li>
+        <li>Tutors are only considered for classes that fall within their nominated availability windows</li>
+      </ul>
+    </div>
+
+    <div class="constraint-group">
+      <span class="constraint-group-label">Fairness Constraint</span>
+      <ul class="constraint-list">
+        <li>A pairwise linearised fairness constraint ensures workload is distributed equitably &mdash; no tutor receives their 4th class until every other selected tutor has received at least 3</li>
+      </ul>
+    </div>
+
+    <div class="formula-block">
+      <span class="formula-label">Objective Function</span>
+      <div class="formula">Maximise: &Sigma; x[t,c] &times; (preference_weight[t] + ces_weight &times; normalised_CES[t])</div>
+      <p>Where x[t,c] is a binary decision variable indicating whether tutor t is assigned to class c. Tutors rated PREFERRED by administrators are weighted at 10, OK at 5. CES (Course Experience Survey) scores &mdash; historical student satisfaction ratings &mdash; are normalised across the pool and contribute an additional weighted term. This drives the solver towards allocations that prioritise high-quality, well-reviewed tutors while still satisfying all hard constraints.</p>
+    </div>
+
+    <div class="constraint-group">
+      <span class="constraint-group-label">Problem Size &amp; Performance</span>
+      <ul class="constraint-list">
+        <li>At pilot scale (500 tutors, 325 classes), the naive decision variable matrix has 162,500 binary variables</li>
+        <li>Aggressive pre-filtering instantiates variables only for valid (tutor, class) pairs &mdash; reducing the active count by over 90% to approximately 5,000&ndash;20,000 variables</li>
+        <li>This makes the problem tractable for CP-SAT in well under the 120-second time limit</li>
+        <li>If no feasible solution exists, the solver applies cascading constraint relaxation &mdash; first relaxing minimum workload, then fairness &mdash; and returns a diagnostic report of which classes remain unassigned and why</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Technical Architecture -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>Technical Architecture</h2>
+    <p>The platform is a production-grade TypeScript monorepo deployed on Railway, built with a clean separation of concerns across four services.</p>
+
+    <div class="stack-grid">
+      <div class="stack-item">
+        <span class="stack-label">Frontend</span>
+        <div class="stack-tech">Next.js 15 (App Router)</div>
+        <div class="stack-why">SSR, file-based routing, TypeScript-first</div>
+      </div>
+      <div class="stack-item">
+        <span class="stack-label">Backend API</span>
+        <div class="stack-tech">Express.js + Prisma ORM</div>
+        <div class="stack-why">Clean REST separation, type-safe DB queries</div>
+      </div>
+      <div class="stack-item">
+        <span class="stack-label">Database</span>
+        <div class="stack-tech">PostgreSQL 16</div>
+        <div class="stack-why">Relational integrity, ACID compliance</div>
+      </div>
+      <div class="stack-item">
+        <span class="stack-label">Optimiser</span>
+        <div class="stack-tech">Python 3.13 + FastAPI + OR-Tools</div>
+        <div class="stack-why">CP-SAT solver, private network only</div>
+      </div>
+      <div class="stack-item">
+        <span class="stack-label">Job Queue</span>
+        <div class="stack-tech">BullMQ + Redis</div>
+        <div class="stack-why">Async solver runs &mdash; 120s jobs can't be synchronous</div>
+      </div>
+      <div class="stack-item">
+        <span class="stack-label">Email</span>
+        <div class="stack-tech">Resend</div>
+        <div class="stack-why">Transactional offer notifications and confirmations</div>
+      </div>
+    </div>
+
+    <div class="security-block">
+      <span class="security-label">Security</span>
+      <p>bcrypt password hashing (cost 12), JWT access tokens in httpOnly/SameSite=Strict cookies, role-based access control on every route, row-level data isolation (coordinators can only access their own courses), Zod validation on all request bodies, Helmet.js security headers, rate limiting on auth endpoints, and a full immutable audit log.</p>
+      <p style="margin-top: 0.75rem;">The optimiser microservice runs on Railway's private internal network and is not accessible from the public internet &mdash; only the backend API can call it.</p>
+    </div>
+  </section>
+
+  <!-- Try It -->
+  <section class="demo-section">
+    <div class="demo-inner reveal">
+      <h2>Try It</h2>
+      <p class="demo-intro">Three demo accounts are pre-loaded with realistic data &mdash; a full semester's worth of classes, tutor profiles, availability submissions, and a completed optimisation run ready for review.</p>
+
+      <div class="credential-cards">
+        <div class="credential-card">
+          <span class="role">Administrator</span>
+          <div class="cred-row">
+            <span class="cred-label">Email</span>
+            <span class="cred-value">admin@rmit.edu.au</span>
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">Password</span>
+            <span class="cred-value">Password1</span>
+          </div>
+        </div>
+        <div class="credential-card">
+          <span class="role">Course Coordinator</span>
+          <div class="cred-row">
+            <span class="cred-label">Email</span>
+            <span class="cred-value">coordinator@rmit.edu.au</span>
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">Password</span>
+            <span class="cred-value">Password1</span>
+          </div>
+        </div>
+        <div class="credential-card">
+          <span class="role">Sessional Tutor</span>
+          <div class="cred-row">
+            <span class="cred-label">Email</span>
+            <span class="cred-value">tutor1@rmit.edu.au</span>
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">Password</span>
+            <span class="cred-value">Password1</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo-hint">Start as the coordinator to see the optimisation results and the schedule calendar. Switch to the tutor account to experience the offer acceptance flow. Use the admin account to see the applicant review, workload overview, and CSV upload tools.</p>
+
+      <a href="https://tutor.thomasbierly.com" class="demo-cta">Launch the platform &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <a href="../index.html#projects">&larr; Back to projects</a>
+  </div>
+
+  <!-- Scroll reveal -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
