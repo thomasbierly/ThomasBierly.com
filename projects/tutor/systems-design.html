@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RMIT Tutor Scheduling Platform — Systems Design Document</title>
+  <style>
+    /* ── Reset & Base ───────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 11pt; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #1a1a2e;
+      background: #fff;
+      line-height: 1.65;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 48px;
+    }
+
+    /* ── Print ──────────────────────────────────────────── */
+    @media print {
+      body { padding: 0; max-width: 100%; font-size: 10pt; }
+      .no-break { page-break-inside: avoid; }
+      h1, h2, h3 { page-break-after: avoid; }
+      pre, table { page-break-inside: avoid; }
+      .cover { page-break-after: always; }
+      .section { page-break-before: auto; }
+    }
+
+    /* ── Cover Page ─────────────────────────────────────── */
+    .cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100vh;
+      border-left: 6px solid #e60028;
+      padding-left: 36px;
+    }
+    .cover .rmit-label {
+      font-size: 13pt;
+      font-weight: 700;
+      color: #e60028;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .cover h1 {
+      font-size: 28pt;
+      font-weight: 800;
+      color: #001a3a;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      border: none;
+      padding: 0;
+    }
+    .cover .subtitle {
+      font-size: 14pt;
+      color: #555;
+      margin-bottom: 48px;
+    }
+    .cover .meta-table { border-collapse: collapse; margin-top: 16px; }
+    .cover .meta-table td { padding: 5px 20px 5px 0; font-size: 10.5pt; color: #333; }
+    .cover .meta-table td:first-child { font-weight: 600; color: #001a3a; min-width: 140px; }
+    .cover .watermark {
+      margin-top: 60px;
+      font-size: 9pt;
+      color: #aaa;
+    }
+
+    /* ── Typography ─────────────────────────────────────── */
+    h1 {
+      font-size: 20pt;
+      font-weight: 800;
+      color: #001a3a;
+      border-bottom: 3px solid #e60028;
+      padding-bottom: 8px;
+      margin: 48px 0 20px;
+    }
+    h2 {
+      font-size: 14pt;
+      font-weight: 700;
+      color: #001a3a;
+      border-left: 4px solid #e60028;
+      padding-left: 10px;
+      margin: 36px 0 14px;
+    }
+    h3 {
+      font-size: 11.5pt;
+      font-weight: 700;
+      color: #003366;
+      margin: 24px 0 10px;
+    }
+    h4 {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #444;
+      margin: 18px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    p { margin-bottom: 12px; }
+    ul, ol { margin: 8px 0 12px 24px; }
+    li { margin-bottom: 4px; }
+    strong { color: #001a3a; }
+
+    /* ── Tables ─────────────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 20px;
+      font-size: 9.5pt;
+    }
+    th {
+      background: #001a3a;
+      color: #fff;
+      font-weight: 600;
+      text-align: left;
+      padding: 8px 12px;
+      letter-spacing: 0.03em;
+    }
+    td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #e8e8e8;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #f7f9fc; }
+    tr:hover td { background: #eef3fb; }
+
+    /* ── Code ───────────────────────────────────────────── */
+    pre {
+      background: #f4f6fa;
+      border: 1px solid #dde3ef;
+      border-left: 4px solid #001a3a;
+      border-radius: 4px;
+      padding: 14px 16px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 8.5pt;
+      line-height: 1.5;
+      overflow-x: auto;
+      margin: 12px 0 18px;
+      white-space: pre;
+    }
+    code {
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 8.5pt;
+      background: #eef1f8;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #c0392b;
+    }
+
+    /* ── Callout Boxes ──────────────────────────────────── */
+    .callout {
+      border-radius: 5px;
+      padding: 12px 16px;
+      margin: 16px 0;
+      font-size: 9.5pt;
+    }
+    .callout.info { background: #e8f0fe; border-left: 4px solid #1a73e8; }
+    .callout.warn { background: #fff8e1; border-left: 4px solid #f9a825; }
+    .callout.success { background: #e8f5e9; border-left: 4px solid #2e7d32; }
+    .callout strong { font-weight: 700; }
+
+    /* ── Section Dividers ───────────────────────────────── */
+    .section { margin-top: 12px; }
+    hr { border: none; border-top: 1px solid #dde3ef; margin: 32px 0; }
+
+    /* ── TOC ────────────────────────────────────────────── */
+    .toc { background: #f7f9fc; border: 1px solid #dde3ef; border-radius: 6px; padding: 20px 28px; margin: 32px 0; }
+    .toc h2 { border: none; padding: 0; margin: 0 0 14px 0; font-size: 13pt; }
+    .toc ol { margin-left: 20px; }
+    .toc li { margin-bottom: 5px; font-size: 10pt; }
+    .toc a { color: #003366; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    .toc .sub { margin-left: 20px; margin-top: 4px; }
+    .toc .sub li { margin-bottom: 3px; font-size: 9.5pt; color: #555; }
+
+    /* ── Endpoint Blocks ────────────────────────────────── */
+    .endpoint {
+      background: #f4f6fa;
+      border: 1px solid #dde3ef;
+      border-radius: 5px;
+      padding: 10px 14px;
+      margin: 8px 0;
+      font-size: 9pt;
+      font-family: 'Cascadia Code', monospace;
+    }
+    .method { font-weight: 700; padding: 2px 7px; border-radius: 3px; margin-right: 8px; font-size: 8pt; }
+    .get { background: #e3f2fd; color: #0d47a1; }
+    .post { background: #e8f5e9; color: #1b5e20; }
+    .put { background: #fff8e1; color: #e65100; }
+    .patch { background: #fce4ec; color: #880e4f; }
+    .delete { background: #ffebee; color: #b71c1c; }
+
+    /* ── Constraint boxes ───────────────────────────────── */
+    .constraint-box {
+      background: #fff;
+      border: 1px solid #dde3ef;
+      border-radius: 5px;
+      padding: 12px 16px;
+      margin: 8px 0;
+    }
+    .constraint-box h4 { margin: 0 0 6px 0; color: #001a3a; font-size: 9.5pt; }
+
+    /* ── Role badges ────────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      padding: 1px 8px;
+      border-radius: 12px;
+      font-size: 8pt;
+      font-weight: 700;
+      margin-right: 4px;
+    }
+    .badge.tutor { background: #e3f2fd; color: #0d47a1; }
+    .badge.admin { background: #fce4ec; color: #880e4f; }
+    .badge.coord { background: #e8f5e9; color: #1b5e20; }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    .doc-footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 2px solid #e8e8e8;
+      font-size: 8.5pt;
+      color: #aaa;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     COVER PAGE
+═══════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="rmit-label">RMIT University — Internal Systems Documentation</div>
+  <h1>Tutor Scheduling Platform<br>Systems Design Document</h1>
+  <div class="subtitle">Architecture, Data Model, API Reference &amp; Deployment</div>
+  <table class="meta-table">
+    <tr><td>Version</td><td>1.0</td></tr>
+    <tr><td>Date</td><td>March 2026</td></tr>
+    <tr><td>Author</td><td>Thomas Bierly</td></tr>
+    <tr><td>Status</td><td>Active Development — Production Pilot</td></tr>
+    <tr><td>Platform</td><td>Railway (cloud) / Docker (local dev)</td></tr>
+    <tr><td>Repository</td><td>github.com/thomasbierly/TutorSchedulingPlatform</td></tr>
+    <tr><td>Production URL</td><td>https://tutor.thomasbierly.com</td></tr>
+  </table>
+  <div class="watermark">Confidential — RMIT University Internal Use Only</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TABLE OF CONTENTS
+═══════════════════════════════════════════════════════ -->
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#s1">Executive Summary</a></li>
+    <li><a href="#s2">System Overview &amp; Goals</a></li>
+    <li><a href="#s3">Architecture Overview</a>
+      <ul class="sub">
+        <li><a href="#s3a">High-Level Architecture</a></li>
+        <li><a href="#s3b">Service Communication</a></li>
+        <li><a href="#s3c">Monorepo Structure</a></li>
+      </ul>
+    </li>
+    <li><a href="#s4">Technology Stack</a></li>
+    <li><a href="#s5">User Roles &amp; Permissions</a></li>
+    <li><a href="#s6">Database Schema</a>
+      <ul class="sub">
+        <li><a href="#s6a">Entity-Relationship Overview</a></li>
+        <li><a href="#s6b">Model Reference</a></li>
+        <li><a href="#s6c">Enumerations</a></li>
+        <li><a href="#s6d">Indexes &amp; Constraints</a></li>
+      </ul>
+    </li>
+    <li><a href="#s7">Backend API Design</a>
+      <ul class="sub">
+        <li><a href="#s7a">Authentication Routes</a></li>
+        <li><a href="#s7b">Tutor Routes</a></li>
+        <li><a href="#s7c">Admin Routes</a></li>
+        <li><a href="#s7d">Coordinator Routes</a></li>
+      </ul>
+    </li>
+    <li><a href="#s8">Frontend Architecture</a>
+      <ul class="sub">
+        <li><a href="#s8a">Route Structure</a></li>
+        <li><a href="#s8b">Key Pages</a></li>
+        <li><a href="#s8c">Shared Components</a></li>
+        <li><a href="#s8d">API Client Layer</a></li>
+      </ul>
+    </li>
+    <li><a href="#s9">Optimization Engine</a>
+      <ul class="sub">
+        <li><a href="#s9a">Problem Formulation</a></li>
+        <li><a href="#s9b">Decision Variables</a></li>
+        <li><a href="#s9c">Constraints</a></li>
+        <li><a href="#s9d">Objective Function</a></li>
+        <li><a href="#s9e">Solver Pipeline</a></li>
+        <li><a href="#s9f">Infeasibility Handling</a></li>
+      </ul>
+    </li>
+    <li><a href="#s10">Authentication &amp; Security</a>
+      <ul class="sub">
+        <li><a href="#s10a">Authentication Flow</a></li>
+        <li><a href="#s10b">Security Controls</a></li>
+        <li><a href="#s10c">SSO Migration Path</a></li>
+      </ul>
+    </li>
+    <li><a href="#s11">File Storage</a></li>
+    <li><a href="#s12">Email System</a></li>
+    <li><a href="#s13">Job Queue</a></li>
+    <li><a href="#s14">Key Business Workflows</a></li>
+    <li><a href="#s15">Deployment Architecture</a></li>
+    <li><a href="#s16">Performance &amp; Scalability</a></li>
+    <li><a href="#s17">Cost Analysis</a></li>
+    <li><a href="#s18">Data Protection &amp; Legal Compliance</a></li>
+    <li><a href="#s19">Outstanding Work</a></li>
+  </ol>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     1. EXECUTIVE SUMMARY
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s1">
+<h1>1. Executive Summary</h1>
+
+<p>RMIT University's Schools of Science, Engineering, and Computing employ hundreds of sessional (casual) tutors each semester to deliver tutorial and laboratory sessions. Historically, course coordinators managed tutor allocation manually — a process prone to scheduling conflicts, inequitable workload distribution, and significant administrative overhead.</p>
+
+<p>The <strong>RMIT Tutor Scheduling Platform</strong> automates this entire workflow. Tutors submit their availability and course preferences online. Administrators review applicants and upload class schedules. Course coordinators run a mathematical optimization algorithm that produces a globally optimal, conflict-free allocation in under two minutes. Coordinators can pre-assign specific tutors to classes before running the optimizer, review results, make drag-and-drop adjustments, and send digital offers. Tutors accept or reject offers through a dedicated portal.</p>
+
+<p>The platform is built as a TypeScript monorepo with a Next.js 15 frontend, Express.js backend, PostgreSQL database (via Prisma ORM), and a Python FastAPI microservice hosting the OR-Tools CP-SAT constraint programming solver. It is deployed on Railway and designed to be migrated to AWS as RMIT scales adoption.</p>
+
+<div class="callout info">
+  <strong>Pilot Scope:</strong> The initial pilot targets approximately 500 sessional tutors, 150 course coordinators, and 325 classes across 4 semesters per year (Semester 1, Semester 2, Summer A, Summer B).
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     2. SYSTEM OVERVIEW & GOALS
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+<h1>2. System Overview &amp; Goals</h1>
+
+<h2>2.1 Business Goals</h2>
+<ul>
+  <li><strong>Eliminate scheduling conflicts</strong> — No tutor can be double-booked across overlapping time slots in any course.</li>
+  <li><strong>Fair workload distribution</strong> — The optimizer enforces fairness: every selected tutor reaches a baseline tutorial count before any tutor receives additional assignments.</li>
+  <li><strong>Quality-weighted allocation</strong> — Tutors with higher CES (Course Experience Survey) scores and stronger admin preference ratings are preferentially allocated.</li>
+  <li><strong>Manual override capability</strong> — Coordinators can pre-assign themselves or specific tutors to classes; the optimizer respects these decisions and only fills remaining slots.</li>
+  <li><strong>Digital offer management</strong> — Tutors receive, accept, or reject offers digitally, eliminating email chains.</li>
+  <li><strong>Audit trail</strong> — Every allocation decision, status change, and administrative action is logged.</li>
+</ul>
+
+<h2>2.2 Non-Goals (Pilot Scope)</h2>
+<ul>
+  <li>RMIT Single Sign-On (SAML/SSO) — deferred to post-pilot; architecture supports it via Passport.js strategy pattern.</li>
+  <li>Real-time notifications (WebSocket) — email notifications only for now.</li>
+  <li>Mobile native apps — responsive web only.</li>
+  <li>Integration with RMIT's HR or payroll systems.</li>
+</ul>
+
+<h2>2.3 System Actors</h2>
+<table>
+  <thead><tr><th>Actor</th><th>Count (Pilot)</th><th>Primary Responsibilities</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Sessional Tutor</strong></td><td>~500</td><td>Submit CV, set weekly availability, express course interests, accept/reject offers</td></tr>
+    <tr><td><strong>Administrator</strong></td><td>~5</td><td>Review tutor applicants, upload class schedules (CSV), upload CES scores (CSV), manage semesters/courses/users, manage email templates and campaigns</td></tr>
+    <tr><td><strong>Course Coordinator</strong></td><td>~150</td><td>Pre-assign themselves/tutors to specific classes, run optimization, review results, adjust allocations, send offers, manage assessment marking assignments</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     3. ARCHITECTURE OVERVIEW
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+<h1>3. Architecture Overview</h1>
+
+<h2 id="s3a">3.1 High-Level Architecture</h2>
+
+<pre>
+┌────────────────────────────────────────────────────────────────────┐
+│                         PUBLIC INTERNET                            │
+└──────────────────────────────┬─────────────────────────────────────┘
+                               │  HTTPS (TLS)
+                               ▼
+┌──────────────────────────────────────────────────┐
+│            Railway Edge / Load Balancer           │
+└──────┬─────────────────────────────┬─────────────┘
+       │                             │
+       ▼                             ▼
+┌──────────────┐             ┌───────────────────┐
+│  Frontend    │─── /api/* ─►│    Backend         │
+│  Next.js 15  │  (rewrite   │    Express.js      │
+│  Port 3000   │   proxy)    │    Port 4000       │
+│  (SSR + CSR) │             │    PRIVATE NETWORK  │
+└──────────────┘             └────────┬──────┬───┘
+                                      │      │
+                    ┌─────────────────┘      │
+                    │                        │
+                    ▼                        ▼
+          ┌──────────────────┐    ┌─────────────────────┐
+          │   PostgreSQL 16  │    │       Redis          │
+          │   (Prisma ORM)   │    │   (BullMQ Queue)     │
+          │   Railway Managed│    │   Railway Managed    │
+          └──────────────────┘    └──────────┬──────────┘
+                                             │ Job dequeue
+                    ┌────────────────────────┘
+                    ▼
+          ┌──────────────────────────────┐
+          │   Optimizer Microservice     │
+          │   FastAPI + OR-Tools CP-SAT  │
+          │   Port 8080 (private)        │
+          │   Python 3.13                │
+          └──────────────────────────────┘
+</pre>
+
+<div class="callout info">
+  <strong>Network Isolation:</strong> The optimizer service is on Railway's private internal network (<code>optimizer.railway.internal</code>) and is not accessible from the public internet. Only the backend can call it.
+</div>
+
+<h2 id="s3b">3.2 Service Communication</h2>
+<table>
+  <thead><tr><th>From</th><th>To</th><th>Protocol</th><th>Auth</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Browser</td><td>Frontend</td><td>HTTPS</td><td>—</td><td>Next.js SSR + static assets</td></tr>
+    <tr><td>Frontend</td><td>Backend</td><td>HTTP (private network)</td><td>httpOnly JWT cookie (SameSite=Strict)</td><td>All <code>/api/*</code> and <code>/uploads/*</code> requests proxied via Next.js rewrites to backend on private network. No direct browser↔backend communication.</td></tr>
+    <tr><td>Backend</td><td>PostgreSQL</td><td>TCP (private)</td><td>Connection string</td><td>Prisma connection pool</td></tr>
+    <tr><td>Backend</td><td>Redis</td><td>TCP (private)</td><td>Redis password</td><td>BullMQ job enqueue</td></tr>
+    <tr><td>BullMQ Worker</td><td>Optimizer</td><td>HTTP (private)</td><td>None (private net)</td><td>POST /optimize with JSON payload</td></tr>
+    <tr><td>Backend</td><td>Resend API</td><td>HTTPS</td><td>API key</td><td>Transactional email delivery</td></tr>
+    <tr><td>Backend</td><td>Filesystem/Volume</td><td>Local I/O</td><td>—</td><td>CV file storage</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s3c">3.3 Monorepo Structure</h2>
+<pre>
+TutorSchedulingPlatform/
+├── package.json                    # npm workspaces root
+├── docker-compose.yml              # Local dev: postgres, redis, all services
+├── .github/workflows/ci.yml        # GitHub Actions CI/CD
+└── packages/
+    ├── shared/
+    │   └── src/types/              # Shared TypeScript types + Zod schemas
+    ├── frontend/                   # Next.js 15 App Router
+    │   ├── src/
+    │   │   ├── app/
+    │   │   │   ├── (auth)/login/   # Login page (unauthenticated)
+    │   │   │   ├── tutor/          # Tutor portal pages
+    │   │   │   ├── admin/          # Admin panel pages
+    │   │   │   └── coordinator/    # Coordinator pages
+    │   │   ├── components/
+    │   │   │   ├── sidebar.tsx     # Role-based navigation sidebar
+    │   │   │   └── ...             # Shared UI components
+    │   │   └── lib/
+    │   │       ├── auth.tsx        # Auth context + useAuth hook
+    │   │       └── api-client.ts   # Typed API client (all fetch calls)
+    │   └── tailwind.config.ts
+    ├── backend/                    # Express.js API
+    │   ├── prisma/
+    │   │   ├── schema.prisma       # Database schema
+    │   │   ├── migrations/         # Migration history
+    │   │   └── seed.ts             # Development seed data
+    │   └── src/
+    │       ├── config/
+    │       │   ├── database.ts     # Prisma client singleton
+    │       │   └── env.ts          # Validated environment variables
+    │       ├── middleware/
+    │       │   ├── auth.ts         # JWT verification
+    │       │   ├── rbac.ts         # Role-based access control
+    │       │   ├── validate.ts     # Zod request validation
+    │       │   └── rate-limit.ts   # Express-rate-limit config
+    │       ├── routes/
+    │       │   ├── auth.routes.ts
+    │       │   ├── tutor.routes.ts
+    │       │   ├── admin.routes.ts
+    │       │   └── coordinator.routes.ts
+    │       ├── services/
+    │       │   ├── optimizer.service.ts   # Assembles payload, calls Python, persists results
+    │       │   └── email.service.ts       # Resend integration
+    │       └── queues/
+    │           ├── optimization.queue.ts  # BullMQ queue definition
+    │           └── optimization.worker.ts # BullMQ worker process
+    └── optimizer/                  # Python FastAPI microservice
+        ├── src/
+        │   ├── main.py             # FastAPI app entry point
+        │   ├── models.py           # Pydantic request/response schemas
+        │   └── solver.py           # OR-Tools CP-SAT solver (all constraint logic)
+        ├── tests/
+        │   └── test_solver.py      # 13 unit tests
+        ├── Dockerfile
+        └── railway.toml
+</pre>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     4. TECHNOLOGY STACK
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+<h1>4. Technology Stack</h1>
+
+<table>
+  <thead><tr><th>Layer</th><th>Technology</th><th>Version</th><th>Rationale</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Frontend Framework</strong></td><td>Next.js (App Router)</td><td>15</td><td>SSR for initial load performance, file-based routing, TypeScript-first. App Router enables server components to reduce JS bundle size.</td></tr>
+    <tr><td><strong>UI Components</strong></td><td>shadcn/ui + Tailwind CSS</td><td>latest</td><td>Accessible, unstyled primitives (Radix UI) with Tailwind utility classes. No vendor lock-in — components are copied into the project.</td></tr>
+    <tr><td><strong>Drag &amp; Drop</strong></td><td>@dnd-kit/core</td><td>6.x</td><td>Modern, accessible DnD library used for the availability grid and the coordinator schedule calendar.</td></tr>
+    <tr><td><strong>Backend Framework</strong></td><td>Express.js</td><td>4.x</td><td>Minimal, well-understood HTTP framework. Separated from the frontend for independent scaling. Clean separation of REST API from UI.</td></tr>
+    <tr><td><strong>ORM</strong></td><td>Prisma</td><td>6.x</td><td>Type-safe query builder with auto-generated TypeScript types. Migration system manages schema evolution. No raw SQL — prevents SQL injection by design.</td></tr>
+    <tr><td><strong>Database</strong></td><td>PostgreSQL</td><td>16</td><td>ACID-compliant relational database. Chosen for relational data integrity (foreign keys, unique constraints), Railway managed service.</td></tr>
+    <tr><td><strong>Job Queue</strong></td><td>BullMQ + Redis</td><td>5.x / 7.x</td><td>Async job queue for optimization runs. Optimization can take up to 120 seconds — cannot be a synchronous HTTP request. BullMQ persists jobs in Redis, handles retries, and supports progress tracking.</td></tr>
+    <tr><td><strong>Auth</strong></td><td>Passport.js + JWT</td><td>—</td><td>Local strategy (email/password) for pilot. httpOnly cookies prevent XSS token theft. Strategy pattern allows RMIT SAML/SSO to be added later without rewriting auth logic.</td></tr>
+    <tr><td><strong>Password Hashing</strong></td><td>bcrypt</td><td>—</td><td>Cost factor 12. Industry standard for password storage.</td></tr>
+    <tr><td><strong>Email</strong></td><td>Resend</td><td>—</td><td>Transactional email API. Simple REST API, good deliverability, low cost for low volume. Used for offer notifications and acceptance confirmations.</td></tr>
+    <tr><td><strong>Optimizer Language</strong></td><td>Python</td><td>3.13</td><td>OR-Tools is a Google-developed, production-grade constraint programming library. Python is the primary OR-Tools API language.</td></tr>
+    <tr><td><strong>Optimizer Solver</strong></td><td>OR-Tools CP-SAT</td><td>9.x</td><td>Constraint Programming with SAT-based search. Handles combinatorial assignment problems with hundreds of variables efficiently. Supports time limits and returns best-found solution if optimal is not proven within limit.</td></tr>
+    <tr><td><strong>Optimizer API</strong></td><td>FastAPI</td><td>0.115.x</td><td>High-performance Python web framework with automatic OpenAPI docs and Pydantic request validation.</td></tr>
+    <tr><td><strong>Validation</strong></td><td>Zod</td><td>3.x</td><td>Runtime TypeScript schema validation used on all backend request bodies and frontend form data. Single source of truth for shared types.</td></tr>
+    <tr><td><strong>Security Headers</strong></td><td>Helmet.js</td><td>—</td><td>Sets CSP, HSTS, X-Frame-Options, X-Content-Type-Options headers on all responses.</td></tr>
+    <tr><td><strong>Rate Limiting</strong></td><td>express-rate-limit</td><td>—</td><td>100 req/min general, 5 req/min on auth endpoints. Stored in memory (upgradeable to Redis for multi-instance).</td></tr>
+    <tr><td><strong>Monorepo</strong></td><td>npm workspaces</td><td>—</td><td>Simplest multi-package management. Shared types package imported by both frontend and backend.</td></tr>
+    <tr><td><strong>Language</strong></td><td>TypeScript</td><td>5.x</td><td>Used across frontend and backend. Prisma generates types from schema, eliminating entire classes of runtime errors.</td></tr>
+    <tr><td><strong>CI/CD</strong></td><td>GitHub Actions</td><td>—</td><td>Automated lint, type-check, test, and deploy pipeline on push to main.</td></tr>
+    <tr><td><strong>Containerisation</strong></td><td>Docker</td><td>—</td><td>Each service has a Dockerfile. docker-compose.yml orchestrates all services for local development with hot reload.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     5. USER ROLES & PERMISSIONS
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s5">
+<h1>5. User Roles &amp; Permissions</h1>
+
+<p>The platform uses Role-Based Access Control (RBAC). Every authenticated request passes through an Express middleware that checks the user's role before reaching the route handler. Roles are stored in the <code>User.role</code> field and embedded in the JWT payload.</p>
+
+<h2>5.1 Role Capabilities Matrix</h2>
+<table>
+  <thead><tr><th>Capability</th><th class="center">TUTOR</th><th class="center">ADMIN</th><th class="center">COORDINATOR</th></tr></thead>
+  <tbody>
+    <tr><td>View own profile</td><td>✓</td><td>—</td><td>—</td></tr>
+    <tr><td>Upload CV</td><td>✓</td><td>—</td><td>—</td></tr>
+    <tr><td>Set weekly availability</td><td>✓</td><td>—</td><td>—</td></tr>
+    <tr><td>Express course interests</td><td>✓</td><td>—</td><td>—</td></tr>
+    <tr><td>Express class preferences</td><td>✓</td><td>—</td><td>—</td></tr>
+    <tr><td>Accept/reject allocation offers</td><td>✓</td><td>—</td><td>—</td></tr>
+    <tr><td>Review tutor applicants (set preference)</td><td>—</td><td>✓</td><td>—</td></tr>
+    <tr><td>Upload class schedules (CSV)</td><td>—</td><td>✓</td><td>—</td></tr>
+    <tr><td>Upload CES scores (CSV)</td><td>—</td><td>✓</td><td>—</td></tr>
+    <tr><td>Manage semesters, courses, users</td><td>—</td><td>✓</td><td>—</td></tr>
+    <tr><td>Set required teaching load per CC</td><td>—</td><td>✓</td><td>—</td></tr>
+    <tr><td>View workload overview</td><td>—</td><td>✓</td><td>—</td></tr>
+    <tr><td>Manage email templates &amp; campaigns</td><td>—</td><td>✓</td><td>—</td></tr>
+    <tr><td>View audit log</td><td>—</td><td>✓</td><td>—</td></tr>
+    <tr><td>Pre-assign tutors to classes (drag-drop)</td><td>—</td><td>—</td><td>✓ (own courses)</td></tr>
+    <tr><td>Run optimization algorithm</td><td>—</td><td>—</td><td>✓ (own courses)</td></tr>
+    <tr><td>Review and adjust allocations</td><td>—</td><td>—</td><td>✓ (own courses)</td></tr>
+    <tr><td>Send offers to tutors</td><td>—</td><td>—</td><td>✓ (own courses)</td></tr>
+    <tr><td>Manage assessment marking assignments</td><td>—</td><td>—</td><td>✓ (own courses)</td></tr>
+  </tbody>
+</table>
+
+<div class="callout warn">
+  <strong>Row-Level Isolation:</strong> Coordinators are further restricted to data belonging to their assigned courses only. The backend enforces this by joining <code>CourseCoordinator</code> records and filtering by the authenticated user's ID — coordinators cannot access another coordinator's allocations or run optimization for courses they do not own.
+</div>
+
+<h2>5.2 RBAC Middleware</h2>
+<p>The <code>requireRole(...roles)</code> middleware is applied per route group. It reads the <code>role</code> claim from the verified JWT and returns HTTP 403 if the role is not in the permitted list. It is applied after the <code>authenticate</code> middleware which verifies the JWT signature and expiry.</p>
+
+<pre>
+// Example route protection
+router.get('/applicants', authenticate, requireRole('ADMIN'), getApplicants);
+router.post('/optimize', authenticate, requireRole('COORDINATOR'), triggerOptimization);
+router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
+</pre>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     6. DATABASE SCHEMA
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s6">
+<h1>6. Database Schema</h1>
+
+<h2 id="s6a">6.1 Entity-Relationship Overview</h2>
+<pre>
+  User ──────────────────┐
+   │ 1                   │
+   │ ┌─────────────────  │ (ReviewedBy)
+   ▼ ▼                   │
+  TutorProfile ──────────┘
+   │ 1:N Availability
+   │ 1:N CesScore  ──────────────► Course
+   │ 1:N ClassPreference ───────► ClassSlot
+   │ 1:N CourseInterest ────────► Course
+
+  Semester
+   │ 1:N
+   ▼
+  Course ─────────────────────► CourseCoordinator ◄─── User
+   │ 1:N                              │ (requiredTutorials)
+   ▼
+  ClassSlot ──────────────────► Allocation ◄──────── User (tutor)
+   │                              │ (runId)
+   │ 1:N                          ▼
+   │                          OptimizationRun ◄────── User (initiator)
+   │ 1:N
+   ▼
+  MarkingAssignment ──────────► Assessment ──────────► Course
+        │                      (per course)
+        └──────────────────────────────────────────► User (tutor)
+
+  EmailTemplate ◄──────────── EmailCampaign ◄──────── User (creator)
+
+  AuditLog ◄──────────────────────────────────────── User
+</pre>
+
+<h2 id="s6b">6.2 Model Reference</h2>
+
+<h3>User</h3>
+<p>Root identity record. Every person in the system is a User. Role determines which portal they access.</p>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>id</code></td><td>String (cuid)</td><td>Primary key, auto-generated CUID</td></tr>
+    <tr><td><code>email</code></td><td>String</td><td>Unique. Used as login username.</td></tr>
+    <tr><td><code>passwordHash</code></td><td>String</td><td>bcrypt hash (cost 12). Never returned in API responses.</td></tr>
+    <tr><td><code>name</code></td><td>String</td><td>Display name shown in UI and emails.</td></tr>
+    <tr><td><code>role</code></td><td>Role enum</td><td>TUTOR | ADMIN | COORDINATOR</td></tr>
+    <tr><td><code>createdAt / updatedAt</code></td><td>DateTime</td><td>Managed by Prisma.</td></tr>
+  </tbody>
+</table>
+
+<h3>TutorProfile</h3>
+<p>Extended profile for tutor users. Contains qualification data, admin review outcome, and links to availability and preferences. One-to-one with User.</p>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>cvFileUrl</code></td><td>String?</td><td>Path/URL to uploaded CV file (PDF/DOCX). Nullable until uploaded.</td></tr>
+    <tr><td><code>cvUploadedAt</code></td><td>DateTime?</td><td>Timestamp of most recent CV upload.</td></tr>
+    <tr><td><code>highestQualification</code></td><td>Qualification?</td><td>PHD | MASTERS | BACHELORS | OTHER</td></tr>
+    <tr><td><code>isHdrStudent</code></td><td>Boolean</td><td>Whether the tutor is a Higher Degree by Research student. Defaults false.</td></tr>
+    <tr><td><code>hdrSupervisorName / Email</code></td><td>String?</td><td>HDR supervisor contact, required if isHdrStudent is true.</td></tr>
+    <tr><td><code>preference</code></td><td>Preference enum</td><td>Admin's review verdict: PREFERRED | OK | NOT_PREFERRED | UNREVIEWED</td></tr>
+    <tr><td><code>reviewedById / reviewedAt</code></td><td>String? / DateTime?</td><td>Which admin reviewed and when.</td></tr>
+  </tbody>
+</table>
+
+<h3>Semester</h3>
+<p>Academic period. Courses belong to semesters. The availability deadline controls when tutors can no longer edit their availability.</p>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>year</code></td><td>Int</td><td>e.g. 2026</td></tr>
+    <tr><td><code>period</code></td><td>SemesterPeriod</td><td>SEM1 | SEM2 | SUMMER | WINTER</td></tr>
+    <tr><td><code>availabilityDeadline</code></td><td>DateTime</td><td>Advisory deadline communicated to tutors — the target date by which they should have uploaded their CV and set their availability. Tutors can continue to update their availability at any time until they accept an offer.</td></tr>
+  </tbody>
+</table>
+
+<h3>Course</h3>
+<p>A subject offering within a semester. Has a code (e.g. "COSC2531") unique per semester. Multiple coordinators can be assigned to one course.</p>
+
+<h3>CourseCoordinator</h3>
+<p>Join table between Course and User (coordinator). Includes <code>requiredTutorials</code> — an admin-configurable integer specifying how many classes this coordinator must personally teach. The pre-assign calendar tracks CC self-assignments against this requirement.</p>
+
+<h3>ClassSlot</h3>
+<p>A single scheduled tutorial, lab, or lectorial session within a course. Supports variable class types including weekend intensives (dayOfWeek 0–6).</p>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>classCode</code></td><td>String</td><td>e.g. "T01", "L02". Unique per course.</td></tr>
+    <tr><td><code>classType</code></td><td>String</td><td>tutorial | lab | lectorial | intensive | other</td></tr>
+    <tr><td><code>dayOfWeek</code></td><td>Int</td><td>0 = Monday through 6 = Sunday.</td></tr>
+    <tr><td><code>startTime / endTime</code></td><td>String</td><td>"HH:mm" format. Supports variable durations (1-hour tutorials, 3-hour labs).</td></tr>
+    <tr><td><code>building / roomNumber / level</code></td><td>String</td><td>Physical location fields.</td></tr>
+    <tr><td><code>enrolledStudents</code></td><td>Int</td><td>Student enrolment count. Informational — not currently used in optimization.</td></tr>
+    <tr><td><code>isCancelled / cancelledAt</code></td><td>Boolean / DateTime?</td><td>Soft-cancel: cancelled classes remain in DB but are excluded from optimizer input.</td></tr>
+  </tbody>
+</table>
+
+<h3>Availability</h3>
+<p>Time windows during which a tutor is available to teach. Stored as day-of-week + start/end time tuples. Multiple records per tutor. The optimizer checks availability structurally — decision variables are only created for tutor-class pairs where the class falls within at least one availability window.</p>
+
+<h3>CourseInterest</h3>
+<p>Records a tutor's interest in teaching a particular course. Required for optimizer eligibility — tutors who have not expressed interest in a course are excluded from that course's optimization run entirely, regardless of availability.</p>
+
+<h3>ClassPreference</h3>
+<p>Records a tutor's preference for a specific class slot. Informational — no longer used for optimizer eligibility (switched to CourseInterest + availability). Coordinators can view which tutors prefer which classes on the schedule page.</p>
+
+<h3>CesScore</h3>
+<p>Course Experience Survey score for a tutor in a specific course and semester. Uploaded by admins via CSV. The most recent score per tutor-course pair is used by the optimizer as a quality signal. Unique constraint on <code>[tutorProfileId, courseId, semester]</code> prevents duplicates.</p>
+
+<h3>Allocation</h3>
+<p>The central assignment record linking a tutor to a class slot. Tracks the full lifecycle of an offer.</p>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>status</code></td><td>AllocationStatus</td><td>PENDING → OFFERED → ACCEPTED | REJECTED | CONFIRMED</td></tr>
+    <tr><td><code>isManual</code></td><td>Boolean</td><td>true = pre-assigned by coordinator. Optimizer skips classes with a manual allocation.</td></tr>
+    <tr><td><code>runId</code></td><td>String?</td><td>Links to the OptimizationRun that created this allocation. Null for manual allocations.</td></tr>
+    <tr><td><code>offeredAt / respondedAt</code></td><td>DateTime?</td><td>Timestamps for offer and response events.</td></tr>
+    <tr><td><code>reason</code></td><td>String?</td><td>Tutor-provided reason when rejecting an offer.</td></tr>
+  </tbody>
+</table>
+
+<div class="callout info">
+  <strong>Unique constraint [classId, tutorId]:</strong> Each class can only have one active allocation per tutor. Combined with the optimizer logic that assigns exactly one tutor per class, this ensures no double-booking at the database level.
+</div>
+
+<h3>OptimizationRun</h3>
+<p>Records each invocation of the optimizer for auditing and debugging. Stores the solver parameters, final status, objective value, solver time, and a JSON summary of results including any unassigned classes and tutor workload distribution.</p>
+
+<h3>Assessment</h3>
+<p>Defines assessments for a course (up to 3 per course). Each assessment has a title, weighting, optional word count, and flags for group work and in-class presentations. Used by coordinators to assign marking responsibilities.</p>
+
+<h3>MarkingAssignment</h3>
+<p>Links a tutor to the marking of a specific assessment for a specific class. Separate from teaching allocation — a tutor may mark a different class's submissions than the one they teach. Follows a similar offer/accept lifecycle to allocations.</p>
+
+<h3>EmailTemplate</h3>
+<p>Editable transactional email templates stored in the database. Admins can modify subject and body via the UI. Templates use handlebars-style variable substitution (e.g. <code>{{tutor_name}}</code>). The <code>variables</code> field lists which substitution variables the template expects.</p>
+
+<h3>EmailCampaign</h3>
+<p>Scheduled bulk email sends to audience segments (all tutors, preferred tutors, tutors in a specific semester). Campaigns are queued for a scheduled send time and processed asynchronously.</p>
+
+<h3>AuditLog</h3>
+<p>Immutable append-only log of all significant state changes. Records the user who performed the action, the action type, the affected entity, a JSON details blob, and the originating IP address. No records are ever deleted from this table.</p>
+
+<h2 id="s6c">6.3 Enumerations</h2>
+<table>
+  <thead><tr><th>Enum</th><th>Values</th><th>Used By</th></tr></thead>
+  <tbody>
+    <tr><td><code>Role</code></td><td>TUTOR, ADMIN, COORDINATOR</td><td>User.role</td></tr>
+    <tr><td><code>Preference</code></td><td>PREFERRED, OK, NOT_PREFERRED, UNREVIEWED</td><td>TutorProfile.preference</td></tr>
+    <tr><td><code>Qualification</code></td><td>PHD, MASTERS, BACHELORS, OTHER</td><td>TutorProfile.highestQualification</td></tr>
+    <tr><td><code>SemesterPeriod</code></td><td>SEM1, SEM2, SUMMER, WINTER</td><td>Semester.period</td></tr>
+    <tr><td><code>AllocationStatus</code></td><td>PENDING, OFFERED, ACCEPTED, REJECTED, CONFIRMED</td><td>Allocation.status</td></tr>
+    <tr><td><code>OptRunStatus</code></td><td>RUNNING, COMPLETED, FAILED</td><td>OptimizationRun.status</td></tr>
+    <tr><td><code>MarkingStatus</code></td><td>PENDING, OFFERED, ACCEPTED, REJECTED</td><td>MarkingAssignment.status</td></tr>
+    <tr><td><code>CampaignStatus</code></td><td>SCHEDULED, SENDING, SENT, FAILED, CANCELLED</td><td>EmailCampaign.status</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s6d">6.4 Indexes &amp; Constraints</h2>
+<table>
+  <thead><tr><th>Table</th><th>Index / Constraint</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td>User</td><td>email UNIQUE</td><td>Login uniqueness</td></tr>
+    <tr><td>User</td><td>INDEX(role)</td><td>Fast role-based filtering</td></tr>
+    <tr><td>Semester</td><td>UNIQUE(year, period)</td><td>Prevent duplicate semester records</td></tr>
+    <tr><td>Course</td><td>UNIQUE(code, semesterId)</td><td>Prevent duplicate courses in same semester</td></tr>
+    <tr><td>ClassSlot</td><td>UNIQUE(courseId, classCode)</td><td>Prevent duplicate class codes in one course</td></tr>
+    <tr><td>ClassSlot</td><td>INDEX(dayOfWeek, startTime)</td><td>Optimizer overlap detection queries</td></tr>
+    <tr><td>Allocation</td><td>UNIQUE(classId, tutorId)</td><td>Database-level double-booking prevention</td></tr>
+    <tr><td>Allocation</td><td>INDEX(tutorId, status)</td><td>Fast "my offers" queries for tutors</td></tr>
+    <tr><td>Availability</td><td>INDEX(tutorProfileId, dayOfWeek)</td><td>Fast availability lookups per tutor per day</td></tr>
+    <tr><td>CourseInterest</td><td>UNIQUE(tutorProfileId, courseId)</td><td>Prevent duplicate interests</td></tr>
+    <tr><td>CesScore</td><td>UNIQUE(tutorProfileId, courseId, semester)</td><td>One score per tutor per course per semester</td></tr>
+    <tr><td>MarkingAssignment</td><td>UNIQUE(assessmentId, classId)</td><td>One marker per assessment per class</td></tr>
+    <tr><td>AuditLog</td><td>INDEX(createdAt)</td><td>Time-ordered log queries</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     7. BACKEND API DESIGN
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s7">
+<h1>7. Backend API Design</h1>
+
+<p>All endpoints are prefixed with <code>/api</code>. All request bodies are JSON (Content-Type: application/json). All responses are JSON. Errors follow the shape <code>{ "error": "message" }</code>. Authentication uses httpOnly JWT cookies — no Authorization header required from the client.</p>
+
+<h2 id="s7a">7.1 Authentication Routes</h2>
+<div class="endpoint"><span class="method post">POST</span>/api/auth/register — Create new account (open during pilot setup)</div>
+<div class="endpoint"><span class="method post">POST</span>/api/auth/login — Authenticate, receive access + refresh JWT cookies</div>
+<div class="endpoint"><span class="method post">POST</span>/api/auth/logout — Clear JWT cookies</div>
+<div class="endpoint"><span class="method get">GET</span>/api/auth/me — Return current authenticated user (role, name, id)</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/auth/profile — Update own display name</div>
+<div class="endpoint"><span class="method post">POST</span>/api/auth/change-password — Change own password (requires current password)</div>
+
+<h4>JWT Configuration</h4>
+<ul>
+  <li><strong>Access token:</strong> 15-minute expiry, signed with HS256, stored in httpOnly + SameSite=Strict cookie.</li>
+  <li><strong>Refresh token:</strong> 7-day expiry, stored in separate httpOnly cookie. Used to obtain new access tokens without re-login.</li>
+  <li><strong>Payload:</strong> <code>{ sub: userId, role, name, iat, exp }</code></li>
+</ul>
+
+<h2 id="s7b">7.2 Tutor Routes</h2>
+<p>All require <span class="badge tutor">TUTOR</span> role. Row-level filtering enforces tutors can only access their own data.</p>
+
+<div class="endpoint"><span class="method get">GET</span>/api/tutor/profile — Full tutor profile (preferences, qualifications, HDR status)</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/tutor/profile — Update profile fields (qualification, HDR details)</div>
+<div class="endpoint"><span class="method post">POST</span>/api/tutor/cv — Upload CV file (multipart/form-data, PDF/DOCX, 10MB max)</div>
+<div class="endpoint"><span class="method get">GET</span>/api/tutor/availability — Get all availability windows</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/tutor/availability — Bulk replace all availability slots</div>
+<div class="endpoint"><span class="method get">GET</span>/api/tutor/courses — Get all courses (with CourseInterest status per course)</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/tutor/courses — Bulk set course interests</div>
+<div class="endpoint"><span class="method get">GET</span>/api/tutor/classes — Get class preferences for all courses</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/tutor/classes — Bulk set class preferences</div>
+<div class="endpoint"><span class="method get">GET</span>/api/tutor/offers — Get all allocation offers with class details</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/tutor/offers/:id — Accept or reject an offer (body: {action, reason?})</div>
+
+<h2 id="s7c">7.3 Admin Routes</h2>
+<p>All require <span class="badge admin">ADMIN</span> role.</p>
+
+<div class="endpoint"><span class="method get">GET</span>/api/admin/applicants — List all tutors with profile + preference status. Supports filtering by preference, search by name/email.</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/applicants/:id — Set preference (PREFERRED/OK/NOT_PREFERRED) for a tutor.</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/semesters — List all semesters</div>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/semesters — Create semester</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/semesters/:id — Update semester (including deadline)</div>
+<div class="endpoint"><span class="method delete">DELETE</span>/api/admin/semesters/:id — Delete semester (cascades to courses and classes)</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/courses — List courses with coordinator and tutorial count data</div>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/courses — Create course</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/courses/:id — Update course (including requiredTutorials per coordinator)</div>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/courses/upload — CSV bulk upload of class schedules. Validates headers, upserts ClassSlot records.</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/courses/:courseId/classes — List all classes for a course, ordered by day and time.</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/admin/courses/:courseId/classes/:classId — Update a class (type, day, times, building, room, level, enrolled students).</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/courses/:courseId/classes/:classId/cancel — Cancel or restore a class (body: {isCancelled}).</div>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/ces/upload — CSV upload of CES scores. Upserts CesScore records.</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/users — List all users</div>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/users — Create user (admin-created accounts)</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/users/:id — Update user (reset password, change role)</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/workload — Aggregated tutor workload: total hours, class count, acceptance rate, by tutor</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/audit-log — Paginated audit log with filters (user, action type, date range)</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/email-templates — List email templates</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/email-templates/:key — Update template subject/body</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/email-campaigns — List campaigns</div>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/email-campaigns — Create/schedule a campaign</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/email-campaigns/:id — Update/cancel campaign</div>
+
+<h4>CSV Upload Format — Class Schedules</h4>
+<pre>
+course_code,class_code,class_type,day_of_week,start_time,end_time,building,room_number,level,enrolled_students
+COSC2531,T01,tutorial,1,09:00,10:00,Building 14,14.09.04,4,28
+COSC2531,L01,lab,3,14:00,17:00,Building 14,14.09.08,4,24
+</pre>
+
+<h4>CSV Upload Format — CES Scores</h4>
+<pre>
+tutor_email,course_code,semester,score
+alice@rmit.edu.au,COSC2531,2025-SEM1,4.2
+bob@rmit.edu.au,COSC2531,2025-SEM1,3.8
+</pre>
+
+<h2 id="s7d">7.4 Coordinator Routes</h2>
+<p>All require <span class="badge coord">COORDINATOR</span> role. All queries are filtered to the authenticated coordinator's courses.</p>
+
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses — List courses assigned to this coordinator</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/tutors — Eligible tutors (PREFERRED/OK with course interest) with availability and CES score</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/pre-assignments — All class slots with manual pre-assignments + optimizer allocations</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/coordinator/courses/:courseId/pre-assignments/:classId — Assign a tutor (or self) to a class slot manually</div>
+<div class="endpoint"><span class="method delete">DELETE</span>/api/coordinator/courses/:courseId/pre-assignments/:classId — Remove a manual pre-assignment</div>
+<div class="endpoint"><span class="method delete">DELETE</span>/api/coordinator/allocations/:allocationId — Remove an optimizer allocation (PENDING or OFFERED only)</div>
+<div class="endpoint"><span class="method post">POST</span>/api/coordinator/courses/:courseId/optimize — Enqueue an optimization run. Returns runId.</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/runs — List optimization run history</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/runs/:runId — Get run status + result summary</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/allocations — List all current allocations with tutor info and status</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/coordinator/allocations/:id — Manually adjust an allocation (reassign, change status)</div>
+<div class="endpoint"><span class="method post">POST</span>/api/coordinator/courses/:courseId/offer — Batch send offers: transitions PENDING allocations to OFFERED and triggers emails</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/assessments — Get assessment definitions</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/coordinator/courses/:courseId/assessments — Upsert assessment definitions (up to 3)</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/marking — Get marking assignments per assessment per class</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/coordinator/courses/:courseId/marking/:assessmentId/:classId — Assign a tutor to mark an assessment for a class</div>
+<div class="endpoint"><span class="method delete">DELETE</span>/api/coordinator/courses/:courseId/marking/:assessmentId/:classId — Remove a marking assignment</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     8. FRONTEND ARCHITECTURE
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s8">
+<h1>8. Frontend Architecture</h1>
+
+<h2 id="s8a">8.1 Route Structure</h2>
+<pre>
+src/app/
+├── (auth)/
+│   └── login/page.tsx              # Login form (unauthenticated)
+├── tutor/
+│   ├── dashboard/page.tsx          # Tutor home (offers summary)
+│   ├── availability/page.tsx       # Weekly drag-to-select availability grid
+│   ├── courses/page.tsx            # Course interest checkboxes
+│   ├── classes/page.tsx            # Class preference picker (per course)
+│   ├── cv/page.tsx                 # CV upload
+│   └── offers/page.tsx             # Accept/reject offers table
+├── admin/
+│   ├── applicants/page.tsx         # Applicant review table + preference labels
+│   ├── schedules/page.tsx          # Class schedule management + CSV upload
+│   ├── ces/page.tsx                # CES score CSV upload
+│   ├── courses/page.tsx            # Course + coordinator management
+│   ├── semesters/page.tsx          # Semester CRUD
+│   ├── users/page.tsx              # User management
+│   ├── audit-log/page.tsx          # Audit log viewer
+│   ├── workload/page.tsx           # Tutor workload overview (sortable)
+│   ├── email-templates/page.tsx    # Email template editor
+│   └── email-campaigns/page.tsx    # Campaign scheduler
+└── coordinator/
+    ├── pre-assign/page.tsx          # Schedule calendar (drag-drop, colour-coded)
+    ├── schedule/page.tsx            # Generate schedule + tutor pool management
+    ├── allocations/page.tsx         # Allocation review + offer sending
+    └── marking/page.tsx             # Assessment definitions + marking assignments
+</pre>
+
+<h2 id="s8b">8.2 Key Pages</h2>
+
+<h3>Availability Grid (<code>/tutor/availability</code>)</h3>
+<p>A 7-column (Mon–Sun) by 48-row (30-minute slots, 00:00–24:00) grid. Tutors drag-select to mark availability windows. Uses <code>@dnd-kit/core</code> for interaction. On save, the entire availability set is bulk-replaced via a single PUT request. Supports weekend intensive sessions (Saturday/Sunday columns).</p>
+
+<h3>Class Schedules (<code>/admin/schedules</code>)</h3>
+<p>Two-section page for managing class schedules:</p>
+<ul>
+  <li><strong>Manage Classes:</strong> A course selector (grouped by semester) loads a live class table for the selected course. Classes are split into Active and Cancelled groups. Each row shows class code, type badge (colour-coded), day, time, location, and enrolled students. An <strong>Edit</strong> button opens a modal to change class type, day, start/end time, building, room, level, and enrolled student count. A <strong>Cancel/Restore</strong> toggle soft-cancels or reinstates a class. Cancelled classes remain in the database but are excluded from the optimizer.</li>
+  <li><strong>Bulk Upload via CSV:</strong> Drag-and-drop CSV upload for bulk creation and update of classes. Automatically refreshes the class table after a successful upload.</li>
+</ul>
+
+<h3>Schedule Calendar (<code>/coordinator/pre-assign</code>)</h3>
+<p>The primary coordinator view for managing class assignments. Features:</p>
+<ul>
+  <li><strong>Weekly calendar grid</strong> — Classes are rendered as cards in their time slots. Concurrent classes in the same slot are displayed side-by-side with computed column widths.</li>
+  <li><strong>Colour coding</strong> — Cards are colour-coded by allocation status: green (ACCEPTED), blue (PENDING/OFFERED), red (REJECTED), grey (unassigned).</li>
+  <li><strong>Tutor chip panel</strong> — Eligible tutors are displayed as draggable chips. Coordinators drag a tutor chip onto a class card to pre-assign them.</li>
+  <li><strong>Optimizer allocations</strong> — Classes already allocated by the optimizer show the assigned tutor's name with status. ACCEPTED allocations are locked (no reassignment).</li>
+  <li><strong>Unassign</strong> — Coordinators can remove any non-ACCEPTED allocation via an unassign button. A confirmation warning is shown for OFFERED allocations.</li>
+  <li><strong>Legend</strong> — Status legend with counts shown at the top of the calendar.</li>
+  <li><strong>Teaching load tracker</strong> — Shows required vs. self-assigned tutorials for the coordinator.</li>
+</ul>
+
+<h3>Generate Schedule (<code>/coordinator/schedule</code>)</h3>
+<p>Allows coordinators to configure and trigger an optimization run. Features a tutor exclusion panel (exclude specific tutors from this run), optimizer configuration parameters, a "Generate Schedule" button that enqueues the job, and a polling status indicator. Shows tutor load summary with names after run completion.</p>
+
+<h3>Assessments &amp; Marking (<code>/coordinator/marking</code>)</h3>
+<p>Two-panel layout:</p>
+<ul>
+  <li><strong>Top panel:</strong> Assessment definitions (up to 3). Coordinators set title, weighting, word count, group work flag, and in-class presentation flag.</li>
+  <li><strong>Bottom panel:</strong> Per-class marking assignments table. For each assessment × class combination, coordinators assign a tutor via a dropdown TutorPicker. Shows teaching tutor name as context. Includes unassign capability.</li>
+</ul>
+
+<h3>Admin Workload (<code>/admin/workload</code>)</h3>
+<p>Aggregated table of all tutor workloads: total hours, class count, accepted count, and acceptance rate. All columns are sortable (click header to sort ascending/descending). Includes a search filter by tutor name.</p>
+
+<h2 id="s8c">8.3 Shared Components</h2>
+
+<h3>Sidebar (<code>src/components/sidebar.tsx</code>)</h3>
+<p>Role-based navigation sidebar. Rendered on every authenticated page. Uses <code>h-screen sticky top-0</code> to stay fixed to the viewport — navigation links scroll independently within the sidebar if overflow occurs. The footer (Account Details, Sign Out, attribution) is always visible at the bottom of the viewport regardless of page content length.</p>
+<p>The Account Details button opens an inline modal for updating display name and changing password — no separate page required.</p>
+
+<h3>Auth Context (<code>src/lib/auth.tsx</code>)</h3>
+<p>React context that stores the authenticated user object and provides a <code>useAuth()</code> hook. On mount, calls <code>GET /api/auth/me</code>. Used by the sidebar, layout components, and pages to conditionally render role-specific content and redirect unauthenticated users.</p>
+
+<h2 id="s8d">8.4 API Client Layer (<code>src/lib/api-client.ts</code>)</h2>
+<p>A typed, centralized API client. All fetch calls in the application go through this module — no raw <code>fetch()</code> calls in page components. Benefits: consistent error handling, single place to update the base URL, TypeScript return types on all methods.</p>
+<p>Key method groups: <code>api.auth.*</code>, <code>api.tutor.*</code>, <code>api.admin.*</code>, <code>api.coordinator.*</code>. Each method wraps a fetch call, handles non-OK responses by throwing a typed error, and returns the parsed JSON response.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     9. OPTIMIZATION ENGINE
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s9">
+<h1>9. Optimization Engine</h1>
+
+<p>The optimizer is a Python 3.13 FastAPI microservice hosting an OR-Tools CP-SAT constraint programming solver. It is called by the Express backend (via the BullMQ worker) with a JSON payload and returns a JSON assignment solution. It does not access the database directly — all data assembly happens in the TypeScript <code>optimizer.service.ts</code>.</p>
+
+<h2 id="s9a">9.1 Problem Formulation</h2>
+<p>The tutor allocation problem is formulated as a <strong>Constraint Satisfaction/Optimization Problem (CSOP)</strong>. Given:</p>
+<ul>
+  <li>A set of tutors <em>T</em>, each with availability windows, a preference rating, and an optional CES score</li>
+  <li>A set of classes <em>C</em>, each with a day-of-week, start time, and end time</li>
+  <li>Configuration parameters: min/max tutorials per tutor, fairness threshold, CES weight</li>
+</ul>
+<p>Find an assignment of tutors to classes that maximises a weighted quality objective while satisfying all hard constraints.</p>
+
+<h2 id="s9b">9.2 Decision Variables</h2>
+<pre>
+# x[t, c] = 1 if tutor t is assigned to class c, else 0
+# Created ONLY for (tutor, class) pairs where tutor's availability covers the class time
+x = {}
+for t in eligible_tutors:
+    for c in classes:
+        if tutor_available_for_class(t, c) and class_not_blocked(t, c):
+            x[(t.id, c.id)] = model.NewBoolVar(f'x_{t.id}_{c.id}')
+
+# y[t] = 1 if tutor t is selected (has at least one assignment)
+y = {}
+for t in eligible_tutors:
+    y[t.id] = model.NewBoolVar(f'y_{t.id}')
+</pre>
+
+<div class="callout info">
+  <strong>Variable Reduction:</strong> By only creating variables for valid (tutor, class) pairs, the problem size is dramatically reduced. With 500 tutors and 325 classes, the naive matrix has 162,500 variables. After filtering by availability and course interest, this typically reduces to 5,000–20,000 active variables — a 90%+ reduction.
+</div>
+
+<h2 id="s9c">9.3 Constraints</h2>
+
+<div class="constraint-box no-break">
+  <h4>C1 — Coverage (Hard)</h4>
+  <p>Every class must be assigned exactly one tutor from the eligible pool. Classes with zero eligible tutors are detected before solving and reported as immediately infeasible.</p>
+  <pre>for k in range(C):
+    eligible_vars = [x[n][k] for n in range(T) if x[n][k] is not None]
+    model.Add(sum(eligible_vars) == 1)</pre>
+</div>
+
+<div class="constraint-box no-break">
+  <h4>C2 — Load Cardinality (Hard)</h4>
+  <p>Each tutor's load must be either zero (not selected) or within <code>[min_tutorials, max_tutorials]</code> (defaults: 2–6). This is enforced using an integer load variable <code>ln</code> and a boolean activation indicator <code>an</code>. The pattern ensures a tutor is never assigned exactly 1 class, which would be logistically impractical.</p>
+  <pre># load[n] = number of classes assigned to tutor n
+ln = model.NewIntVar(0, max_t, f"load_{n}")
+an = model.NewBoolVar(f"active_{n}")
+
+model.Add(ln == sum(x[n][k] for k where eligible))
+model.Add(ln >= min_t * an)    # if active, at least min_t
+model.Add(ln <= max_t * an)    # if not active, must be 0</pre>
+</div>
+
+<div class="constraint-box no-break">
+  <h4>C3 — No Time Conflicts (Hard)</h4>
+  <p>A tutor cannot be assigned to two classes that overlap in time. Overlap is pre-computed per tutor using interval arithmetic (same day, s1 &lt; e2 AND s2 &lt; e1). Back-to-back classes (e1 == s2) are <em>not</em> considered overlapping. Expressed as pairwise exclusion constraints on the binary decision variables.</p>
+  <pre>for n in range(T):
+    for (k1, k2) in conflict_pairs_by_tutor[n]:
+        if x[n][k1] is not None and x[n][k2] is not None:
+            model.Add(x[n][k1] + x[n][k2] <= 1)</pre>
+</div>
+
+<div class="constraint-box no-break">
+  <h4>C4 — Fairness Threshold (Soft, in objective)</h4>
+  <p>Rather than a hard constraint, fairness is enforced via the objective function's lexicographic structure. An indicator variable <code>over[n]</code> is set to 1 if and only if tutor <code>n</code>'s load exceeds the <code>fairness_threshold</code> (default: 3). The primary objective term <code>-W × Σ over[n]</code> uses a weight <code>W</code> large enough to dominate the quality term, ensuring the solver minimises the number of tutors exceeding the threshold before optimising assignment quality. Uses CP-SAT's <code>only_enforce_if()</code> for conditional indicator enforcement.</p>
+  <pre>ov = model.NewBoolVar(f"over_{n}")
+model.Add(ln > threshold).only_enforce_if(ov)
+model.Add(ln <= threshold).only_enforce_if(ov.Not())
+
+# W dominates quality: W = (max_quality × max_t + 1) × T
+model.Maximize(-W * sum(over) + quality_sum)</pre>
+</div>
+
+<div class="constraint-box no-break">
+  <h4>C5 — Availability (Structural)</h4>
+  <p>Enforced structurally: decision variables <code>x[n][k]</code> are only instantiated for (tutor, class) pairs where the tutor's availability windows cover the class time on the matching day of week. This is more efficient than explicit constraints and is the primary mechanism for reducing problem size.</p>
+</div>
+
+<div class="constraint-box no-break">
+  <h4>C6 — Cross-Course Double-Booking Prevention (Structural)</h4>
+  <p>Enforced in the TypeScript payload assembly layer (<code>optimizer.service.ts</code>), not in the Python solver. If a tutor has already ACCEPTED an allocation in another course that overlaps in time with a class in the current run, that class is added to their <code>blocked_class_ids</code> list. The Python solver receives <code>eligible_class_ids</code> per tutor and never creates variables for blocked pairs — making double-booking structurally impossible.</p>
+</div>
+
+<h2 id="s9d">9.4 Objective Function</h2>
+
+<p>The objective is <strong>lexicographic</strong> — fairness is solved first, then quality is maximised within the fairness-optimal space. This is achieved by combining both goals into a single weighted sum where the fairness term dominates via a large coefficient <code>W</code>.</p>
+
+<h3>Quality Score Calculation</h3>
+<pre>
+def quality_score(tutor, config) -> int:
+    pref_weight = {"PREFERRED": 10.0, "OK": 5.0, "NOT_PREFERRED": 1.0}[tutor.preference]
+    ces_normalized = (tutor.ces_score or 0.0) / 5.0    # normalize [0,5] → [0,1]
+    raw = pref_weight + config.ces_weight * ces_normalized  # ces_weight default: 2.0
+    return int(round(raw * 100))                            # scale to integer (2 decimal precision)
+</pre>
+<p><strong>Example:</strong> A PREFERRED tutor with CES score 4.0 and ces_weight 2.0: <code>10.0 + 2.0 × (4.0/5.0) = 11.6 → 1160</code></p>
+
+<h3>Combined Objective</h3>
+<pre>
+# Primary: minimise fairness violations (tutors exceeding threshold)
+# Secondary: maximise total quality score
+
+W = (max_quality_per_tutor * max_tutorials + 1) * num_tutors  # W dominates quality
+
+model.Maximize(-W * sum(over[n] for n in tutors) + sum(quality[n] * x[n][k] for eligible pairs))
+</pre>
+<p>The weight <code>W</code> is computed to be strictly larger than the maximum possible quality sum. This guarantees the solver will always prefer an assignment with fewer fairness violations over one with higher total quality — even if the quality difference is enormous. Within solutions of equal fairness, the solver maximises quality.</p>
+
+<h2 id="s9e">9.5 Solver Pipeline</h2>
+<ol>
+  <li><strong>Payload assembly</strong> (TypeScript, <code>optimizer.service.ts</code>): Queries DB for eligible tutors, classes, accepted allocations in other courses. Builds JSON payload.</li>
+  <li><strong>HTTP POST to optimizer</strong>: Sends payload to <code>http://optimizer.railway.internal:8080/optimize</code>. Timeout = time_limit + 30 seconds.</li>
+  <li><strong>Model construction</strong> (Python): Pydantic validates payload. OR-Tools model is built with variables and constraints as described above.</li>
+  <li><strong>CP-SAT solve</strong>: Solver runs with <code>time_limit_seconds</code> (default 120s) and <code>num_search_workers = 8</code> for multi-core parallelism. Returns optimal or best-feasible solution found within the time limit.</li>
+  <li><strong>Response</strong>: Returns assignments array, objective value, solver time, unassigned classes, and tutor summary.</li>
+  <li><strong>Persistence</strong> (TypeScript): <code>optimizer.service.ts</code> bulk-creates Allocation records (status=PENDING), updates OptimizationRun with results.</li>
+</ol>
+
+<h2 id="s9f">9.6 Infeasibility Handling</h2>
+
+<p>Infeasibility is handled in two stages:</p>
+
+<h3>Pre-Solve Detection</h3>
+<p>Before the solver is invoked, the system checks whether any class has zero eligible tutors. If so, those classes are immediately flagged as infeasible and the response returns <code>status: "infeasible"</code> with the offending class IDs — no solver time is wasted.</p>
+
+<h3>Solver Failure</h3>
+<p>If the CP-SAT solver returns a status other than OPTIMAL or FEASIBLE, the response returns <code>status: "infeasible"</code> with all classes listed as unassigned. <strong>No constraint relaxation is attempted.</strong> The design choice is deliberate: silent relaxation could produce allocations that violate workload or fairness policies without the coordinator realising. Instead, the coordinator receives a clear failure signal and diagnostic data to inform manual intervention.</p>
+
+<h3>Diagnostics Payload</h3>
+<p>Every response — successful or failed — includes a <code>diagnostics</code> object containing:</p>
+<ul>
+  <li><strong>bottleneck_classes</strong> — classes sorted by eligible tutor count (ascending), highlighting which classes are hardest to fill</li>
+  <li><strong>day_concurrency</strong> — maximum number of overlapping classes per day of the week, indicating scheduling density</li>
+  <li><strong>tutor_pool_size</strong> — number of eligible tutors in the run</li>
+  <li><strong>variable_count</strong> — number of active decision variables after pre-filtering</li>
+</ul>
+<p>Coordinators use this data to decide whether to exclude specific tutors, adjust availability windows, or manually pre-assign bottleneck classes before re-running the optimizer.</p>
+
+<h2>9.7 Manual Pre-Assignment Exclusion</h2>
+<p>Before building the optimizer payload, <code>optimizer.service.ts</code> queries for all Allocations where <code>isManual = true</code> for the target course. These class IDs are excluded from the <code>optimizerClasses</code> array passed to the Python service. The optimizer never sees or touches manually pre-assigned classes — they are transparent to it.</p>
+<p>If all classes in a course are manually pre-assigned, the optimizer run is marked COMPLETED immediately with a "skipped" status and zero solver time.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     10. AUTHENTICATION & SECURITY
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s10">
+<h1>10. Authentication &amp; Security</h1>
+
+<h2 id="s10a">10.1 Authentication Flow</h2>
+<pre>
+Browser                   Backend                    Database
+  │                          │                           │
+  │── POST /login ──────────►│                           │
+  │   {email, password}      │── findUser(email) ───────►│
+  │                          │◄── user record ───────────│
+  │                          │                           │
+  │                          │── bcrypt.compare() ───────┘
+  │                          │   (cost factor 12)
+  │                          │
+  │◄── Set-Cookie ───────────│
+  │    accessToken (15min)   │
+  │    refreshToken (7d)     │
+  │    httpOnly, Secure,     │
+  │    SameSite=Strict         │
+  │                          │
+  │── GET /any-protected ───►│
+  │   (cookie auto-sent)     │── verify JWT (HS256)
+  │                          │── check expiry
+  │                          │── extract {userId, role}
+  │◄── 200 response ─────────│
+  │                          │
+  │── POST /refresh ────────►│
+  │   (refreshToken cookie)  │── verify refresh JWT
+  │                          │── issue new accessToken
+  │◄── Set-Cookie ───────────│
+  │    accessToken (new)     │
+</pre>
+
+<h3>JWT Implementation Details</h3>
+<table>
+  <thead><tr><th>Parameter</th><th>Value</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Library</td><td><code>jsonwebtoken</code> v9.x</td><td>Standard Node.js JWT library</td></tr>
+    <tr><td>Algorithm</td><td>HS256 (explicitly enforced on verify)</td><td>HMAC-SHA256 symmetric signing. <code>{ algorithms: ["HS256"] }</code> passed to <code>jwt.verify()</code> to prevent algorithm confusion.</td></tr>
+    <tr><td>Access token expiry</td><td>15 minutes</td><td>Short window to limit replay risk</td></tr>
+    <tr><td>Refresh token expiry</td><td>7 days</td><td>Used only for issuing new access tokens</td></tr>
+    <tr><td>Token payload</td><td><code>{ userId, role }</code></td><td>Minimal claims — no PII in token</td></tr>
+    <tr><td>Signing secrets</td><td>Separate <code>JWT_SECRET</code> and <code>JWT_REFRESH_SECRET</code></td><td>Both validated ≥ 32 characters at startup via env schema</td></tr>
+    <tr><td>Cookie: httpOnly</td><td><code>true</code></td><td>Prevents JavaScript access (XSS mitigation)</td></tr>
+    <tr><td>Cookie: Secure</td><td><code>true</code></td><td>Transmitted over HTTPS only</td></tr>
+    <tr><td>Cookie: SameSite</td><td><code>strict</code></td><td>All requests are same-origin via Next.js rewrite proxy. Prevents CSRF entirely.</td></tr>
+    <tr><td>Cookie: path</td><td><code>/</code></td><td>Available to all backend routes</td></tr>
+  </tbody>
+</table>
+
+<h3>Password Security</h3>
+<ul>
+  <li><strong>Hashing:</strong> bcryptjs with cost factor 12. Passwords are never stored in plaintext.</li>
+  <li><strong>Minimum length:</strong> 8 characters, enforced at registration and password change endpoints.</li>
+  <li><strong>Password change:</strong> Requires current password verification before accepting new password.</li>
+  <li><strong>No password in responses:</strong> The <code>passwordHash</code> field is never included in any API response — auth endpoints use explicit <code>select</code> clauses that exclude it.</li>
+</ul>
+
+<h2 id="s10b">10.2 Security Controls</h2>
+<table>
+  <thead><tr><th>Control</th><th>Implementation</th><th>Threat Mitigated</th></tr></thead>
+  <tbody>
+    <tr><td>Password hashing</td><td>bcryptjs, cost factor 12</td><td>Credential theft via database compromise</td></tr>
+    <tr><td>httpOnly cookies</td><td>JWT in httpOnly + Secure cookies</td><td>XSS-based token theft</td></tr>
+    <tr><td>JWT short expiry</td><td>Access token 15 min, refresh token 7 days</td><td>Replay attacks, stolen token window</td></tr>
+    <tr><td>Separate JWT secrets</td><td>Access and refresh tokens signed with different secrets (≥32 chars each)</td><td>Refresh token reuse for access escalation</td></tr>
+    <tr><td>RBAC middleware</td><td><code>requireRole()</code> on every route group, reads role from verified JWT</td><td>Privilege escalation</td></tr>
+    <tr><td>Row-level isolation</td><td>Coordinator queries joined against <code>CourseCoordinator</code> table by authenticated user ID</td><td>Cross-tenant data access</td></tr>
+    <tr><td>Input validation</td><td>Zod schemas on registration, login, profile updates, availability, offer responses, and admin preference endpoints</td><td>Injection, malformed data, type confusion</td></tr>
+    <tr><td>No raw SQL</td><td>Prisma parameterized queries exclusively — no raw SQL anywhere in the codebase</td><td>SQL injection</td></tr>
+    <tr><td>Security headers</td><td>Helmet.js with default configuration (X-Content-Type-Options, X-Frame-Options: DENY, Strict-Transport-Security, X-XSS-Protection). <code>crossOriginResourcePolicy</code> set to <code>"cross-origin"</code> for file serving.</td><td>Clickjacking, MIME sniffing, protocol downgrade</td></tr>
+    <tr><td>Rate limiting</td><td>express-rate-limit: 100 req/min general (all routes), 5 req/min on <code>/api/auth</code> routes. Backed by Redis via <code>rate-limit-redis</code> + IORedis — counters are shared across backend instances. Falls back to in-memory store if Redis is unavailable (local dev).</td><td>Brute force, credential stuffing, DoS</td></tr>
+    <tr><td>Same-origin architecture</td><td>All <code>/api/*</code> and <code>/uploads/*</code> requests are proxied to the backend via Next.js middleware rewrites at runtime. The backend has no public-facing URL — only the frontend is exposed to the internet. No CORS required; all requests are same-origin.</td><td>CSRF, direct API attack surface, cross-origin data leakage</td></tr>
+    <tr><td>Server-side route protection</td><td>Next.js <code>middleware.ts</code> checks for a valid <code>accessToken</code> cookie on every non-public route. Unauthenticated users are redirected to <code>/login</code> server-side before any page content renders.</td><td>Unauthorised page access, client-side-only auth bypass</td></tr>
+    <tr><td>Authenticated file access</td><td>Uploaded files are served behind JWT verification middleware. The <code>/uploads/:filename</code> route validates the access token before streaming the file. Unauthenticated requests receive 401.</td><td>Unauthorised access to CVs and employment documents</td></tr>
+    <tr><td>API response field filtering</td><td>All endpoints returning user-facing data use explicit Prisma <code>select</code> clauses. Only whitelisted fields are included in responses. Future schema additions require explicit opt-in to be exposed.</td><td>Accidental sensitive data exposure</td></tr>
+    <tr><td>File upload validation</td><td>Multer: MIME type whitelist (<code>application/pdf</code>, DOCX MIME), 10MB size limit, UUID-renamed filenames, original filename discarded</td><td>Malicious file upload, path traversal</td></tr>
+    <tr><td>CSV upload validation</td><td>Multer in-memory storage, 5MB limit, <code>text/csv</code> MIME or <code>.csv</code> extension check. Row-level validation via PapaParse.</td><td>Oversized upload DoS, malformed data injection</td></tr>
+    <tr><td>Private optimizer</td><td>Optimizer service on Railway's internal private network (<code>optimizer.railway.internal</code>). No public ingress.</td><td>Direct external access to solver service</td></tr>
+    <tr><td>Audit logging</td><td>Immutable <code>AuditLog</code> table. Logged actions: LOGIN, SET_PREFERENCE, CREATE_USER, UPDATE_USER, DELETE_USER, CHANGE_PASSWORD, UPDATE_PROFILE, allocation changes, marking changes. Records userId, action, entityType, entityId, details (JSON), ipAddress, timestamp.</td><td>Non-repudiation, forensic investigation</td></tr>
+    <tr><td>Error handling</td><td>Global error handler: stack traces exposed only in development mode. Production responses return generic "Internal server error" only.</td><td>Information leakage via stack traces</td></tr>
+    <tr><td>Environment validation</td><td>Zod schema validates all env vars at startup. <code>DATABASE_URL</code> must be valid URL. JWT secrets must be ≥32 characters. Server refuses to start if validation fails.</td><td>Misconfiguration, weak secrets</td></tr>
+    <tr><td>TLS</td><td>Railway-managed TLS termination on all public-facing services. Internal services communicate over Railway's encrypted private network.</td><td>Man-in-the-middle, eavesdropping</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s10c">10.3 SSO Migration Path</h2>
+<p>The authentication layer uses custom JWT utilities (not Passport.js). Adding RMIT's institutional SAML SSO as a hybrid login option in a future phase requires:</p>
+<ol>
+  <li>Install a SAML library (e.g. <code>passport-saml</code> or <code>saml2-js</code>)</li>
+  <li>Register the application with RMIT's SAML identity provider</li>
+  <li>Add a <code>POST /api/auth/saml/callback</code> route that validates the SAML assertion</li>
+  <li>Map RMIT SAML attributes (staff ID, email, department) to User records, auto-creating accounts for recognised staff</li>
+  <li>Issue the same JWT access/refresh cookies used by the local auth flow — no downstream changes required</li>
+</ol>
+<p>External applicants (those without RMIT credentials) continue to register and log in with email/password. Both login methods coexist on the same login page.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     11. FILE STORAGE
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s11">
+<h1>11. File Storage</h1>
+
+<p>Tutors upload a CV (PDF or DOCX) which is stored server-side with the URL persisted in TutorProfile.</p>
+
+<h2>11.1 Current Implementation (Pilot)</h2>
+<p>Files are stored on a Railway persistent volume mounted to the backend service. The backend uses <code>multer</code> for multipart form parsing with <code>diskStorage</code>. Files are renamed to UUID-based filenames to prevent path traversal and filename collisions.</p>
+
+<h2>11.2 Upload Security Controls</h2>
+<ul>
+  <li>MIME type validated server-side by multer's <code>fileFilter</code></li>
+  <li>Permitted types: <code>application/pdf</code>, <code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code></li>
+  <li>Maximum file size: 10MB</li>
+  <li>Stored filename: <code>{uuid}.{ext}</code> — original filename is discarded</li>
+</ul>
+
+<div class="callout success">
+  <strong>Authenticated access:</strong> File downloads require a valid JWT access token. The <code>/uploads/:filename</code> route verifies the token before serving the file via <code>express.static</code>. Unauthenticated requests receive a 401 response. File URLs are proxied through the Next.js frontend rewrite, so they participate in the same-origin cookie flow.
+</div>
+
+<h2>11.3 Storage Sizing</h2>
+<p>At 500 tutors × ~1.5MB average CV = ~750MB of file storage. Railway's Pro plan includes up to 250GB of persistent volume storage, providing substantial headroom.</p>
+<table>
+  <thead><tr><th>Option</th><th>Cost</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Railway volume (current)</td><td>$0.15/GB/month</td><td>Simple managed storage. At 500 tutors (~2GB) well within Hobby plan's 5GB limit. Suitable for pilot and beyond.</td></tr>
+    <tr><td>AWS S3</td><td>~$0.023/GB/month</td><td>Relevant only if migrating to AWS. No change needed while on Railway.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     12. EMAIL SYSTEM
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s12">
+<h1>12. Email System</h1>
+
+<h2>12.1 Transactional Emails (Resend)</h2>
+<p>All transactional emails are sent via the Resend API. Templates are stored in the database and editable by admins. Variable substitution uses handlebars-style placeholders.</p>
+
+<table>
+  <thead><tr><th>Template Key</th><th>Trigger</th><th>Variables</th></tr></thead>
+  <tbody>
+    <tr><td><code>offer_notification</code></td><td>Coordinator sends batch offers</td><td>tutor_name, course_name, class_code, class_time, deadline</td></tr>
+    <tr><td><code>offer_accepted</code></td><td>Tutor accepts an offer</td><td>tutor_name, course_name, class_code</td></tr>
+    <tr><td><code>offer_rejected</code></td><td>Tutor rejects an offer</td><td>coordinator_name, tutor_name, class_code, rejection_reason</td></tr>
+    <tr><td><code>availability_reminder</code></td><td>Email campaign</td><td>tutor_name, deadline, platform_url</td></tr>
+  </tbody>
+</table>
+
+<h2>12.2 Email Campaigns</h2>
+<p>Admins can schedule bulk email campaigns to audience segments. Campaign processing:</p>
+<ol>
+  <li>Admin creates campaign with template, audience, scheduled time, and variable overrides.</li>
+  <li>At the scheduled time, a BullMQ job triggers the campaign worker.</li>
+  <li>Worker queries the recipient list based on the audience selector (all tutors, preferred tutors, or tutors in a specific semester).</li>
+  <li>Emails are sent in batches via Resend with rate limiting to stay within Resend's API limits.</li>
+  <li>Campaign status updated to SENT with a count of successful sends.</li>
+</ol>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     13. JOB QUEUE
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s13">
+<h1>13. Job Queue (BullMQ + Redis)</h1>
+
+<p>Long-running operations (optimization runs, email campaigns) are processed asynchronously via a BullMQ job queue backed by Redis. This prevents HTTP request timeouts and provides retry capability.</p>
+
+<h2>13.1 Queue Architecture</h2>
+<pre>
+HTTP Request                  BullMQ Queue            BullMQ Worker
+     │                             │                       │
+     │── POST /optimize ──────────►│                       │
+     │   Returns {runId}           │                       │
+     │                             │── job enqueued ──────►│
+     │                             │                       │── calls optimizer.service.ts
+     │◄── 202 Accepted ────────────│                       │── assembles payload
+     │                             │                       │── calls Python /optimize
+     │                             │                       │── persists allocations
+     │                             │                       │── updates OptimizationRun
+     │                             │                       │
+     │── GET /runs/:runId ─────────────────────────────────►│ (poll for status)
+     │◄── {status: "COMPLETED"} ───────────────────────────│
+</pre>
+
+<h2>13.2 Queue Configuration</h2>
+<ul>
+  <li><strong>Concurrency:</strong> 1 optimization job at a time per worker instance (CP-SAT solver is CPU-bound; parallelism provides no benefit and causes resource contention).</li>
+  <li><strong>Retries:</strong> 0 retries for optimization jobs (idempotent retry would create duplicate allocations; the OptimizationRun record tracks failure).</li>
+  <li><strong>Job timeout:</strong> time_limit_seconds + 60 seconds grace period.</li>
+  <li><strong>Failed jobs:</strong> Moved to the BullMQ failed queue for inspection. OptimizationRun status set to FAILED with error message.</li>
+</ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     14. KEY BUSINESS WORKFLOWS
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s14">
+<h1>14. Key Business Workflows</h1>
+
+<h2>14.1 Full Allocation Lifecycle</h2>
+<pre>
+PHASE 1: Setup (Admin)
+├── Create semester
+├── Create courses
+├── Upload class schedules (CSV)
+└── Upload CES scores (CSV)
+
+PHASE 2: Applications (Tutors)
+├── Register / log in
+├── Upload CV
+├── Set highest qualification + HDR status
+├── Set weekly availability (drag-to-select grid)
+├── Express course interests (course-level)
+└── Set class preferences (optional, class-level)
+
+PHASE 3: Review (Admin)
+├── Review applicant CVs
+└── Set preference: PREFERRED | OK | NOT_PREFERRED
+
+PHASE 4: Pre-Assignment (Coordinator)
+├── Log in and select course
+├── Drag tutors onto specific class slots (optional)
+│   ├── Assign self → status = CONFIRMED (immediate)
+│   └── Assign tutor → status = PENDING (isManual = true)
+└── Verify teaching load requirement (required vs assigned count)
+
+PHASE 5: Optimization (Coordinator)
+├── Optionally exclude specific tutors from this run
+├── Click "Generate Schedule"
+├── Backend enqueues BullMQ job → returns runId
+├── Optimizer assembles payload (excludes manual allocations)
+├── Python CP-SAT solver runs (up to 120s)
+├── Results persisted as Allocation records (PENDING)
+└── Coordinator polls for completion
+
+PHASE 6: Review & Adjust (Coordinator)
+├── View schedule calendar (colour-coded by status)
+├── Drag-and-drop adjustments if needed
+│   ├── Remove unsatisfactory allocations
+│   └── Reassign to different tutors
+└── Navigate to Allocations list view for final review
+
+PHASE 7: Offers (Coordinator)
+├── Click "Review & Send Offers" (batch)
+├── PENDING allocations → OFFERED
+└── Offer notification emails sent to tutors
+
+PHASE 8: Response (Tutors)
+├── Receive offer email
+├── Log in to "My Offers" page
+├── Accept or reject each offer (with optional reason)
+└── Status updated: ACCEPTED | REJECTED
+
+PHASE 9: Post-Acceptance
+├── Coordinator views accepted allocations on schedule calendar
+├── Rejected classes flagged for re-allocation
+└── Marking assignments configured for assessments
+</pre>
+
+<h2>14.2 Allocation Status State Machine</h2>
+<pre>
+                    [isManual=true]
+                    Coordinator assigns self
+                           │
+                           ▼
+                       CONFIRMED ──── (terminal, no further action)
+
+[Optimizer run]
+    │
+    ▼
+ PENDING ──── Coordinator sends offer ────► OFFERED ──── Tutor accepts ───► ACCEPTED
+    │                                          │
+    │                                          └─── Tutor rejects ──────► REJECTED
+    │
+    └──── Coordinator deletes allocation ──── (record deleted)
+</pre>
+
+<h2>14.3 Marking Assignment Workflow</h2>
+<p>After teaching allocations are confirmed, coordinators assign marking responsibilities separately:</p>
+<ol>
+  <li>Coordinator defines up to 3 assessments per course (title, weighting, flags).</li>
+  <li>For each assessment × class combination, coordinator selects a marker from the tutor pool via a dropdown picker.</li>
+  <li>Coordinator can assign a different tutor to mark than the one teaching the class.</li>
+  <li>Unassign capability available to remove and reassign markers.</li>
+</ol>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     15. DEPLOYMENT ARCHITECTURE
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s15">
+<h1>15. Deployment Architecture</h1>
+
+<h2>15.1 Railway Production Environment</h2>
+<table>
+  <thead><tr><th>Service</th><th>Runtime</th><th>Port</th><th>Network</th></tr></thead>
+  <tbody>
+    <tr><td>Frontend (Next.js)</td><td>Node.js 20</td><td>3000</td><td>Public (Railway Edge) — only public-facing service</td></tr>
+    <tr><td>Backend (Express)</td><td>Node.js 20</td><td>4000</td><td>Private (<code>backend.railway.internal</code>) — accessed via Next.js rewrite proxy only</td></tr>
+    <tr><td>Optimizer (FastAPI)</td><td>Python 3.13</td><td>$PORT (dynamic)</td><td>Private only (<code>optimizer.railway.internal</code>)</td></tr>
+    <tr><td>PostgreSQL</td><td>PostgreSQL 16</td><td>5432</td><td>Private only</td></tr>
+    <tr><td>Redis</td><td>Redis 7</td><td>6379</td><td>Private only</td></tr>
+  </tbody>
+</table>
+
+<h2>15.2 Environment Variables</h2>
+<table>
+  <thead><tr><th>Variable</th><th>Service</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>DATABASE_URL</code></td><td>Backend</td><td>PostgreSQL connection string (Railway-injected)</td></tr>
+    <tr><td><code>REDIS_URL</code></td><td>Backend</td><td>Redis connection string (Railway-injected)</td></tr>
+    <tr><td><code>OPTIMIZER_URL</code></td><td>Backend</td><td>http://optimizer.railway.internal:{PORT}</td></tr>
+    <tr><td><code>JWT_SECRET</code></td><td>Backend</td><td>HS256 signing key (min 256-bit random)</td></tr>
+    <tr><td><code>RESEND_API_KEY</code></td><td>Backend</td><td>Resend transactional email API key</td></tr>
+    <tr><td><code>BACKEND_INTERNAL_URL</code></td><td>Frontend</td><td>Backend private network URL for Next.js rewrite proxy (e.g. <code>http://backend.railway.internal:4000</code>). Falls back to <code>NEXT_PUBLIC_API_URL</code> then <code>http://localhost:4000</code>.</td></tr>
+    <tr><td><code>NODE_ENV</code></td><td>Both</td><td>production</td></tr>
+  </tbody>
+</table>
+
+<h2>15.3 Local Development</h2>
+<p>All five services run locally via <code>docker-compose.yml</code>. Hot-reload volumes are mounted for the TypeScript services. The Python optimizer runs in a separate container. A single <code>docker compose up</code> command starts the entire stack.</p>
+<pre>
+docker compose up          # Start all services
+docker compose up frontend # Start only frontend (with backend already running)
+</pre>
+
+<h2>15.4 CI/CD Pipeline (GitHub Actions)</h2>
+<pre>
+On push to main:
+  1. Lint (ESLint, TypeScript type-check)
+  2. Test (optimizer unit tests via pytest)
+  3. Build Docker images
+  4. Deploy to Railway (frontend, backend, optimizer services)
+     Railway auto-deploys on main branch push via GitHub integration
+</pre>
+
+<h2>15.5 AWS Migration Path</h2>
+<p>The application is containerised throughout. Migration from Railway to AWS preserves all Docker containers with no code changes:</p>
+<table>
+  <thead><tr><th>Component</th><th>Railway</th><th>AWS Equivalent</th></tr></thead>
+  <tbody>
+    <tr><td>Frontend</td><td>Railway service</td><td>ECS Fargate + CloudFront, or AWS Amplify</td></tr>
+    <tr><td>Backend</td><td>Railway service</td><td>ECS Fargate + Application Load Balancer</td></tr>
+    <tr><td>Optimizer</td><td>Railway service (private)</td><td>ECS Fargate (private subnet) or Lambda container</td></tr>
+    <tr><td>PostgreSQL</td><td>Railway managed</td><td>Amazon RDS for PostgreSQL</td></tr>
+    <tr><td>Redis</td><td>Railway managed</td><td>Amazon ElastiCache for Redis</td></tr>
+    <tr><td>File storage</td><td>Railway volume</td><td>Amazon S3</td></tr>
+    <tr><td>Email</td><td>Resend</td><td>Resend (unchanged) or Amazon SES</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     16. PERFORMANCE & SCALABILITY
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s16">
+<h1>16. Performance &amp; Scalability</h1>
+
+<h2>16.1 Usage Characteristics</h2>
+<p>The platform is a <strong>bursty, low-sustained-traffic application</strong>. Traffic is heavily concentrated in 4–6 week windows before each semester begins, with near-zero activity during semester delivery.</p>
+
+<table>
+  <thead><tr><th>Period</th><th>Expected Concurrent Users</th><th>Peak Actions</th></tr></thead>
+  <tbody>
+    <tr><td>Pre-semester peak</td><td>50–150</td><td>Tutors submitting availability, coordinators running optimizer</td></tr>
+    <tr><td>Offer response window</td><td>100–300</td><td>Tutors accepting/rejecting offers</td></tr>
+    <tr><td>Mid-semester idle</td><td>&lt;5</td><td>Admin maintenance only</td></tr>
+  </tbody>
+</table>
+
+<h2>16.2 Optimizer Performance</h2>
+<p>The CP-SAT solver is the primary performance concern. Benchmarks for the pilot scale (325 classes, ~500 tutors, ~20,000 active variables after filtering):</p>
+<ul>
+  <li><strong>Typical solve time:</strong> 5–30 seconds for optimal solution</li>
+  <li><strong>Hard cutoff:</strong> 120 seconds (returns best feasible solution found)</li>
+  <li><strong>Variable reduction:</strong> Availability filtering reduces the variable matrix from 162,500 to ~5,000–20,000 — a 90%+ reduction that is the single most important performance optimization</li>
+  <li><strong>Concurrent runs:</strong> Only one optimization job runs at a time per worker (CPU-bound). Multiple coordinators running simultaneously would queue.</li>
+</ul>
+
+<h2>16.3 Database Performance</h2>
+<p>All high-frequency query patterns are covered by indexes:</p>
+<ul>
+  <li>Tutor offers lookup: <code>INDEX(tutorId, status)</code> on Allocation</li>
+  <li>Optimizer availability queries: <code>INDEX(tutorProfileId, dayOfWeek)</code> on Availability</li>
+  <li>Class slot time queries: <code>INDEX(dayOfWeek, startTime)</code> on ClassSlot</li>
+  <li>Coordinator course filtering: <code>UNIQUE(courseId, userId)</code> on CourseCoordinator</li>
+</ul>
+
+<h2>16.4 Scaling Options</h2>
+<p>If RMIT expands the platform significantly (multiple faculties, 2,000+ tutors):</p>
+<ul>
+  <li><strong>Frontend:</strong> Next.js SSR scales horizontally with Railway replicas or CDN caching of static content.</li>
+  <li><strong>Backend:</strong> Express.js is stateless (JWT cookies) — scales horizontally. Rate limiter must be moved to Redis for multi-instance consistency.</li>
+  <li><strong>Optimizer:</strong> Each course optimization is independent. Multiple optimizer instances can run in parallel (one per course). Switch rate limiter to Redis-backed.</li>
+  <li><strong>Database:</strong> PostgreSQL read replicas for reporting queries (workload overview, audit log). Connection pooling via PgBouncer if connection count grows.</li>
+  <li><strong>Solver upgrade:</strong> If CP-SAT reaches limits, HiGHS (open-source MIP solver) is faster for large LP relaxations. PuLP's solver-agnostic API makes switching trivial.</li>
+</ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     17. COST ANALYSIS
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s17">
+<h1>17. Cost Analysis</h1>
+
+<h2>17.1 Pilot Scale Assumptions</h2>
+<ul>
+  <li>500 tutors, 150 coordinators, 325 classes, 4 semesters/year</li>
+  <li>~20–25 weeks of active use per year; remainder is near-idle</li>
+  <li>File storage: ~750MB (500 tutors × CV ~1.5MB average)</li>
+  <li>Database: ~2GB relational data</li>
+</ul>
+
+<h2>17.2 Railway Pricing Summary</h2>
+<table>
+  <thead><tr><th>Resource</th><th>Rate</th></tr></thead>
+  <tbody>
+    <tr><td>CPU</td><td>$0.00000772 / vCPU-second (~$20/vCPU/month)</td></tr>
+    <tr><td>RAM</td><td>$0.00000386 / GB-second (~$10/GB/month)</td></tr>
+    <tr><td>Persistent Volume</td><td>$0.15/GB/month</td></tr>
+    <tr><td>Egress</td><td>$0.05/GB</td></tr>
+    <tr><td>Hobby Plan</td><td>$5/month (includes $5 credit)</td></tr>
+    <tr><td>Pro Plan</td><td>$20/month (includes $20 credit)</td></tr>
+  </tbody>
+</table>
+
+<h2>17.3 Monthly Cost Estimate</h2>
+<table>
+  <thead><tr><th>Service</th><th>Peak Month</th><th>Idle Month</th></tr></thead>
+  <tbody>
+    <tr><td>Next.js Frontend</td><td>~$12</td><td>~$4</td></tr>
+    <tr><td>Express Backend</td><td>~$12</td><td>~$4</td></tr>
+    <tr><td>FastAPI Optimizer</td><td>~$8</td><td>~$3</td></tr>
+    <tr><td>PostgreSQL</td><td>~$18</td><td>~$15</td></tr>
+    <tr><td>Redis</td><td>~$4</td><td>~$2</td></tr>
+    <tr><td>Egress</td><td>~$0.50</td><td>~$0.10</td></tr>
+    <tr><td><strong>Subtotal</strong></td><td><strong>~$55</strong></td><td><strong>~$28</strong></td></tr>
+    <tr><td>Hobby Plan credit (−$5)</td><td>~$50 net</td><td>~$23 net</td></tr>
+  </tbody>
+</table>
+
+<h2>17.4 Annual Total</h2>
+<table>
+  <thead><tr><th>Scenario</th><th>Estimate</th></tr></thead>
+  <tbody>
+    <tr><td>Conservative (within Hobby credit most months)</td><td>~$150–200/year</td></tr>
+    <tr><td>Realistic</td><td>~$240–300/year</td></tr>
+  </tbody>
+</table>
+
+<div class="callout success">
+  <strong>Recommendation:</strong> Use the Pro plan ($20/month). Even in idle months, base usage sits around $28 gross — the Pro plan's $20 credit reduces that to ~$8 out of pocket, compared to ~$23 net on Hobby. Pro pays for itself the moment monthly usage exceeds $20, which this platform consistently does. The higher volume and storage limits also provide comfortable headroom for growth.
+</div>
+
+<div class="callout warn">
+  <strong>Unused Credits:</strong> Railway's monthly plan fee acts as a usage credit but does not roll over. On the Pro plan, any month where usage falls below $20 means the unused portion is lost. Given this platform's baseline usage of ~$28/month even when idle, this is rarely a concern in practice.
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     18. DATA PROTECTION & LEGAL COMPLIANCE
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s18">
+<h1>18. Data Protection &amp; Legal Compliance</h1>
+
+<p>The platform collects and processes personal and employment-related information about sessional staff. As a system deployed by an Australian university operating in Victoria, it must comply with federal and state privacy, employment, and records-management legislation.</p>
+
+<h2>18.1 Applicable Legislation</h2>
+<table>
+  <thead><tr><th>Legislation</th><th>Jurisdiction</th><th>Relevance to This Platform</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Privacy Act 1988 (Cth)</strong> + Australian Privacy Principles (APPs)</td>
+      <td>Federal</td>
+      <td>RMIT is an APP entity as a public university. The platform collects personal information (names, emails, contact details, qualifications, HDR supervisor details) and must comply with APPs 1–13: lawful purpose, collection minimisation, use limitation, data quality, security, access, and correction rights. APP 6 prohibits use of personal information for purposes other than the primary collection purpose (tutor allocation) without consent.</td>
+    </tr>
+    <tr>
+      <td><strong>Privacy and Data Protection Act 2014 (Vic)</strong> + Information Privacy Principles (IPPs)</td>
+      <td>Victoria</td>
+      <td>As a Victorian public-sector body, RMIT is additionally subject to Victorian IPPs. IPP 4 requires data security measures proportionate to the sensitivity of the data. The platform stores employment-related information (preference ratings, CES scores, allocation history) which is considered sensitive employment data under Victorian guidance.</td>
+    </tr>
+    <tr>
+      <td><strong>Health Records Act 2001 (Vic)</strong></td>
+      <td>Victoria</td>
+      <td>Not directly applicable — the platform does not collect health information. However, if HDR student disability accommodations or work-capacity restrictions were ever captured, this Act would apply. The current schema avoids this.</td>
+    </tr>
+    <tr>
+      <td><strong>Fair Work Act 2009 (Cth)</strong></td>
+      <td>Federal</td>
+      <td>Governs casual employment conditions including maximum hours, National Employment Standards, and the right to request casual conversion. The platform's workload tracking and allocation limits must align with these standards. Relevant to the planned work-restrictions feature (visa hour limits, EBA caps).</td>
+    </tr>
+    <tr>
+      <td><strong>RMIT Enterprise Agreement</strong></td>
+      <td>Institutional</td>
+      <td>The current RMIT EBA specifies maximum casual hours, pay rates by qualification level, and workload allocation principles. The optimizer's <code>min_tutorials</code>/<code>max_tutorials</code> constraints and the admin workload overview must be configured to respect these limits. Alignment is listed as outstanding work.</td>
+    </tr>
+    <tr>
+      <td><strong>Migration Act 1958 (Cth)</strong> — Visa Conditions</td>
+      <td>Federal</td>
+      <td>International students on Subclass 500 visas are limited to 48 hours per fortnight during semester. The platform currently has no mechanism to flag visa-related hour restrictions. This is listed as a future enhancement (work restrictions flag) and is critical for compliance before onboarding international student tutors.</td>
+    </tr>
+    <tr>
+      <td><strong>Public Records Act 1973 (Vic)</strong></td>
+      <td>Victoria</td>
+      <td>RMIT must retain employment-related records for prescribed periods (typically 7 years for payroll and employment records under ATO requirements, longer for superannuation). The platform's audit log and allocation history support this. A data retention and archival policy must be established before production deployment.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>18.2 Data Classification</h2>
+<table>
+  <thead><tr><th>Data Category</th><th>Examples</th><th>Sensitivity</th><th>Access</th></tr></thead>
+  <tbody>
+    <tr><td>Identity &amp; contact</td><td>Name, email, phone</td><td>Personal</td><td>Admin, Coordinator (own courses), Self</td></tr>
+    <tr><td>Qualifications</td><td>Highest degree, HDR status, supervisor details</td><td>Sensitive personal</td><td>Admin, Self</td></tr>
+    <tr><td>CVs</td><td>Uploaded PDF/DOCX files</td><td>Sensitive personal</td><td>Admin, Self (see Section 10.3 for access gap)</td></tr>
+    <tr><td>Employment preferences</td><td>Admin preference rating (PREFERRED/OK/NOT_PREFERRED)</td><td>Employment-sensitive</td><td>Admin, Coordinator (own courses)</td></tr>
+    <tr><td>Performance data</td><td>CES scores</td><td>Employment-sensitive</td><td>Admin, Coordinator (own courses), Optimizer</td></tr>
+    <tr><td>Availability</td><td>Weekly time windows</td><td>Low sensitivity</td><td>Admin, Coordinator (own courses), Self</td></tr>
+    <tr><td>Allocation records</td><td>Tutor-to-class assignments, offer status, rejection reasons</td><td>Employment record</td><td>Admin, Coordinator (own courses), Self (own offers)</td></tr>
+    <tr><td>Audit trail</td><td>All state changes with user + IP</td><td>System operational</td><td>Admin only</td></tr>
+    <tr><td>Authentication</td><td>Password hashes, JWT tokens</td><td>Critical security</td><td>System only — never exposed in API responses</td></tr>
+  </tbody>
+</table>
+
+<h2>18.3 Platform Compliance Measures</h2>
+<table>
+  <thead><tr><th>Principle</th><th>Implementation</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Collection minimisation</strong> (APP 3)</td><td>Only data necessary for the allocation process is collected. No unnecessary demographic data, no social media links, no references beyond what is needed for qualification verification.</td></tr>
+    <tr><td><strong>Purpose limitation</strong> (APP 6)</td><td>Data is used solely for tutor allocation, workload management, and marking assignment. No secondary marketing or profiling use.</td></tr>
+    <tr><td><strong>Data quality</strong> (APP 10)</td><td>Tutors can update their own profile, availability, and course interests at any time. Coordinators see real-time data. CSV uploads validate data format before persisting.</td></tr>
+    <tr><td><strong>Security</strong> (APP 11 / IPP 4)</td><td>See Section 10 for full security controls: encryption in transit (TLS), hashed credentials (bcrypt-12), role-based access control, row-level data isolation, audit logging, rate limiting.</td></tr>
+    <tr><td><strong>Access and correction</strong> (APP 12–13)</td><td>Tutors can view and edit their own profile data through the self-service portal. Admins can correct records via the admin panel.</td></tr>
+    <tr><td><strong>Cross-border transfer</strong> (APP 8)</td><td>The platform is hosted on Railway (US-based infrastructure). Under APP 8, RMIT must take reasonable steps to ensure the overseas recipient complies with the APPs. Railway's data processing terms and HTTPS-only transport provide a baseline. For production, a formal Privacy Impact Assessment should evaluate whether additional contractual safeguards are needed, or whether migration to Australian-hosted infrastructure (e.g. AWS Sydney region) is required.</td></tr>
+    <tr><td><strong>Data retention</strong></td><td>No automated deletion or archival policy is currently implemented. Before production, a retention schedule must be established in consultation with RMIT Records Management — typically 7 years for employment records.</td></tr>
+    <tr><td><strong>Breach notification</strong> (NDB scheme)</td><td>Under the Notifiable Data Breaches scheme (Part IIIC of the Privacy Act), RMIT must notify affected individuals and the OAIC if a data breach involving personal information is likely to result in serious harm. Sentry monitoring (Section 18, outstanding) and the audit log support breach detection.</td></tr>
+  </tbody>
+</table>
+
+<h2>18.4 Recommendations Before Production</h2>
+<ol>
+  <li><strong>Privacy Impact Assessment (PIA):</strong> Conduct a formal PIA per RMIT's privacy framework before onboarding real staff data. This document provides the technical input; the PIA evaluates institutional risk.</li>
+  <li><strong>Data retention policy:</strong> Define and implement automated archival/deletion schedules in consultation with RMIT Records Management and Legal.</li>
+  <li><strong>Work restrictions flag:</strong> Implement the tutor-level hour restriction field before onboarding international student tutors, to prevent visa condition violations.</li>
+  <li><strong>EBA alignment:</strong> Configure optimizer constraints and workload reporting to match the current RMIT Enterprise Agreement's casual workload provisions.</li>
+  <li><strong>Hosting jurisdiction review:</strong> Evaluate whether Railway's US-based hosting is acceptable under APP 8 or whether Australian-hosted infrastructure is required. AWS Sydney region is the natural migration target.</li>
+</ol>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     19. OUTSTANDING WORK
+═══════════════════════════════════════════════════════ -->
+<div class="section" id="s19">
+<h1>19. Outstanding Work</h1>
+
+<h2>19.1 Security Testing &amp; Assurance</h2>
+<p>As a platform handling employment data for Australia's largest dual-sector university, the security posture must meet enterprise standards before production deployment with real staff data.</p>
+
+<table>
+  <thead><tr><th>Item</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Automated vulnerability scanning</strong></td><td>OWASP ZAP or Burp Suite scan against the staging environment. Covers OWASP Top 10: injection, broken authentication, sensitive data exposure, XXE, broken access control, security misconfiguration, XSS, insecure deserialisation, known-vulnerability components, and insufficient logging.</td></tr>
+    <tr><td><strong>Authenticated API audit</strong></td><td>Systematic testing of every API endpoint with incorrect roles (tutor calling admin routes, coordinator accessing another coordinator's courses, manipulated entity IDs). Verify 401/403 enforcement on all protected routes and row-level data isolation across all coordinator-scoped queries.</td></tr>
+    <tr><td><strong>Authentication testing</strong></td><td>Verify rate limiter blocks after 5 auth attempts. Test JWT expiry enforcement. Attempt token replay with expired tokens. Verify refresh token rotation. Confirm password hash is never exposed in any response. Test session invalidation on password change.</td></tr>
+    <tr><td><strong>File upload testing</strong></td><td>Attempt MIME type bypass with crafted headers. Upload oversized files. Attempt path traversal via filename manipulation. Verify UUID randomness. Confirm unauthenticated file access returns 401.</td></tr>
+    <tr><td><strong>Input validation testing</strong></td><td>Submit malformed payloads to all endpoints (SQL in string fields, XSS in name/title fields, oversized JSON bodies, unexpected field types). Verify Zod rejects all invalid input before it reaches the database layer.</td></tr>
+    <tr><td><strong>Infrastructure review</strong></td><td>Confirm all non-frontend services (backend, optimizer, PostgreSQL, Redis) have no public-facing endpoints. Verify Railway private networking isolation. Review TLS configuration and certificate validity. Confirm no sensitive data in application logs.</td></tr>
+    <tr><td><strong>Third-party dependency audit</strong></td><td>Run <code>npm audit</code> and <code>pip audit</code> against all packages. Review and remediate any high/critical CVEs. Establish a process for ongoing dependency monitoring (e.g. Dependabot or Snyk).</td></tr>
+    <tr><td><strong>Formal security report</strong></td><td>Document all findings, remediations, and residual risks in a format suitable for review by RMIT's IT Security and Risk team. Required before the platform can be approved for production use with real employment data.</td></tr>
+  </tbody>
+</table>
+
+<h2>19.2 Legal &amp; Compliance (Pre-Production)</h2>
+<p>Required for compliance with Australian privacy and employment law before the platform processes real personal data. See Section 18 for full legal analysis.</p>
+<table>
+  <thead><tr><th>Item</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>Privacy Impact Assessment</td><td>Formal PIA per RMIT's privacy framework. This document provides the technical input; the PIA evaluates institutional risk and must be approved before onboarding real staff data.</td></tr>
+    <tr><td>Data retention policy</td><td>Define and implement automated archival/deletion schedules in consultation with RMIT Records Management and Legal. Typically 7 years for employment records.</td></tr>
+    <tr><td>Hosting jurisdiction review</td><td>Evaluate whether Railway's US-based hosting is acceptable under APP 8 (cross-border data transfer) or whether migration to Australian-hosted infrastructure (AWS Sydney) is required.</td></tr>
+    <tr><td>EBA alignment</td><td>Configure optimizer constraints (<code>min_tutorials</code>, <code>max_tutorials</code>) and workload reporting to match the current RMIT Enterprise Agreement's casual workload provisions.</td></tr>
+    <tr><td>Hour counting framework alignment</td><td>Update how teaching hours are calculated and displayed (workload overview, marking hours) to match the current RMIT casual staff payment framework.</td></tr>
+  </tbody>
+</table>
+
+<h2>19.3 Testing &amp; Monitoring</h2>
+<table>
+  <thead><tr><th>Item</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>Playwright E2E tests</td><td>Not started. Critical path coverage: register → set availability → admin review → run optimizer → coordinator sends offers → tutor accepts.</td></tr>
+    <tr><td>Backend integration tests</td><td>Vitest is installed but no test files written. API endpoint tests with test database; optimizer integration smoke test.</td></tr>
+    <tr><td>Sentry monitoring</td><td>Not installed. Requires <code>@sentry/nextjs</code>, <code>@sentry/node</code>, and <code>sentry-sdk</code> (Python). Free tier covers pilot volume. Supports breach detection obligation under NDB scheme (Section 18).</td></tr>
+  </tbody>
+</table>
+
+<h2>19.4 Future Enhancements</h2>
+<table>
+  <thead><tr><th>Item</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>Work restrictions flag</td><td>Tutor profile field for individual hour restrictions (e.g. student visa conditions). Surface in the optimizer and workload overview to prevent offers exceeding limits. Critical for visa compliance before onboarding international student tutors (Subclass 500: 48 hours/fortnight).</td></tr>
+    <tr><td>Research Assistant EOI capture</td><td>Extend platform to support RA Expressions of Interest alongside tutoring. Track total casual hours across all appointment types in one place, enforcing EBA maximums and flagging employment law violations before offers are made.</td></tr>
+    <tr><td>Mobile/tablet responsive interface</td><td>Current UI is desktop-optimised. Responsive layout pass needed for coordinators on tablets and tutors on mobile, particularly for availability submission and offer acceptance.</td></tr>
+    <tr><td>Hybrid RMIT SAML/SSO integration</td><td>Optional SSO login for existing RMIT staff (admins, coordinators, returning tutors). External applicants continue with email/password. Both strategies coexist — JWT issuance and downstream RBAC are unchanged.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<hr>
+<div class="doc-footer">
+  RMIT Tutor Scheduling Platform — Systems Design Document v1.0 — March 2026<br>
+  Developed by Thomas Bierly &nbsp;|&nbsp; Confidential — RMIT University Internal Use Only
+</div>
+
+</body>
+</html>
