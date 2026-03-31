@@ -567,7 +567,7 @@
   <header class="hero">
     <span class="hero-label fade-up">Project</span>
     <h1 class="fade-up fade-up-delay-1">Augment</h1>
-    <p class="subtitle fade-up fade-up-delay-2">A multi-agent AI platform that guides teams through the Double Diamond design process &mdash; four specialised AI agents, 30+ collaborative canvas tools, real-time multi-user collaboration.</p>
+    <p class="subtitle fade-up fade-up-delay-2">A multi-agent AI platform that guides teams through the Double Diamond design process &mdash; eight specialised AI services, 30+ collaborative canvas tools, real-time multi-user collaboration.</p>
     <a href="https://augment.thomasbierly.com" class="cta-btn fade-up fade-up-delay-3">Launch the platform &rarr;</a>
   </header>
 
@@ -603,7 +603,7 @@
   <section class="content-section reveal">
     <div class="section-divider"></div>
     <h2>The AI Architecture</h2>
-    <p>The core design decision is using five separate AI agents rather than a single model with different instructions. A single AI drifts &mdash; ask it to explore and it starts defining. Ask it to ideate and it starts evaluating. Separate agents make phase discipline an architectural constraint, not a suggestion the model can ignore.</p>
+    <p>The core design decision is using eight separate AI services rather than a single model with different instructions. A single AI drifts &mdash; ask it to explore and it starts defining. Ask it to ideate and it starts evaluating. Separate agents make phase discipline an architectural constraint, not a suggestion the model can ignore.</p>
 
     <div class="agent-grid">
       <div class="agent-card">
@@ -625,6 +625,26 @@
         <span class="agent-phase" style="color: var(--deliver);">Deliver &mdash; Builder</span>
         <div class="agent-name">Pragmatic delivery lead</div>
         <div class="agent-desc">Drives toward specificity and testability. Asks "how will you test that?" repeatedly. Will never reopen the problem definition.</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-phase" style="color: var(--accent);">Orchestrator</span>
+        <div class="agent-name">Phase boundary evaluator</div>
+        <div class="agent-desc">Runs only at phase transitions. Evaluates whether a phase is genuinely complete, identifies gaps, and compresses artefacts into a handoff brief for the next agent.</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-phase" style="color: var(--accent);">Artefact Extractor</span>
+        <div class="agent-name">Background extraction pipeline</div>
+        <div class="agent-desc">Runs after every agent response on Claude Haiku. 23 tool-specific extractors catch artefacts mentioned in natural conversation that the agent didn't explicitly structure.</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-phase" style="color: var(--accent);">Session Summariser</span>
+        <div class="agent-name">Context continuity engine</div>
+        <div class="agent-desc">Triggers on disconnect or 30-minute inactivity. Generates a 3&ndash;5 sentence summary on Claude Haiku so the next session picks up where the team left off.</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-phase" style="color: var(--accent);">Nudge Generator</span>
+        <div class="agent-name">Team re-engagement prompt</div>
+        <div class="agent-desc">When teams seem stuck, generates a first-person example reply on Claude Haiku that sounds like a real team member, not an instruction to the agent.</div>
       </div>
     </div>
 
