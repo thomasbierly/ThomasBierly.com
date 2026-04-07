@@ -516,12 +516,14 @@
   <section class="content-section reveal">
     <div class="section-divider"></div>
     <h2>What It Does</h2>
-    <p>The platform manages the full lifecycle of sessional tutor allocation &mdash; from application through to confirmed teaching assignment.</p>
+    <p>The platform automates the complete tutor-to-class assignment workflow.</p>
     <ol class="workflow">
-      <li><strong>Tutors</strong> submit their availability, course interests, and CV through a self-service portal.</li>
-      <li><strong>Administrators</strong> review applicants, upload class schedules and historical performance data via CSV, and manage the semester calendar.</li>
-      <li><strong>Course coordinators</strong> run a mathematical optimisation algorithm that produces a globally conflict-free, quality-weighted allocation across all classes in under two minutes &mdash; then review results, make adjustments on a drag-and-drop calendar, and send digital offers.</li>
-      <li><strong>Tutors</strong> accept or reject offers through the portal, with email notifications at every step.</li>
+      <li><strong>Tutors</strong> self-submit availability, course interests, and credentials via portal, and rank their preferred classes across all courses in a global drag-and-drop list.</li>
+      <li><strong>School administrators</strong> review applicants and set per-course tutor preferences (Preferred / OK / Not Preferred).</li>
+      <li><strong>Course coordinators</strong> independently rank tutors for each of their specific classes.</li>
+      <li><strong>School administrators</strong> trigger the optimization algorithm for their school's semester, producing conflict-free assignments that respect a 36 hr/week workload cap and institutional workforce rates.</li>
+      <li><strong>Course coordinators</strong> review results, make bounded adjustments within their own course, and approve the schedule.</li>
+      <li><strong>Tutors</strong> accept or reject offers through the portal with email notifications at each stage.</li>
     </ol>
   </section>
 
@@ -529,40 +531,61 @@
   <section class="content-section reveal">
     <div class="section-divider"></div>
     <h2>The Optimisation Engine</h2>
-    <p>The core of the platform is a constraint programming solver built in Python using Google's OR-Tools CP-SAT engine &mdash; the same solver used in Google's own logistics and scheduling systems.</p>
-    <p>The allocation problem is formulated as a Constraint Satisfaction and Optimisation Problem (CSOP). The solver must assign tutors to classes while simultaneously satisfying hard constraints and maximising a quality objective.</p>
+    <p>The core uses Python with Google's OR-Tools CP-SAT constraint programming solver &mdash; the same technology powering Google's logistics systems.</p>
 
     <div class="constraint-group">
       <span class="constraint-group-label">Hard Constraints</span>
       <ul class="constraint-list">
-        <li>Every class receives exactly one tutor</li>
-        <li>No tutor is double-booked across overlapping time slots, including across different courses running simultaneously</li>
-        <li>Every assigned tutor receives a minimum of 2 classes (prevents impractical single-class assignments)</li>
-        <li>No tutor exceeds a configurable maximum load (default: 6 classes)</li>
-        <li>Tutors are only considered for classes that fall within their nominated availability windows</li>
-      </ul>
-    </div>
-
-    <div class="constraint-group">
-      <span class="constraint-group-label">Fairness Constraint</span>
-      <ul class="constraint-list">
-        <li>A pairwise linearised fairness constraint ensures workload is distributed equitably &mdash; no tutor receives their 4th class until every other selected tutor has received at least 3</li>
+        <li>Each class receives exactly one tutor</li>
+        <li>No tutor double-booked across overlapping slots (including simultaneous courses)</li>
+        <li>Per-course minimum sessions: tutors assigned to a course teach either 0 or &ge; minimum sessions &mdash; preventing isolated one-off assignments that don't justify the preparation cost</li>
+        <li>Configurable maximum load per tutor (default: 6 sessions)</li>
+        <li>Tutors only assigned to classes matching their stated availability</li>
+        <li>36 hr/week cap: existing commitments + teaching hours + marking hours &le; maximum weekly hours</li>
+        <li>RMIT workforce framework teaching rates applied within the cap: first delivery of a course in a week = 3&times; contact hours; repeat delivery of the same subject within 7 days = 2&times; contact hours</li>
+        <li>Marking hours included in the weekly cap, calculated via a peak-window method &mdash; a sliding window across assessment due dates finds the worst-case simultaneous marking load, scaled by enrolled students per class</li>
       </ul>
     </div>
 
     <div class="formula-block">
       <span class="formula-label">Objective Function</span>
-      <div class="formula">Maximise: &Sigma; x[t,c] &times; (preference_weight[t] + ces_weight &times; normalised_CES[t])</div>
-      <p>Where x[t,c] is a binary decision variable indicating whether tutor t is assigned to class c. Tutors rated PREFERRED by administrators are weighted at 10, OK at 5. CES (Course Experience Survey) scores &mdash; historical student satisfaction ratings &mdash; are normalised across the pool and contribute an additional weighted term. This drives the solver towards allocations that prioritise high-quality, well-reviewed tutors while still satisfying all hard constraints.</p>
+      <div class="formula">Maximise: &Sigma; x[t,c] &times; (cc_ranking_bonus[t,c] + tutor_ranking_bonus[t] + preference_weight[t,c] + ces_weight &times; normalised_CES[t])</div>
+      <p>Components in descending priority by weight:</p>
+      <p><strong style="color: rgba(255,255,255,0.8);">CC ranking bonus</strong> &mdash; course coordinators rank tutors for their specific classes; the solver rewards assignments that match a coordinator's top preferences</p>
+      <p><strong style="color: rgba(255,255,255,0.8);">Tutor ranking bonus</strong> &mdash; tutors rank courses by their own preference; assignments to highly-ranked courses score higher</p>
+      <p><strong style="color: rgba(255,255,255,0.8);">Admin preference tier</strong> &mdash; PREFERRED / OK / NOT_PREFERRED, set per tutor per course by the school administrator</p>
+      <p><strong style="color: rgba(255,255,255,0.8);">CES score</strong> &mdash; historical Course Experience Survey satisfaction scores, normalised to [0, 1]</p>
     </div>
 
     <div class="constraint-group">
-      <span class="constraint-group-label">Problem Size &amp; Performance</span>
+      <span class="constraint-group-label">Relaxation Cascade</span>
       <ul class="constraint-list">
-        <li>At pilot scale (500 tutors, 325 classes), the naive decision variable matrix has 162,500 binary variables</li>
-        <li>Aggressive pre-filtering instantiates variables only for valid (tutor, class) pairs &mdash; reducing the active count by over 90% to approximately 5,000&ndash;20,000 variables</li>
-        <li>This makes the problem tractable for CP-SAT in well under the 120-second time limit</li>
-        <li>If no feasible solution exists, the solver applies cascading constraint relaxation &mdash; first relaxing minimum workload, then fairness &mdash; and returns a diagnostic report of which classes remain unassigned and why</li>
+        <li>When no fully-constrained solution exists, the solver progressively relaxes constraints across six stages &mdash; each stage inheriting all relaxations of the previous. Applied relaxations are recorded and returned with the result.</li>
+        <li><strong>Stage 1:</strong> Per-course minimum sessions relaxed to 1</li>
+        <li><strong>Stage 2:</strong> Global maximum sessions per tutor removed (36 hr cap still enforced)</li>
+        <li><strong>Stage 3:</strong> Marking turnaround window extended from 2 to 3 weeks, reducing weekly marking hours attributed to each tutor</li>
+        <li><strong>Stage 4:</strong> Marking load may be shared &mdash; teaching tutors who would exceed the cap when marking is included are relieved; a greedy post-pass assigns orphaned marking to the eligible tutor with the most remaining capacity, preferring tutors already teaching in the same course</li>
+        <li><strong>Stage 5:</strong> CC-ranked NOT_PREFERRED tutors become eligible &mdash; a coordinator's explicit ranking overrides the admin preference tier</li>
+        <li><strong>Stage 6:</strong> Per-course minimum removed entirely (last resort)</li>
+      </ul>
+    </div>
+
+    <div class="constraint-group">
+      <span class="constraint-group-label">Marking Assignment</span>
+      <ul class="constraint-list">
+        <li>After optimisation, each teaching tutor marks their own class's student submissions by default</li>
+        <li>Only tutors whose total weekly hours (teaching + existing commitments + marking) would exceed the 36 hr cap are relieved of marking</li>
+        <li>Unassigned marking is greedily allocated to the eligible tutor with the most remaining capacity, preferring tutors already teaching in the same course for content familiarity</li>
+      </ul>
+    </div>
+
+    <div class="constraint-group">
+      <span class="constraint-group-label">Performance</span>
+      <ul class="constraint-list">
+        <li>School-wide runs across hundreds of tutors and classes spanning multiple courses</li>
+        <li>Pre-filtering on availability, course interest, and hourly cap reduces active binary variables from worst-case by an order of magnitude before the solver begins</li>
+        <li>Solver time limit: 300 seconds for school-wide runs</li>
+        <li>Relaxation cascade ensures a result is always returned, with applied relaxations clearly reported</li>
       </ul>
     </div>
   </section>
@@ -608,7 +631,7 @@
 
     <div class="security-block">
       <span class="security-label">Security</span>
-      <p>bcrypt password hashing (cost 12), JWT access tokens in httpOnly/SameSite=Strict cookies, role-based access control on every route, row-level data isolation (coordinators can only access their own courses), Zod validation on all request bodies, Helmet.js security headers, rate limiting on auth endpoints, and a full immutable audit log.</p>
+      <p>bcrypt password hashing (cost 12), JWT access tokens in httpOnly/SameSite=Strict cookies, role-based access control on every route, row-level data isolation (coordinators can only access their own courses), Zod validation on all request bodies, Helmet.js security headers, Redis-backed rate limiting on authentication endpoints, and a full immutable audit log.</p>
       <p style="margin-top: 0.75rem;">The optimiser microservice runs on Railway's private internal network and is not accessible from the public internet &mdash; only the backend API can call it.</p>
     </div>
   </section>
