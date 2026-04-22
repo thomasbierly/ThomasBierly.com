@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>A proposal — Thomas Bierly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0c0f17;
+      --bg-1:     #141828;
+      --bg-2:     #1c2235;
+      --accent:   #e8b84b;
+      --accent-lo: rgba(232,184,75,.12);
+      --accent-glow: rgba(232,184,75,.25);
+      --text:     #e2e8f0;
+      --text-dim: #94a3b8;
+      --border:   rgba(255,255,255,.07);
+      --lv-b:     #60a5fa;
+      --lv-c:     #34d399;
+      --lv-d:     #e8b84b;
+      --r: #fb923c;  /* research */
+      --e: #a78bfa;  /* education */
+      --g: #38bdf8;  /* engagement */
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    /* ── GATE ──────────────────────────────────────────────────────────── */
+    #gate {
+      position: fixed; inset: 0; z-index: 999;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1.5rem;
+      text-align: center; padding: 2rem;
+    }
+    #gate .gate-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--text);
+    }
+    #gate .gate-sub {
+      font-size: .9rem; color: var(--text-dim);
+      max-width: 380px; line-height: 1.6;
+    }
+    #gate .gate-form {
+      display: flex; gap: .75rem; flex-wrap: wrap; justify-content: center;
+      margin-top: .5rem;
+    }
+    #gate input {
+      background: var(--bg-1); border: 1px solid var(--border);
+      color: var(--text); padding: .65rem 1rem;
+      border-radius: 6px; font-size: .9rem; font-family: inherit;
+      outline: none; width: 200px;
+    }
+    #gate input:focus { border-color: var(--accent); }
+    #gate button {
+      background: var(--accent); color: #0c0f17;
+      border: none; padding: .65rem 1.25rem;
+      border-radius: 6px; font-weight: 600; font-size: .9rem;
+      cursor: pointer; font-family: inherit;
+    }
+    #gate .gate-err {
+      font-size: .82rem; color: #fb7185; display: none; margin-top: -.5rem;
+    }
+
+    /* ── NAV ───────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 56px;
+      background: rgba(12,15,23,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1rem; color: var(--accent); letter-spacing: .01em;
+    }
+    .nav-label {
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .nav-conf {
+      font-size: .72rem; color: var(--text-dim);
+      background: var(--bg-1); border: 1px solid var(--border);
+      padding: .3rem .75rem; border-radius: 20px; letter-spacing: .04em;
+    }
+
+    /* ── LAYOUT ────────────────────────────────────────────────────────── */
+    #content { display: none; }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 5rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem; display: block;
+    }
+    h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      font-weight: 400; line-height: 1.2;
+      color: var(--text); margin-bottom: 1.75rem;
+    }
+    h3 {
+      font-size: 1rem; font-weight: 600;
+      color: var(--text); margin-bottom: .5rem;
+    }
+    p { color: var(--text-dim); margin-bottom: 1rem; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--text); font-weight: 500; }
+
+    /* ── HERO ──────────────────────────────────────────────────────────── */
+    .hero {
+      padding-top: 9rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .hero-to {
+      font-size: .78rem; color: var(--text-dim);
+      letter-spacing: .06em;
+    }
+    .hero-sep { width: 32px; height: 1px; background: var(--border); }
+    .hero-date { font-size: .78rem; color: var(--text-dim); }
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 400; line-height: 1.15;
+      color: var(--text); margin-bottom: 2.5rem;
+    }
+    .hero h1 em { color: var(--accent); font-style: italic; }
+    .hero-body p {
+      font-size: 1.05rem; line-height: 1.8;
+      max-width: 680px;
+    }
+    .hero-body p + p { margin-top: 1.25rem; }
+
+    .current-bar {
+      margin-top: 3rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+    }
+    .cb-item {
+      background: var(--bg-1); padding: 1.25rem 1.5rem;
+    }
+    .cb-label { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: .4rem; }
+    .cb-value { font-size: .9rem; color: var(--text); font-weight: 500; line-height: 1.3; }
+
+    /* ── PROPOSITION ───────────────────────────────────────────────────── */
+    .prop-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem; margin-top: 2rem;
+    }
+    @media (max-width: 640px) { .prop-grid { grid-template-columns: 1fr; } }
+    .prop-card {
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: 10px; padding: 2rem;
+    }
+    .prop-card.loom { border-top: 2px solid var(--accent); }
+    .prop-card.accel { border-top: 2px solid var(--lv-b); }
+    .prop-tag {
+      font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+      margin-bottom: 1rem; display: block;
+    }
+    .prop-tag.loom { color: var(--accent); }
+    .prop-tag.accel { color: var(--lv-b); }
+    .prop-card h3 { font-size: 1.2rem; margin-bottom: .75rem; }
+    .prop-list { list-style: none; margin-top: 1.25rem; display: flex; flex-direction: column; gap: .5rem; }
+    .prop-list li {
+      font-size: .85rem; color: var(--text-dim);
+      padding-left: 1.1rem; position: relative;
+    }
+    .prop-list li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent); font-size: .75rem; top: .05rem;
+    }
+    .prop-card.accel .prop-list li::before { color: var(--lv-b); }
+
+    /* ── TRAJECTORY ────────────────────────────────────────────────────── */
+    .traj-track {
+      display: grid;
+      grid-template-columns: 1fr 48px 1fr 48px 1fr;
+      align-items: center;
+      gap: 0; margin: 3rem 0 2.5rem;
+    }
+    .traj-node {
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.75rem;
+      position: relative;
+    }
+    .traj-node.current { border-color: var(--lv-b); }
+    .traj-node.target-c { border-color: var(--lv-c); }
+    .traj-node.target-d { border-color: var(--lv-d); }
+    .traj-badge {
+      display: inline-block; font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .25rem .65rem; border-radius: 20px;
+      font-weight: 600; margin-bottom: .75rem;
+    }
+    .traj-badge.b { background: rgba(96,165,250,.15); color: var(--lv-b); }
+    .traj-badge.c { background: rgba(52,211,153,.15); color: var(--lv-c); }
+    .traj-badge.d { background: rgba(232,184,75,.15); color: var(--lv-d); }
+    .traj-year {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem; color: var(--text); margin-bottom: .25rem;
+    }
+    .traj-title { font-size: .85rem; font-weight: 600; color: var(--text); margin-bottom: .25rem; }
+    .traj-note { font-size: .78rem; color: var(--text-dim); }
+    .traj-arrow {
+      text-align: center; color: var(--text-dim); font-size: 1.2rem;
+    }
+
+    /* Criteria table */
+    .crit-section { margin-top: 1rem; }
+    .crit-header {
+      font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 1.25rem;
+    }
+    .crit-table { width: 100%; border-collapse: collapse; }
+    .crit-table th {
+      font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--text-dim); text-align: left;
+      padding: .5rem .75rem; border-bottom: 1px solid var(--border);
+    }
+    .crit-table td {
+      font-size: .82rem; padding: .65rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      vertical-align: top;
+    }
+    .crit-table tr:last-child td { border-bottom: none; }
+    .crit-table td:first-child { color: var(--text-dim); width: 120px; font-size: .76rem; }
+    .crit-table td:nth-child(2) { color: var(--text-dim); }
+    .crit-table td:last-child { color: var(--text); }
+    .ct { color: var(--lv-c); }
+    .dt { color: var(--lv-d); }
+    .check { color: var(--lv-c); margin-right: .3rem; }
+
+    /* ── MILESTONES ────────────────────────────────────────────────────── */
+    .milestone-list {
+      display: flex; flex-direction: column; gap: 0;
+      margin-top: 2rem; border-left: 2px solid var(--border);
+      padding-left: 0;
+    }
+    .ms-year {
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 2rem; padding: 1.75rem 0 1.75rem 2rem;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+    .ms-year:last-child { border-bottom: none; }
+    .ms-year::before {
+      content: '';
+      position: absolute; left: -6px; top: 2.1rem;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--bg-1); border: 2px solid var(--border);
+    }
+    .ms-year.highlight::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .ms-yr-label {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.4rem; color: var(--text-dim); padding-top: .15rem;
+      line-height: 1;
+    }
+    .ms-yr-label small { display: block; font-size: .65rem; font-family: 'Inter', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-top: .4rem; }
+    .ms-items { display: flex; flex-direction: column; gap: .65rem; }
+    .ms-item {
+      display: flex; align-items: flex-start; gap: .75rem;
+      font-size: .85rem;
+    }
+    .ms-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      flex-shrink: 0; margin-top: .45rem;
+    }
+    .ms-dot.r { background: var(--r); }
+    .ms-dot.e { background: var(--e); }
+    .ms-dot.g { background: var(--g); }
+    .ms-dot.x { background: var(--accent); }
+    .ms-item-text { color: var(--text-dim); line-height: 1.5; }
+    .ms-item-text strong { color: var(--text); }
+
+    .ms-legend {
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+      margin-top: 1.25rem; margin-bottom: -.5rem;
+    }
+    .ms-leg-item { display: flex; align-items: center; gap: .45rem; font-size: .75rem; color: var(--text-dim); }
+    .ms-leg-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── PAPERS ────────────────────────────────────────────────────────── */
+    .paper-list { display: flex; flex-direction: column; gap: .75rem; margin-top: 2rem; }
+    .paper-item {
+      display: grid; grid-template-columns: 20px 1fr auto;
+      gap: 1rem; align-items: start;
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.25rem;
+    }
+    .p-pip { width: 8px; height: 8px; border-radius: 50%; margin-top: .35rem; flex-shrink: 0; }
+    .p-pip.m { background: #60a5fa; }
+    .p-pip.i { background: #34d399; }
+    .p-pip.cp { background: #fb923c; }
+    .p-pip.sl { background: #c4b5fd; }
+    .p-title { font-size: .88rem; font-weight: 500; color: var(--text); margin-bottom: .2rem; }
+    .p-meta { font-size: .76rem; color: var(--text-dim); }
+    .p-target { font-size: .76rem; color: var(--text-dim); text-align: right; white-space: nowrap; }
+    .p-rank {
+      display: inline-block; font-size: .62rem; letter-spacing: .06em;
+      padding: .15rem .45rem; border-radius: 4px; margin-left: .4rem;
+      font-weight: 600; vertical-align: middle;
+    }
+    .p-rank.star { background: rgba(251,191,36,.12); color: #fbbf24; border: 1px solid rgba(251,191,36,.25); }
+    .p-rank.a    { background: rgba(148,163,184,.1);  color: var(--text-dim); border: 1px solid var(--border); }
+    .p-rank.b    { background: rgba(148,163,184,.07); color: var(--text-dim); border: 1px solid var(--border); }
+
+    .paper-legend {
+      display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem;
+    }
+    .pl-item { display: flex; align-items: center; gap: .45rem; font-size: .75rem; color: var(--text-dim); }
+    .pl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── ASK ───────────────────────────────────────────────────────────── */
+    .ask-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin-top: 2rem;
+    }
+    @media (max-width: 640px) { .ask-grid { grid-template-columns: 1fr; } }
+    .ask-card {
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.75rem;
+    }
+    .ask-num {
+      font-family: 'Instrument Serif', serif; font-size: 2rem;
+      color: var(--accent); opacity: .5; line-height: 1;
+      margin-bottom: .75rem;
+    }
+    .ask-card h3 { font-size: .95rem; margin-bottom: .6rem; }
+    .ask-card p { font-size: .85rem; }
+    .ask-card .benefit {
+      margin-top: .75rem; padding-top: .75rem;
+      border-top: 1px solid var(--border);
+      font-size: .78rem; color: var(--accent); opacity: .8;
+    }
+
+    /* ── GANTT ──────────────────────────────────────────────────────────── */
+    .gantt-wrap { overflow-x: auto; margin-top: 2rem; }
+    .gantt-inner { min-width: 700px; }
+    .gantt-head {
+      display: grid; grid-template-columns: 220px 1fr;
+      margin-bottom: .25rem;
+    }
+    .gantt-years {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      padding-left: .5rem;
+    }
+    .gy { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
+    .gantt-quarters {
+      display: grid; grid-template-columns: repeat(16, 1fr);
+      border-bottom: 1px solid var(--border); padding-left: .5rem;
+      margin-bottom: .5rem;
+    }
+    .gq {
+      font-size: .6rem; color: var(--text-dim); padding-bottom: .35rem;
+      border-left: 1px solid rgba(255,255,255,.04);
+      padding-left: .2rem;
+    }
+    .gq.now { color: var(--accent); }
+    .g-row {
+      display: grid; grid-template-columns: 220px 1fr;
+      align-items: center; min-height: 40px;
+      border-bottom: 1px solid rgba(36,48,68,.5);
+    }
+    .g-info { padding-right: 1rem; }
+    .g-title { font-size: .76rem; font-weight: 500; color: var(--text); line-height: 1.3; }
+    .g-sub { font-size: .67rem; color: var(--text-dim); margin-top: .1rem; }
+    .g-bars-area { position: relative; height: 40px; }
+    .g-bars-area::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0, rgba(255,255,255,.025) 1px, transparent 1px, transparent calc(100%/16));
+      pointer-events: none;
+    }
+    .g-bars-area::after {
+      content: ''; position: absolute; top: 0; bottom: 0;
+      left: 9.4%; width: 1px;
+      background: var(--accent); opacity: .4; pointer-events: none;
+    }
+    .g-pip {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      height: 10px; border-radius: 5px; min-width: 8px;
+    }
+    .g-rank-badge {
+      display: inline-block; font-size: .58rem; letter-spacing: .05em;
+      padding: .1rem .35rem; border-radius: 3px; margin-left: .3rem;
+      font-weight: 600; vertical-align: middle;
+    }
+    .g-rank-star { background: rgba(251,191,36,.12); color: #fbbf24; border: 1px solid rgba(251,191,36,.25); }
+    .g-rank-a    { background: rgba(148,163,184,.1);  color: var(--text-dim); border: 1px solid var(--border); }
+    .g-rank-b    { background: rgba(148,163,184,.07); color: var(--text-dim); border: 1px solid var(--border); }
+    .gantt-legend {
+      display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem;
+    }
+    .gl-item { display: flex; align-items: center; gap: .45rem; font-size: .74rem; color: var(--text-dim); }
+    .gl-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+    /* ── CLOSE ─────────────────────────────────────────────────────────── */
+    .close-section {
+      text-align: center; padding: 5rem 0 6rem;
+    }
+    .close-section p {
+      font-size: 1.05rem; max-width: 580px;
+      margin: 0 auto 1rem; line-height: 1.8;
+    }
+    .close-sig {
+      margin-top: 2.5rem;
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.4rem; color: var(--text);
+    }
+    .close-sig small {
+      display: block; font-family: 'Inter', sans-serif;
+      font-size: .78rem; color: var(--text-dim);
+      margin-top: .3rem; letter-spacing: .04em;
+    }
+
+    /* ── FOOTER ────────────────────────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-size: .75rem; color: var(--text-dim);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── CURRENT STRIP ─────────────────────────────────────────────────── */
+    .current-strip {
+      margin-top: 3rem;
+      border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+    }
+    .cs-item {
+      display: flex; align-items: baseline; gap: 1.25rem;
+      padding: .9rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-item:last-child { border-bottom: none; }
+    .cs-label {
+      font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-dim); flex-shrink: 0; width: 130px;
+    }
+    .cs-val { font-size: .88rem; color: var(--text); line-height: 1.5; }
+    .cs-val em { color: var(--text-dim); font-style: italic; }
+
+    /* ── UTIL ──────────────────────────────────────────────────────────── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ── GATE ──────────────────────────────────────────────────────────────── -->
+<div id="gate">
+  <div class="gate-title">A proposal</div>
+  <p class="gate-sub">This is a private career development document prepared for senior leadership at CoBLTech, RMIT University.</p>
+  <div class="gate-form">
+    <input type="text" id="pw-input" placeholder="Access key" autocomplete="off">
+    <button onclick="tryKey()">Continue</button>
+  </div>
+  <p class="gate-err" id="gate-err">Incorrect access key.</p>
+</div>
+
+<!-- ── NAVIGATION ─────────────────────────────────────────────────────────── -->
+<nav id="nav" style="display:none">
+  <span class="nav-name">Thomas Bierly</span>
+  <span class="nav-label">Career Development Proposal</span>
+  <span class="nav-conf">Private &amp; Confidential</span>
+</nav>
+
+<!-- ── CONTENT ───────────────────────────────────────────────────────────── -->
+<div id="content">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-eyebrow">
+        <span class="hero-to">Confidential · CoBLTech · RMIT University</span>
+        <span class="hero-sep"></span>
+        <span class="hero-date">2026</span>
+      </div>
+      <h1>A five-year plan for <em>building something</em> that matters to this college</h1>
+      <div class="hero-body">
+        <p>I am finishing a PhD on how artificial intelligence restructures work — what changes inside jobs, and which ones disappear. The central finding: 94% of the variation in labour demand operates within occupations, not across them. When the degree completes later this year, I move automatically to Lecturer.</p>
+        <p>This document describes two things I want to build at CoBLTech: a research programme on AI and work (LOOM), and a community of practice that lifts the research capacity of the college (the CoBLTech Accelerator). Both need institutional support to reach their potential, and both create something of genuine value for the college — not just for me.</p>
+        <p>What follows is the plan, what it asks of you, and what it offers in return. I'm sharing it now because the CoBLTech spotlight creates a real opportunity, and I'd rather build this with the college's support than without it.</p>
+      </div>
+
+      <div class="current-strip">
+        <div class="cs-item">
+          <span class="cs-label">Current level</span>
+          <span class="cs-val">Level A · Academic Career Development Fellow</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-label">PhD</span>
+          <span class="cs-val">Completing 2026 · <em>The Hidden Restructuring</em></span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-label">Courses</span>
+          <span class="cs-val">Leading AI &amp; Workforce Transformation · Management of Technology &amp; Innovation · Technology Futures · Business Consulting</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-label">Research programme</span>
+          <span class="cs-val">LOOM · Labour, Occupations, Organisations &amp; Machines</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPOSITION -->
+  <section>
+    <div class="container">
+      <span class="section-label">What I am building</span>
+      <h2>Two things that reinforce each other</h2>
+      <p>The plan is not a single research program. It is a research program and an institutional contribution — designed to grow together and to be stronger for it.</p>
+      <div class="prop-grid">
+        <div class="prop-card loom">
+          <span class="prop-tag loom">Research program</span>
+          <h3>LOOM</h3>
+          <p style="font-size:.88rem;">Labour, Occupations, Organisations and Machines. A program studying what AI does to work — how labour demand shifts within occupations, which jobs disappear, and what it takes for workers to move between them. Built on 9.5 million job advertisements, a directed-search equilibrium model, and four live research platforms.</p>
+          <ul class="prop-list">
+            <li>9 papers targeted across labour economics, management, information systems, and SoTL</li>
+            <li>4 AI platforms as live research instruments — generating longitudinal data unavailable to survey-based research</li>
+            <li>ARC Linkage application in development for 2029</li>
+            <li>Positions RMIT as Australia's leading voice on AI and within-occupation task reallocation</li>
+          </ul>
+        </div>
+        <div class="prop-card accel">
+          <span class="prop-tag accel">Institutional contribution</span>
+          <h3>CoBLTech Accelerator</h3>
+          <p style="font-size:.88rem;">An offer to colleagues: if you want to do research on AI and management — on your teaching, your MBA students, your industry work — but don't have the methods, data, or tools to do it well, I can help. I build the infrastructure. You bring the question.</p>
+          <ul class="prop-list">
+            <li>A colleague studying AI in their classroom can use Augmenti as a research instrument — I co-design the study and contribute to the paper</li>
+            <li>A colleague who needs a custom AI tool for data collection gets one built — in exchange for co-authorship and shared data</li>
+            <li>Monthly SoTL working group: from research question to journal submission, with methods support throughout</li>
+            <li>Annual AI &amp; Work Showcase — CoBLTech as Australia's host for the AI and future of work conversation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAJECTORY -->
+  <section>
+    <div class="container">
+      <span class="section-label">The career trajectory</span>
+      <h2>Level B to Level D — an aggressive but credible timeline</h2>
+      <p>The RMIT promotion framework requires evidence across three domains: Engagement (mandatory), Education, and Research. The plan below is designed to build a compelling case in all three simultaneously — not sequentially.</p>
+
+      <div class="traj-track">
+        <div class="traj-node current">
+          <span class="traj-badge b">Level B</span>
+          <div class="traj-year">2026</div>
+          <div class="traj-title">Lecturer</div>
+          <div class="traj-note">Automatic on PhD completion. Starting point, not an achievement.</div>
+        </div>
+        <div class="traj-arrow">→</div>
+        <div class="traj-node target-c">
+          <span class="traj-badge c">Level C</span>
+          <div class="traj-year">2028</div>
+          <div class="traj-title">Senior Lecturer</div>
+          <div class="traj-note">Application target. 2–3 years post-PhD. Evidence-based, not aspirational.</div>
+        </div>
+        <div class="traj-arrow">→</div>
+        <div class="traj-node target-d">
+          <span class="traj-badge d">Level D</span>
+          <div class="traj-year">2031</div>
+          <div class="traj-title">Associate Professor</div>
+          <div class="traj-note">The Level C work sets this up. ARC grant, HDR completions, sector leadership.</div>
+        </div>
+      </div>
+
+      <!-- Level C case -->
+      <div class="crit-section">
+        <p class="crit-header">What the Level C case will show (2028 application)</p>
+        <table class="crit-table">
+          <thead>
+            <tr>
+              <th>Domain</th>
+              <th>RMIT requires at Level C</th>
+              <th>My case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Research</td>
+              <td>Quality publications; emerging grant activity; HDR supervision</td>
+              <td><span class="check">✓</span>5–6 A*/A papers submitted (incl. theory paper already written); ARC Linkage in development; co-supervising 1 HDR student; platform ARR as research income evidence</td>
+            </tr>
+            <tr>
+              <td>Education</td>
+              <td>Sustained teaching excellence; SoTL engagement; learning design contributions</td>
+              <td><span class="check">✓</span>4 flagship courses coordinated; Build-then-Critique and VAL PALS published; AI-integrated course design across all programs</td>
+            </tr>
+            <tr>
+              <td>Engagement — Internal</td>
+              <td>Sustained unit-level contributions; collegial impact; mentoring</td>
+              <td><span class="check">✓</span>CoBLTech Accelerator running; SoTL mentoring for colleagues; committee membership</td>
+            </tr>
+            <tr>
+              <td>Engagement — External</td>
+              <td>Industry partnerships; significant cash or in-kind support from end-users</td>
+              <td><span class="check">✓</span>Platform deployments generating ARR; government partner engagement (Jobs &amp; Skills Australia); Passage as public-facing tool</td>
+            </tr>
+            <tr>
+              <td>Engagement — Scholarly</td>
+              <td>Active discipline body involvement; emerging sector reputation</td>
+              <td><span class="check">✓</span>Journal reviewing; conference presentations; annual showcase event Year 2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Level D case -->
+      <div class="crit-section" style="margin-top:2.5rem;">
+        <p class="crit-header">What the Level D case will show (2031 application)</p>
+        <table class="crit-table">
+          <thead>
+            <tr>
+              <th>Domain</th>
+              <th>RMIT requires at Level D</th>
+              <th>My case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Research</td>
+              <td>Sustained publication record; competitive grant income; HDR completions</td>
+              <td><span class="dt">→</span> 8–10 papers; ARC Linkage awarded or under review; 1 HDR student nearing completion; LOOM Lab established</td>
+            </tr>
+            <tr>
+              <td>Education</td>
+              <td>SoTL publication record (~1/year); national dissemination; leadership of educational innovation</td>
+              <td><span class="dt">→</span> 4–5 SoTL papers; invited speaker at teaching &amp; learning events; Accelerator's SoTL CoP as evidence of leadership</td>
+            </tr>
+            <tr>
+              <td>Engagement — Internal</td>
+              <td>College-level governance contribution; leadership of capability development</td>
+              <td><span class="dt">→</span> College committee role; Accelerator as documented capability-building program; mentoring track record</td>
+            </tr>
+            <tr>
+              <td>Engagement — External</td>
+              <td>Sector leadership; sustained mutually beneficial partnerships; significant cash/in-kind</td>
+              <td><span class="dt">→</span> Annual showcase in Year 4–5; Jobs &amp; Skills Australia or Productivity Commission partnership; Passage deployed nationally</td>
+            </tr>
+            <tr>
+              <td>Engagement — Scholarly</td>
+              <td>Leadership in scholarly engagement; national reputation; editorial board or equivalent</td>
+              <td><span class="dt">→</span> Editorial board membership; conference keynote; national media profile on AI &amp; work</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MILESTONES -->
+  <section>
+    <div class="container">
+      <span class="section-label">Year by year</span>
+      <h2>What happens when</h2>
+      <p>This is not a wish list. These are milestones I am confident I can hit, with the institutional support described below. The timeline is aggressive but liveable — I have no interest in a research career that consumes everything else.</p>
+
+      <div class="ms-legend">
+        <div class="ms-leg-item"><div class="ms-leg-dot" style="background:var(--r)"></div> Research</div>
+        <div class="ms-leg-item"><div class="ms-leg-dot" style="background:var(--e)"></div> Education</div>
+        <div class="ms-leg-item"><div class="ms-leg-dot" style="background:var(--g)"></div> Engagement</div>
+        <div class="ms-leg-item"><div class="ms-leg-dot" style="background:var(--accent)"></div> Milestone</div>
+      </div>
+
+      <div class="milestone-list">
+        <div class="ms-year highlight">
+          <div class="ms-yr-label">2026 <small>Now</small></div>
+          <div class="ms-items">
+            <div class="ms-item"><div class="ms-dot x"></div><div class="ms-item-text"><strong>PhD completed</strong> — automatic promotion to Level B</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text"><strong>Directed-search theory paper submitted</strong> — PhD Ch. 3, already written, economic theory journal (A*)</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">AI Hushing submitted to Strategic Entrepreneurship Journal (A*)</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Augmented Double Diamond submitted to Research-Technology Management</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">LOOM prospectus presented to CoBLTech leadership — this document</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">CoBLTech Accelerator concept formalised; first SoTL workshop delivered</div></div>
+            <div class="ms-item"><div class="ms-dot e"></div><div class="ms-item-text">4 courses coordinated: Leading AI &amp; Workforce Transformation, Management of Technology &amp; Innovation, Technology Futures, Business Consulting</div></div>
+          </div>
+        </div>
+        <div class="ms-year">
+          <div class="ms-yr-label">2027</div>
+          <div class="ms-items">
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">VAL PALS submitted to Journal of Management Education (A)</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Build-then-Critique submitted to AMLE (A*)</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Heterogeneous Task Restructuring (thesis → journal paper) submitted to Labour Economics (A*)</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">First Annual AI &amp; Work Showcase — hosted by CoBLTech</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">HDR co-supervision commenced</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Accelerator SoTL working group publishing first co-authored outputs</div></div>
+          </div>
+        </div>
+        <div class="ms-year highlight">
+          <div class="ms-yr-label">2028 <small>Level C</small></div>
+          <div class="ms-items">
+            <div class="ms-item"><div class="ms-dot x"></div><div class="ms-item-text"><strong>Level C promotion application submitted</strong></div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">3–4 papers published; 1–2 under review</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Human-in-the-Loop Doesn't Solve Bias submitted to AMR (A*)</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Skill Proximity Networks submitted to Journal of Economic Geography (A)</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">ARC Linkage partner identification and pre-application workshop</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Passage (public labour market tool) launched — RMIT-branded public-facing research output</div></div>
+          </div>
+        </div>
+        <div class="ms-year">
+          <div class="ms-yr-label">2029</div>
+          <div class="ms-items">
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Algorithmic Allocation &amp; EA Compliance submitted to Information Systems Research (A*)</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">ARC Linkage application submitted (A$400–600k target)</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Government partnership formalised — Jobs &amp; Skills Australia or Productivity Commission</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Annual showcase Year 3 — national profile established</div></div>
+          </div>
+        </div>
+        <div class="ms-year">
+          <div class="ms-yr-label">2030</div>
+          <div class="ms-items">
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Voice Preservation in AI-Mediated Writing submitted to Information &amp; Organization (A)</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">ARC Linkage outcome; if awarded, LOOM Lab formally established</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">HDR student approaching completion</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Editorial board membership or equivalent scholarly leadership role</div></div>
+          </div>
+        </div>
+        <div class="ms-year highlight">
+          <div class="ms-yr-label">2031 <small>Level D</small></div>
+          <div class="ms-items">
+            <div class="ms-item"><div class="ms-dot x"></div><div class="ms-item-text"><strong>Level D promotion application submitted</strong> — 8–10 papers, ARC grant, HDR completion, sector leadership</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATION PIPELINE -->
+  <section>
+    <div class="container">
+      <span class="section-label">Research output</span>
+      <h2>The publication pipeline</h2>
+      <p>Nine papers across four arms of the LOOM program. Five target A* journals. Click rows to expand details — or read the full LOOM research prospectus for complete paper descriptions and team profiles.</p>
+
+      <div class="gantt-legend">
+        <div class="gl-item"><div class="gl-dot" style="background:#60a5fa"></div> Measurement</div>
+        <div class="gl-item"><div class="gl-dot" style="background:#34d399"></div> Intervention</div>
+        <div class="gl-item"><div class="gl-dot" style="background:#fb923c"></div> Critical Policy</div>
+        <div class="gl-item"><div class="gl-dot" style="background:#c4b5fd"></div> SoTL</div>
+        <div class="gl-item" style="margin-left:auto">
+          <div style="width:1px;height:12px;background:var(--accent);opacity:.6"></div>
+          <span>Today</span>
+        </div>
+      </div>
+
+      <div class="gantt-wrap">
+        <div class="gantt-inner">
+          <div class="gantt-head">
+            <div></div>
+            <div class="gantt-years">
+              <span class="gy">2026</span>
+              <span class="gy">2027</span>
+              <span class="gy">2028</span>
+              <span class="gy">2029</span>
+            </div>
+          </div>
+          <div class="gantt-head">
+            <div></div>
+            <div class="gantt-quarters">
+              <span class="gq now">Q1</span><span class="gq now">Q2</span><span class="gq">Q3</span><span class="gq">Q4</span>
+              <span class="gq">Q1</span><span class="gq">Q2</span><span class="gq">Q3</span><span class="gq">Q4</span>
+              <span class="gq">Q1</span><span class="gq">Q2</span><span class="gq">Q3</span><span class="gq">Q4</span>
+              <span class="gq">Q1</span><span class="gq">Q2</span><span class="gq">Q3</span><span class="gq">Q4</span>
+            </div>
+          </div>
+
+          <!-- start/end: 0-based quarter index. left%=start/16*100, width%=(end-start)/16*100 -->
+
+          <div class="g-row">
+            <div class="g-info">
+              <div class="g-title">Directed-Search Theory <span class="g-rank-badge g-rank-star">A*</span></div>
+              <div class="g-sub">Econ theory journal · PhD Ch.3, already written</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#60a5fa; left:6.25%; width:12.5%"></div>
+            </div>
+          </div>
+
+          <div class="g-row">
+            <div class="g-info">
+              <div class="g-title">AI Hushing <span class="g-rank-badge g-rank-star">A*</span></div>
+              <div class="g-sub">Strategic Entrepreneurship Journal · Biru (lead), Bierly</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#fb923c; left:6.25%; width:18.75%"></div>
+            </div>
+          </div>
+
+          <div class="g-row">
+            <div class="g-info">
+              <div class="g-title">Augmented Double Diamond <span class="g-rank-badge g-rank-b">B</span></div>
+              <div class="g-sub">Research-Technology Management · Hor (lead) et al.</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#34d399; left:6.25%; width:25%"></div>
+            </div>
+          </div>
+
+          <div class="g-row">
+            <div class="g-info">
+              <div class="g-title">VAL PALS in the MBA Classroom <span class="g-rank-badge g-rank-a">A</span></div>
+              <div class="g-sub">Journal of Management Education · Bierly</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#c4b5fd; left:12.5%; width:18.75%"></div>
+            </div>
+          </div>
+
+          <div class="g-row">
+            <div class="g-info">
+              <div class="g-title">Build-then-Critique Pedagogy <span class="g-rank-badge g-rank-star">A*</span></div>
+              <div class="g-sub">AMLE · Bierly</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#c4b5fd; left:25%; width:12.5%"></div>
+            </div>
+          </div>
+
+          <div class="g-row">
+            <div class="g-info">
+              <div class="g-title">Heterogeneous Task Restructuring <span class="g-rank-badge g-rank-star">A*</span></div>
+              <div class="g-sub">Labour Economics · Bierly</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#60a5fa; left:25%; width:18.75%"></div>
+            </div>
+          </div>
+
+          <div class="g-row">
+            <div class="g-info">
+              <div class="g-title">Human-in-the-Loop Doesn't Solve Bias <span class="g-rank-badge g-rank-star">A*</span></div>
+              <div class="g-sub">Academy of Management Review · Bierly, Wheeler</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#fb923c; left:25%; width:18.75%"></div>
+            </div>
+          </div>
+
+          <div class="g-row">
+            <div class="g-info">
+              <div class="g-title">Skill Proximity Networks <span class="g-rank-badge g-rank-a">A</span></div>
+              <div class="g-sub">Journal of Economic Geography · Bierly</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#60a5fa; left:37.5%; width:18.75%"></div>
+            </div>
+          </div>
+
+          <div class="g-row">
+            <div class="g-info">
+              <div class="g-title">Algorithmic Allocation &amp; EA Compliance <span class="g-rank-badge g-rank-star">A*</span></div>
+              <div class="g-sub">Information Systems Research · Bierly</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#34d399; left:50%; width:18.75%"></div>
+            </div>
+          </div>
+
+          <div class="g-row">
+            <div class="g-info">
+              <div class="g-title">Voice Preservation in AI-Mediated Writing <span class="g-rank-badge g-rank-a">A</span></div>
+              <div class="g-sub">Information &amp; Organization · Bierly</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#34d399; left:62.5%; width:18.75%"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE ASK -->
+  <section>
+    <div class="container">
+      <span class="section-label">What I need from you</span>
+      <h2>Six things that would make this real</h2>
+      <p>Each of these is a concrete ask, not a vague request for support. I have tried to be honest about why each matters — both for my career and for CoBLTech.</p>
+
+      <div class="ask-grid">
+        <div class="ask-card">
+          <div class="ask-num">01</div>
+          <h3>Named CoBLTech affiliation for LOOM</h3>
+          <p>Formal recognition of LOOM as a CoBLTech research program — a named home that appears in my publications, grant applications, and public profile.</p>
+          <p class="benefit">For CoBLTech: every LOOM publication and media mention carries the college's name into labour economics, management, and information systems.</p>
+        </div>
+        <div class="ask-card">
+          <div class="ask-num">02</div>
+          <h3>A governance or committee role</h3>
+          <p>A meaningful seat at a college or university committee — AI integration, curriculum, research strategy, or equivalent. Not a box-tick, a genuine contribution.</p>
+          <p class="benefit">For CoBLTech: someone with deep AI expertise who can bring that knowledge to institutional decisions, not just publish about it.</p>
+        </div>
+        <div class="ask-card">
+          <div class="ask-num">03</div>
+          <h3>Protected research time post-PhD</h3>
+          <p>A workload allocation that includes dedicated research time through at least 2028 — the period in which the Level C case is built. The fellowship ends with the PhD.</p>
+          <p class="benefit">For CoBLTech: the platforms, publications, and grant income only materialise if the research time is there to produce them.</p>
+        </div>
+        <div class="ask-card">
+          <div class="ask-num">04</div>
+          <h3>IP and licensing support for Ordian</h3>
+          <p>A conversation with the relevant parties about RMIT's preferred IP arrangement for the Ordian platform — currently undefined. A resolved structure enables responsible scale-up.</p>
+          <p class="benefit">For CoBLTech: a commercial platform with a clear IP structure generates research income, real-world data, and reputational capital for the college.</p>
+        </div>
+        <div class="ask-card">
+          <div class="ask-num">05</div>
+          <h3>Government partner introductions</h3>
+          <p>Brokered introductions to Jobs &amp; Skills Australia, the Productivity Commission, or equivalent bodies for the ARC Linkage application — connections the college has that I do not yet.</p>
+          <p class="benefit">For CoBLTech: RMIT at the table where national AI and labour policy is made, with an RMIT researcher as the named expert.</p>
+        </div>
+        <div class="ask-card">
+          <div class="ask-num">06</div>
+          <h3>Hosting the Annual AI &amp; Work Showcase</h3>
+          <p>CoBLTech as the institutional host of an annual event bringing together researchers, practitioners, government, and media around AI and the future of work. First edition: 2027.</p>
+          <p class="benefit">For CoBLTech: a recurring, high-profile event that positions the college as Australia's home for this conversation — and a natural venue for the external partnerships the ARC Linkage requires.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <section class="close-section">
+    <div class="container">
+      <span class="section-label">In closing</span>
+      <p>The timeline is aggressive because the field is still forming. There is a genuine first-mover opportunity for RMIT in the AI and work space, and the window for taking it will not stay open indefinitely.</p>
+      <p>I would welcome a conversation about any part of this — what looks strong, what needs work, and what the college is in a position to commit to.</p>
+      <div class="close-sig">
+        Thomas Bierly
+        <small>Associate Lecturer (Academic Career Development Fellow) · RMIT School of Management</small>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /#content -->
+
+<footer id="footer" style="display:none">
+  Private &amp; Confidential · Thomas Bierly · RMIT University · 2026
+</footer>
+
+<script>
+  const VALID_KEY = 'thomasbierly';
+
+  function unlock() {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+    document.getElementById('nav').style.display = 'flex';
+    document.getElementById('footer').style.display = 'block';
+  }
+
+  function tryKey() {
+    const val = document.getElementById('pw-input').value.trim().toLowerCase().replace(/\s+/g, '');
+    if (val === VALID_KEY) {
+      unlock();
+    } else {
+      document.getElementById('gate-err').style.display = 'block';
+    }
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') tryKey();
+  });
+
+  // Check URL param — script is at end of body so DOM is ready
+  const params = new URLSearchParams(window.location.search);
+  const urlKey = (params.get('key') || '').toLowerCase().replace(/\s+/g, '');
+  if (urlKey === VALID_KEY) unlock();
+</script>
+
+</body>
+</html>
