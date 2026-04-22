@@ -237,8 +237,8 @@
   <h1>Tutor Scheduling Platform<br>Systems Design Document</h1>
   <div class="subtitle">Architecture, Data Model, API Reference &amp; Deployment</div>
   <table class="meta-table">
-    <tr><td>Version</td><td>1.0</td></tr>
-    <tr><td>Date</td><td>March 2026</td></tr>
+    <tr><td>Version</td><td>1.1</td></tr>
+    <tr><td>Date</td><td>April 2026</td></tr>
     <tr><td>Author</td><td>Thomas Bierly</td></tr>
     <tr><td>Status</td><td>Active Development — Production Pilot</td></tr>
     <tr><td>Platform</td><td>Railway (cloud) / Docker (local dev)</td></tr>
@@ -277,8 +277,11 @@
       <ul class="sub">
         <li><a href="#s7a">Authentication Routes</a></li>
         <li><a href="#s7b">Tutor Routes</a></li>
-        <li><a href="#s7c">Admin Routes</a></li>
+        <li><a href="#s7c">School Admin Routes</a></li>
         <li><a href="#s7d">Coordinator Routes</a></li>
+        <li><a href="#s7e">College Admin Routes</a></li>
+        <li><a href="#s7f">Uni Admin Routes</a></li>
+        <li><a href="#s7g">Super Admin Routes</a></li>
       </ul>
     </li>
     <li><a href="#s8">Frontend Architecture</a>
@@ -363,9 +366,12 @@
 <table>
   <thead><tr><th>Actor</th><th>Count (Pilot)</th><th>Primary Responsibilities</th></tr></thead>
   <tbody>
-    <tr><td><strong>Sessional Tutor</strong></td><td>~500</td><td>Submit CV, set weekly availability, express course interests, accept/reject offers</td></tr>
-    <tr><td><strong>Administrator</strong></td><td>~5</td><td>Review tutor applicants, upload class schedules (CSV), upload CES scores (CSV), manage semesters/courses/users, manage email templates and campaigns</td></tr>
-    <tr><td><strong>Course Coordinator</strong></td><td>~150</td><td>Pre-assign themselves/tutors to specific classes, run optimization, review results, adjust allocations, send offers, manage assessment marking assignments</td></tr>
+    <tr><td><strong>Sessional Tutor</strong></td><td>~500</td><td>Submit CV, set weekly availability, express course interests, accept/reject allocation and marking offers</td></tr>
+    <tr><td><strong>Course Coordinator</strong></td><td>~150</td><td>Pre-assign tutors to specific classes, run per-course optimization, review and adjust allocations, send offers, manage marking assignments, rank tutors, submit end-of-semester reviews</td></tr>
+    <tr><td><strong>School Admin</strong></td><td>~5</td><td>Review applicants, manage semesters/courses/users/class schedules/CES scores, run school-wide optimization, manage workload rules, email templates and campaigns, research projects, audit log</td></tr>
+    <tr><td><strong>College Admin</strong></td><td>~2</td><td>Manage schools within their college, assign school admins, view college-wide workload metrics</td></tr>
+    <tr><td><strong>Uni Admin</strong></td><td>~1</td><td>Manage colleges and college admins across the university</td></tr>
+    <tr><td><strong>Super Admin</strong></td><td>~1</td><td>System-wide overrides, user impersonation for support, diagnostics, role changes</td></tr>
   </tbody>
 </table>
 </div>
@@ -436,25 +442,31 @@
 <h2 id="s3c">3.3 Monorepo Structure</h2>
 <pre>
 TutorSchedulingPlatform/
-├── package.json                    # npm workspaces root
+├── pnpm-workspace.yaml             # pnpm workspaces root
+├── package.json
 ├── docker-compose.yml              # Local dev: postgres, redis, all services
 ├── .github/workflows/ci.yml        # GitHub Actions CI/CD
 └── packages/
     ├── shared/
-    │   └── src/types/              # Shared TypeScript types + Zod schemas
+    │   └── src/
+    │       ├── types/              # Shared TypeScript interfaces
+    │       └── schemas/            # Zod validation schemas
     ├── frontend/                   # Next.js 15 App Router
     │   ├── src/
     │   │   ├── app/
     │   │   │   ├── (auth)/login/   # Login page (unauthenticated)
     │   │   │   ├── tutor/          # Tutor portal pages
-    │   │   │   ├── admin/          # Admin panel pages
-    │   │   │   └── coordinator/    # Coordinator pages
+    │   │   │   ├── admin/          # School Admin panel pages
+    │   │   │   ├── coordinator/    # Coordinator pages
+    │   │   │   ├── college-admin/  # College Admin pages
+    │   │   │   └── super-admin/    # Super Admin pages
     │   │   ├── components/
     │   │   │   ├── sidebar.tsx     # Role-based navigation sidebar
     │   │   │   └── ...             # Shared UI components
-    │   │   └── lib/
-    │   │       ├── auth.tsx        # Auth context + useAuth hook
-    │   │       └── api-client.ts   # Typed API client (all fetch calls)
+    │   │   ├── lib/
+    │   │   │   ├── auth.tsx        # Auth context + useAuth hook
+    │   │   │   └── api-client.ts   # Typed API client (all fetch calls)
+    │   │   └── middleware.ts       # Auth redirect + role-based page guards
     │   └── tailwind.config.ts
     ├── backend/                    # Express.js API
     │   ├── prisma/
@@ -469,25 +481,31 @@ TutorSchedulingPlatform/
     │       │   ├── auth.ts         # JWT verification
     │       │   ├── rbac.ts         # Role-based access control
     │       │   ├── validate.ts     # Zod request validation
-    │       │   └── rate-limit.ts   # Express-rate-limit config
+    │       │   └── rate-limit.ts   # Redis-backed express-rate-limit config
     │       ├── routes/
     │       │   ├── auth.routes.ts
     │       │   ├── tutor.routes.ts
-    │       │   ├── admin.routes.ts
-    │       │   └── coordinator.routes.ts
+    │       │   ├── admin.routes.ts         # School Admin routes
+    │       │   ├── coordinator.routes.ts
+    │       │   ├── college-admin.routes.ts
+    │       │   ├── uni-admin.routes.ts
+    │       │   └── super-admin.routes.ts
     │       ├── services/
-    │       │   ├── optimizer.service.ts   # Assembles payload, calls Python, persists results
-    │       │   └── email.service.ts       # Resend integration
+    │       │   ├── optimizer.service.ts        # Assembles payload, calls Python, persists results
+    │       │   ├── workload-rules.service.ts   # Sessional + faculty workload calculations
+    │       │   └── email.service.ts            # Resend integration
     │       └── queues/
-    │           ├── optimization.queue.ts  # BullMQ queue definition
-    │           └── optimization.worker.ts # BullMQ worker process
+    │           ├── optimization.queue.ts   # BullMQ optimization queue
+    │           ├── optimization.worker.ts  # BullMQ optimization worker
+    │           ├── campaign.queue.ts       # BullMQ email campaign queue
+    │           └── campaign.worker.ts      # BullMQ email campaign worker
     └── optimizer/                  # Python FastAPI microservice
         ├── src/
         │   ├── main.py             # FastAPI app entry point
         │   ├── models.py           # Pydantic request/response schemas
         │   └── solver.py           # OR-Tools CP-SAT solver (all constraint logic)
         ├── tests/
-        │   └── test_solver.py      # 13 unit tests
+        │   └── test_solver.py      # Optimizer unit tests
         ├── Dockerfile
         └── railway.toml
 </pre>
@@ -518,7 +536,7 @@ TutorSchedulingPlatform/
     <tr><td><strong>Validation</strong></td><td>Zod</td><td>3.x</td><td>Runtime TypeScript schema validation used on all backend request bodies and frontend form data. Single source of truth for shared types.</td></tr>
     <tr><td><strong>Security Headers</strong></td><td>Helmet.js</td><td>—</td><td>Sets CSP, HSTS, X-Frame-Options, X-Content-Type-Options headers on all responses.</td></tr>
     <tr><td><strong>Rate Limiting</strong></td><td>express-rate-limit</td><td>—</td><td>100 req/min general, 5 req/min on auth endpoints. Stored in memory (upgradeable to Redis for multi-instance).</td></tr>
-    <tr><td><strong>Monorepo</strong></td><td>npm workspaces</td><td>—</td><td>Simplest multi-package management. Shared types package imported by both frontend and backend.</td></tr>
+    <tr><td><strong>Monorepo</strong></td><td>pnpm workspaces</td><td>—</td><td>Fast, disk-efficient multi-package management. Shared types package imported by both frontend and backend. pnpm's strict hoisting prevents phantom dependency issues.</td></tr>
     <tr><td><strong>Language</strong></td><td>TypeScript</td><td>5.x</td><td>Used across frontend and backend. Prisma generates types from schema, eliminating entire classes of runtime errors.</td></tr>
     <tr><td><strong>CI/CD</strong></td><td>GitHub Actions</td><td>—</td><td>Automated lint, type-check, test, and deploy pipeline on push to main.</td></tr>
     <tr><td><strong>Containerisation</strong></td><td>Docker</td><td>—</td><td>Each service has a Dockerfile. docker-compose.yml orchestrates all services for local development with hot reload.</td></tr>
@@ -532,46 +550,65 @@ TutorSchedulingPlatform/
 <div class="section" id="s5">
 <h1>5. User Roles &amp; Permissions</h1>
 
-<p>The platform uses Role-Based Access Control (RBAC). Every authenticated request passes through an Express middleware that checks the user's role before reaching the route handler. Roles are stored in the <code>User.role</code> field and embedded in the JWT payload.</p>
+<p>The platform uses Role-Based Access Control (RBAC). Every authenticated request passes through an Express middleware that checks the user's role before reaching the route handler. Roles are stored in the <code>User.role</code> field and embedded in the JWT payload. The six roles form a loose hierarchy of trust, with each higher role having broader organisational scope.</p>
 
-<h2>5.1 Role Capabilities Matrix</h2>
+<h2>5.1 Role Hierarchy</h2>
 <table>
-  <thead><tr><th>Capability</th><th class="center">TUTOR</th><th class="center">ADMIN</th><th class="center">COORDINATOR</th></tr></thead>
+  <thead><tr><th>Role</th><th>Scope</th><th>Description</th></tr></thead>
   <tbody>
-    <tr><td>View own profile</td><td>✓</td><td>—</td><td>—</td></tr>
-    <tr><td>Upload CV</td><td>✓</td><td>—</td><td>—</td></tr>
-    <tr><td>Set weekly availability</td><td>✓</td><td>—</td><td>—</td></tr>
-    <tr><td>Express course interests</td><td>✓</td><td>—</td><td>—</td></tr>
-    <tr><td>Express class preferences</td><td>✓</td><td>—</td><td>—</td></tr>
-    <tr><td>Accept/reject allocation offers</td><td>✓</td><td>—</td><td>—</td></tr>
-    <tr><td>Review tutor applicants (set preference)</td><td>—</td><td>✓</td><td>—</td></tr>
-    <tr><td>Upload class schedules (CSV)</td><td>—</td><td>✓</td><td>—</td></tr>
-    <tr><td>Upload CES scores (CSV)</td><td>—</td><td>✓</td><td>—</td></tr>
-    <tr><td>Manage semesters, courses, users</td><td>—</td><td>✓</td><td>—</td></tr>
-    <tr><td>Set required teaching load per CC</td><td>—</td><td>✓</td><td>—</td></tr>
-    <tr><td>View workload overview</td><td>—</td><td>✓</td><td>—</td></tr>
-    <tr><td>Manage email templates &amp; campaigns</td><td>—</td><td>✓</td><td>—</td></tr>
-    <tr><td>View audit log</td><td>—</td><td>✓</td><td>—</td></tr>
-    <tr><td>Pre-assign tutors to classes (drag-drop)</td><td>—</td><td>—</td><td>✓ (own courses)</td></tr>
-    <tr><td>Run optimization algorithm</td><td>—</td><td>—</td><td>✓ (own courses)</td></tr>
-    <tr><td>Review and adjust allocations</td><td>—</td><td>—</td><td>✓ (own courses)</td></tr>
-    <tr><td>Send offers to tutors</td><td>—</td><td>—</td><td>✓ (own courses)</td></tr>
-    <tr><td>Manage assessment marking assignments</td><td>—</td><td>—</td><td>✓ (own courses)</td></tr>
+    <tr><td><code>TUTOR</code></td><td>Self</td><td>Sessional staff. Express interest, set availability, accept/reject offers.</td></tr>
+    <tr><td><code>COORDINATOR</code></td><td>Assigned courses only</td><td>Course coordinator. Run optimization, manage allocations and marking for their courses, rank tutors, submit reviews.</td></tr>
+    <tr><td><code>SCHOOL_ADMIN</code></td><td>Their school</td><td>Manages all courses, semesters, users, and optimization within their school. Configures workload rules, manages email campaigns and research projects, views audit log.</td></tr>
+    <tr><td><code>COLLEGE_ADMIN</code></td><td>Their college</td><td>Manages schools within their college, assigns school admins, views college-wide workload metrics.</td></tr>
+    <tr><td><code>UNI_ADMIN</code></td><td>University-wide</td><td>Manages the college hierarchy and assigns college admins.</td></tr>
+    <tr><td><code>SUPER_ADMIN</code></td><td>System-wide</td><td>Override any allocation, change any user's role, impersonate users for support, view system diagnostics.</td></tr>
+  </tbody>
+</table>
+
+<h2>5.2 Role Capabilities Matrix</h2>
+<table>
+  <thead><tr><th>Capability</th><th>TUTOR</th><th>COORD</th><th>SCHOOL_ADMIN</th><th>COLLEGE_ADMIN</th><th>UNI_ADMIN</th><th>SUPER_ADMIN</th></tr></thead>
+  <tbody>
+    <tr><td>View &amp; update own profile / CV</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Set weekly availability</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Express course interests &amp; class preferences</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Accept/reject allocation &amp; marking offers</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Pre-assign tutors to classes</td><td>—</td><td>✓ (own courses)</td><td>✓ (school)</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Run course-level optimization</td><td>—</td><td>✓ (own courses)</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Run school-wide optimization</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Review &amp; adjust allocations, send offers</td><td>—</td><td>✓ (own courses)</td><td>✓ (school)</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Manage assessments &amp; marking assignments</td><td>—</td><td>✓ (own courses)</td><td>✓ (school)</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Rank tutors, submit end-of-semester reviews</td><td>—</td><td>✓ (own courses)</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Review tutor applicants (set preference)</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Manage semesters, courses, class schedules</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Upload CES scores (CSV)</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Manage users &amp; assign coordinators</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Configure workload rules</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>View workload overview</td><td>—</td><td>—</td><td>✓ (school)</td><td>✓ (college)</td><td>—</td><td>—</td></tr>
+    <tr><td>Manage email templates &amp; campaigns</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Manage research projects</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>View audit log</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>Manage schools, assign school admins</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>—</td><td>—</td></tr>
+    <tr><td>Manage colleges, assign college admins</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>—</td></tr>
+    <tr><td>Override any allocation / change any role</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
+    <tr><td>Impersonate users / view diagnostics</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
   </tbody>
 </table>
 
 <div class="callout warn">
-  <strong>Row-Level Isolation:</strong> Coordinators are further restricted to data belonging to their assigned courses only. The backend enforces this by joining <code>CourseCoordinator</code> records and filtering by the authenticated user's ID — coordinators cannot access another coordinator's allocations or run optimization for courses they do not own.
+  <strong>Row-Level Isolation:</strong> Coordinators are restricted to data belonging to their assigned courses only. School admins are restricted to their school. The backend enforces this by joining <code>CourseCoordinator</code> or <code>SchoolAdmin</code> records filtered by the authenticated user's ID.
 </div>
 
-<h2>5.2 RBAC Middleware</h2>
+<h2>5.3 RBAC Middleware</h2>
 <p>The <code>requireRole(...roles)</code> middleware is applied per route group. It reads the <code>role</code> claim from the verified JWT and returns HTTP 403 if the role is not in the permitted list. It is applied after the <code>authenticate</code> middleware which verifies the JWT signature and expiry.</p>
 
 <pre>
 // Example route protection
-router.get('/applicants', authenticate, requireRole('ADMIN'), getApplicants);
+router.get('/applicants', authenticate, requireRole('SCHOOL_ADMIN'), getApplicants);
 router.post('/optimize', authenticate, requireRole('COORDINATOR'), triggerOptimization);
 router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
+router.get('/my-college', authenticate, requireRole('COLLEGE_ADMIN'), getCollegeOverview);
+router.post('/impersonate', authenticate, requireRole('SUPER_ADMIN'), impersonateUser);
 </pre>
 </div>
 
@@ -583,38 +620,71 @@ router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
 
 <h2 id="s6a">6.1 Entity-Relationship Overview</h2>
 <pre>
-  User ──────────────────┐
-   │ 1                   │
-   │ ┌─────────────────  │ (ReviewedBy)
-   ▼ ▼                   │
-  TutorProfile ──────────┘
+  College ──────► School ──────► Department
+     │               │
+     │ (CollegeAdmin) │ (SchoolAdmin)
+     ▼               ▼
+    User           User (SCHOOL_ADMIN)
+  (COLLEGE_ADMIN)
+
+  User ──────────────────────────────────────────┐
+   │ 1                                           │
+   │ ┌──────────────────────────────────────     │ (ReviewedBy)
+   ▼ ▼                                           │
+  TutorProfile ──────────────────────────────────┘
    │ 1:N Availability
-   │ 1:N CesScore  ──────────────► Course
-   │ 1:N ClassPreference ───────► ClassSlot
-   │ 1:N CourseInterest ────────► Course
+   │ 1:N CesScore  ──────────────────────────► Course
+   │ 1:N ClassPreference ───────────────────► ClassSlot
+   │ 1:N CourseInterest ────────────────────► Course
+   │ 1:N TutorCoursePreference ─────────────► Course
 
   Semester
    │ 1:N
    ▼
-  Course ─────────────────────► CourseCoordinator ◄─── User
-   │ 1:N                              │ (requiredTutorials)
+  Course ─────────────────────► CourseCoordinator ◄──── User
+   │ 1:N                            │ (requiredTutorials)
+   │ 1:N Assessment
    ▼
-  ClassSlot ──────────────────► Allocation ◄──────── User (tutor)
-   │                              │ (runId)
-   │ 1:N                          ▼
-   │                          OptimizationRun ◄────── User (initiator)
+  ClassSlot ──────────────────► Allocation ◄──────────── User (tutor)
+   │                                │ (runId, markingOptOut)
+   │ 1:N                            ▼
+   │                          OptimizationRun ◄──────── User (initiator)
+   │                                │
+   │                                ▼
+   │                         ScheduleApproval ◄──────── User (coordinator)
    │ 1:N
    ▼
-  MarkingAssignment ──────────► Assessment ──────────► Course
+  MarkingAssignment ──────────► Assessment ──────────── Course
         │                      (per course)
-        └──────────────────────────────────────────► User (tutor)
+        └─────────────────────────────────────────────► User (tutor)
 
-  EmailTemplate ◄──────────── EmailCampaign ◄──────── User (creator)
+  CoordinatorTutorRanking ────► ClassSlot / Course ◄─── User (coordinator)
+  CoordinatorCourseRanking ───► Course ◄─────────────── User (coordinator)
 
-  AuditLog ◄──────────────────────────────────────── User
+  TutorReview ────────────────► Course / Semester ◄──── User (reviewer)
+                                                  ◄──── User (tutor)
+
+  ResearchProject ────────────► User (supervisor) / User (RA)
+
+  EmailTemplate ◄──────────── EmailCampaign ◄────────── User (creator)
+
+  AuditLog ◄──────────────────────────────────────────── User
 </pre>
 
 <h2 id="s6b">6.2 Model Reference</h2>
+
+<h3>Organisational Hierarchy</h3>
+<p>The platform models RMIT's three-level organisational structure. Schools own courses and belong to a College. Users at the School Admin level are linked to a School; College Admins are linked to a College.</p>
+<table>
+  <thead><tr><th>Model</th><th>Key Fields</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>College</code></td><td>id, name</td><td>Top-level organisational unit (e.g. "College of STEM"). Has many Schools.</td></tr>
+    <tr><td><code>School</code></td><td>id, name, collegeId, workloadRules (JSON)</td><td>Mid-level unit (e.g. "School of Computing"). Owns courses. The <code>workloadRules</code> JSON field stores the school's configured sessional and faculty workload framework parameters.</td></tr>
+    <tr><td><code>Department</code></td><td>id, name, schoolId</td><td>Optional sub-unit within a school. Courses may be tagged with a department for reporting purposes.</td></tr>
+    <tr><td><code>CollegeAdmin</code></td><td>userId, collegeId</td><td>Join record assigning a COLLEGE_ADMIN user to their college.</td></tr>
+    <tr><td><code>SchoolAdmin</code></td><td>userId, schoolId</td><td>Join record assigning a SCHOOL_ADMIN user to their school.</td></tr>
+  </tbody>
+</table>
 
 <h3>User</h3>
 <p>Root identity record. Every person in the system is a User. Role determines which portal they access.</p>
@@ -625,7 +695,9 @@ router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
     <tr><td><code>email</code></td><td>String</td><td>Unique. Used as login username.</td></tr>
     <tr><td><code>passwordHash</code></td><td>String</td><td>bcrypt hash (cost 12). Never returned in API responses.</td></tr>
     <tr><td><code>name</code></td><td>String</td><td>Display name shown in UI and emails.</td></tr>
-    <tr><td><code>role</code></td><td>Role enum</td><td>TUTOR | ADMIN | COORDINATOR</td></tr>
+    <tr><td><code>role</code></td><td>Role enum</td><td>TUTOR | COORDINATOR | SCHOOL_ADMIN | COLLEGE_ADMIN | UNI_ADMIN | SUPER_ADMIN</td></tr>
+    <tr><td><code>isEducationFocused</code></td><td>Boolean</td><td>Whether this coordinator/admin has an education-focused workload profile (affects faculty workload framework calculations).</td></tr>
+    <tr><td><code>schoolId</code></td><td>String?</td><td>Links SCHOOL_ADMIN users directly to their school for fast scoping queries. Nullable for tutors and coordinators.</td></tr>
     <tr><td><code>createdAt / updatedAt</code></td><td>DateTime</td><td>Managed by Prisma.</td></tr>
   </tbody>
 </table>
@@ -653,6 +725,8 @@ router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
     <tr><td><code>year</code></td><td>Int</td><td>e.g. 2026</td></tr>
     <tr><td><code>period</code></td><td>SemesterPeriod</td><td>SEM1 | SEM2 | SUMMER | WINTER</td></tr>
     <tr><td><code>availabilityDeadline</code></td><td>DateTime</td><td>Advisory deadline communicated to tutors — the target date by which they should have uploaded their CV and set their availability. Tutors can continue to update their availability at any time until they accept an offer.</td></tr>
+    <tr><td><code>numWeeks</code></td><td>Int</td><td>Total teaching weeks in the semester. Used by the workload service to calculate average weekly hours for sessional staff.</td></tr>
+    <tr><td><code>midSemBreakWeek</code></td><td>Int?</td><td>Week number of the mid-semester break, if applicable. The workload service excludes this week when computing teaching load distributions.</td></tr>
   </tbody>
 </table>
 
@@ -699,6 +773,7 @@ router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
     <tr><td><code>runId</code></td><td>String?</td><td>Links to the OptimizationRun that created this allocation. Null for manual allocations.</td></tr>
     <tr><td><code>offeredAt / respondedAt</code></td><td>DateTime?</td><td>Timestamps for offer and response events.</td></tr>
     <tr><td><code>reason</code></td><td>String?</td><td>Tutor-provided reason when rejecting an offer.</td></tr>
+    <tr><td><code>markingOptOut</code></td><td>Boolean</td><td>If true, this tutor has opted out of marking for this course. The auto-marking assignment logic skips them when assigning markers after optimization.</td></tr>
   </tbody>
 </table>
 
@@ -707,7 +782,7 @@ router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
 </div>
 
 <h3>OptimizationRun</h3>
-<p>Records each invocation of the optimizer for auditing and debugging. Stores the solver parameters, final status, objective value, solver time, and a JSON summary of results including any unassigned classes and tutor workload distribution.</p>
+<p>Records each invocation of the optimizer for auditing and debugging. Stores the solver parameters, final status, objective value, solver time, and a JSON summary of results including any unassigned classes and tutor workload distribution. A run may target a single course, an entire school, or a full semester.</p>
 
 <h3>Assessment</h3>
 <p>Defines assessments for a course (up to 3 per course). Each assessment has a title, weighting, optional word count, and flags for group work and in-class presentations. Used by coordinators to assign marking responsibilities.</p>
@@ -721,6 +796,68 @@ router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
 <h3>EmailCampaign</h3>
 <p>Scheduled bulk email sends to audience segments (all tutors, preferred tutors, tutors in a specific semester). Campaigns are queued for a scheduled send time and processed asynchronously.</p>
 
+<h3>ScheduleApproval</h3>
+<p>Tracks a coordinator's review of an optimization run result for their course. After a school-wide optimization run, each affected coordinator receives a pending approval request. Coordinators can approve the proposed schedule, or request changes with notes. School admins view aggregate approval status across all courses in a run.</p>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>courseId</code></td><td>String</td><td>The course whose schedule is under review.</td></tr>
+    <tr><td><code>runId</code></td><td>String</td><td>The OptimizationRun that produced the schedule.</td></tr>
+    <tr><td><code>coordinatorId</code></td><td>String</td><td>The coordinator reviewing their course's schedule.</td></tr>
+    <tr><td><code>status</code></td><td>ScheduleApprovalStatus</td><td>PENDING_REVIEW | APPROVED | CHANGES_REQUESTED</td></tr>
+    <tr><td><code>notes</code></td><td>String?</td><td>Coordinator's comments when requesting changes.</td></tr>
+  </tbody>
+</table>
+
+<h3>TutorCoursePreference</h3>
+<p>Records an admin's per-course preference verdict for a specific tutor — distinct from the global TutorProfile preference. Allows fine-grained control: a tutor might be PREFERRED overall but only OK for a specific course. The optimizer uses the most specific available rating.</p>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>tutorId</code></td><td>String</td><td>The tutor being rated.</td></tr>
+    <tr><td><code>courseId</code></td><td>String</td><td>The course this rating applies to.</td></tr>
+    <tr><td><code>preference</code></td><td>Preference enum</td><td>PREFERRED | OK | NOT_PREFERRED</td></tr>
+    <tr><td><code>reviewedById / reviewedAt</code></td><td>String / DateTime</td><td>Which admin set this rating and when.</td></tr>
+  </tbody>
+</table>
+
+<h3>CoordinatorTutorRanking / CoordinatorCourseRanking</h3>
+<p>Coordinators can rank tutors for their courses at two levels of granularity. These rankings are factored into the optimizer's quality score, allowing coordinators to express preferences beyond what CES scores capture.</p>
+<ul>
+  <li><strong>CoordinatorTutorRanking</strong> — class-level: coordinator ranks tutors for a specific <code>ClassSlot</code> (e.g. "I want Alice for T01 specifically").</li>
+  <li><strong>CoordinatorCourseRanking</strong> — course-level: coordinator ranks tutors for the entire course (e.g. "Bob is my preferred tutor for COSC2531 generally").</li>
+</ul>
+<p>Both tables store <code>coordinatorId</code>, the target entity ID, <code>tutorId</code>, and an integer <code>rank</code>. Class-level rankings take precedence over course-level rankings in the objective function.</p>
+
+<h3>TutorReview</h3>
+<p>End-of-semester performance review submitted by a coordinator for a tutor they worked with. Stored per tutor, reviewer, course, and semester — one review per combination. Used to build longitudinal tutor quality records that complement CES scores.</p>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>tutorId</code></td><td>String</td><td>The tutor being reviewed.</td></tr>
+    <tr><td><code>reviewerId</code></td><td>String</td><td>The coordinator submitting the review.</td></tr>
+    <tr><td><code>courseId</code></td><td>String</td><td>The course context for the review.</td></tr>
+    <tr><td><code>semesterId</code></td><td>String</td><td>The semester context for the review.</td></tr>
+    <tr><td><code>rating</code></td><td>Int</td><td>1–5 star rating.</td></tr>
+    <tr><td><code>comments</code></td><td>String?</td><td>Optional free-text feedback.</td></tr>
+  </tbody>
+</table>
+
+<h3>ResearchProject</h3>
+<p>Represents a Research Assistant (RA) project managed by a supervisor. School admins create and manage projects; supervisors are assigned; tutors can be offered RA positions. Follows an offer/acceptance lifecycle similar to teaching allocations.</p>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>title / description</code></td><td>String</td><td>Project title and description.</td></tr>
+    <tr><td><code>schoolId</code></td><td>String</td><td>Owning school.</td></tr>
+    <tr><td><code>supervisorId</code></td><td>String</td><td>The supervising staff member.</td></tr>
+    <tr><td><code>raId</code></td><td>String?</td><td>The assigned Research Assistant (tutor user). Null until an offer is accepted.</td></tr>
+    <tr><td><code>totalHours</code></td><td>Int</td><td>Total RA hours allocated for the project.</td></tr>
+    <tr><td><code>startDate / endDate</code></td><td>DateTime</td><td>Project duration.</td></tr>
+    <tr><td><code>status</code></td><td>ResearchProjectStatus</td><td>DRAFT | OFFERED | ACCEPTED | DECLINED | CANCELLED | COMPLETED</td></tr>
+  </tbody>
+</table>
+
 <h3>AuditLog</h3>
 <p>Immutable append-only log of all significant state changes. Records the user who performed the action, the action type, the affected entity, a JSON details blob, and the originating IP address. No records are ever deleted from this table.</p>
 
@@ -728,14 +865,16 @@ router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
 <table>
   <thead><tr><th>Enum</th><th>Values</th><th>Used By</th></tr></thead>
   <tbody>
-    <tr><td><code>Role</code></td><td>TUTOR, ADMIN, COORDINATOR</td><td>User.role</td></tr>
-    <tr><td><code>Preference</code></td><td>PREFERRED, OK, NOT_PREFERRED, UNREVIEWED</td><td>TutorProfile.preference</td></tr>
+    <tr><td><code>Role</code></td><td>TUTOR, COORDINATOR, SCHOOL_ADMIN, COLLEGE_ADMIN, UNI_ADMIN, SUPER_ADMIN</td><td>User.role</td></tr>
+    <tr><td><code>Preference</code></td><td>PREFERRED, OK, NOT_PREFERRED, UNREVIEWED</td><td>TutorProfile.preference, TutorCoursePreference.preference</td></tr>
     <tr><td><code>Qualification</code></td><td>PHD, MASTERS, BACHELORS, OTHER</td><td>TutorProfile.highestQualification</td></tr>
     <tr><td><code>SemesterPeriod</code></td><td>SEM1, SEM2, SUMMER, WINTER</td><td>Semester.period</td></tr>
     <tr><td><code>AllocationStatus</code></td><td>PENDING, OFFERED, ACCEPTED, REJECTED, CONFIRMED</td><td>Allocation.status</td></tr>
     <tr><td><code>OptRunStatus</code></td><td>RUNNING, COMPLETED, FAILED</td><td>OptimizationRun.status</td></tr>
     <tr><td><code>MarkingStatus</code></td><td>PENDING, OFFERED, ACCEPTED, REJECTED</td><td>MarkingAssignment.status</td></tr>
     <tr><td><code>CampaignStatus</code></td><td>SCHEDULED, SENDING, SENT, FAILED, CANCELLED</td><td>EmailCampaign.status</td></tr>
+    <tr><td><code>ScheduleApprovalStatus</code></td><td>PENDING_REVIEW, APPROVED, CHANGES_REQUESTED</td><td>ScheduleApproval.status</td></tr>
+    <tr><td><code>ResearchProjectStatus</code></td><td>DRAFT, OFFERED, ACCEPTED, DECLINED, CANCELLED, COMPLETED</td><td>ResearchProject.status</td></tr>
   </tbody>
 </table>
 
@@ -798,14 +937,21 @@ router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
 <div class="endpoint"><span class="method get">GET</span>/api/tutor/offers — Get all allocation offers with class details</div>
 <div class="endpoint"><span class="method patch">PATCH</span>/api/tutor/offers/:id — Accept or reject an offer (body: {action, reason?})</div>
 
-<h2 id="s7c">7.3 Admin Routes</h2>
-<p>All require <span class="badge admin">ADMIN</span> role.</p>
+<h2 id="s7c">7.3 School Admin Routes</h2>
+<p>All require <span class="badge admin">SCHOOL_ADMIN</span> role. All queries are scoped to the authenticated admin's school.</p>
 
+<h4>Applicants &amp; Users</h4>
 <div class="endpoint"><span class="method get">GET</span>/api/admin/applicants — List all tutors with profile + preference status. Supports filtering by preference, search by name/email.</div>
-<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/applicants/:id — Set preference (PREFERRED/OK/NOT_PREFERRED) for a tutor.</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/applicants/:id — Set global preference (PREFERRED/OK/NOT_PREFERRED) for a tutor.</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/applicants/:id/course-preference — Set per-course preference override for a tutor.</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/users — List all users in school</div>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/users — Create user (admin-created accounts)</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/users/:id — Update user (reset password, change role, assign coordinator to course)</div>
+
+<h4>Semesters, Courses &amp; Classes</h4>
 <div class="endpoint"><span class="method get">GET</span>/api/admin/semesters — List all semesters</div>
-<div class="endpoint"><span class="method post">POST</span>/api/admin/semesters — Create semester</div>
-<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/semesters/:id — Update semester (including deadline)</div>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/semesters — Create semester (year, period, availabilityDeadline, numWeeks, midSemBreakWeek)</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/semesters/:id — Update semester</div>
 <div class="endpoint"><span class="method delete">DELETE</span>/api/admin/semesters/:id — Delete semester (cascades to courses and classes)</div>
 <div class="endpoint"><span class="method get">GET</span>/api/admin/courses — List courses with coordinator and tutorial count data</div>
 <div class="endpoint"><span class="method post">POST</span>/api/admin/courses — Create course</div>
@@ -814,17 +960,41 @@ router.patch('/offers/:id', authenticate, requireRole('TUTOR'), respondToOffer);
 <div class="endpoint"><span class="method get">GET</span>/api/admin/courses/:courseId/classes — List all classes for a course, ordered by day and time.</div>
 <div class="endpoint"><span class="method put">PUT</span>/api/admin/courses/:courseId/classes/:classId — Update a class (type, day, times, building, room, level, enrolled students).</div>
 <div class="endpoint"><span class="method patch">PATCH</span>/api/admin/courses/:courseId/classes/:classId/cancel — Cancel or restore a class (body: {isCancelled}).</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/courses/:courseId/assessments — List assessments for a course</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/admin/courses/:courseId/assessments — Upsert assessments (up to 3) for a course</div>
 <div class="endpoint"><span class="method post">POST</span>/api/admin/ces/upload — CSV upload of CES scores. Upserts CesScore records.</div>
-<div class="endpoint"><span class="method get">GET</span>/api/admin/users — List all users</div>
-<div class="endpoint"><span class="method post">POST</span>/api/admin/users — Create user (admin-created accounts)</div>
-<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/users/:id — Update user (reset password, change role)</div>
-<div class="endpoint"><span class="method get">GET</span>/api/admin/workload — Aggregated tutor workload: total hours, class count, acceptance rate, by tutor</div>
-<div class="endpoint"><span class="method get">GET</span>/api/admin/audit-log — Paginated audit log with filters (user, action type, date range)</div>
+
+<h4>Optimization &amp; Schedule Approvals</h4>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/optimize — Trigger a school-wide optimization run across all courses in a semester. Returns runId.</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/runs — List optimization run history for the school</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/runs/:runId — Get run status, result summary, and per-course schedule approval statuses</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/schedule-approvals — List all schedule approval records (filter by runId or status)</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/change-requests — List coordinator change requests with details</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/change-requests/:id — Resolve a change request (reassign tutor, mark resolved)</div>
+
+<h4>Marking &amp; Pre-assignments</h4>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/marking — Admin view of all marking assignments across courses in the school</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/admin/marking/:assessmentId/:classId — Admin-level marking assignment override</div>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/pre-assignments — Batch pre-assign tutors to classes before optimization</div>
+
+<h4>Workload</h4>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/workload — Aggregated tutor workload: teaching hours, marking hours, class count, acceptance rate, by tutor</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/workload-rules — Get current workload rule configuration for the school</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/admin/workload-rules — Update sessional and/or faculty workload framework parameters</div>
+
+<h4>Research Projects</h4>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/research-projects — List all research projects for the school</div>
+<div class="endpoint"><span class="method post">POST</span>/api/admin/research-projects — Create a research project</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/admin/research-projects/:id — Update a research project</div>
+<div class="endpoint"><span class="method delete">DELETE</span>/api/admin/research-projects/:id — Delete a research project</div>
+
+<h4>Email &amp; Audit</h4>
 <div class="endpoint"><span class="method get">GET</span>/api/admin/email-templates — List email templates</div>
 <div class="endpoint"><span class="method patch">PATCH</span>/api/admin/email-templates/:key — Update template subject/body</div>
 <div class="endpoint"><span class="method get">GET</span>/api/admin/email-campaigns — List campaigns</div>
 <div class="endpoint"><span class="method post">POST</span>/api/admin/email-campaigns — Create/schedule a campaign</div>
 <div class="endpoint"><span class="method patch">PATCH</span>/api/admin/email-campaigns/:id — Update/cancel campaign</div>
+<div class="endpoint"><span class="method get">GET</span>/api/admin/audit-log — Paginated audit log with filters (user, action type, date range)</div>
 
 <h4>CSV Upload Format — Class Schedules</h4>
 <pre>
@@ -843,23 +1013,68 @@ bob@rmit.edu.au,COSC2531,2025-SEM1,3.8
 <h2 id="s7d">7.4 Coordinator Routes</h2>
 <p>All require <span class="badge coord">COORDINATOR</span> role. All queries are filtered to the authenticated coordinator's courses.</p>
 
+<h4>Courses &amp; Tutors</h4>
 <div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses — List courses assigned to this coordinator</div>
-<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/tutors — Eligible tutors (PREFERRED/OK with course interest) with availability and CES score</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/tutors — Eligible tutors (PREFERRED/OK with course interest) with availability, CES score, and coordinator rankings</div>
+
+<h4>Pre-assignment &amp; Allocations</h4>
 <div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/pre-assignments — All class slots with manual pre-assignments + optimizer allocations</div>
 <div class="endpoint"><span class="method put">PUT</span>/api/coordinator/courses/:courseId/pre-assignments/:classId — Assign a tutor (or self) to a class slot manually</div>
 <div class="endpoint"><span class="method delete">DELETE</span>/api/coordinator/courses/:courseId/pre-assignments/:classId — Remove a manual pre-assignment</div>
-<div class="endpoint"><span class="method delete">DELETE</span>/api/coordinator/allocations/:allocationId — Remove an optimizer allocation (PENDING or OFFERED only)</div>
-<div class="endpoint"><span class="method post">POST</span>/api/coordinator/courses/:courseId/optimize — Enqueue an optimization run. Returns runId.</div>
-<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/runs — List optimization run history</div>
-<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/runs/:runId — Get run status + result summary</div>
 <div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/allocations — List all current allocations with tutor info and status</div>
 <div class="endpoint"><span class="method patch">PATCH</span>/api/coordinator/allocations/:id — Manually adjust an allocation (reassign, change status)</div>
+<div class="endpoint"><span class="method post">POST</span>/api/coordinator/allocations/:id/reassign — Reassign an allocation to a different tutor</div>
+<div class="endpoint"><span class="method delete">DELETE</span>/api/coordinator/allocations/:allocationId — Remove an optimizer allocation (PENDING or OFFERED only)</div>
+
+<h4>Optimization</h4>
+<div class="endpoint"><span class="method post">POST</span>/api/coordinator/courses/:courseId/optimize — Enqueue a course-level optimization run. Returns runId.</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/runs — List optimization run history</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/runs/:runId — Get run status + result summary</div>
 <div class="endpoint"><span class="method post">POST</span>/api/coordinator/courses/:courseId/offer — Batch send offers: transitions PENDING allocations to OFFERED and triggers emails</div>
+
+<h4>Assessments &amp; Marking</h4>
 <div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/assessments — Get assessment definitions</div>
 <div class="endpoint"><span class="method put">PUT</span>/api/coordinator/courses/:courseId/assessments — Upsert assessment definitions (up to 3)</div>
 <div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/marking — Get marking assignments per assessment per class</div>
 <div class="endpoint"><span class="method put">PUT</span>/api/coordinator/courses/:courseId/marking/:assessmentId/:classId — Assign a tutor to mark an assessment for a class</div>
 <div class="endpoint"><span class="method delete">DELETE</span>/api/coordinator/courses/:courseId/marking/:assessmentId/:classId — Remove a marking assignment</div>
+<div class="endpoint"><span class="method post">POST</span>/api/coordinator/courses/:courseId/marking/offer — Batch send marking offers to assigned tutors</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/coordinator/courses/:courseId/marking/opt-out/:tutorId — Toggle a tutor's marking opt-out flag for this course</div>
+
+<h4>Tutor Rankings &amp; Reviews</h4>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/courses/:courseId/tutor-rankings — Get course-level tutor rankings</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/coordinator/courses/:courseId/tutor-rankings — Set course-level tutor rankings</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/classes/:classId/tutor-rankings — Get class-level tutor rankings</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/coordinator/classes/:classId/tutor-rankings — Set class-level tutor rankings</div>
+<div class="endpoint"><span class="method get">GET</span>/api/coordinator/reviews — List end-of-semester reviews submitted by this coordinator</div>
+<div class="endpoint"><span class="method put">PUT</span>/api/coordinator/reviews/:semesterId/:courseId/:tutorId — Create or update a tutor review</div>
+</div>
+
+<h2 id="s7e">7.5 College Admin Routes</h2>
+<p>All require <span class="badge admin">COLLEGE_ADMIN</span> role. Scoped to the authenticated admin's college.</p>
+
+<div class="endpoint"><span class="method get">GET</span>/api/college-admin/my-college — College overview with list of schools and school admin assignments</div>
+<div class="endpoint"><span class="method post">POST</span>/api/college-admin/schools — Create a new school within the college</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/college-admin/schools/:schoolId — Update school name or details</div>
+<div class="endpoint"><span class="method post">POST</span>/api/college-admin/admins — Assign a SCHOOL_ADMIN user to a school</div>
+<div class="endpoint"><span class="method delete">DELETE</span>/api/college-admin/admins/:adminId — Remove a school admin assignment</div>
+<div class="endpoint"><span class="method get">GET</span>/api/college-admin/workload — College-wide workload metrics aggregated across all schools</div>
+
+<h2 id="s7f">7.6 Uni Admin Routes</h2>
+<p>All require <span class="badge admin">UNI_ADMIN</span> role. University-wide scope.</p>
+
+<div class="endpoint"><span class="method get">GET</span>/api/uni-admin/colleges — List all colleges with school counts and admin assignments</div>
+<div class="endpoint"><span class="method post">POST</span>/api/uni-admin/colleges — Create a new college</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/uni-admin/colleges/:collegeId — Update college name or details</div>
+
+<h2 id="s7g">7.7 Super Admin Routes</h2>
+<p>All require <span class="badge admin">SUPER_ADMIN</span> role. System-wide access with no organisational scoping.</p>
+
+<div class="endpoint"><span class="method post">POST</span>/api/super-admin/impersonate — Issue a JWT for another user for support purposes. Returns temporary access token.</div>
+<div class="endpoint"><span class="method get">GET</span>/api/super-admin/diagnostics — System health statistics: user counts by role, allocation counts by status, queue depth, DB connection status</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/super-admin/allocations/:allocationId — Override any allocation regardless of school or course ownership</div>
+<div class="endpoint"><span class="method patch">PATCH</span>/api/super-admin/users/:userId/role — Change any user's role</div>
+<div class="endpoint"><span class="method get">GET</span>/api/super-admin/users — List all users across the entire platform with org assignments</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
@@ -879,23 +1094,40 @@ src/app/
 │   ├── courses/page.tsx            # Course interest checkboxes
 │   ├── classes/page.tsx            # Class preference picker (per course)
 │   ├── cv/page.tsx                 # CV upload
-│   └── offers/page.tsx             # Accept/reject offers table
-├── admin/
+│   ├── offers/page.tsx             # Accept/reject allocation offers table
+│   └── marking/page.tsx            # Accept/reject marking assignment offers
+├── admin/                          # School Admin panel
 │   ├── applicants/page.tsx         # Applicant review table + preference labels
 │   ├── schedules/page.tsx          # Class schedule management + CSV upload
 │   ├── ces/page.tsx                # CES score CSV upload
 │   ├── courses/page.tsx            # Course + coordinator management
 │   ├── semesters/page.tsx          # Semester CRUD
 │   ├── users/page.tsx              # User management
+│   ├── optimization/page.tsx       # School-wide optimization trigger + run history
+│   ├── change-requests/page.tsx    # Coordinator change request management
+│   ├── marking/page.tsx            # Admin-level marking assignment management
+│   ├── pre-assign/page.tsx         # Batch manual pre-assignment UI
 │   ├── audit-log/page.tsx          # Audit log viewer
-│   ├── workload/page.tsx           # Tutor workload overview (sortable)
+│   ├── workload/page.tsx           # Tutor workload overview (teaching + marking hours)
+│   ├── workload-rules/page.tsx     # Configure sessional + faculty workload frameworks
+│   ├── research-projects/page.tsx  # Research Assistant project management
 │   ├── email-templates/page.tsx    # Email template editor
 │   └── email-campaigns/page.tsx    # Campaign scheduler
-└── coordinator/
-    ├── pre-assign/page.tsx          # Schedule calendar (drag-drop, colour-coded)
-    ├── schedule/page.tsx            # Generate schedule + tutor pool management
-    ├── allocations/page.tsx         # Allocation review + offer sending
-    └── marking/page.tsx             # Assessment definitions + marking assignments
+├── coordinator/
+│   ├── pre-assign/page.tsx         # Schedule calendar (drag-drop, colour-coded)
+│   ├── schedule/page.tsx           # Generate schedule + tutor pool management
+│   ├── allocations/page.tsx        # Allocation review + offer sending
+│   ├── marking/page.tsx            # Assessment definitions + marking assignments
+│   ├── tutor-rankings/page.tsx     # Rank tutors per course and class slot
+│   └── reviews/page.tsx            # Submit end-of-semester tutor reviews
+├── college-admin/
+│   ├── page.tsx                    # College overview (schools + admin assignments)
+│   ├── schools/page.tsx            # School management
+│   ├── admins/page.tsx             # School admin assignment
+│   └── workload/page.tsx           # College-wide workload metrics
+└── super-admin/
+    ├── diagnostics/page.tsx        # System health statistics
+    └── overrides/page.tsx          # User role changes + allocation overrides
 </pre>
 
 <h2 id="s8b">8.2 Key Pages</h2>
@@ -933,7 +1165,20 @@ src/app/
 </ul>
 
 <h3>Admin Workload (<code>/admin/workload</code>)</h3>
-<p>Aggregated table of all tutor workloads: total hours, class count, accepted count, and acceptance rate. All columns are sortable (click header to sort ascending/descending). Includes a search filter by tutor name.</p>
+<p>Aggregated table of all tutor workloads: teaching hours (contact × multiplier), marking hours (per-assessment by weighting), class count, accepted count, and acceptance rate. All columns are sortable. Includes a search filter by tutor name.</p>
+
+<h3>Workload Rules (<code>/admin/workload-rules</code>)</h3>
+<p>Two-panel configuration page for the school's workload frameworks:</p>
+<ul>
+  <li><strong>Sessional Framework</strong> — School of Management Marking Framework parameters: teaching multiplier (prep + delivery + admin, default 3×), standard weekly hours (38), maximum weekly hours (48), marking rates by assessment weighting band, and in-class vs. outside-class presentation time splits.</li>
+  <li><strong>Faculty Framework</strong> — 2025 College Academic Workload Framework parameters: annual allocation hours, domain split (Research % / Education % / Engagement %), CC coordination base hours and weighting factors, and course design allocation percentages. All values are saved as JSON on the School record.</li>
+</ul>
+
+<h3>Tutor Marking Offers (<code>/tutor/marking</code>)</h3>
+<p>Analogous to the allocation offers page. Lists all marking assignment offers with assessment details (course, assessment title, weighting, class code). Tutors accept or reject each offer with an optional reason. Status mirrors the teaching allocation lifecycle: PENDING → OFFERED → ACCEPTED/REJECTED.</p>
+
+<h3>Tutor Rankings (<code>/coordinator/tutor-rankings</code>)</h3>
+<p>Two-tab interface for coordinators to rank tutors at course level and class level. Rankings are displayed alongside CES scores and admin preference ratings to give full context. Drag-to-reorder or numeric rank entry. Rankings are persisted and included in the next optimization run's quality score calculation.</p>
 
 <h2 id="s8c">8.3 Shared Components</h2>
 
@@ -1038,19 +1283,43 @@ model.Maximize(-W * sum(over) + quality_sum)</pre>
   <p>Enforced in the TypeScript payload assembly layer (<code>optimizer.service.ts</code>), not in the Python solver. If a tutor has already ACCEPTED an allocation in another course that overlaps in time with a class in the current run, that class is added to their <code>blocked_class_ids</code> list. The Python solver receives <code>eligible_class_ids</code> per tutor and never creates variables for blocked pairs — making double-booking structurally impossible.</p>
 </div>
 
+<div class="constraint-box no-break">
+  <h4>C7 — Weekly Teaching Hours Cap (Hard)</h4>
+  <p>Enforces the RMIT workforce framework teaching hour limits. For sessional staff, the standard weekly cap is <strong>36 contact hours</strong> (equivalent to the 38-hour standard week after applying the 3× teaching multiplier for a typical load), with an absolute maximum of 48 hours per week. The payload assembly layer calculates each tutor's projected weekly contact hours based on their existing ACCEPTED allocations and the classes under consideration in this run. Tutor-class pairs that would breach the weekly cap are excluded from the decision variable set before the solver runs — enforced structurally, not via explicit constraints.</p>
+  <pre>
+# Pre-solver: exclude classes that would push tutor over weekly cap
+for tutor in eligible_tutors:
+    for week, classes_that_week in group_by_week(candidate_classes):
+        existing_hours = accepted_hours_this_week(tutor, week)
+        if existing_hours + class.duration_hours > weekly_cap:
+            blocked_class_ids.add(class.id)</pre>
+</div>
+
 <h2 id="s9d">9.4 Objective Function</h2>
 
 <p>The objective is <strong>lexicographic</strong> — fairness is solved first, then quality is maximised within the fairness-optimal space. This is achieved by combining both goals into a single weighted sum where the fairness term dominates via a large coefficient <code>W</code>.</p>
 
 <h3>Quality Score Calculation</h3>
+<p>The quality score for a (tutor, class) pair combines the admin preference rating, CES score, and any coordinator rankings. Class-level coordinator rankings take precedence over course-level rankings when both exist.</p>
 <pre>
-def quality_score(tutor, config) -> int:
+def quality_score(tutor, class_slot, config) -> int:
+    # Admin preference (global or per-course override)
     pref_weight = {"PREFERRED": 10.0, "OK": 5.0, "NOT_PREFERRED": 1.0}[tutor.preference]
+
+    # CES score component
     ces_normalized = (tutor.ces_score or 0.0) / 5.0    # normalize [0,5] → [0,1]
-    raw = pref_weight + config.ces_weight * ces_normalized  # ces_weight default: 2.0
-    return int(round(raw * 100))                            # scale to integer (2 decimal precision)
+
+    # Coordinator ranking component (class-level beats course-level)
+    cc_rank_bonus = 0.0
+    if tutor.class_rank is not None:        # class-level ranking exists
+        cc_rank_bonus = max(0, 5.0 - tutor.class_rank)   # rank 1 → +4, rank 2 → +3, …
+    elif tutor.course_rank is not None:     # fall back to course-level
+        cc_rank_bonus = max(0, 3.0 - tutor.course_rank)  # rank 1 → +2, rank 2 → +1, …
+
+    raw = pref_weight + config.ces_weight * ces_normalized + cc_rank_bonus
+    return int(round(raw * 100))            # scale to integer (2 decimal precision)
 </pre>
-<p><strong>Example:</strong> A PREFERRED tutor with CES score 4.0 and ces_weight 2.0: <code>10.0 + 2.0 × (4.0/5.0) = 11.6 → 1160</code></p>
+<p><strong>Example:</strong> A PREFERRED tutor with CES 4.0, ces_weight 2.0, and class rank 1: <code>10.0 + 1.6 + 4.0 = 15.6 → 1560</code></p>
 
 <h3>Combined Objective</h3>
 <pre>
@@ -1096,6 +1365,19 @@ model.Maximize(-W * sum(over[n] for n in tutors) + sum(quality[n] * x[n][k] for 
 <h2>9.7 Manual Pre-Assignment Exclusion</h2>
 <p>Before building the optimizer payload, <code>optimizer.service.ts</code> queries for all Allocations where <code>isManual = true</code> for the target course. These class IDs are excluded from the <code>optimizerClasses</code> array passed to the Python service. The optimizer never sees or touches manually pre-assigned classes — they are transparent to it.</p>
 <p>If all classes in a course are manually pre-assigned, the optimizer run is marked COMPLETED immediately with a "skipped" status and zero solver time.</p>
+
+<h2>9.8 Post-Optimization Marking Assignment Auto-Creation</h2>
+<p>Immediately after allocations are persisted from a successful optimization run, <code>optimizer.service.ts</code> automatically creates <code>MarkingAssignment</code> records following the <strong>teaching-tutor-marks-own-classes</strong> rule:</p>
+<ol>
+  <li>For each course in the run, fetch all assessments and all new PENDING allocations.</li>
+  <li>For each assessment × class combination, check if the teaching tutor has <code>markingOptOut = false</code> for this course.</li>
+  <li>If no opt-out, create a <code>MarkingAssignment</code> (status = PENDING) linking the teaching tutor to the assessment for their class.</li>
+  <li>If the teaching tutor has opted out, the slot is left unassigned for the coordinator to manually fill.</li>
+  <li>If marking capacity would be exceeded (e.g. a tutor is already assigned too many submissions), a greedy overflow algorithm assigns the excess to the next eligible tutor in the pool — preferring tutors already teaching another class in the same course.</li>
+</ol>
+<div class="callout info">
+  <strong>Default behaviour:</strong> The teaching-tutor-marks-own-classes rule is the default. Coordinators can override individual assignments via the marking page, and can opt tutors out on a per-course basis at any time. Auto-created assignments are overrideable — they are a starting point, not a lock.
+</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
@@ -1382,13 +1664,70 @@ PHASE 9: Post-Acceptance
 </pre>
 
 <h2>14.3 Marking Assignment Workflow</h2>
-<p>After teaching allocations are confirmed, coordinators assign marking responsibilities separately:</p>
-<ol>
-  <li>Coordinator defines up to 3 assessments per course (title, weighting, flags).</li>
-  <li>For each assessment × class combination, coordinator selects a marker from the tutor pool via a dropdown picker.</li>
-  <li>Coordinator can assign a different tutor to mark than the one teaching the class.</li>
-  <li>Unassign capability available to remove and reassign markers.</li>
-</ol>
+<pre>
+PHASE 1: Assessment Definition (Coordinator / School Admin)
+├── Define up to 3 assessments per course
+│   ├── Title, weighting %, word count
+│   ├── Group work flag
+│   └── In-class presentation flag + duration
+
+PHASE 2: Auto-Assignment (Post-Optimization)
+├── System auto-creates MarkingAssignment records
+│   ├── Default: teaching tutor marks their own class (per assessment)
+│   ├── Skips tutors with markingOptOut = true for this course
+│   └── Greedy overflow assigns excess submissions to next eligible tutor
+
+PHASE 3: Manual Adjustment (Coordinator)
+├── Override any auto-assigned marker via dropdown picker
+├── Assign a different tutor than the teaching tutor if needed
+└── Remove and reassign any marker (unassign capability)
+
+PHASE 4: Offer (Coordinator)
+├── Click "Send Marking Offers" (batch)
+├── PENDING assignments → OFFERED
+└── Marking offer emails sent to tutors
+
+PHASE 5: Response (Tutors)
+├── Receive marking offer email
+├── Log in to "My Marking" page
+├── Accept or reject each offer (with optional reason)
+└── Status updated: ACCEPTED | REJECTED
+
+PHASE 6: Post-Acceptance
+└── Rejected assignments flagged for coordinator re-assignment
+</pre>
+
+<h2>14.4 Marking Assignment Status State Machine</h2>
+<pre>
+[Auto-created after optimization / manual assignment]
+    │
+    ▼
+ PENDING ──── Coordinator sends offer ────► OFFERED ──── Tutor accepts ───► ACCEPTED
+                                               │
+                                               └─── Tutor rejects ──────► REJECTED
+                                                    (coordinator reassigns)
+</pre>
+
+<h2>14.5 Schedule Approval Workflow</h2>
+<p>After a school-wide optimization run, each coordinator reviews and approves (or requests changes to) their course's proposed schedule before offers are sent:</p>
+<pre>
+PHASE 1: School Admin triggers school-wide optimization run
+├── Run covers all courses in a semester
+├── Results persisted as PENDING allocations per course
+└── ScheduleApproval records created (PENDING_REVIEW) for each course × coordinator
+
+PHASE 2: Coordinator Review
+├── Coordinator views their course's proposed schedule
+├── Can adjust allocations (drag-drop reassignment)
+└── Submits one of:
+    ├── APPROVED — schedule is accepted as-is
+    └── CHANGES_REQUESTED — notes describe required changes
+
+PHASE 3: School Admin Resolution
+├── Views aggregate approval status across all courses in the run
+├── For CHANGES_REQUESTED: reassigns tutors, re-runs if needed
+└── Once all courses APPROVED, proceeds to batch offer sending
+</pre>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
@@ -1686,7 +2025,6 @@ On push to main:
     <tr><td>Data retention policy</td><td>Define and implement automated archival/deletion schedules in consultation with RMIT Records Management and Legal. Typically 7 years for employment records.</td></tr>
     <tr><td>Hosting jurisdiction review</td><td>Evaluate whether Railway's US-based hosting is acceptable under APP 8 (cross-border data transfer) or whether migration to Australian-hosted infrastructure (AWS Sydney) is required.</td></tr>
     <tr><td>EBA alignment</td><td>Configure optimizer constraints (<code>min_tutorials</code>, <code>max_tutorials</code>) and workload reporting to match the current RMIT Enterprise Agreement's casual workload provisions.</td></tr>
-    <tr><td>Hour counting framework alignment</td><td>Update how teaching hours are calculated and displayed (workload overview, marking hours) to match the current RMIT casual staff payment framework.</td></tr>
   </tbody>
 </table>
 
@@ -1694,8 +2032,8 @@ On push to main:
 <table>
   <thead><tr><th>Item</th><th>Description</th></tr></thead>
   <tbody>
-    <tr><td>Playwright E2E tests</td><td>Not started. Critical path coverage: register → set availability → admin review → run optimizer → coordinator sends offers → tutor accepts.</td></tr>
-    <tr><td>Backend integration tests</td><td>Vitest is installed but no test files written. API endpoint tests with test database; optimizer integration smoke test.</td></tr>
+    <tr><td>Playwright E2E tests</td><td>Not started. Critical path coverage: register → set availability → admin review → run optimizer → coordinator sends offers → tutor accepts → marking assigned → tutor accepts marking offer.</td></tr>
+    <tr><td>Backend integration tests</td><td>Vitest is installed but no test files written. API endpoint tests with test database; optimizer integration smoke test; workload calculation unit tests.</td></tr>
     <tr><td>Sentry monitoring</td><td>Not installed. Requires <code>@sentry/nextjs</code>, <code>@sentry/node</code>, and <code>sentry-sdk</code> (Python). Free tier covers pilot volume. Supports breach detection obligation under NDB scheme (Section 18).</td></tr>
   </tbody>
 </table>
@@ -1704,17 +2042,19 @@ On push to main:
 <table>
   <thead><tr><th>Item</th><th>Description</th></tr></thead>
   <tbody>
-    <tr><td>Work restrictions flag</td><td>Tutor profile field for individual hour restrictions (e.g. student visa conditions). Surface in the optimizer and workload overview to prevent offers exceeding limits. Critical for visa compliance before onboarding international student tutors (Subclass 500: 48 hours/fortnight).</td></tr>
-    <tr><td>Research Assistant EOI capture</td><td>Extend platform to support RA Expressions of Interest alongside tutoring. Track total casual hours across all appointment types in one place, enforcing EBA maximums and flagging employment law violations before offers are made.</td></tr>
+    <tr><td>Work restrictions flag</td><td>Tutor profile field for individual hour restrictions (e.g. student visa conditions). Surface in the optimizer payload assembly and workload overview to prevent offers exceeding limits. Critical for visa compliance before onboarding international student tutors (Subclass 500: 48 hours/fortnight).</td></tr>
+    <tr><td>Research Assistant EOI capture</td><td>The ResearchProject model and admin CRUD are implemented. Outstanding: tutor-facing EOI submission flow, total casual hours tracking across teaching + RA appointments, and EBA maximum enforcement before RA offers are made.</td></tr>
     <tr><td>Mobile/tablet responsive interface</td><td>Current UI is desktop-optimised. Responsive layout pass needed for coordinators on tablets and tutors on mobile, particularly for availability submission and offer acceptance.</td></tr>
     <tr><td>Hybrid RMIT SAML/SSO integration</td><td>Optional SSO login for existing RMIT staff (admins, coordinators, returning tutors). External applicants continue with email/password. Both strategies coexist — JWT issuance and downstream RBAC are unchanged.</td></tr>
+    <tr><td>Programs layer</td><td>Courses may belong to Programs (e.g. Bachelor of Computer Science). A Program Manager role could own cross-course tutor allocation strategy. Architecture supports this via an additional join table above Course.</td></tr>
+    <tr><td>Tutor-facing review visibility</td><td>Tutors currently cannot see their own TutorReview records. A read-only view of aggregated ratings (without revealing reviewer identity) would support tutor development and transparency.</td></tr>
   </tbody>
 </table>
 </div>
 
 <hr>
 <div class="doc-footer">
-  RMIT Tutor Scheduling Platform — Systems Design Document v1.0 — March 2026<br>
+  RMIT Tutor Scheduling Platform — Systems Design Document v1.1 — April 2026<br>
   Developed by Thomas Bierly &nbsp;|&nbsp; Confidential — RMIT University Internal Use Only
 </div>
 
