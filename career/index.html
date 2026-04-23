@@ -92,6 +92,17 @@
       font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
       color: var(--text-dim);
     }
+    .nav-brands {
+      display: flex; align-items: center; gap: .5rem;
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
+    .nav-brand {
+      font-size: .7rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .nav-brand-sep {
+      font-size: .65rem; color: var(--border);
+    }
     .nav-conf {
       font-size: .72rem; color: var(--text-dim);
       background: var(--bg-1); border: 1px solid var(--border);
@@ -545,7 +556,11 @@
 <!-- ── NAVIGATION ─────────────────────────────────────────────────────────── -->
 <nav id="nav" style="display:none">
   <span class="nav-name">Thomas Bierly</span>
-  <span class="nav-label">Career Development Proposal</span>
+  <div class="nav-brands">
+    <span class="nav-brand">School of Management</span>
+    <span class="nav-brand-sep">×</span>
+    <span class="nav-brand">CoBLTech</span>
+  </div>
   <span class="nav-conf">Private &amp; Confidential</span>
 </nav>
 
@@ -556,7 +571,7 @@
   <section class="hero">
     <div class="container">
       <div class="hero-eyebrow">
-        <span class="hero-to">Confidential · CoBLTech · RMIT University</span>
+        <span class="hero-to">Confidential · School of Management × CoBLTech · RMIT University</span>
         <span class="hero-sep"></span>
         <span class="hero-date">2026</span>
       </div>
