@@ -379,6 +379,7 @@
     .gq.now { color: var(--accent); }
     .g-row {
       display: grid; grid-template-columns: 220px 1fr;
+      cursor: pointer;
       align-items: center; min-height: 40px;
       border-bottom: 1px solid rgba(36,48,68,.5);
     }
@@ -462,6 +463,70 @@
     /* ── UTIL ──────────────────────────────────────────────────────────── */
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
     @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── DRAWER ────────────────────────────────────────────────────────── */
+    .drawer-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
+    }
+    .drawer-overlay.open { display: block; }
+    .drawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: min(480px, 92vw);
+      background: var(--bg-1); border-left: 1px solid var(--border);
+      transform: translateX(100%); transition: transform .3s ease;
+      display: flex; flex-direction: column; overflow-y: auto; z-index: 201;
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer-header {
+      padding: 2rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: var(--bg-1);
+    }
+    .drawer-close {
+      float: right; background: none; border: 1px solid var(--border);
+      color: var(--text-dim); cursor: pointer; border-radius: 4px;
+      padding: .35rem .7rem; font-size: .78rem;
+    }
+    .drawer-arm-tag {
+      font-size: .62rem; text-transform: uppercase; letter-spacing: .12em;
+      margin-bottom: .75rem; display: block;
+    }
+    .drawer-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.4rem; font-weight: 400; color: var(--text); line-height: 1.3;
+      margin-bottom: .75rem; padding-right: 2rem;
+    }
+    .drawer-badges { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+    .drawer-body { padding: 2rem; }
+    .drawer-section { margin-bottom: 2rem; }
+    .drawer-section:last-child { margin-bottom: 0; }
+    .ds-label {
+      font-size: .62rem; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--text-dim); display: block; margin-bottom: .65rem;
+    }
+    .ds-text { font-size: .88rem; color: var(--text-dim); line-height: 1.7; }
+    .ds-text p { margin-bottom: .5rem; }
+    .drawer-timeline {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .85rem 1.1rem; background: var(--bg-2);
+      border-radius: 8px;
+    }
+    .dt-target { font-size: .88rem; font-weight: 500; color: var(--text); }
+    .dt-note { font-size: .78rem; color: var(--text-dim); margin-top: .15rem; }
+    .team-grid { display: flex; flex-direction: column; gap: .75rem; }
+    .team-member { display: flex; align-items: center; gap: .85rem; }
+    .tm-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--bg-2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .68rem; font-weight: 600; color: var(--accent); flex-shrink: 0;
+    }
+    .tm-name { font-size: .82rem; font-weight: 500; color: var(--text); }
+    .tm-role { font-size: .72rem; color: var(--text-dim); }
+    .d-rank-star { background: rgba(251,191,36,.12); color: #fbbf24; border: 1px solid rgba(251,191,36,.25); padding: .15rem .45rem; border-radius: 4px; font-size: .65rem; font-weight: 600; }
+    .d-rank-a    { background: rgba(148,163,184,.1); color: var(--text-dim); border: 1px solid var(--border); padding: .15rem .45rem; border-radius: 4px; font-size: .65rem; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -497,8 +562,8 @@
       </div>
       <h1>A five-year plan for <em>building something</em> that matters to this college</h1>
       <div class="hero-body">
-        <p>I am finishing a PhD on how artificial intelligence restructures work — what changes inside jobs as automation takes hold, and what it means for workers navigating those changes. The degree completes later this year, which makes this the right moment to think deliberately about what comes next.</p>
-        <p>This document describes two things I want to build at CoBLTech: a research programme on AI and work (LOOM), and a community of practice that lifts the research capacity of the college (the CoBLTech Accelerator). Both need institutional support to reach their potential, and both create something of genuine value for the college — not just for me.</p>
+        <p>I am finishing a PhD on how artificial intelligence restructures work: what changes inside jobs as automation takes hold, and what it means for workers navigating those changes. The degree completes later this year, which makes this the right moment to think deliberately about what comes next.</p>
+        <p>This document describes two things I want to build at CoBLTech: a research programme on AI and work (LOOM), and a community of practice that lifts the research capacity of the college (the CoBLTech Accelerator). Both need institutional support to reach their potential, and both create something of genuine value for the college.</p>
         <p>What follows is the plan, what it asks of you, and what it offers in return. I'm sharing it now because the CoBLTech spotlight creates a real opening, and I want to take full advantage of the opportunity.</p>
       </div>
 
@@ -528,15 +593,15 @@
     <div class="container">
       <span class="section-label">What I am building</span>
       <h2>Two things that reinforce each other</h2>
-      <p>The plan is not a single research program. It is a research program and an institutional contribution — designed to grow together and to be stronger for it.</p>
+      <p>The plan is not a single research program. It is a research program and an institutional contribution, designed to grow together and to be stronger for it.</p>
       <div class="prop-grid">
         <div class="prop-card loom">
           <span class="prop-tag loom">Research program</span>
           <h3>LOOM</h3>
-          <p style="font-size:.88rem;">Labour, Occupations, Organisations and Machines. A program studying what AI does to work — how labour demand shifts within occupations, which jobs disappear, and what it takes for workers to move between them. Built on 9.5 million job advertisements, a directed-search equilibrium model, and four live research platforms.</p>
+          <p style="font-size:.88rem;">Labour, Occupations, Organisations and Machines. A program studying what AI does to work: how labour demand shifts within occupations, which jobs disappear, and what it takes for workers to move between them. Built on 9.5 million job advertisements, a directed-search equilibrium model, and four live research platforms.</p>
           <ul class="prop-list">
             <li>9 papers targeted across labour economics, management, information systems, and SoTL</li>
-            <li>4 AI platforms as live research instruments — generating longitudinal data unavailable to survey-based research</li>
+            <li>4 AI platforms as live research instruments, generating longitudinal data unavailable to survey-based research</li>
             <li>ARC Linkage application in development for 2029</li>
             <li>Positions RMIT as Australia's leading voice on AI and within-occupation task reallocation</li>
           </ul>
@@ -544,12 +609,12 @@
         <div class="prop-card accel">
           <span class="prop-tag accel">Institutional contribution</span>
           <h3>CoBLTech Accelerator</h3>
-          <p style="font-size:.88rem;">An offer to colleagues: if you have an idea for something exciting in the classroom or a question about AI and your students — but need the tools, infrastructure, or technical capability to actually do it — I can help build that. You bring the question. I'll help make it real.</p>
+          <p style="font-size:.88rem;">An offer to colleagues: if you have an idea for something exciting in the classroom or a question about AI and your students, but need the tools, infrastructure, or technical capability to actually do it, I can help build that. You bring the question. I'll help make it real.</p>
           <ul class="prop-list">
             <li>Training workshops: using AI to build educational resources, game-based learning, coaching personas, and behavioural experiments</li>
             <li>Custom platform builds: tools designed around your specific teaching or research context</li>
             <li>Platform access: deploy Augmenti, Docilis, or Passage as live instruments in your own course or project</li>
-            <li>Annual AI &amp; Work Showcase — CoBLTech as Australia's host for the AI and future of work conversation</li>
+            <li>Annual AI &amp; Work Showcase: CoBLTech as Australia's host for the AI and future of work conversation</li>
           </ul>
           <p style="font-size:.78rem; color:var(--text-dim); margin-top:1.25rem; padding-top:1rem; border-top:1px solid var(--border);">Where colleagues use platforms or data I've built for their research, I contribute to study design and co-author the output.</p>
         </div>
@@ -561,8 +626,8 @@
   <section>
     <div class="container">
       <span class="section-label">The career trajectory</span>
-      <h2>Level B to Level D — an aggressive but credible timeline</h2>
-      <p>The RMIT promotion framework requires evidence across three domains: Engagement (mandatory), Education, and Research. The plan below is designed to build a compelling case in all three simultaneously — not sequentially.</p>
+      <h2>Level B to Level D: an aggressive but credible timeline</h2>
+      <p>The RMIT promotion framework requires evidence across three domains: Engagement, Education, and Research. The plan below is designed to build a compelling case in all three simultaneously.</p>
 
       <div class="traj-track">
         <div class="traj-node current">
@@ -676,7 +741,7 @@
     <div class="container">
       <span class="section-label">Year by year</span>
       <h2>What happens when</h2>
-      <p>This is not a wish list. These are milestones I am confident I can hit, with the institutional support described below. The timeline is aggressive but liveable — I have no interest in a research career that consumes everything else.</p>
+      <p>This is not a wish list. These are milestones I am confident I can hit, with the institutional support described below. All research efforts listed are currently underway; more may be added as they emerge.</p>
 
       <div class="ms-legend">
         <div class="ms-leg-item"><div class="ms-leg-dot" style="background:var(--r)"></div> Research</div>
@@ -689,11 +754,11 @@
         <div class="ms-year highlight">
           <div class="ms-yr-label">2026 <small>Now</small></div>
           <div class="ms-items">
-            <div class="ms-item"><div class="ms-dot x"></div><div class="ms-item-text"><strong>PhD completed</strong> — automatic promotion to Level B</div></div>
-            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text"><strong>Directed-search theory paper submitted</strong> — PhD Ch. 3, already written, economic theory journal (A*)</div></div>
+            <div class="ms-item"><div class="ms-dot x"></div><div class="ms-item-text"><strong>PhD completed</strong>: automatic promotion to Level B</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text"><strong>Directed-search theory paper submitted</strong>: Journal of Economic Theory (A*). PhD Ch. 3, already written.</div></div>
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">AI Hushing submitted to Strategic Entrepreneurship Journal (A*)</div></div>
-            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Augmented Double Diamond submitted to Research-Technology Management</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">LOOM prospectus presented to CoBLTech leadership — this document</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Augmented Double Diamond submitted to Research-Technology Management (B)</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">LOOM prospectus presented to CoBLTech leadership (this document)</div></div>
             <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">CoBLTech Accelerator concept formalised; first SoTL workshop delivered</div></div>
             <div class="ms-item"><div class="ms-dot e"></div><div class="ms-item-text">4 courses coordinated: Leading AI &amp; Workforce Transformation, Management of Technology &amp; Innovation, Technology Futures, Business Consulting</div></div>
           </div>
@@ -704,7 +769,7 @@
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">VAL PALS submitted to Journal of Management Education (A)</div></div>
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Build-then-Critique submitted to AMLE (A*)</div></div>
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Heterogeneous Task Restructuring (thesis → journal paper) submitted to Labour Economics (A*)</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">First Annual AI &amp; Work Showcase — hosted by CoBLTech</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">First Annual AI &amp; Work Showcase, hosted by CoBLTech</div></div>
             <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">HDR co-supervision commenced</div></div>
             <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Accelerator SoTL working group publishing first co-authored outputs</div></div>
           </div>
@@ -717,7 +782,7 @@
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Human-in-the-Loop Doesn't Solve Bias submitted to AMR (A*)</div></div>
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Skill Proximity Networks submitted to Journal of Economic Geography (A)</div></div>
             <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">ARC Linkage partner identification and pre-application workshop</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Passage (public labour market tool) launched — RMIT-branded public-facing research output</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Passage (public labour market tool) launched, an RMIT-branded public-facing research output</div></div>
           </div>
         </div>
         <div class="ms-year">
@@ -725,8 +790,8 @@
           <div class="ms-items">
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Algorithmic Allocation &amp; EA Compliance submitted to Information Systems Research (A*)</div></div>
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">ARC Linkage application submitted (A$400–600k target)</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Government partnership formalised — Jobs &amp; Skills Australia or Productivity Commission</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Annual showcase Year 3 — national profile established</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Government partnership formalised: Jobs &amp; Skills Australia or Productivity Commission</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Annual showcase Year 3, national profile established</div></div>
           </div>
         </div>
         <div class="ms-year">
@@ -741,7 +806,7 @@
         <div class="ms-year highlight">
           <div class="ms-yr-label">2031 <small>Level D</small></div>
           <div class="ms-items">
-            <div class="ms-item"><div class="ms-dot x"></div><div class="ms-item-text"><strong>Level D promotion application submitted</strong> — 8–10 papers, ARC grant, HDR completion, sector leadership</div></div>
+            <div class="ms-item"><div class="ms-dot x"></div><div class="ms-item-text"><strong>Level D promotion application submitted</strong>: 8–10 papers, ARC grant, HDR completion, sector leadership</div></div>
           </div>
         </div>
       </div>
@@ -753,7 +818,7 @@
     <div class="container">
       <span class="section-label">Research output</span>
       <h2>The publication pipeline</h2>
-      <p>Nine papers across four arms of the LOOM program. Five target A* journals. Click rows to expand details — or read the full LOOM research prospectus for complete paper descriptions and team profiles.</p>
+      <p>Nine papers across four arms of the LOOM program. Five target A* journals. Click any row to expand details.</p>
 
       <div class="gantt-legend">
         <div class="gl-item"><div class="gl-dot" style="background:#60a5fa"></div> Measurement</div>
@@ -789,17 +854,17 @@
 
           <!-- start/end: 0-based quarter index. left%=start/16*100, width%=(end-start)/16*100 -->
 
-          <div class="g-row">
+          <div class="g-row" data-paper="theory">
             <div class="g-info">
               <div class="g-title">Directed-Search Theory <span class="g-rank-badge g-rank-star">A*</span></div>
-              <div class="g-sub">Econ theory journal · PhD Ch.3, already written</div>
+              <div class="g-sub">Journal of Economic Theory · PhD Ch.3, already written</div>
             </div>
             <div class="g-bars-area">
               <div class="g-pip" style="background:#60a5fa; left:6.25%; width:12.5%"></div>
             </div>
           </div>
 
-          <div class="g-row">
+          <div class="g-row" data-paper="hushing">
             <div class="g-info">
               <div class="g-title">AI Hushing <span class="g-rank-badge g-rank-star">A*</span></div>
               <div class="g-sub">Strategic Entrepreneurship Journal · Biru (lead), Bierly</div>
@@ -809,7 +874,7 @@
             </div>
           </div>
 
-          <div class="g-row">
+          <div class="g-row" data-paper="add">
             <div class="g-info">
               <div class="g-title">Augmented Double Diamond <span class="g-rank-badge g-rank-b">B</span></div>
               <div class="g-sub">Research-Technology Management · Hor (lead) et al.</div>
@@ -819,7 +884,7 @@
             </div>
           </div>
 
-          <div class="g-row">
+          <div class="g-row" data-paper="valpals">
             <div class="g-info">
               <div class="g-title">VAL PALS in the MBA Classroom <span class="g-rank-badge g-rank-a">A</span></div>
               <div class="g-sub">Journal of Management Education · Bierly</div>
@@ -829,7 +894,7 @@
             </div>
           </div>
 
-          <div class="g-row">
+          <div class="g-row" data-paper="buildcritique">
             <div class="g-info">
               <div class="g-title">Build-then-Critique Pedagogy <span class="g-rank-badge g-rank-star">A*</span></div>
               <div class="g-sub">AMLE · Bierly</div>
@@ -839,7 +904,7 @@
             </div>
           </div>
 
-          <div class="g-row">
+          <div class="g-row" data-paper="heterogeneous">
             <div class="g-info">
               <div class="g-title">Heterogeneous Task Restructuring <span class="g-rank-badge g-rank-star">A*</span></div>
               <div class="g-sub">Labour Economics · Bierly</div>
@@ -849,7 +914,7 @@
             </div>
           </div>
 
-          <div class="g-row">
+          <div class="g-row" data-paper="hitl">
             <div class="g-info">
               <div class="g-title">Human-in-the-Loop Doesn't Solve Bias <span class="g-rank-badge g-rank-star">A*</span></div>
               <div class="g-sub">Academy of Management Review · Bierly, Wheeler</div>
@@ -859,7 +924,7 @@
             </div>
           </div>
 
-          <div class="g-row">
+          <div class="g-row" data-paper="skillprox">
             <div class="g-info">
               <div class="g-title">Skill Proximity Networks <span class="g-rank-badge g-rank-a">A</span></div>
               <div class="g-sub">Journal of Economic Geography · Bierly</div>
@@ -869,7 +934,7 @@
             </div>
           </div>
 
-          <div class="g-row">
+          <div class="g-row" data-paper="ordian">
             <div class="g-info">
               <div class="g-title">Algorithmic Allocation &amp; EA Compliance <span class="g-rank-badge g-rank-star">A*</span></div>
               <div class="g-sub">Information Systems Research · Bierly</div>
@@ -879,7 +944,7 @@
             </div>
           </div>
 
-          <div class="g-row">
+          <div class="g-row" data-paper="voice">
             <div class="g-info">
               <div class="g-title">Voice Preservation in AI-Mediated Writing <span class="g-rank-badge g-rank-a">A</span></div>
               <div class="g-sub">Information &amp; Organization · Bierly</div>
@@ -899,44 +964,44 @@
     <div class="container">
       <span class="section-label">What I need from you</span>
       <h2>Six things that would make this real</h2>
-      <p>Each of these is a concrete ask, not a vague request for support. I have tried to be honest about why each matters — both for my career and for CoBLTech.</p>
+      <p>Each of these is something I'd welcome a conversation about. I've tried to be specific about what I'm looking for and why it matters, but I'm open to how that looks in practice.</p>
 
       <div class="ask-grid">
         <div class="ask-card">
           <div class="ask-num">01</div>
           <h3>Named CoBLTech affiliation for LOOM</h3>
-          <p>Formal recognition of LOOM as a CoBLTech research program — a named home that appears in my publications, grant applications, and public profile.</p>
+          <p>Formal recognition of LOOM as a CoBLTech research program: a named home that appears in my publications, grant applications, and public profile.</p>
           <p class="benefit">For CoBLTech: every LOOM publication and media mention carries the college's name into labour economics, management, and information systems.</p>
         </div>
         <div class="ask-card">
           <div class="ask-num">02</div>
           <h3>A governance or committee role</h3>
-          <p>A meaningful seat at a college or university committee — AI integration, curriculum, research strategy, or equivalent. Not a box-tick, a genuine contribution.</p>
+          <p>A meaningful seat at a college or university committee: AI integration, curriculum, or equivalent. Not a box-tick, a genuine contribution.</p>
           <p class="benefit">For CoBLTech: someone with deep AI expertise who can bring that knowledge to institutional decisions, not just publish about it.</p>
         </div>
         <div class="ask-card">
           <div class="ask-num">03</div>
           <h3>Protected research time post-PhD</h3>
-          <p>A workload allocation that includes dedicated research time through at least 2028 — the period in which the Level C case is built. The fellowship ends with the PhD.</p>
+          <p>Confirmation that the 15% protected research time in my continuing role is maintained through at least 2028, the period in which the Level C case is built.</p>
           <p class="benefit">For CoBLTech: the platforms, publications, and grant income only materialise if the research time is there to produce them.</p>
         </div>
         <div class="ask-card">
           <div class="ask-num">04</div>
           <h3>IP and licensing support for Ordian</h3>
-          <p>A conversation with the relevant parties about RMIT's preferred IP arrangement for the Ordian platform — currently undefined. A resolved structure enables responsible scale-up.</p>
+          <p>A conversation with the relevant parties about RMIT's preferred IP arrangement for the Ordian platform, currently undefined. A resolved structure enables responsible scale-up.</p>
           <p class="benefit">For CoBLTech: a commercial platform with a clear IP structure generates research income, real-world data, and reputational capital for the college.</p>
         </div>
         <div class="ask-card">
           <div class="ask-num">05</div>
           <h3>Government partner introductions</h3>
-          <p>Brokered introductions to Jobs &amp; Skills Australia, the Productivity Commission, or equivalent bodies for the ARC Linkage application — connections the college has that I do not yet.</p>
+          <p>Brokered introductions to Jobs &amp; Skills Australia, the Productivity Commission, or equivalent bodies for the ARC Linkage application, connections the college has that I do not yet.</p>
           <p class="benefit">For CoBLTech: RMIT at the table where national AI and labour policy is made, with an RMIT researcher as the named expert.</p>
         </div>
         <div class="ask-card">
           <div class="ask-num">06</div>
           <h3>Hosting the Annual AI &amp; Work Showcase</h3>
-          <p>CoBLTech as the institutional host of an annual event bringing together researchers, practitioners, government, and media around AI and the future of work. First edition: 2027.</p>
-          <p class="benefit">For CoBLTech: a recurring, high-profile event that positions the college as Australia's home for this conversation — and a natural venue for the external partnerships the ARC Linkage requires.</p>
+          <p>CoBLTech as the institutional host of an annual event bringing together researchers, practitioners, government, and media around AI and the future of work.</p>
+          <p class="benefit">For CoBLTech: a recurring, high-profile event that positions the college as Australia's home for this conversation, and a natural venue for the external partnerships the ARC Linkage requires.</p>
         </div>
       </div>
     </div>
@@ -947,7 +1012,7 @@
     <div class="container">
       <span class="section-label">In closing</span>
       <p>The timeline is aggressive because the field is still forming. There is a genuine first-mover opportunity for RMIT in the AI and work space, and the window for taking it will not stay open indefinitely.</p>
-      <p>I would welcome a conversation about any part of this — what looks strong, what needs work, and what the college is in a position to commit to.</p>
+      <p>I would welcome a conversation about any part of this: what looks strong, what needs work, and what the college is in a position to commit to.</p>
       <div class="close-sig">
         Thomas Bierly
         <small>Associate Lecturer (Academic Career Development Fellow) · RMIT School of Management</small>
@@ -956,6 +1021,41 @@
   </section>
 
 </div><!-- /#content -->
+
+<!-- PAPER DRAWER -->
+<div class="drawer-overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true">
+  <div class="drawer-header">
+    <button class="drawer-close" id="drawer-close">Close ✕</button>
+    <span class="drawer-arm-tag" id="d-arm"></span>
+    <h2 class="drawer-title" id="d-title"></h2>
+    <div class="drawer-badges" id="d-badges"></div>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-section">
+      <span class="ds-label">Target date</span>
+      <div class="drawer-timeline" id="d-timeline">
+        <span>📅</span>
+        <div>
+          <div class="dt-target" id="d-target"></div>
+          <div class="dt-note" id="d-note"></div>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-section">
+      <span class="ds-label">Research description</span>
+      <div class="ds-text" id="d-desc"></div>
+    </div>
+    <div class="drawer-section" id="d-team-section">
+      <span class="ds-label">Team</span>
+      <div class="team-grid" id="d-team"></div>
+    </div>
+    <div class="drawer-section">
+      <span class="ds-label">Research arm</span>
+      <div class="ds-text" id="d-arm-desc"></div>
+    </div>
+  </div>
+</aside>
 
 <footer id="footer" style="display:none">
   Private &amp; Confidential · Thomas Bierly · RMIT University · 2026
@@ -988,6 +1088,167 @@
   const params = new URLSearchParams(window.location.search);
   const urlKey = (params.get('key') || '').toLowerCase().replace(/\s+/g, '');
   if (urlKey === VALID_KEY) unlock();
+
+  // ── Paper data ────────────────────────────────────────────────────────────
+  const PAPERS = {
+    theory: {
+      arm: 'm', armLabel: 'Measurement',
+      title: 'Directed-Search Theory of Within-Occupation Task Restructuring',
+      journal: 'Journal of Economic Theory', rank: 'A*',
+      target: 'Q3 2026', note: 'PhD Chapter 3, already written, needs reformatting only',
+      desc: `<p>The theoretical foundation of the LOOM program. Develops a <strong>directed-search equilibrium model</strong> of within-occupation task restructuring, providing the formal mechanism that explains why automation produces heterogeneous outcomes (task recombination in 59% of occupations, unbundling in 22%) rather than uniform task displacement.</p>
+             <p style="margin-top:.85rem;">The model is already complete as Chapter 3 of the PhD thesis, examined and recommended for publication with minor revision. Primary target: <em>Journal of Economic Theory</em>. Submission target Q3 2026, immediately post-PhD completion.</p>`,
+      team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Author · RMIT School of Management' }],
+      armDesc: 'Measurement arm: the theoretical anchor of the programme. Establishes the formal mechanism underlying the empirical findings.'
+    },
+    hushing: {
+      arm: 'cp', armLabel: 'Critical Policy',
+      title: 'AI Hushing',
+      journal: 'Strategic Entrepreneurship Journal', rank: 'A*',
+      target: 'Q4 2026', note: 'First target submission date',
+      desc: `<p><strong>AI Hushing</strong> is the strategic decision by a firm to conceal or materially under-disclose its genuine AI use to investors, customers, and markets, where full disclosure would risk impairing access to capital, market acceptance, or legitimacy.</p>
+             <p style="margin-top:.85rem;">The paper identifies the <strong>AI Disclosure Paradox</strong>: AI deployment creates operational value, but disclosure of that deployment simultaneously diminishes perceived value in the eyes of external evaluators. Firms resolve this by adopting AI internally while concealing it externally.</p>`,
+      team: [
+        { initials: 'AB', name: 'Ashenafi Biru', role: 'Lead author' },
+        { initials: 'TB', name: 'Thomas Bierly', role: 'Co-author · RMIT School of Management' },
+      ],
+      armDesc: 'Critical Policy arm: addresses what current AI governance frameworks get wrong and why standard regulatory responses are insufficient.'
+    },
+    add: {
+      arm: 'i', armLabel: 'Intervention',
+      title: 'Augmented Double Diamond',
+      journal: 'Research-Technology Management', rank: 'B',
+      target: 'Q4 2026–Q1 2027', note: 'Uses Augmenti platform as research site',
+      desc: `<p>Introduces the <strong>Augmented Double Diamond (ADD)</strong> framework: a design-science artefact that embeds specialised AI agents into the structural logic of design thinking practice. The framework addresses persistent bottlenecks in design processes without compromising human-centred principles.</p>
+             <p style="margin-top:.85rem;">Four design principles structure the framework: Empathic Processing, Frame Expansion, Creative Synthesis, and Iterative Acceleration.</p>`,
+      team: [
+        { initials: 'TH', name: 'Timothy Hor', role: 'Lead author · Lecturer, Management and Technology' },
+        { initials: 'TB', name: 'Thomas Bierly', role: 'Co-author · RMIT School of Management' },
+        { initials: 'AB', name: 'Ashenafi Biru', role: 'Co-author · Senior Lecturer, Management' },
+        { initials: 'JK', name: 'Joseph Kim', role: 'Co-author · Senior Lecturer' },
+        { initials: 'JH', name: 'Jessica Helmi', role: 'Co-author · Deputy Dean, Learning & Teaching' },
+      ],
+      armDesc: 'Intervention arm: Augmenti is the direct implementation of the ADD framework, serving simultaneously as the research artefact and the research site.'
+    },
+    valpals: {
+      arm: 'sl', armLabel: 'SoTL',
+      title: 'VAL PALS in the MBA Classroom',
+      journal: 'Journal of Management Education', rank: 'A',
+      target: 'Q1 2027', note: 'Draws on live MBA teaching data',
+      desc: `<p>A Scholarship of Teaching and Learning study examining <strong>VAL PALS</strong>, an AI-assisted peer learning structure deployed in MBA delivery. Documents how AI can scaffold peer accountability, structured feedback, and collaborative sensemaking in large cohorts.</p>`,
+      team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' }],
+      armDesc: 'SoTL arm: courses as research settings. Papers emerge directly from live teaching observations, creating dual value from constrained research time.'
+    },
+    buildcritique: {
+      arm: 'sl', armLabel: 'SoTL',
+      title: 'Build-then-Critique Pedagogy',
+      journal: 'Academy of Management Learning & Education', rank: 'A*',
+      target: 'Q2 2027', note: 'Paired with VAL PALS submission',
+      desc: `<p>A SoTL study on a pedagogical inversion: rather than analysing existing frameworks and then building, students <strong>build first using AI assistance, then critique</strong> what they have built. This reverses traditional case-method sequencing.</p>
+             <p style="margin-top:.85rem;">The paper documents learning outcomes, student reasoning quality, and the conditions under which AI-first construction enhances critical thinking development in management education.</p>`,
+      team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' }],
+      armDesc: 'SoTL arm: targeting AMLE (A*), the premier journal for management education scholarship.'
+    },
+    heterogeneous: {
+      arm: 'm', armLabel: 'Measurement',
+      title: 'Heterogeneous Task Restructuring',
+      journal: 'Labour Economics', rank: 'A*',
+      target: 'Q3 2027', note: 'Lead empirical paper of the programme',
+      desc: `<p>The programme's lead empirical paper. Uses the full 9.5 million job advertisement corpus to document <strong>heterogeneous within-occupation task restructuring</strong> across 250 occupations over the 2012–2019 period.</p>
+             <p style="margin-top:.85rem;">The central finding: 94% of variation in labour demand is sub-occupational, challenging standard automation risk models.</p>`,
+      team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' }],
+      armDesc: 'Measurement arm: the empirical engine of LOOM. Job advertisement data as a lens on within-occupation task restructuring invisible to standard labour statistics.'
+    },
+    hitl: {
+      arm: 'cp', armLabel: 'Critical Policy',
+      title: "Human-in-the-Loop Doesn't Solve Bias",
+      journal: 'Academy of Management Review', rank: 'A*',
+      target: 'Q3 2027', note: 'Theoretical paper, no empirical data required',
+      desc: `<p>A theoretical critique of <strong>human-in-the-loop (HITL)</strong> oversight as a bias mitigation strategy in AI-assisted decision-making. Identifies conditions under which HITL amplifies rather than reduces algorithmic bias, including automation bias, responsibility diffusion, and adversarial calibration.</p>`,
+      team: [
+        { initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' },
+        { initials: 'MW', name: 'Melissa Wheeler', role: 'Co-author' },
+      ],
+      armDesc: 'Critical Policy arm: targets AMR (A*), the field\'s most prestigious theoretical outlet.'
+    },
+    skillprox: {
+      arm: 'm', armLabel: 'Measurement',
+      title: 'Skill Proximity Networks',
+      journal: 'Journal of Economic Geography', rank: 'A',
+      target: 'Q1 2028', note: 'Second measurement arm paper',
+      desc: `<p>Maps <strong>skill adjacency and transfer pathways</strong> within occupations, identifying which task reallocations are feasible given workers' existing skill endowments and which require substantial retraining.</p>`,
+      team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' }],
+      armDesc: 'Measurement arm: extends the lead empirical paper from documenting restructuring to mapping feasible pathways through it.'
+    },
+    ordian: {
+      arm: 'i', armLabel: 'Intervention',
+      title: 'Algorithmic Allocation & EA Compliance',
+      journal: 'Information Systems Research', rank: 'A*',
+      target: 'Q3 2028', note: 'Uses Ordian platform as primary research site',
+      desc: `<p>Studies how AI-driven workforce allocation intersects with <strong>Equal Opportunity Act obligations</strong> in university staffing, using the Ordian platform as the primary research site.</p>`,
+      team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' }],
+      armDesc: 'Intervention arm: Ordian functions simultaneously as a useful platform and a research instrument.'
+    },
+    voice: {
+      arm: 'i', armLabel: 'Intervention',
+      title: 'Voice Preservation in AI-Mediated Writing',
+      journal: 'Information & Organization', rank: 'A',
+      target: 'Q1 2029', note: 'Intervention arm, Docilis platform',
+      desc: `<p>Studies how the <strong>Docilis</strong> platform preserves or erodes individual authorial voice in AI-assisted professional writing. The central question: when a professional uses AI to help write, does the output still sound like them?</p>`,
+      team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' }],
+      armDesc: 'Intervention arm: uses the Docilis platform as primary research site.'
+    }
+  };
+
+  const ARM_COLORS = { m: '#60a5fa', i: '#34d399', cp: '#fb923c', sl: '#c4b5fd' };
+
+  const overlay = document.getElementById('overlay');
+  const drawer  = document.getElementById('drawer');
+
+  function openDrawer(paperId) {
+    const p = PAPERS[paperId];
+    if (!p) return;
+    document.getElementById('d-arm').textContent = p.armLabel;
+    document.getElementById('d-arm').style.color = ARM_COLORS[p.arm];
+    document.getElementById('d-title').textContent = p.title;
+    document.getElementById('d-badges').innerHTML = `
+      <span style="font-style:italic;font-size:.75rem;color:var(--text-dim)">${p.journal}</span>
+      <span class="${p.rank === 'A*' ? 'd-rank-star' : 'd-rank-a'}" style="margin-left:.5rem">${p.rank}</span>
+    `;
+    document.getElementById('d-target').textContent = p.target;
+    document.getElementById('d-note').textContent   = p.note;
+    document.getElementById('d-desc').innerHTML     = p.desc;
+    const teamSection = document.getElementById('d-team-section');
+    const teamGrid    = document.getElementById('d-team');
+    if (p.team && p.team.length) {
+      teamGrid.innerHTML = p.team.map(m => `
+        <div class="team-member">
+          <div class="tm-avatar">${m.initials}</div>
+          <div class="tm-info"><div class="tm-name">${m.name}</div><div class="tm-role">${m.role}</div></div>
+        </div>`).join('');
+      teamSection.style.display = '';
+    } else {
+      teamSection.style.display = 'none';
+    }
+    document.getElementById('d-arm-desc').innerHTML = `<p>${p.armDesc}</p>`;
+    overlay.classList.add('open');
+    drawer.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+  document.querySelectorAll('.g-row[data-paper]').forEach(row => {
+    row.addEventListener('click', () => openDrawer(row.dataset.paper));
+  });
 </script>
 
 </body>
