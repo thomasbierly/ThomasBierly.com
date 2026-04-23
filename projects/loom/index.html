@@ -391,6 +391,101 @@
     /* Deferred paper */
     .gantt-row.deferred { opacity: .55; }
 
+    /* ── FINDINGS GRID ───────────────────────────────────────────────── */
+    .findings-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px; background: var(--border);
+      border: 1px solid var(--border); border-radius: 10px;
+      overflow: hidden; margin-top: 4rem;
+    }
+    @media (max-width: 800px) { .findings-grid { grid-template-columns: 1fr; } }
+    .finding-card {
+      background: var(--bg-1); padding: 2rem 1.75rem;
+    }
+    .fc-nums {
+      display: flex; align-items: baseline; gap: .4rem; margin-bottom: .75rem;
+    }
+    .fc-big {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.8rem; color: var(--accent); line-height: 1;
+    }
+    .fc-sep { font-size: 1.4rem; color: var(--text-dim); }
+    .fc-med { font-family: 'Instrument Serif', serif; font-size: 1.8rem; color: var(--text-mid); line-height: 1; }
+    .fc-label {
+      font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: .85rem;
+    }
+    .fc-desc {
+      font-size: .85rem; color: var(--text-dim); line-height: 1.7;
+    }
+    .fc-desc em { color: var(--accent); font-style: normal; }
+
+    /* ── WORKING PAPERS ──────────────────────────────────────────────── */
+    .papers-arm { margin-bottom: 2.5rem; }
+    .papers-arm:last-child { margin-bottom: 0; }
+    .pa-label {
+      font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: 1rem; display: flex; align-items: center; gap: .75rem;
+    }
+    .pa-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .paper-row {
+      display: flex; align-items: baseline; gap: 1rem;
+      padding: .75rem 0; border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .paper-row:last-child { border-bottom: none; }
+    .pr-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: .45rem; }
+    .pr-title { font-size: .9rem; color: var(--text); line-height: 1.4; }
+    .pr-status {
+      margin-left: auto; flex-shrink: 0;
+      font-size: .65rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--text-dim); border: 1px solid var(--border);
+      padding: .2rem .55rem; border-radius: 20px; white-space: nowrap;
+    }
+
+    /* ── TEAM ────────────────────────────────────────────────────────── */
+    .team-section { padding: 5rem 0; }
+    .team-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: 10px;
+      overflow: hidden; margin-top: 2rem;
+    }
+    .team-card {
+      background: var(--bg-1); padding: 1.5rem;
+    }
+    .tc-lead { background: var(--bg-2); }
+    .tc-name { font-size: .9rem; font-weight: 600; color: var(--text); margin-bottom: .25rem; }
+    .tc-role { font-size: .75rem; color: var(--accent); margin-bottom: .2rem; }
+    .tc-inst { font-size: .7rem; color: var(--text-dim); line-height: 1.5; margin-bottom: .65rem; }
+    .tc-tags { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .tc-tag {
+      font-size: .6rem; letter-spacing: .06em; text-transform: uppercase;
+      padding: .15rem .45rem; border-radius: 20px;
+    }
+    @media (max-width: 800px) { .team-grid { grid-template-columns: 1fr 1fr; } }
+
+    /* ── GET INVOLVED ────────────────────────────────────────────────── */
+    .involve-section { padding: 5rem 0; border-top: 1px solid var(--border); }
+    .involve-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 2rem;
+    }
+    @media (max-width: 800px) { .involve-grid { grid-template-columns: 1fr; } }
+    .involve-card {
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.75rem;
+    }
+    .inv-icon { font-size: 1.4rem; margin-bottom: 1rem; color: var(--text-dim); }
+    .inv-title { font-size: .95rem; font-weight: 600; color: var(--text); margin-bottom: .6rem; }
+    .inv-desc { font-size: .85rem; color: var(--text-dim); line-height: 1.7; }
+    .inv-link {
+      display: inline-block; margin-top: 1rem;
+      font-size: .78rem; color: var(--accent);
+      text-decoration: none; border-bottom: 1px solid transparent;
+      transition: border-color .2s;
+    }
+    .inv-link:hover { border-bottom-color: var(--accent); }
+
     /* ── PAPER DRAWER ────────────────────────────────────────────────── */
     .drawer-overlay {
       display: none; position: fixed; inset: 0; z-index: 200;
@@ -667,7 +762,7 @@
   <a href="../../index.html#projects" class="nav-back">← Portfolio</a>
   <a href="#" class="nav-logo">LOOM</a>
   <div class="nav-right">
-    <span class="nav-tag">Research Prospectus</span>
+    <span class="nav-tag">Research Lab</span>
   </div>
 </nav>
 
@@ -676,14 +771,14 @@
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Programme Prospectus · April 2026</p>
+    <p class="hero-eyebrow">Research Lab · RMIT University · School of Management</p>
     <h1 class="hero-title">
       LOOM
       <span>Labour · Occupations · Organisations · Machines</span>
     </h1>
     <p class="hero-tagline">
-      A three-year research programme on within-occupation<br>
-      human–AI task reallocation — and what it means for work.
+      A research lab studying how artificial intelligence<br>
+      restructures work from the inside out.
     </p>
     <div class="hero-chips">
       <span class="chip chip-m">Measurement</span>
@@ -805,6 +900,32 @@
         </div>
       </div>
     </div>
+
+    <div class="findings-grid reveal d3">
+      <div class="finding-card">
+        <div class="fc-nums">
+          <span class="fc-big">59%</span>
+          <span class="fc-sep">/</span>
+          <span class="fc-med">22%</span>
+        </div>
+        <p class="fc-label">Recombination vs. unbundling</p>
+        <p class="fc-desc">Of the 250 occupations tracked, 59% show task <em>recombination</em> — AI adds complexity, demands rise. 22% show task <em>unbundling</em> — work simplifies, skills shrink. The remaining 19% are stable. Automation is not one thing.</p>
+      </div>
+      <div class="finding-card">
+        <div class="fc-nums">
+          <span class="fc-big" style="font-size:1.6rem; line-height:1.2;">Technology<br>succession</span>
+        </div>
+        <p class="fc-label">The tools change. The occupation stays.</p>
+        <p class="fc-desc">Within-occupation technology turnover — the replacement of specific platforms, software, and tools — is statistically significant across all 250 occupations (p &lt; 10⁻¹³). Job titles persist long after the work inside them has been rewritten.</p>
+      </div>
+      <div class="finding-card">
+        <div class="fc-nums">
+          <span class="fc-big">95%</span>
+        </div>
+        <p class="fc-label">Skill transitions are closer than they look</p>
+        <p class="fc-desc">95% of at-risk skill clusters can reach a stable alternative with three or fewer new skills. The barrier to transition is rarely the size of the skill gap — it is the absence of clear pathways and the information to navigate them.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -849,224 +970,43 @@
   </div>
 </section>
 
-<!-- ════════════════════════════ PIPELINE ══════════════════════════════════ -->
+<!-- ════════════════════════════ PAPERS ════════════════════════════════════ -->
 <section class="pipeline-section">
   <div class="container">
-    <span class="section-label reveal">Publication pipeline</span>
-    <h2 class="reveal">Eight papers, 2026–2029</h2>
-    <p class="section-sub reveal d1">Targeting five A* journals and three A-ranked journals across labour economics, information systems, management, and management education. Click any paper for details and collaborators.</p>
+    <span class="section-label reveal">Working papers</span>
+    <h2 class="reveal">Research in progress</h2>
+    <p class="section-sub reveal d1">Papers across three research arms. All are working papers at various stages of development.</p>
 
-    <div class="pipeline-legend reveal d2">
-      <div class="leg-item"><span class="leg-dot" style="background:var(--m)"></span> Measurement</div>
-      <div class="leg-item"><span class="leg-dot" style="background:var(--i)"></span> Intervention</div>
-      <div class="leg-item"><span class="leg-dot" style="background:var(--cp)"></span> Critical Policy</div>
-      <div class="leg-item"><span class="leg-dot" style="background:var(--sl)"></span> SoTL</div>
-      <span class="pipeline-hint">↑ click a paper to expand</span>
+    <div class="reveal d2">
+
+      <div class="papers-arm">
+        <div class="pa-label" style="color:var(--m)">Measurement</div>
+        <div class="paper-row"><div class="pr-dot" style="background:var(--m)"></div><div class="pr-title">Directed-Search Theory of Within-Occupation Task Restructuring</div><span class="pr-status">Working paper</span></div>
+        <div class="paper-row"><div class="pr-dot" style="background:var(--m)"></div><div class="pr-title">Heterogeneous Task Restructuring</div><span class="pr-status">Working paper</span></div>
+        <div class="paper-row"><div class="pr-dot" style="background:var(--m)"></div><div class="pr-title">Skill Proximity Networks</div><span class="pr-status">Working paper</span></div>
+      </div>
+      <div class="papers-arm">
+        <div class="pa-label" style="color:var(--i)">Intervention</div>
+        <div class="paper-row"><div class="pr-dot" style="background:var(--i)"></div><div class="pr-title">Augmented Double Diamond</div><span class="pr-status">In preparation</span></div>
+        <div class="paper-row"><div class="pr-dot" style="background:var(--i)"></div><div class="pr-title">Algorithmic Allocation &amp; Precarious Academic Labour</div><span class="pr-status">Planned</span></div>
+        <div class="paper-row"><div class="pr-dot" style="background:var(--i)"></div><div class="pr-title">AI-Assisted Leadership Communication: Authenticity and Follower Trust</div><span class="pr-status">Planned</span></div>
+      </div>
+      <div class="papers-arm">
+        <div class="pa-label" style="color:var(--cp)">Critical Policy</div>
+        <div class="paper-row"><div class="pr-dot" style="background:var(--cp)"></div><div class="pr-title">AI Hushing</div><span class="pr-status">In preparation</span></div>
+        <div class="paper-row"><div class="pr-dot" style="background:var(--cp)"></div><div class="pr-title">Human-in-the-Loop Doesn't Solve Bias</div><span class="pr-status">Working paper</span></div>
+      </div>
     </div>
-
-    <div class="gantt-wrap reveal">
-      <!-- Year header -->
-      <div class="gantt-head">
-        <div class="gh-empty"></div>
-        <div class="gh-year">2026</div>
-        <div class="gh-year">2027</div>
-        <div class="gh-year">2028</div>
-        <div class="gh-year">2029</div>
-      </div>
-      <!-- Quarter header -->
-      <div class="gantt-quarters">
-        <div class="gq-empty"></div>
-        <div class="gq-label">Q1</div>
-        <div class="gq-label current">Q2</div><!-- today -->
-        <div class="gq-label">Q3</div>
-        <div class="gq-label">Q4</div>
-        <div class="gq-label">Q1</div>
-        <div class="gq-label">Q2</div>
-        <div class="gq-label">Q3</div>
-        <div class="gq-label">Q4</div>
-        <div class="gq-label">Q1</div>
-        <div class="gq-label">Q2</div>
-        <div class="gq-label">Q3</div>
-        <div class="gq-label">Q4</div>
-        <div class="gq-label">Q1</div>
-        <div class="gq-label">Q2</div>
-        <div class="gq-label">Q3</div>
-        <div class="gq-label">Q4</div>
-      </div>
-
-      <!-- Papers: data-start/end are 0-based quarter indices (0=Q1 2026, 15=Q4 2029) -->
-      <!-- Bar left% = start/16 * 100, width% = (end-start)/16 * 100 -->
-
-      <div class="gantt-row" data-paper="theory">
-        <div class="gr-info">
-          <div class="gr-title">Directed-Search Theory of Task Restructuring</div>
-          <div class="gr-meta">
-            <span class="gr-journal">Economic theory journal (TBC)</span>
-            <span class="rank rank-star">A*</span>
-          </div>
-        </div>
-        <div class="gr-bars">
-          <!-- start=1 (Q2 2026), end=3 (Q3 2026) — already written as PhD Ch.3 -->
-          <div class="g-bar" style="background:var(--m); left:6.25%; width:12.5%">
-            <div class="g-marker"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gantt-row" data-paper="hushing">
-        <div class="gr-info">
-          <div class="gr-title">AI Hushing</div>
-          <div class="gr-meta">
-            <span class="gr-journal">Strategic Entrepreneurship Journal</span>
-            <span class="rank rank-star">A*</span>
-          </div>
-        </div>
-        <div class="gr-bars">
-          <!-- start=1 (Q2 2026), end=4 (Q4 2026) -->
-          <div class="g-bar" style="background:var(--cp); left:6.25%; width:18.75%">
-            <div class="g-marker"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gantt-row" data-paper="add">
-        <div class="gr-info">
-          <div class="gr-title">Augmented Double Diamond</div>
-          <div class="gr-meta">
-            <span class="gr-journal">Research-Technology Management</span>
-            <span class="rank rank-a">B</span>
-          </div>
-        </div>
-        <div class="gr-bars">
-          <!-- start=1 (Q2 2026), end=5 (Q1 2027) -->
-          <div class="g-bar" style="background:var(--i); left:6.25%; width:25%">
-            <div class="g-marker"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gantt-row" data-paper="valpals">
-        <div class="gr-info">
-          <div class="gr-title">VAL PALS in the MBA Classroom</div>
-          <div class="gr-meta">
-            <span class="gr-journal">Journal of Management Education</span>
-            <span class="rank rank-a">A</span>
-          </div>
-        </div>
-        <div class="gr-bars">
-          <!-- start=2, end=5 (Q1 2027) -->
-          <div class="g-bar" style="background:var(--sl); left:12.5%; width:18.75%">
-            <div class="g-marker"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gantt-row" data-paper="buildcritique">
-        <div class="gr-info">
-          <div class="gr-title">Build-then-Critique Pedagogy</div>
-          <div class="gr-meta">
-            <span class="gr-journal">Academy of Management Learning &amp; Education</span>
-            <span class="rank rank-star">A*</span>
-          </div>
-        </div>
-        <div class="gr-bars">
-          <!-- start=4 (Q1 2027), end=6 (Q2 2027) -->
-          <div class="g-bar" style="background:var(--sl); left:25%; width:12.5%">
-            <div class="g-marker"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gantt-row" data-paper="heterogeneous">
-        <div class="gr-info">
-          <div class="gr-title">Heterogeneous Task Restructuring</div>
-          <div class="gr-meta">
-            <span class="gr-journal">Labour Economics</span>
-            <span class="rank rank-star">A*</span>
-          </div>
-        </div>
-        <div class="gr-bars">
-          <!-- start=4, end=7 (Q3 2027) -->
-          <div class="g-bar" style="background:var(--m); left:25%; width:18.75%">
-            <div class="g-marker"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gantt-row" data-paper="hitl">
-        <div class="gr-info">
-          <div class="gr-title">Human-in-the-Loop Doesn't Solve Bias</div>
-          <div class="gr-meta">
-            <span class="gr-journal">Academy of Management Review</span>
-            <span class="rank rank-star">A*</span>
-          </div>
-        </div>
-        <div class="gr-bars">
-          <!-- start=4, end=7 -->
-          <div class="g-bar" style="background:var(--cp); left:25%; width:18.75%">
-            <div class="g-marker"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gantt-row" data-paper="skillprox">
-        <div class="gr-info">
-          <div class="gr-title">Skill Proximity Networks</div>
-          <div class="gr-meta">
-            <span class="gr-journal">Journal of Economic Geography</span>
-            <span class="rank rank-a">A</span>
-          </div>
-        </div>
-        <div class="gr-bars">
-          <!-- start=6, end=9 (Q1 2028) -->
-          <div class="g-bar" style="background:var(--m); left:37.5%; width:18.75%">
-            <div class="g-marker"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gantt-row" data-paper="ordian">
-        <div class="gr-info">
-          <div class="gr-title">Algorithmic Allocation &amp; EA Compliance</div>
-          <div class="gr-meta">
-            <span class="gr-journal">Information Systems Research</span>
-            <span class="rank rank-star">A*</span>
-          </div>
-        </div>
-        <div class="gr-bars">
-          <!-- start=8, end=11 (Q3 2028) -->
-          <div class="g-bar" style="background:var(--i); left:50%; width:18.75%">
-            <div class="g-marker"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gantt-row" data-paper="voice">
-        <div class="gr-info">
-          <div class="gr-title">Voice Preservation in AI-Mediated Writing</div>
-          <div class="gr-meta">
-            <span class="gr-journal">Information &amp; Organization</span>
-            <span class="rank rank-a">A</span>
-          </div>
-        </div>
-        <div class="gr-bars">
-          <!-- start=10, end=13 (Q1 2029) -->
-          <div class="g-bar" style="background:var(--i); left:62.5%; width:18.75%">
-            <div class="g-marker"></div>
-          </div>
-        </div>
-      </div>
-    </div><!-- /gantt-wrap -->
-
   </div>
 </section>
+
 
 <!-- ════════════════════════════ PLATFORMS ═════════════════════════════════ -->
 <section>
   <div class="container">
-    <span class="section-label reveal">Intervention arm · Research platforms</span>
+    <span class="section-label reveal">Research infrastructure</span>
     <h2 class="reveal">Four platforms. Four research sites. One lab.</h2>
-    <p class="section-sub reveal d1">Each platform is designed first as a research instrument — generating observational and experimental data on human–AI task reallocation in a distinct professional context. Commercial activity is controlled and research-subordinated.</p>
+    <p class="section-sub reveal d1">Each platform is built first as a research instrument, generating observational and experimental data on human–AI task reallocation in a distinct professional context.</p>
 
     <div class="platform-grid">
 
@@ -1081,15 +1021,7 @@
         <div class="pc-body">
           <div class="pc-role">
             <strong>Research role</strong>
-            Studies how algorithmic allocation intersects with Equal Opportunity Act obligations. Designed to generate longitudinal allocation data across teaching assignments.
-          </div>
-          <div class="pc-arr">
-            <div class="arr-row">
-              <span class="arr-key">Target ARR (2028)</span>
-              <span class="arr-val">A$250k–750k</span>
-            </div>
-            <div class="arr-track"><div class="arr-fill" data-width="60%"></div></div>
-            <div class="arr-note">2–3 university licensees</div>
+            Studies how algorithmic allocation reshapes the work and career experiences of sessional academic staff — fairness perceptions, coordinator override behaviour, and worker responses to algorithmic versus human decisions.
           </div>
         </div>
       </div>
@@ -1105,15 +1037,7 @@
         <div class="pc-body">
           <div class="pc-role">
             <strong>Research role</strong>
-            Studies how AI-mediated writing preserves or erodes individual voice. User interaction logs provide data on authorial decision-making under AI suggestion.
-          </div>
-          <div class="pc-arr">
-            <div class="arr-row">
-              <span class="arr-key">Target ARR (2028)</span>
-              <span class="arr-val">A$150k–900k</span>
-            </div>
-            <div class="arr-track"><div class="arr-fill" data-width="75%"></div></div>
-            <div class="arr-note">500–2,000 paying users</div>
+            Studies AI-assisted leadership communication — how AI mediation affects perceived authenticity, follower trust, and the markers of authority readers use to evaluate a leader's credibility.
           </div>
         </div>
       </div>
@@ -1129,15 +1053,7 @@
         <div class="pc-body">
           <div class="pc-role">
             <strong>Research role</strong>
-            Studies AI's role in collaborative knowledge work. Dual use in classroom (SoTL data) and enterprise settings creates matched comparison across contexts.
-          </div>
-          <div class="pc-arr">
-            <div class="arr-row">
-              <span class="arr-key">Target ARR (2028)</span>
-              <span class="arr-val">A$100k–600k</span>
-            </div>
-            <div class="arr-track"><div class="arr-fill" data-width="45%"></div></div>
-            <div class="arr-note">5–15 enterprise &amp; university clients</div>
+            Studies AI's role in collaborative knowledge work. Dual use in classroom and enterprise settings creates a matched comparison across contexts.
           </div>
         </div>
       </div>
@@ -1153,15 +1069,7 @@
         <div class="pc-body">
           <div class="pc-role">
             <strong>Research role</strong>
-            Serves as the public-facing interface on the Measurement arm — making cluster assignments, skill proximity networks, and task-restructuring trends accessible to workers, policymakers, and career advisors without requiring familiarity with the underlying methodology.
-          </div>
-          <div class="pc-arr">
-            <div class="arr-row">
-              <span class="arr-key">Funding pathway</span>
-              <span class="arr-val" style="color:var(--accent);">ARC Linkage 2029</span>
-            </div>
-            <div class="arr-track"><div class="arr-fill" data-width="20%" style="background: var(--accent);"></div></div>
-            <div class="arr-note">Data exists now · development independent of grant outcome</div>
+            The public-facing interface on the Measurement arm, making cluster assignments, skill proximity networks, and task-restructuring trends accessible to workers, policymakers, and career advisors.
           </div>
         </div>
       </div>
@@ -1170,82 +1078,67 @@
   </div>
 </section>
 
-<!-- ════════════════════════ GRANTS + PROMOTION ════════════════════════════ -->
-<section class="gp-section">
+<!-- ════════════════════════════ TEAM ════════════════════════════════════════ -->
+<section class="team-section">
   <div class="container">
-    <span class="section-label reveal">Strategic context</span>
-    <h2 class="reveal">Grant strategy &amp; promotion case</h2>
-    <div class="gp-grid">
+    <span class="section-label reveal">People</span>
+    <h2 class="reveal">Research team</h2>
+    <p class="section-sub reveal d1">LOOM is a collaborative programme spanning labour economics, management education, and human-computer interaction.</p>
+    <div class="team-grid reveal d2">
 
-      <div class="reveal d1">
-        <p class="wl-label" style="margin-bottom:1.5rem;">Grant targets</p>
-        <div class="grant-card">
-          <div class="grant-amount">A$400–600k</div>
-          <div class="grant-name">ARC Linkage Grant — Primary target</div>
-          <div class="grant-detail">Mapping within-occupation AI adoption across Australian industries. Targets 2029 round with Jobs &amp; Skills Australia and/or the Productivity Commission as industry partners.</div>
-          <div class="grant-timeline">
-            <div class="gtl-label">Time to submission window</div>
-            <div class="gtl-track"><div class="gtl-fill"></div></div>
-            <div class="gtl-marks">
-              <span class="gtl-mark now">Now</span>
-              <span class="gtl-mark">2027</span>
-              <span class="gtl-mark">2028</span>
-              <span class="gtl-mark">Submit →</span>
-            </div>
-          </div>
-        </div>
-        <p class="wl-label" style="margin-top:1.75rem; margin-bottom:1rem;">Secondary &amp; stretch targets</p>
-        <div class="secondary-grants">
-          <div class="sec-grant">
-            <div><div class="sg-name">DECRA</div><div class="sg-detail">Early-career excellence award</div></div>
-            <span class="sg-year">2030 intake</span>
-          </div>
-          <div class="sec-grant">
-            <div><div class="sg-name">ARC Discovery</div><div class="sg-detail">Foundational research programme</div></div>
-            <span class="sg-year">2030+</span>
-          </div>
-          <div class="sec-grant">
-            <div><div class="sg-name">RMIT Internal Schemes</div><div class="sg-detail">Seed funding for data access &amp; ethics</div></div>
-            <span class="sg-year">Ongoing</span>
-          </div>
+      <div class="team-card tc-lead">
+        <div class="tc-name">Thomas Bierly</div>
+        <div class="tc-role">Principal Investigator</div>
+        <div class="tc-inst">RMIT University · School of Management</div>
+        <div class="tc-tags">
+          <span class="tc-tag" style="background:rgba(56,189,248,.12);color:var(--m)">Measurement</span>
+          <span class="tc-tag" style="background:rgba(86,211,100,.12);color:var(--iv)">Intervention</span>
+          <span class="tc-tag" style="background:rgba(247,129,102,.12);color:var(--cp)">Critical Policy</span>
         </div>
       </div>
 
-      <div class="reveal d2">
-        <p class="wl-label" style="margin-bottom:1.5rem;">Level C case · Target by December 2028</p>
-        <div class="promo-grid">
-          <div class="promo-stat">
-            <div class="ps-num">3–4</div>
-            <div class="ps-lab">Peer-reviewed publications<br><span class="ps-sub">2–3 ranked A* or A</span></div>
-          </div>
-          <div class="promo-stat">
-            <div class="ps-num">2–3</div>
-            <div class="ps-lab">SoTL publications in<br>management education</div>
-          </div>
-          <div class="promo-stat">
-            <div class="ps-num">1</div>
-            <div class="ps-lab">ARC Linkage submitted<br><span class="ps-sub">+ DECRA stretch</span></div>
-          </div>
-          <div class="promo-stat">
-            <div class="ps-num">1–2</div>
-            <div class="ps-lab">HDR students<br>co-supervised</div>
-          </div>
+      <div class="team-card">
+        <div class="tc-name">Ashenafi Biru</div>
+        <div class="tc-role">Research collaborator</div>
+        <div class="tc-inst">RMIT University</div>
+        <div class="tc-tags">
+          <span class="tc-tag" style="background:rgba(247,129,102,.12);color:var(--cp)">Critical Policy</span>
         </div>
-        <p style="font-family:'JetBrains Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);text-align:center;margin-top:.85rem;">Promotion round: 2029</p>
+      </div>
 
-        <div class="capacity-block">
-          <p class="wl-label">Research capacity</p>
-          <div class="wl-bar">
-            <div class="wl-teach"></div>
-            <div class="wl-research"></div>
-            <div class="wl-engage"></div>
-          </div>
-          <div class="wl-legend">
-            <div class="wl-item"><span class="wl-dot" style="background:var(--cp)"></span> Teaching 80%</div>
-            <div class="wl-item"><span class="wl-dot" style="background:var(--accent)"></span> Research 15%</div>
-            <div class="wl-item"><span class="wl-dot" style="background:var(--text-dim)"></span> Engagement 5%</div>
-          </div>
-          <p class="wl-note">~15 usable research weeks per year, concentrated in two annual sprints: Dec–Feb (9 weeks) and Jun–Jul (4 weeks). The programme is designed to be executable within this constraint.</p>
+      <div class="team-card">
+        <div class="tc-name">Melissa Wheeler</div>
+        <div class="tc-role">Research collaborator</div>
+        <div class="tc-inst">RMIT University · School of Management</div>
+        <div class="tc-tags">
+          <span class="tc-tag" style="background:rgba(86,211,100,.12);color:var(--iv)">Intervention</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="tc-name">Timothy Hor</div>
+        <div class="tc-role">Research collaborator</div>
+        <div class="tc-inst">RMIT University</div>
+        <div class="tc-tags">
+          <span class="tc-tag" style="background:rgba(86,211,100,.12);color:var(--iv)">Intervention</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="tc-name">Joseph Kim</div>
+        <div class="tc-role">Research collaborator</div>
+        <div class="tc-inst">RMIT University</div>
+        <div class="tc-tags">
+          <span class="tc-tag" style="background:rgba(86,211,100,.12);color:var(--iv)">Intervention</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="tc-name">Jessica Helmi</div>
+        <div class="tc-role">Research collaborator</div>
+        <div class="tc-inst">RMIT University · School of Management</div>
+        <div class="tc-tags">
+          <span class="tc-tag" style="background:rgba(86,211,100,.12);color:var(--iv)">Intervention</span>
         </div>
       </div>
 
@@ -1253,43 +1146,35 @@
   </div>
 </section>
 
-<!-- ════════════════════════════ THE ASK ═══════════════════════════════════ -->
-<section class="ask-section">
+<!-- ════════════════════════ GET INVOLVED ════════════════════════════════════ -->
+<section class="involve-section">
   <div class="container">
-    <span class="section-label reveal">Enabling conditions</span>
-    <h2 class="reveal">What would make this possible</h2>
-    <p class="section-sub reveal d1">Six institutional enablers that would unlock the full programme. Each is a conversation, not a demand.</p>
-    <div class="ask-grid">
-      <div class="ask-card reveal d1">
-        <div class="ask-num">01</div>
-        <h3 class="ask-title">Named CoBLTech affiliation</h3>
-        <p class="ask-desc">Formal programme visibility within CoBLTech — a named home for LOOM that signals institutional support and enables external partnership conversations with grant bodies and industry.</p>
+    <span class="section-label reveal">Connect</span>
+    <h2 class="reveal">Get involved</h2>
+    <p class="section-sub reveal d1">LOOM welcomes collaboration across disciplines and sectors. If the questions interest you, reach out.</p>
+    <div class="involve-grid">
+
+      <div class="involve-card reveal d1">
+        <div class="inv-icon">&#9675;</div>
+        <h3 class="inv-title">Academic collaborators</h3>
+        <p class="inv-desc">We are looking for collaborators in labour economics, organisational behaviour, HCI, and education research. Particularly interested in researchers with access to administrative employment data or expertise in causal identification.</p>
+        <a class="inv-link" href="mailto:thomas.bierly@rmit.edu.au">Get in touch &rarr;</a>
       </div>
-      <div class="ask-card reveal d2">
-        <div class="ask-num">02</div>
-        <h3 class="ask-title">Leadership opportunities</h3>
-        <p class="ask-desc">Committee membership or stream leadership relevant to AI, labour, and future of work — builds the institutional service track record required for a strong Level C promotion case.</p>
+
+      <div class="involve-card reveal d2">
+        <div class="inv-icon">&#9651;</div>
+        <h3 class="inv-title">HDR students</h3>
+        <p class="inv-desc">Prospective PhD and Masters by Research students interested in automation, labour market dynamics, or AI in organisations are welcome to reach out. LOOM offers embedded fieldwork opportunities through its three deployed platforms.</p>
+        <a class="inv-link" href="mailto:thomas.bierly@rmit.edu.au">Enquire about supervision &rarr;</a>
       </div>
-      <div class="ask-card reveal d3">
-        <div class="ask-num">03</div>
-        <h3 class="ask-title">Grant partner brokering</h3>
-        <p class="ask-desc">Introductions to Jobs &amp; Skills Australia, the Productivity Commission, and peer universities as potential ARC Linkage partners. RMIT's networks are the critical enabling input here.</p>
+
+      <div class="involve-card reveal d3">
+        <div class="inv-icon">&#9671;</div>
+        <h3 class="inv-title">Industry &amp; policy partners</h3>
+        <p class="inv-desc">Organisations navigating AI-driven workforce change are central to LOOM's methodology. We are interested in partnerships with government agencies, industry bodies, and firms willing to share data or co-design research questions.</p>
+        <a class="inv-link" href="mailto:thomas.bierly@rmit.edu.au">Discuss a partnership &rarr;</a>
       </div>
-      <div class="ask-card reveal d1">
-        <div class="ask-num">04</div>
-        <h3 class="ask-title">IP &amp; licensing support for Ordian</h3>
-        <p class="ask-desc">A conversation on RMIT's preferred IP arrangement for the Ordian platform — currently undefined. A resolved structure unlocks responsible commercial scale-up and protects both parties.</p>
-      </div>
-      <div class="ask-card reveal d2">
-        <div class="ask-num">05</div>
-        <h3 class="ask-title">Job advertisement data access</h3>
-        <p class="ask-desc">Access to a comprehensive Australian job advertisement dataset (e.g. Lightcast or equivalent). The entire measurement arm — and the programme's empirical core — depends on this longitudinal data.</p>
-      </div>
-      <div class="ask-card reveal d3">
-        <div class="ask-num">06</div>
-        <h3 class="ask-title">Annual showcase event</h3>
-        <p class="ask-desc">A CoBLTech-hosted annual event on AI and the future of work — convening industry, policy, and academic voices. Positions RMIT as a convener in this conversation, not simply a commentator.</p>
-      </div>
+
     </div>
   </div>
 </section>
@@ -1298,7 +1183,7 @@
 <footer>
   <div class="container">
     <span class="ft">LOOM · Thomas Bierly · RMIT School of Management · April 2026</span>
-    <span class="ft">Programme prospectus — confidential</span>
+    <span class="ft">Research lab · thomasbierly.com/projects/loom</span>
   </div>
 </footer>
 
