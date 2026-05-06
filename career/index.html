@@ -376,12 +376,12 @@
       margin-bottom: .25rem;
     }
     .gantt-years {
-      display: grid; grid-template-columns: repeat(4, 1fr);
+      display: grid; grid-template-columns: repeat(5, 1fr);
       padding-left: .5rem;
     }
     .gy { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
     .gantt-quarters {
-      display: grid; grid-template-columns: repeat(16, 1fr);
+      display: grid; grid-template-columns: repeat(20, 1fr);
       border-bottom: 1px solid var(--border); padding-left: .5rem;
       margin-bottom: .5rem;
     }
@@ -403,12 +403,12 @@
     .g-bars-area { position: relative; height: 40px; }
     .g-bars-area::before {
       content: ''; position: absolute; inset: 0;
-      background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0, rgba(255,255,255,.025) 1px, transparent 1px, transparent calc(100%/16));
+      background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0, rgba(255,255,255,.025) 1px, transparent 1px, transparent calc(100%/20));
       pointer-events: none;
     }
     .g-bars-area::after {
       content: ''; position: absolute; top: 0; bottom: 0;
-      left: 9.4%; width: 1px;
+      left: 7%; width: 1px;
       background: var(--accent); opacity: .4; pointer-events: none;
     }
     .g-pip {
@@ -885,6 +885,7 @@
               <span class="gy">2027</span>
               <span class="gy">2028</span>
               <span class="gy">2029</span>
+              <span class="gy">2030</span>
             </div>
           </div>
           <div class="gantt-head">
@@ -894,10 +895,11 @@
               <span class="gq">Q1</span><span class="gq">Q2</span><span class="gq">Q3</span><span class="gq">Q4</span>
               <span class="gq">Q1</span><span class="gq">Q2</span><span class="gq">Q3</span><span class="gq">Q4</span>
               <span class="gq">Q1</span><span class="gq">Q2</span><span class="gq">Q3</span><span class="gq">Q4</span>
+              <span class="gq">Q1</span><span class="gq">Q2</span><span class="gq">Q3</span><span class="gq">Q4</span>
             </div>
           </div>
 
-          <!-- start/end: 0-based quarter index. left%=start/16*100, width%=(end-start)/16*100 -->
+          <!-- 20 quarters (2026–2030), each = 5%. left%=start_quarter/20*100, width%=span/20*100 -->
 
           <div class="g-row" data-paper="theory">
             <div class="g-info">
@@ -905,7 +907,7 @@
               <div class="g-sub">Journal of Economic Theory · Bierly · PhD thesis</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#60a5fa; left:6.25%; width:12.5%"></div>
+              <div class="g-pip" style="background:#60a5fa; left:5%; width:10%"></div>
             </div>
           </div>
 
@@ -915,7 +917,7 @@
               <div class="g-sub">Strategic Entrepreneurship Journal · Biru (lead), Bierly</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#fb923c; left:6.25%; width:18.75%"></div>
+              <div class="g-pip" style="background:#fb923c; left:5%; width:15%"></div>
             </div>
           </div>
 
@@ -925,7 +927,7 @@
               <div class="g-sub">Research-Technology Management · Hor (lead) et al.</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#34d399; left:6.25%; width:25%"></div>
+              <div class="g-pip" style="background:#34d399; left:5%; width:15%"></div>
             </div>
           </div>
 
@@ -935,7 +937,7 @@
               <div class="g-sub">Journal of Management Education · Bierly</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#c4b5fd; left:12.5%; width:18.75%"></div>
+              <div class="g-pip" style="background:#c4b5fd; left:10%; width:15%"></div>
             </div>
           </div>
 
@@ -945,7 +947,7 @@
               <div class="g-sub">AEEHE / BJET · Bierly · RMIT Education Innovation Grant</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#c4b5fd; left:12.5%; width:18.75%"></div>
+              <div class="g-pip" style="background:#c4b5fd; left:10%; width:15%"></div>
             </div>
           </div>
 
@@ -955,7 +957,7 @@
               <div class="g-sub">AMLE · Bierly</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#c4b5fd; left:25%; width:12.5%"></div>
+              <div class="g-pip" style="background:#c4b5fd; left:20%; width:10%"></div>
             </div>
           </div>
 
@@ -965,7 +967,7 @@
               <div class="g-sub">Labour Economics · Bierly · PhD thesis</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#60a5fa; left:25%; width:18.75%"></div>
+              <div class="g-pip" style="background:#60a5fa; left:20%; width:15%"></div>
             </div>
           </div>
 
@@ -975,7 +977,7 @@
               <div class="g-sub">Academy of Management Review · Bierly, Wheeler</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#fb923c; left:25%; width:18.75%"></div>
+              <div class="g-pip" style="background:#fb923c; left:30%; width:15%"></div>
             </div>
           </div>
 
@@ -985,7 +987,7 @@
               <div class="g-sub">Research Policy · Bierly · PhD thesis</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#60a5fa; left:37.5%; width:18.75%"></div>
+              <div class="g-pip" style="background:#60a5fa; left:35%; width:10%"></div>
             </div>
           </div>
 
@@ -995,7 +997,7 @@
               <div class="g-sub">Information Systems Research · Bierly</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#34d399; left:50%; width:18.75%"></div>
+              <div class="g-pip" style="background:#34d399; left:60%; width:15%"></div>
             </div>
           </div>
 
@@ -1005,7 +1007,7 @@
               <div class="g-sub">Organization Science · Bierly</div>
             </div>
             <div class="g-bars-area">
-              <div class="g-pip" style="background:#34d399; left:62.5%; width:18.75%"></div>
+              <div class="g-pip" style="background:#34d399; left:70%; width:15%"></div>
             </div>
           </div>
 
@@ -1213,7 +1215,7 @@
       arm: 'cp', armLabel: 'Critical Policy',
       title: "Human-in-the-Loop Doesn't Solve Bias",
       journal: 'Academy of Management Review', rank: 'A*',
-      target: 'Q3 2027', note: 'Theoretical paper, no empirical data required',
+      target: 'Q1 2028', note: 'Theoretical paper, no empirical data required',
       desc: `<p>A theoretical critique of <strong>human-in-the-loop (HITL)</strong> oversight as a bias mitigation strategy in AI-assisted decision-making. Identifies conditions under which HITL amplifies rather than reduces algorithmic bias, including automation bias, responsibility diffusion, and adversarial calibration.</p>`,
       team: [
         { initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' },
@@ -1234,7 +1236,7 @@
       arm: 'i', armLabel: 'Intervention',
       title: 'Algorithmic Allocation & Precarious Academic Labour',
       journal: 'Information Systems Research', rank: 'A*',
-      target: 'Q3 2028', note: 'Uses Ordian platform as primary research site',
+      target: 'Q3 2029', note: 'Uses Ordian platform as primary research site',
       desc: `<p>The Ordian platform automates sessional tutor allocation across RMIT, replacing ad-hoc coordinator decisions with a CP-SAT constraint optimiser that enforces fairness, respects preferences, and weights quality scores. It is a live site for studying how algorithmic management reshapes precarious academic work.</p>
              <p style="margin-top:.85rem;">The paper examines how sessional tutors perceive and respond to algorithmic versus human allocation, whether CES-weighted optimisation amplifies or reduces existing inequities, and how coordinators use manual override capability — revealing the limits of algorithmic trust in practice. The platform generates longitudinal behavioural data unavailable from surveys or interviews alone.</p>`,
       team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' }],
@@ -1244,7 +1246,7 @@
       arm: 'i', armLabel: 'Intervention',
       title: 'AI-Assisted Leadership Communication: Authenticity and Follower Trust',
       journal: 'Organization Science', rank: 'A*',
-      target: 'Q1 2029', note: 'Intervention arm, Docilis platform',
+      target: 'Q1 2030', note: 'Intervention arm, Docilis platform',
       desc: `<p>When leaders use AI to help write their communications, does it change how followers read them? This paper studies the trust and authenticity implications of AI-mediated leadership communication, using the <strong>Docilis</strong> platform as the research instrument.</p>
              <p style="margin-top:.85rem;">The central questions: do followers detect or respond differently to AI-assisted leadership messages? Does AI assistance flatten the markers of expertise and authority that followers use to evaluate a leader's credibility? And how do leaders themselves navigate the tension between efficiency and perceived authenticity when AI mediates their voice?</p>`,
       team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' }],
