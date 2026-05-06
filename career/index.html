@@ -175,7 +175,7 @@
 
     /* ── PROPOSITION ───────────────────────────────────────────────────── */
     .prop-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 1.5rem; margin-top: 2rem;
     }
     @media (max-width: 640px) { .prop-grid { grid-template-columns: 1fr; } }
@@ -202,6 +202,9 @@
       color: var(--accent); font-size: .75rem; top: .05rem;
     }
     .prop-card.accel .prop-list li::before { color: var(--lv-b); }
+    .prop-card.comm { border-top: 2px solid var(--lv-c); }
+    .prop-tag.comm { color: var(--lv-c); }
+    .prop-card.comm .prop-list li::before { color: var(--lv-c); }
 
     /* ── TRAJECTORY ────────────────────────────────────────────────────── */
     .traj-track {
@@ -578,8 +581,8 @@
       <h1>A five-year plan for <em>building something</em> that matters</h1>
       <div class="hero-body">
         <p>I am finishing a PhD on how artificial intelligence restructures work: what changes inside jobs as automation takes hold, and what it means for workers navigating those changes. The degree completes later this year, which makes this the right moment to think deliberately about what comes next.</p>
-        <p>This document describes two things I want to build at CoBLTech: a research programme on AI and work (LOOM), and a community of practice that lifts the research capacity of the college (the CoBLTech Accelerator). Both need institutional support to reach their potential, and both create something of genuine value for the college.</p>
-        <p>What follows is the plan, what it asks of you, and what it offers in return. I'm sharing it now because the CoBLTech spotlight creates a real opening, and I want to take full advantage of the opportunity.</p>
+        <p>This document sets out what I am building across four connected fronts: a sustained research and publication programme, the CoBL Tech Innovation Stream, an AI platform portfolio transitioning from research instruments into commercial products, and a growing contribution to curriculum design at course and programme level. The PhD completing this year marks the moment this foundation becomes output.</p>
+        <p>What follows is the plan, what it asks of you, and what it offers in return.</p>
       </div>
 
       <div class="current-strip">
@@ -596,8 +599,8 @@
           <span class="cs-val">Leading AI &amp; Workforce Transformation · Management of Technology &amp; Innovation · Technology Futures · Business Consulting</span>
         </div>
         <div class="cs-item">
-          <span class="cs-label">Research programme</span>
-          <span class="cs-val">LOOM · Labour, Occupations, Organisations &amp; Machines</span>
+          <span class="cs-label">Innovation</span>
+          <span class="cs-val">CoBL Tech Innovation Stream — Lead</span>
         </div>
       </div>
     </div>
@@ -607,31 +610,41 @@
   <section>
     <div class="container">
       <span class="section-label">What I am building</span>
-      <h2>Two things that reinforce each other</h2>
-      <p>The plan is not a single research program. It is a research program and an institutional contribution, designed to grow together and to be stronger for it.</p>
+      <h2>Research, leadership, and commercialisation</h2>
+      <p>Three strands of work that reinforce each other: institutional leadership of the CoBL Tech Innovation Stream, a funded research project piloting this year, and the commercialisation of four AI platforms that began as research instruments.</p>
       <div class="prop-grid">
         <div class="prop-card loom">
-          <span class="prop-tag loom">Research program</span>
-          <h3>LOOM</h3>
-          <p style="font-size:.88rem;">Labour, Occupations, Organisations and Machines. A program studying what AI does to work: how labour demand shifts within occupations, which jobs disappear, and what it takes for workers to move between them. Built on 9.5 million job advertisements, a directed-search equilibrium model, and four live research platforms.</p>
+          <span class="prop-tag loom">Institutional leadership</span>
+          <h3>CoBL Tech Innovation Stream</h3>
+          <p style="font-size:.88rem;">Leading the Innovation workstream across the College of Business and Law — building the culture, infrastructure, and partnerships that enable innovation across education, research, and professional services. The stream connects CoBL to RMIT's broader innovation ecosystem and creates pathways to translate ideas into tangible outcomes and impact.</p>
           <ul class="prop-list">
-            <li>9 papers targeted across labour economics, management, information systems, and SoTL</li>
-            <li>4 AI platforms as live research instruments, generating longitudinal data unavailable to survey-based research</li>
-            <li>ARC Linkage application in development for 2029</li>
-            <li>Positions RMIT as Australia's leading voice on AI and within-occupation task reallocation</li>
+            <li>Culture and structural framework for innovation across education, research, and professional services</li>
+            <li>Strengthened engagement with industry, government, and external partners</li>
+            <li>Connecting CoBL to the University's innovation ecosystem</li>
+            <li>Pathways from ideas to tangible outcomes and impact</li>
           </ul>
         </div>
         <div class="prop-card accel">
-          <span class="prop-tag accel">Institutional contribution</span>
-          <h3>CoBLTech Accelerator</h3>
-          <p style="font-size:.88rem;">An offer to colleagues: if you have an idea for something exciting in the classroom or a question about AI and your students, but need the tools, infrastructure, or technical capability to actually do it, I can help build that. You bring the question. I'll help make it real.</p>
+          <span class="prop-tag accel">Research programme</span>
+          <h3>Research &amp; Teaching Innovation</h3>
+          <p style="font-size:.88rem;">A publication pipeline of ten papers spanning labour economics, management, information systems, and the scholarship of teaching and learning — anchored in a directed-search theory of how AI restructures work within occupations, and extended through a portfolio of AI platforms that serve simultaneously as research instruments and live behavioural data sources.</p>
           <ul class="prop-list">
-            <li>Training workshops: using AI to build educational resources, game-based learning, coaching personas, and behavioural experiments</li>
-            <li>Custom platform builds: tools designed around your specific teaching or research context</li>
-            <li>Platform access: deploy Augmenti, Docilis, or Passage as live instruments in your own course or project</li>
-            <li>Annual AI &amp; Work Showcase: CoBLTech as Australia's host for the AI and future of work conversation</li>
+            <li>10 papers targeted across four research arms; five target A* journals</li>
+            <li>AI platform portfolio generating longitudinal data unavailable from surveys or interviews</li>
+            <li>ARC Linkage application in development for 2029</li>
+            <li>Tech Futures redesign (2027) and named contribution to MBA curriculum review (2027)</li>
           </ul>
-          <p style="font-size:.78rem; color:var(--text-dim); margin-top:1.25rem; padding-top:1rem; border-top:1px solid var(--border);">Where colleagues use platforms or data I've built for their research, I contribute to study design and co-author the output.</p>
+        </div>
+        <div class="prop-card comm">
+          <span class="prop-tag comm">Platforms &amp; commercialisation</span>
+          <h3>Platform Portfolio</h3>
+          <p style="font-size:.88rem;">Four AI platforms built as research instruments are in active development and moving into commercial deployment, creating a durable revenue stream for RMIT.</p>
+          <ul class="prop-list">
+            <li>Augmenti — AI-augmented design-thinking platform · commercialising 2026</li>
+            <li>Ordian — tutor scheduling and allocation platform · commercialising 2026</li>
+            <li>Docilis — AI leadership communication coaching platform · commercialising 2027</li>
+            <li>NEGOTIATE Platform — AI-powered oral defence and negotiation simulation · commercialising 2027</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -687,17 +700,17 @@
             <tr>
               <td>Education</td>
               <td>Sustained teaching excellence; SoTL engagement; learning design contributions</td>
-              <td><span class="check">✓</span>4 flagship courses coordinated; Build-then-Critique and VAL PALS published; AI-integrated course design across all programs</td>
+              <td><span class="check">✓</span>4 flagship courses coordinated; AI Agent Build-then-Critique and VAL PALS published; AI-integrated course design across all programs</td>
             </tr>
             <tr>
               <td>Engagement — Internal</td>
               <td>Sustained unit-level contributions; collegial impact; mentoring</td>
-              <td><span class="check">✓</span>CoBLTech Accelerator running; SoTL mentoring for colleagues; committee membership</td>
+              <td><span class="check">✓</span>CoBL Tech Innovation Stream leadership; SoTL mentoring for colleagues; committee membership</td>
             </tr>
             <tr>
               <td>Engagement — External</td>
               <td>Industry partnerships; significant cash or in-kind support from end-users</td>
-              <td><span class="check">✓</span>Platform deployments generating ARR; government partner engagement (Jobs &amp; Skills Australia); Passage as public-facing tool</td>
+              <td><span class="check">✓</span>Platform deployments generating ARR; government partner engagement (Jobs &amp; Skills Australia); AI platform portfolio as externally deployed research output</td>
             </tr>
             <tr>
               <td>Engagement — Scholarly</td>
@@ -723,22 +736,22 @@
             <tr>
               <td>Research</td>
               <td>Sustained publication record; competitive grant income; HDR completions</td>
-              <td><span class="dt">→</span> 8–10 papers; ARC Linkage awarded or under review; 1 HDR student nearing completion; LOOM Lab established</td>
+              <td><span class="dt">→</span> 8–10 papers; ARC Linkage awarded or under review; 1 HDR student nearing completion; research lab formally established</td>
             </tr>
             <tr>
               <td>Education</td>
               <td>SoTL publication record (~1/year); national dissemination; leadership of educational innovation</td>
-              <td><span class="dt">→</span> 4–5 SoTL papers; invited speaker at teaching &amp; learning events; Accelerator's SoTL CoP as evidence of leadership</td>
+              <td><span class="dt">→</span> 4–5 SoTL papers; invited speaker at teaching &amp; learning events; Innovation Stream leadership as evidence of institutional impact</td>
             </tr>
             <tr>
               <td>Engagement — Internal</td>
               <td>College-level governance contribution; leadership of capability development</td>
-              <td><span class="dt">→</span> College committee role; Accelerator as documented capability-building program; mentoring track record</td>
+              <td><span class="dt">→</span> College committee role; CoBL Tech Innovation Stream as documented institutional capability-building; mentoring track record</td>
             </tr>
             <tr>
               <td>Engagement — External</td>
               <td>Sector leadership; sustained mutually beneficial partnerships; significant cash/in-kind</td>
-              <td><span class="dt">→</span> Annual showcase in Year 4–5; Jobs &amp; Skills Australia or Productivity Commission partnership; Passage deployed nationally</td>
+              <td><span class="dt">→</span> CoBL Tech Conference (annual, Year 4–5); government research partnership established; AI platform portfolio nationally deployed</td>
             </tr>
             <tr>
               <td>Engagement — Scholarly</td>
@@ -770,11 +783,14 @@
           <div class="ms-yr-label">2026 <small>Now</small></div>
           <div class="ms-items">
             <div class="ms-item"><div class="ms-dot x"></div><div class="ms-item-text"><strong>PhD completed</strong>: automatic promotion to Level B</div></div>
-            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text"><strong>Directed-search theory paper submitted</strong>: Journal of Economic Theory (A*). PhD Ch. 3, already written.</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Directed-search theory paper submitted: Journal of Economic Theory (A*). PhD Ch. 3, already written.</div></div>
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">AI Hushing submitted to Strategic Entrepreneurship Journal (A*)</div></div>
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Augmented Double Diamond submitted to Research-Technology Management (B)</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">LOOM prospectus presented to CoBLTech leadership (this document)</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">CoBLTech Accelerator concept formalised; first SoTL workshop delivered</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">CoBL Tech Innovation Stream — role commenced; inaugural engagement strategy drafted</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">CoBL Tech Conference (inaugural) — Innovation Stream Champion; cross-College organising working group</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">NEGOTIATE development and build (H2): AI virtual avatar oral defence and negotiation simulation platform</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">NEGOTIATE Semester 2 pilot: ~120 students across BUSM2675 and BUSM4537; between-subjects randomised design</div></div>
+            <div class="ms-item"><div class="ms-dot x"></div><div class="ms-item-text">Augmenti and Ordian commercialised — revenue stream to RMIT established</div></div>
             <div class="ms-item"><div class="ms-dot e"></div><div class="ms-item-text">4 courses coordinated: Leading AI &amp; Workforce Transformation, Management of Technology &amp; Innovation, Technology Futures, Business Consulting</div></div>
           </div>
         </div>
@@ -782,11 +798,15 @@
           <div class="ms-yr-label">2027</div>
           <div class="ms-items">
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">VAL PALS submitted to Journal of Management Education (A)</div></div>
-            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Build-then-Critique submitted to AMLE (A*)</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">AI Agent Build-then-Critique submitted to AMLE (A*)</div></div>
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Heterogeneous Task Restructuring (thesis → journal paper) submitted to Labour Economics (A*)</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">First Annual AI &amp; Work Showcase, hosted by CoBLTech</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">NEGOTIATE research paper submitted — AEEHE or British Journal of Educational Technology (A)</div></div>
+            <div class="ms-item"><div class="ms-dot e"></div><div class="ms-item-text">Tech Futures course redesign completed and lodged</div></div>
+            <div class="ms-item"><div class="ms-dot e"></div><div class="ms-item-text">MBA curriculum refresh — named contribution to curriculum review and redesign</div></div>
+            <div class="ms-item"><div class="ms-dot x"></div><div class="ms-item-text">Docilis and NEGOTIATE Platform (AI-powered oral defence and negotiation simulation) commercialised</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">CoBL Tech Conference (second edition) — Innovation Stream Champion</div></div>
             <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">HDR co-supervision commenced</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Accelerator SoTL working group publishing first co-authored outputs</div></div>
+            <div class="ms-item"><div class="ms-dot e"></div><div class="ms-item-text">4 courses coordinated: Leading AI &amp; Workforce Transformation, Management of Technology &amp; Innovation, Technology Futures, Business Consulting</div></div>
           </div>
         </div>
         <div class="ms-year highlight">
@@ -797,7 +817,8 @@
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Human-in-the-Loop Doesn't Solve Bias submitted to AMR (A*)</div></div>
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Skill Proximity Networks submitted to Research Policy (A*)</div></div>
             <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">ARC Linkage partner identification and pre-application workshop</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Passage (public labour market tool) launched, an RMIT-branded public-facing research output</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">CoBL Tech Conference (third edition) — Innovation Stream Champion</div></div>
+            <div class="ms-item"><div class="ms-dot e"></div><div class="ms-item-text">4 courses coordinated: Leading AI &amp; Workforce Transformation, Management of Technology &amp; Innovation, Technology Futures, Business Consulting</div></div>
           </div>
         </div>
         <div class="ms-year">
@@ -806,16 +827,19 @@
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">Algorithmic Allocation &amp; Precarious Academic Labour submitted to Information Systems Research (A*)</div></div>
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">ARC Linkage application submitted (A$400–600k target)</div></div>
             <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Government partnership formalised: Jobs &amp; Skills Australia or Productivity Commission</div></div>
-            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Annual showcase Year 3, national profile established</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">CoBL Tech Conference (fourth edition) — Innovation Stream Champion</div></div>
+            <div class="ms-item"><div class="ms-dot e"></div><div class="ms-item-text">4 courses coordinated: Leading AI &amp; Workforce Transformation, Management of Technology &amp; Innovation, Technology Futures, Business Consulting</div></div>
           </div>
         </div>
         <div class="ms-year">
           <div class="ms-yr-label">2030</div>
           <div class="ms-items">
             <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">AI-Assisted Leadership Communication submitted to Organization Science (A*)</div></div>
-            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">ARC Linkage outcome; if awarded, LOOM Lab formally established</div></div>
+            <div class="ms-item"><div class="ms-dot r"></div><div class="ms-item-text">ARC Linkage outcome; if awarded, research lab formally established</div></div>
             <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">HDR student approaching completion</div></div>
             <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">Editorial board membership or equivalent scholarly leadership role</div></div>
+            <div class="ms-item"><div class="ms-dot g"></div><div class="ms-item-text">CoBL Tech Conference (fifth edition) — Innovation Stream Champion</div></div>
+            <div class="ms-item"><div class="ms-dot e"></div><div class="ms-item-text">4 courses coordinated: Leading AI &amp; Workforce Transformation, Management of Technology &amp; Innovation, Technology Futures, Business Consulting</div></div>
           </div>
         </div>
         <div class="ms-year highlight">
@@ -833,7 +857,7 @@
     <div class="container">
       <span class="section-label">Research output</span>
       <h2>The publication pipeline</h2>
-      <p>Nine papers across four arms of the LOOM program. Five target A* journals. Click any row to expand details.</p>
+      <p>Ten papers across four research arms. Five target A* journals. Click any row to expand details.</p>
 
       <div class="gantt-legend">
         <div class="gl-item"><div class="gl-dot" style="background:#60a5fa"></div> Measurement</div>
@@ -909,9 +933,19 @@
             </div>
           </div>
 
+          <div class="g-row" data-paper="negotiate">
+            <div class="g-info">
+              <div class="g-title">NEGOTIATE: Grounded Oral Defence at Scale <span class="g-rank-badge g-rank-a">A</span></div>
+              <div class="g-sub">AEEHE / BJET · Bierly · RMIT Education Innovation Grant</div>
+            </div>
+            <div class="g-bars-area">
+              <div class="g-pip" style="background:#c4b5fd; left:12.5%; width:18.75%"></div>
+            </div>
+          </div>
+
           <div class="g-row" data-paper="buildcritique">
             <div class="g-info">
-              <div class="g-title">Build-then-Critique Pedagogy <span class="g-rank-badge g-rank-star">A*</span></div>
+              <div class="g-title">AI Agent Build-then-Critique Pedagogy <span class="g-rank-badge g-rank-star">A*</span></div>
               <div class="g-sub">AMLE · Bierly</div>
             </div>
             <div class="g-bars-area">
@@ -978,45 +1012,29 @@
   <section>
     <div class="container">
       <span class="section-label">What I need from you</span>
-      <h2>Six things that would make this real</h2>
+      <h2>Four things that would make this real</h2>
       <p>Each of these is something I'd welcome a conversation about. I've tried to be specific about what I'm looking for and why it matters, but I'm open to how that looks in practice.</p>
 
       <div class="ask-grid">
         <div class="ask-card">
           <div class="ask-num">01</div>
-          <h3>Named CoBLTech affiliation for LOOM</h3>
-          <p>Formal recognition of LOOM as a CoBLTech research program: a named home that appears in my publications, grant applications, and public profile.</p>
-          <p class="benefit">For CoBLTech: every LOOM publication and media mention carries the college's name into labour economics, management, and information systems.</p>
+          <h3>A named role in the MBA redesign</h3>
+          <p>A seat at the table for the MBA curriculum review and redesign. I bring an M.Ed., deep experience in curriculum design and pedagogy, and specialist knowledge of educational technologies — a combination that is genuinely rare in a research-active faculty member.</p>
         </div>
         <div class="ask-card">
           <div class="ask-num">02</div>
-          <h3>A named role in the MBA redesign</h3>
-          <p>A seat at the table for the MBA curriculum review and redesign. I bring an M.Ed., deep experience in curriculum design and pedagogy, and specialist knowledge of educational technologies — a combination that is genuinely rare in a research-active faculty member.</p>
-          <p class="benefit">For CoBLTech: rigorous curriculum thinking applied to the redesign, not just subject matter expertise bolted on after the structure is set.</p>
+          <h3>An engagement allocation with the Innovation Stream role</h3>
+          <p>The Innovation Stream role requires time to build relationships — internally across the college and externally with industry, government, and sector partners. A modest engagement allocation makes the difference between a nominal appointment and one that actually moves things.</p>
         </div>
         <div class="ask-card">
           <div class="ask-num">03</div>
           <h3>Protected research time post-PhD</h3>
-          <p>Confirmation that the 15% protected research time in my continuing role is maintained through at least 2028, the period in which the Level C case is built.</p>
-          <p class="benefit">For CoBLTech: the platforms, publications, and grant income only materialise if the research time is there to produce them.</p>
+          <p>Confirmation that the 15% protected research time in my continuing role is maintained through at least 2028. The publication pipeline and platform development only materialise if the research time is consistently there to produce them.</p>
         </div>
         <div class="ask-card">
           <div class="ask-num">04</div>
-          <h3>IP and licensing support for Ordian</h3>
-          <p>A conversation with the relevant parties about RMIT's preferred IP arrangement for the Ordian platform, currently undefined. A resolved structure enables responsible scale-up.</p>
-          <p class="benefit">For CoBLTech: a commercial platform with a clear IP structure generates research income, real-world data, and reputational capital for the college.</p>
-        </div>
-        <div class="ask-card">
-          <div class="ask-num">05</div>
-          <h3>Government partner introductions</h3>
-          <p>Brokered introductions to Jobs &amp; Skills Australia, the Productivity Commission, or equivalent bodies for the ARC Linkage application, connections the college has that I do not yet.</p>
-          <p class="benefit">For CoBLTech: RMIT at the table where national AI and labour policy is made, with an RMIT researcher as the named expert.</p>
-        </div>
-        <div class="ask-card">
-          <div class="ask-num">06</div>
-          <h3>Hosting the Annual AI &amp; Work Showcase</h3>
-          <p>CoBLTech as the institutional host of an annual event bringing together researchers, practitioners, government, and media around AI and the future of work.</p>
-          <p class="benefit">For CoBLTech: a recurring, high-profile event that positions the college as Australia's home for this conversation, and a natural venue for the external partnerships the ARC Linkage requires.</p>
+          <h3>IP and commercialisation support</h3>
+          <p>A conversation with the relevant parties about RMIT's preferred IP arrangement for Augmenti, Ordian, Docilis, and the NEGOTIATE Platform — currently undefined across all four. Resolved structures enable responsible scale-up and protect both the university's interests and mine.</p>
         </div>
       </div>
     </div>
@@ -1111,7 +1129,7 @@
       title: 'Directed-Search Theory of Within-Occupation Task Restructuring',
       journal: 'Journal of Economic Theory', rank: 'A*',
       target: 'Q3 2026', note: 'Derived from PhD thesis · Chapter 3, already written',
-      desc: `<p>The theoretical foundation of the LOOM program. Develops a <strong>directed-search equilibrium model</strong> of within-occupation task restructuring, providing the formal mechanism that explains why automation produces heterogeneous outcomes (task recombination in 59% of occupations, unbundling in 22%) rather than uniform task displacement.</p>
+      desc: `<p>The theoretical foundation of the research programme. Develops a <strong>directed-search equilibrium model</strong> of within-occupation task restructuring, providing the formal mechanism that explains why automation produces heterogeneous outcomes (task recombination in 59% of occupations, unbundling in 22%) rather than uniform task displacement.</p>
              <p style="margin-top:.85rem;">The model is already complete as Chapter 3 of the PhD thesis. Primary target: <em>Journal of Economic Theory</em>. Submission target Q3 2026, immediately post-PhD completion.</p>`,
       team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Author · RMIT School of Management' }],
       armDesc: 'Measurement arm: the theoretical anchor of the programme. Establishes the formal mechanism underlying the empirical findings.'
@@ -1145,6 +1163,17 @@
       ],
       armDesc: 'Intervention arm: Augmenti is the direct implementation of the ADD framework, serving simultaneously as the research artefact and the research site.'
     },
+    negotiate: {
+      arm: 'sl', armLabel: 'SoTL',
+      title: 'NEGOTIATE: Grounded Oral Defence at Scale',
+      journal: 'Assessment & Evaluation in Higher Education / BJET', rank: 'A',
+      target: 'Q1 2027', note: 'Derived from Sem 2 2026 pilot · RMIT Education Innovation Grant $10,000',
+      desc: `<p><strong>NEGOTIATE</strong> (Negotiation-based Evaluation through Grounded, Oral Tasks for Integrity, Authenticity and Transferable Education) pilots AI-powered oral defence as a scalable replacement for written assessment in two postgraduate management courses.</p>
+             <p style="margin-top:.85rem;">An AI-voiced agent — Anthropic Claude via Amazon Bedrock, with Amazon Polly Neural for text-to-speech and A-Frame for browser-based avatar rendering — reads each student's submitted work and probes their command of it in a 30-minute grounded oral defence. A between-subjects randomised design isolates the effect of grounding (student's own work vs. a generic matched case). Three research questions address AI–tutor marking agreement, authenticity and cognitive demand, and negotiation self-efficacy development.</p>
+             <p style="margin-top:.85rem;">The NEGOTIATE Platform is also being commercialised (2027), creating a revenue stream for RMIT beyond the grant cycle.</p>`,
+      team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' }],
+      armDesc: 'SoTL arm: NEGOTIATE is simultaneously a funded platform build, a live assessment intervention at ~120-student scale, and a research instrument generating peer-reviewed findings on AI assessment, authentic evaluation, and negotiation pedagogy.'
+    },
     valpals: {
       arm: 'sl', armLabel: 'SoTL',
       title: 'VAL PALS in the MBA Classroom',
@@ -1156,7 +1185,7 @@
     },
     buildcritique: {
       arm: 'sl', armLabel: 'SoTL',
-      title: 'Build-then-Critique Pedagogy',
+      title: 'AI Agent Build-then-Critique Pedagogy',
       journal: 'Academy of Management Learning & Education', rank: 'A*',
       target: 'Q2 2027', note: 'Paired with VAL PALS submission',
       desc: `<p>A SoTL study on a pedagogical inversion: rather than analysing existing frameworks and then building, students <strong>build first using AI assistance, then critique</strong> what they have built. This reverses traditional case-method sequencing.</p>
@@ -1172,7 +1201,7 @@
       desc: `<p>The programme's lead empirical paper. Uses the full 9.5 million job advertisement corpus to document <strong>heterogeneous within-occupation task restructuring</strong> across 250 occupations over the 2012–2019 period.</p>
              <p style="margin-top:.85rem;">The central finding: 94% of variation in labour demand is sub-occupational, challenging standard automation risk models.</p>`,
       team: [{ initials: 'TB', name: 'Thomas Bierly', role: 'Lead author · RMIT School of Management' }],
-      armDesc: 'Measurement arm: the empirical engine of LOOM. Job advertisement data as a lens on within-occupation task restructuring invisible to standard labour statistics.'
+      armDesc: 'Measurement arm: the lead empirical paper of the programme. Job advertisement data as a lens on within-occupation task restructuring invisible to standard labour statistics.'
     },
     hitl: {
       arm: 'cp', armLabel: 'Critical Policy',
