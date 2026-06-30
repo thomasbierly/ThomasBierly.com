@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Meridian — Thomas Bierly</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf8f4;
+      --bg-dark: #0c0c0c;
+      --text: #1a1a1a;
+      --text-light: #e8e6e0;
+      --text-mid: #555;
+      --text-muted: #999;
+      --accent: #b08d57;
+      --accent-hover: #c9a265;
+      --border: #e0dcd4;
+      --border-dark: #2a2a2a;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+
+    /* ── Back navigation ── */
+    .back-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      background: rgba(250, 248, 244, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .back-nav a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s, letter-spacing 0.3s;
+    }
+
+    .back-nav a:hover {
+      color: var(--text);
+      letter-spacing: 0.15em;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 10rem 3rem 6rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .subtitle {
+      font-size: 1.15rem;
+      color: var(--text-mid);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+    }
+
+    .status-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 4px;
+    }
+
+    /* ── Content sections ── */
+    .content-section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 3rem;
+    }
+
+    .content-section + .content-section {
+      padding-top: 0;
+    }
+
+    .section-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 3rem;
+    }
+
+    .content-section h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .content-section p {
+      color: var(--text-mid);
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .content-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ── Workflow steps ── */
+    .workflow {
+      list-style: none;
+      counter-reset: step;
+      margin-top: 2rem;
+    }
+
+    .workflow li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 3.5rem;
+      margin-bottom: 2rem;
+      color: var(--text-mid);
+      font-size: 1rem;
+    }
+
+    .workflow li::before {
+      content: counter(step, decimal-leading-zero);
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .workflow li strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── Dark callout blocks ── */
+    .formula-block {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      border-radius: 6px;
+      padding: 2rem 2.5rem;
+      margin: 2rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    .formula-block .formula-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .formula-block .formula {
+      color: #fff;
+      margin-bottom: 1.25rem;
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .formula-block p {
+      color: rgba(255, 255, 255, 0.55);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      line-height: 1.65;
+      margin-bottom: 0.75rem;
+    }
+
+    .formula-block p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ── Feature grid ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      padding: 1.5rem 1.75rem;
+    }
+
+    .feature-card .feature-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card .feature-name {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .feature-card .feature-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── Role grid ── */
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+
+    .role-card {
+      background: var(--bg);
+      padding: 1.5rem 1.75rem;
+    }
+
+    .role-card .role-unit {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .role-card .role-name {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .role-card .role-focus {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── Chapter list ── */
+    .chapter-list {
+      list-style: none;
+      counter-reset: chapter;
+      margin-top: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .chapter-list li {
+      counter-increment: chapter;
+      display: flex;
+      align-items: baseline;
+      gap: 1.25rem;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .chapter-list li:last-child {
+      border-bottom: none;
+    }
+
+    .chapter-list li::before {
+      content: counter(chapter, decimal-leading-zero);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+      min-width: 2rem;
+    }
+
+    .chapter-list li .chapter-title {
+      font-weight: 500;
+      color: var(--text);
+      min-width: 10rem;
+    }
+
+    .chapter-list li .chapter-desc {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    /* ── Stack ── */
+    .stack-list {
+      list-style: none;
+      margin-top: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .stack-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 1.25rem;
+      padding: 0.9rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    .stack-list li:last-child {
+      border-bottom: none;
+    }
+
+    .stack-list li .stack-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      min-width: 8rem;
+      flex-shrink: 0;
+    }
+
+    .stack-list li .stack-value {
+      color: var(--text-mid);
+    }
+
+    /* ── Team ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+
+    .team-card {
+      background: var(--bg);
+      padding: 1.5rem 1.75rem;
+    }
+
+    .team-card .team-role {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .team-card .team-name {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 3rem;
+      text-align: center;
+    }
+
+    .page-footer a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s, letter-spacing 0.3s;
+    }
+
+    .page-footer a:hover {
+      color: var(--text);
+      letter-spacing: 0.15em;
+    }
+
+    /* ── Animations ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .fade-up-delay-1 { animation-delay: 0.1s; }
+    .fade-up-delay-2 { animation-delay: 0.2s; }
+    .fade-up-delay-3 { animation-delay: 0.35s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .back-nav { padding: 1.25rem 1.5rem; }
+      .hero { padding: 8rem 1.5rem 4rem; }
+      .content-section { padding: 3rem 1.5rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .role-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr; }
+      .page-footer { padding: 3rem 1.5rem; }
+      .formula-block { padding: 1.5rem; font-size: 0.75rem; }
+      .chapter-list li { flex-direction: column; gap: 0.25rem; }
+      .chapter-list li .chapter-desc { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="back-nav">
+    <a href="../../index.html#projects">&larr; Back to projects</a>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <span class="hero-label fade-up">Project</span>
+    <h1 class="fade-up fade-up-delay-1">Project Meridian</h1>
+    <p class="subtitle fade-up fade-up-delay-2">A semester-long, multi-agent simulation that places future leaders inside the real tensions of AI transformation &mdash; where every decision compounds, and consequences are felt rather than discussed.</p>
+    <span class="status-badge fade-up fade-up-delay-3">In Development</span>
+  </header>
+
+  <!-- The Problem -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>The Problem</h2>
+    <p>Business schools teach AI transformation the way they teach most things: through cases, frameworks, and assessments that ask students to analyse situations they are not in. The student reads about a company navigating workforce restructuring, identifies the relevant theory, and writes a recommendation. Then the semester ends, and no one finds out whether the recommendation was right.</p>
+    <p>This is not how consequential decisions are learned. The decisions that matter in real organisations are not taken in the abstract. They are taken under pressure, with incomplete information, while managing stakeholders who want incompatible things &mdash; and their effects arrive weeks or months later, shaped by everything that came before. A case study cannot replicate that. A lecture cannot replicate that.</p>
+    <p>Project Meridian is built on a different premise: that the most important thing a future leader can learn about AI transformation is not the framework, but the experience of navigating it. The simulation creates a space where decisions have consequences, where those consequences carry forward, and where students must live with what they chose &mdash; and think carefully about why.</p>
+  </section>
+
+  <!-- The Simulation World -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>The Simulation World</h2>
+    <p>Students join Meridian Financial Group &mdash; a fictional ASX-listed financial services organisation under genuine strategic pressure. The numbers are specific enough to feel real: A$847 million in annual revenue, a 72% cost-to-income ratio that makes the board uncomfortable, A$34 billion in assets under management, and approximately 2,400 employees whose futures are implicated in every decision the simulation asks students to make.</p>
+    <p>The CEO has just announced a A$40 million Digital Acceleration Fund. The mandate is clear: transform the organisation's AI capability, reduce costs, and improve performance. What is not clear is how &mdash; and that ambiguity is the point. The board wants speed and a 15% cost reduction. The regulator (APRA) wants governance and audit trails. The Finance Sector Union wants genuine consultation before any workflow changes. These interests cannot all be fully satisfied at once. Students must choose.</p>
+
+    <div class="formula-block">
+      <span class="formula-label">The Central Tension</span>
+      <div class="formula">Move fast and the regulator notices. Move carefully and the board loses patience. Consult genuinely and the timeline slips.</div>
+      <p>Every chapter in the simulation surfaces a version of this tension. The decisions are not multiple-choice problems with a correct answer. They are genuine trade-offs with real costs on every side &mdash; and the simulation tracks which costs each student is willing to accept, and what that pattern of choices produces over twelve weeks.</p>
+    </div>
+  </section>
+
+  <!-- The Five Roles -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>Five Roles, One Transformation</h2>
+    <p>Each student is assigned to one of five functional units as an AI Business Partner &mdash; an embedded change agent responsible for AI strategy and implementation within their division. The role means they see the transformation from one vantage point, with the concerns and constraints of their business unit shaping every decision they make.</p>
+
+    <div class="role-grid">
+      <div class="role-card">
+        <span class="role-unit">HR / People &amp; Culture</span>
+        <div class="role-name">People, capability &amp; culture change</div>
+        <div class="role-focus">Manages workforce transition, upskilling, role redesign, and the human cost of restructuring.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-unit">Finance &amp; Treasury</span>
+        <div class="role-name">Financial modelling &amp; risk</div>
+        <div class="role-focus">Oversees budget allocation, business case development, and financial risk of AI deployment.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-unit">Compliance &amp; Operations</span>
+        <div class="role-name">Governance, regulation &amp; process</div>
+        <div class="role-focus">Navigates APRA requirements, audit obligations, and the operational impact of workflow changes.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-unit">Technology &amp; Data</span>
+        <div class="role-name">Architecture &amp; infrastructure</div>
+        <div class="role-focus">Evaluates build-buy-partner decisions, model risk, technical debt, and data quality.</div>
+      </div>
+      <div class="role-card">
+        <span class="role-unit">Customer &amp; Client Services</span>
+        <div class="role-name">Client experience &amp; trust</div>
+        <div class="role-focus">Manages the impact of AI on client relationships, service quality, and reputational risk.</div>
+      </div>
+    </div>
+
+    <p style="margin-top: 1.5rem;">The same organisation-wide decision lands differently in each unit. A choice that makes strategic sense from the board's perspective may create serious operational risk in Compliance, or damage trust within the workforce that HR has spent years building. The simulation is designed so that students experience the partial view of their role &mdash; and must collaborate with peers to see the full picture.</p>
+  </section>
+
+  <!-- How Decisions Work -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>How Decisions Work</h2>
+    <p>Each chapter presents a decision point. Students read context, interact with AI-powered characters who push back, challenge assumptions, and model the perspectives of real stakeholders, and then choose a course of action. The choices are not cosmetic. They move four meters that track the health of the organisation across the semester.</p>
+
+    <div class="formula-block">
+      <span class="formula-label">The Four Meters</span>
+      <div class="formula">Stakeholder Confidence &mdash; Staff Trust &mdash; AI Performance &mdash; Regulatory Compliance</div>
+      <p>Each meter starts at a baseline and shifts in response to decisions. Some choices improve one meter while damaging another. A fast AI rollout might lift AI Performance and Stakeholder Confidence while eroding Staff Trust and Regulatory Compliance. The simulation does not reward optimising for a single number. It rewards understanding why all four matter and what happens when they fall out of balance.</p>
+    </div>
+
+    <p>Beyond the meters, decisions generate ripple flags &mdash; binary state carried forward through the simulation. A student who chose to rush the mandate in Chapter 1 will find that decision referenced by characters in Chapter 6. A workforce consultation that was skipped to save time in Chapter 3 becomes the reason union pushback is harder to manage in Chapter 9. The simulation has memory. The organisation students are building behaves like an organisation, not a series of independent scenarios.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <span class="feature-label">Meter system</span>
+        <div class="feature-name">Four live organisational health indicators</div>
+        <div class="feature-desc">Stakeholder Confidence, Staff Trust, AI Performance, and Regulatory Compliance shift with every decision and persist across all twelve weeks.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-label">Ripple flags</span>
+        <div class="feature-name">Decisions that follow you forward</div>
+        <div class="feature-desc">Key choices are stored and referenced by later chapters, so the consequences of early decisions shape the conditions of later ones.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-label">AI characters</span>
+        <div class="feature-name">Stakeholders who push back</div>
+        <div class="feature-desc">Claude-powered characters model the CEO, union delegate, head of compliance, CTO, and others &mdash; each with a distinct perspective and things they will not let pass without challenge.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-label">Reflection journals</span>
+        <div class="feature-name">Structured sense-making at every chapter</div>
+        <div class="feature-desc">Students record their reasoning after each decision, building the integrative essay that forms their primary assessment artefact.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The 12-Week Arc -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>The Twelve-Week Arc</h2>
+    <p>The simulation runs across a full semester. Each chapter introduces a new strategic challenge, layered onto everything that has come before. Early chapters establish the mandate and the landscape. Middle chapters force procurement, workflow, and governance decisions. Later chapters surface the human cost of those decisions &mdash; and ask students to account for it.</p>
+
+    <ol class="chapter-list">
+      <li>
+        <span class="chapter-title">The Mandate</span>
+        <span class="chapter-desc">CEO announces the A$40M Digital Acceleration Fund. Students assess their unit's AI readiness and make the first strategic framing choice.</span>
+      </li>
+      <li>
+        <span class="chapter-title">The Landscape</span>
+        <span class="chapter-desc">AI Readiness Assessment across five dimensions: Data, Technology, Talent, Process, and Culture. Students map task opportunity and budget allocation.</span>
+      </li>
+      <li>
+        <span class="chapter-title">The First Agent</span>
+        <span class="chapter-desc">First live AI deployment within the unit. Stakeholders encounter the technology and the first trust dynamics emerge.</span>
+      </li>
+      <li>
+        <span class="chapter-title">Task Impact Map</span>
+        <span class="chapter-desc">Students map which tasks AI will handle, which will be augmented, and which remain human &mdash; and face the first workforce redesign conversations.</span>
+      </li>
+      <li>
+        <span class="chapter-title">Build, Buy or Partner</span>
+        <span class="chapter-desc">Procurement decision with risk assessment. Students choose an AI deployment model and must justify it to the CTO under technical scrutiny.</span>
+      </li>
+      <li>
+        <span class="chapter-title">Workflow Redesign</span>
+        <span class="chapter-desc">Job characteristics are assessed against the new workflow. Students navigate union consultation obligations and the Job Characteristics Model.</span>
+      </li>
+      <li>
+        <span class="chapter-title">Centre of Excellence</span>
+        <span class="chapter-desc">Students design the organisation's AI governance structure: centralised, federated, or embedded &mdash; and defend the choice against capability and oversight challenges.</span>
+      </li>
+      <li>
+        <span class="chapter-title">The Bias Crisis</span>
+        <span class="chapter-desc">An algorithmic bias incident surfaces. Students analyse data, model, and deployment bias and choose a response under ASIC scrutiny.</span>
+      </li>
+      <li>
+        <span class="chapter-title">Trust Recovery</span>
+        <span class="chapter-desc">Staff trust has been damaged. Students diagnose which trust driver is most compromised and choose a recovery strategy grounded in trust research.</span>
+      </li>
+      <li>
+        <span class="chapter-title">Superagency</span>
+        <span class="chapter-desc">Maturity assessment and long-run capability target. Students set an AI superagency ambition and account for the model risk governance required to reach it.</span>
+      </li>
+      <li>
+        <span class="chapter-title">Wellbeing &amp; the Future of Work</span>
+        <span class="chapter-desc">Students audit the wellbeing harm mechanisms active in their unit and choose a future-of-work model: Efficiency Machine, Augmentation Partnership, or Human Premium.</span>
+      </li>
+      <li>
+        <span class="chapter-title">The Reckoning</span>
+        <span class="chapter-desc">Full simulation review. Every major decision is surfaced, meters are tallied, and students articulate what they would do differently &mdash; and why.</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Technical Architecture -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>Technical Architecture</h2>
+    <p>The simulation is a full-stack Node.js application built for real classroom deployment. It supports simultaneous cohorts of students progressing through the simulation at their own pace, real-time group activities that require coordination within a tutorial group, and a facilitator dashboard that gives instructors live visibility into where every student is and what they have decided.</p>
+
+    <ul class="stack-list">
+      <li>
+        <span class="stack-label">Runtime</span>
+        <span class="stack-value">Node.js 18+ with Express — server-rendered chapter content, session management, and REST API</span>
+      </li>
+      <li>
+        <span class="stack-label">Real-time</span>
+        <span class="stack-value">Socket.io — group synchronisation activities where cohort decisions are pooled and compared live</span>
+      </li>
+      <li>
+        <span class="stack-label">AI Characters</span>
+        <span class="stack-value">Anthropic Claude SDK — character interactions are dynamically contextualised with the student's decision history and meter state</span>
+      </li>
+      <li>
+        <span class="stack-label">Database</span>
+        <span class="stack-value">PostgreSQL — per-student game state stored as JSONB; immutable chapter event log for audit and research export</span>
+      </li>
+      <li>
+        <span class="stack-label">Deployment</span>
+        <span class="stack-value">Railway — containerised deployment with managed Postgres; zero-downtime across semester cohorts</span>
+      </li>
+      <li>
+        <span class="stack-label">Security</span>
+        <span class="stack-value">Helmet, express-rate-limit, bcrypt, connect-pg-simple session store, facilitator-generated password resets</span>
+      </li>
+    </ul>
+
+    <div class="formula-block">
+      <span class="formula-label">AI Character Design</span>
+      <div class="formula">Each character knows what the student has decided, and responds accordingly.</div>
+      <p>The AI characters are not generic chatbots. Each is prompted with the student's full decision history, current meter readings, and ripple flag state before the conversation begins. CEO Sarah Chen speaks differently to a student who has been cautious and consultative than to one who has moved fast and drawn union fire. The CTO James Li raises specific technical risks based on the procurement decision made three chapters earlier. The simulation's AI is context-aware in a way that a static case study cannot be.</p>
+    </div>
+  </section>
+
+  <!-- Research -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>Research &amp; Publication</h2>
+    <p>The simulation is the subject of an ongoing research programme. A manuscript describing the design framework and pedagogical rationale &mdash; the Contextual Performance Framework (CPF) &mdash; has been submitted to the <em>British Journal of Educational Technology</em>. The CPF model articulates how simulation-based learning, AI-mediated character interaction, and compounding decision consequence combine to produce learning outcomes that classroom instruction alone cannot achieve.</p>
+    <p>The simulation's architecture supports research as a first-class use case. The chapter event log captures every decision, every meter movement, and every reflection journal entry as an immutable audit record. This makes it possible to study how different decision patterns across the twelve chapters relate to learning outcomes, assessment performance, and the conceptual frameworks students apply in their final integrative essays.</p>
+    <p>The longer-term research question is whether the experience of navigating consequential decisions under pressure &mdash; even in a simulation &mdash; transfers to real organisational behaviour. That question will take cohorts and time to answer. The infrastructure to ask it is already in place.</p>
+  </section>
+
+  <!-- Team -->
+  <section class="content-section reveal">
+    <div class="section-divider"></div>
+    <h2>The Team</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <span class="team-role">Designer &amp; Developer, BUSM2675 Course Coordinator</span>
+        <div class="team-name">Thomas Bierly</div>
+      </div>
+      <div class="team-card">
+        <span class="team-role">BUSM2675 Leading AI &amp; Workforce Transformation</span>
+        <div class="team-name">RMIT University, School of Management</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <a href="../../index.html#projects">&larr; Back to projects</a>
+  </div>
+
+  <!-- Scroll reveal -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
