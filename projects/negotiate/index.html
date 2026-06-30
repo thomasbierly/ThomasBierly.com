@@ -490,10 +490,10 @@
   <section class="content-section reveal">
     <div class="section-divider"></div>
     <h2>The Student Experience</h2>
-    <p>Each student selects an executive persona, uploads their written assignment, and enters a 30-minute live session. The executive avatar opens with a challenge drawn directly from the student's submission &mdash; not a generic question about the topic, but a question about what the student wrote: their specific financial projections, their implementation timeline, their ethical framing, their assumptions about stakeholder behaviour.</p>
+    <p>Each student uploads their written assignment and enters a 30-minute live session with a facilitator-assigned executive persona. The executive avatar opens with a challenge drawn directly from the student's submission &mdash; not a generic question about the topic, but a question about what the student wrote: their specific financial projections, their implementation timeline, their ethical framing, their assumptions about stakeholder behaviour.</p>
 
     <ol class="workflow">
-      <li><strong>Select an executive.</strong> Students choose one of four AI-powered personas &mdash; each with a distinct seniority, specialisation, and set of concerns. The CFO will interrogate the numbers. The Head of People will push on workforce impact. The COO will probe operational feasibility. The CIO will challenge data governance.</li>
+      <li><strong>Select an executive.</strong> The facilitator configures which of the four AI-powered personas are available for the session &mdash; one or all four. Each has a distinct seniority, specialisation, and set of concerns. The CFO will interrogate the numbers. The Head of People will push on workforce impact. The COO will probe operational feasibility. The CIO will challenge data governance.</li>
       <li><strong>Upload the assignment.</strong> The system reads the submission and extracts a structured negotiation brief &mdash; the specific claims, timelines, assumptions, and ethical framings the executive will hold the student to during the session.</li>
       <li><strong>Enter the defence.</strong> The executive opens with a challenge. The student responds by voice. The avatar replies in real time &mdash; lip-synced, naturally voiced, and with full context of both the student's written work and everything said so far in the session.</li>
       <li><strong>Receive a grade.</strong> After the session, the transcript is scored against a five-criterion rubric. The facilitator reviews the AI-generated score, reads the transcript, and confirms or adjusts before releasing results to the student.</li>
@@ -501,7 +501,7 @@
 
     <div class="formula-block">
       <span class="formula-label">The Core Innovation</span>
-      <div class="formula">The avatar doesn't know the topic. It knows your work.</div>
+      <div class="formula">The avatar doesn't just know the topic. It knows your work.</div>
       <p>A generic AI oral examiner would ask the same questions to everyone. NEGOTIATE extracts a structured brief from each student's submission before the session begins &mdash; key claims, challengeable assumptions, specific commitments &mdash; and injects it into every prompt. When the executive pushes back, it is pushing back on what this student actually argued. Students who submitted vague claims cannot hide behind generality. Students who made strong, specific arguments are challenged at the level of detail those arguments deserve.</p>
     </div>
   </section>
@@ -510,7 +510,7 @@
   <section class="content-section reveal">
     <div class="section-divider"></div>
     <h2>Four Executive Personas</h2>
-    <p>Each persona brings a different professional lens to the same work. Students choose who they face, which is itself a strategic decision: the persona they select shapes what aspects of their proposal receive the most scrutiny.</p>
+    <p>Each persona brings a different professional lens to the same work. The facilitator assigns which persona students face, shaping which aspects of their proposal receive the most scrutiny.</p>
 
     <div class="persona-grid">
       <div class="persona-card">
@@ -546,41 +546,35 @@
       <thead>
         <tr>
           <th>Criterion</th>
-          <th>Distinguished (4)</th>
-          <th>Developing (2)</th>
-          <th>Limited (1)</th>
+          <th>P — Pass</th>
+          <th>HD — High Distinction</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Command of analysis</td>
-          <td>Defends beyond the submission; anticipates follow-up challenges</td>
-          <td>Defends general claims; surface-level when pressed</td>
-          <td>Cannot defend own claims under questioning</td>
+          <td>Defends general claims accurately; acknowledges challenges when raised</td>
+          <td>Defends beyond the submission; anticipates follow-up challenges before they are raised</td>
         </tr>
         <tr>
           <td>Evidence &amp; evaluation</td>
+          <td>Cites evidence when challenged; broadly supports claims</td>
           <td>Cites specific sources; distinguishes between evidence and inference; concedes gracefully when warranted</td>
-          <td>Asserts with intermittent evidence; doesn't distinguish warrant strength</td>
-          <td>Asserts without evidence; cannot identify the basis for own claims</td>
         </tr>
         <tr>
           <td>Strategic &amp; ethical reasoning</td>
+          <td>Identifies trade-offs when prompted; holds core position under pressure</td>
           <td>Identifies trade-offs explicitly; holds core position while adjusting periphery; generates new options under pressure</td>
-          <td>Limited trade-off recognition; either capitulates or stonewalls rather than negotiating</td>
-          <td>Cannot articulate trade-offs; treats all positions as equivalent</td>
         </tr>
         <tr>
           <td>Stakeholder responsiveness</td>
-          <td>Addresses specific concerns rather than generic rebuttals; adjusts framing for the executive's professional lens</td>
-          <td>Generic responses to specific concerns; limited adaptation to the executive's perspective</td>
-          <td>Ignores concerns; returns to script regardless of what is asked</td>
+          <td>Addresses concerns directly; maintains appropriate framing for the executive</td>
+          <td>Addresses specific concerns rather than generic rebuttals; tunes framing to the executive's professional lens; builds rapport</td>
         </tr>
         <tr>
           <td>Oral presentation</td>
+          <td>Generally clear; some hesitation under pressure but maintains coherence</td>
           <td>Concise and structured; manages pace and silence; recovers from difficulty fluidly</td>
-          <td>Disorganised or rushed; quiet under pressure; difficulty recovering from challenging questions</td>
-          <td>Frequent breakdown in communication; unable to sustain coherent argument</td>
         </tr>
       </tbody>
     </table>
@@ -674,22 +668,6 @@
         <span class="feature-label">Immutable event log</span>
         <div class="feature-name">Full audit trail for analysis</div>
         <div class="feature-desc">Every session event &mdash; message timestamps, speaking durations, decision timings, grade confirmations &mdash; is logged as an immutable research record, enabling post-hoc analysis of engagement patterns.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Team -->
-  <section class="content-section reveal">
-    <div class="section-divider"></div>
-    <h2>The Team</h2>
-    <div class="team-grid">
-      <div class="team-card">
-        <span class="team-role">Designer &amp; Developer, Course Coordinator</span>
-        <div class="team-name">Thomas Bierly</div>
-      </div>
-      <div class="team-card">
-        <span class="team-role">BUSM2675 &amp; BUSM4537, RMIT School of Management</span>
-        <div class="team-name">S2 2026 Pilot — ~120 Students</div>
       </div>
     </div>
   </section>
