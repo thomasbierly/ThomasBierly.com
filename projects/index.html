@@ -1,11 +1,500 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=../index.html#projects">
-  <title>Redirecting...</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects — Thomas Bierly</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23241a2a'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='20' fill='%23ffb152'>TB</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--neon:#ffb152;--neon2:#4fd6c2;--anim:running}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Nunito,system-ui,sans-serif;color:#ecd9cd;-webkit-font-smoothing:antialiased;background:radial-gradient(120% 80% at 82% -5%,#3c2552 0%,rgba(60,37,82,0) 52%),radial-gradient(90% 70% at 0% 4%,#3e2740 0%,rgba(62,39,64,0) 58%),linear-gradient(#241a2a,#1a1220 58%,#130c17);background-attachment:fixed;min-height:100vh}
+::-webkit-scrollbar{width:12px}
+::-webkit-scrollbar-track{background:#160e18}
+::-webkit-scrollbar-thumb{background:#3a2d40;border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:#4c3c54}
+@keyframes ledpulse{0%,100%{opacity:.5;box-shadow:0 0 4px currentColor}50%{opacity:1;box-shadow:0 0 11px currentColor,0 0 18px currentColor}}
+a{text-decoration:none;color:inherit}
+
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(26,18,28,.82);border-bottom:2px solid #160e18}
+.nav-inner{max-width:1080px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.nav-brand{display:flex;align-items:center;gap:8px;padding:4px 2px}
+.nav-brand-mono{font-family:'Baloo 2';font-weight:800;font-size:17px;color:var(--neon);text-shadow:1px 1px 0 #160e18}
+.nav-brand-name{font-family:'Baloo 2';font-weight:700;font-size:16px;color:#f3e7db}
+.nav-tabs{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap}
+.nav-tab{display:flex;align-items:center;gap:6px;font-family:'Baloo 2';font-weight:600;font-size:13.5px;color:#d9c6bc;padding:7px 12px;border-radius:8px;transition:background .15s,color .15s}
+.nav-tab:hover{background:rgba(255,179,92,.16);color:#fff}
+.nav-tab-dot{width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:0 0 7px var(--neon)}
+.page-wrap{max-width:1080px;margin:0 auto;padding:0 22px 70px}
+
+/* hero */
+.back-link{display:inline-flex;align-items:center;gap:7px;font:600 13px Nunito;color:#bda3b4;margin-bottom:18px;transition:color .15s;padding-top:30px}
+.back-link:hover{color:#ffce8a}
+.hero-row{display:flex;gap:30px;flex-wrap:wrap;align-items:center;padding-bottom:8px}
+.vignette-frame{flex:0 0 360px;max-width:100%;border:3px solid #160e18;border-radius:12px;overflow:hidden;box-shadow:6px 6px 0 rgba(0,0,0,.35);background:#1d1320}
+#vignette{display:block;width:100%;height:auto;image-rendering:pixelated}
+.hero-right{flex:1;min-width:300px}
+.hero-eyebrow{font-family:'Baloo 2';font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--neon);margin-bottom:8px}
+.hero-h1{font-family:'Baloo 2';font-weight:800;font-size:52px;line-height:1;color:#fff;text-shadow:2px 2px 0 #160e18}
+.hero-fullname{font:600 13px Nunito;color:#a98fa0;margin-top:10px;max-width:560px;line-height:1.4}
+.hero-tagline{font-size:17px;line-height:1.55;color:#ecd9cd;margin:16px 0 18px;max-width:560px}
+.hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.status-pill{display:inline-flex;align-items:center;gap:8px;font-family:'Baloo 2';font-weight:700;font-size:13px;padding:8px 14px;border-radius:30px;border:2px solid #160e18}
+.status-led{width:8px;height:8px;border-radius:50%;animation:ledpulse 2.2s infinite;animation-play-state:var(--anim,running)}
+.btn-amber{font-family:'Baloo 2';font-weight:700;font-size:13px;padding:9px 18px;border:2px solid #160e18;background:var(--neon);color:#2a1820;box-shadow:4px 4px 0 #160e18;transition:transform .12s,box-shadow .12s;display:inline-block}
+.btn-amber:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 #160e18}
+.btn-teal{font-family:'Baloo 2';font-weight:700;font-size:13px;padding:9px 18px;border:2px solid var(--neon2);background:rgba(79,214,194,.12);color:#9bead9;box-shadow:4px 4px 0 rgba(79,214,194,.22);transition:background .15s;display:inline-block}
+.btn-teal:hover{background:rgba(79,214,194,.22)}
+
+/* problem */
+.problem-panel{margin-top:40px;border:2px solid #160e18;border-radius:14px;background:#2a1f30;box-shadow:6px 6px 0 rgba(0,0,0,.3);padding:26px 30px}
+.section-eyebrow-amber{font-family:'Baloo 2';font-weight:700;font-size:14px;color:var(--neon);margin-bottom:8px}
+.section-eyebrow-teal{font-family:'Baloo 2';font-weight:700;font-size:14px;color:var(--neon2);margin-bottom:4px}
+.problem-p{font-size:15px;line-height:1.7;color:#dcc8d2;margin:0 0 12px;max-width:760px}
+.problem-p:last-child{margin-bottom:0}
+
+/* how it works */
+.how-section{margin-top:36px}
+.section-h2{font-family:'Baloo 2';font-weight:700;font-size:26px;color:#fff;margin:0 0 20px}
+.steps{display:flex;flex-direction:column;gap:14px}
+.step{display:flex;gap:16px;align-items:flex-start;border:2px solid #160e18;border-radius:12px;background:#2e2233;box-shadow:5px 5px 0 rgba(0,0,0,.28);padding:16px 18px}
+.step-n{flex:0 0 auto;font-family:'Baloo 2';font-weight:800;font-size:20px;color:#2a1820;background:var(--neon);width:38px;height:38px;border:2px solid #160e18;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.step-title{font-family:'Baloo 2';font-weight:700;font-size:17px;color:#fff;margin-bottom:3px}
+.step-text{font-size:14px;line-height:1.6;color:#d3bfca}
+
+/* features */
+.features-section{margin-top:38px}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.feature-card{border:2px solid #160e18;border-radius:12px;background:#2e2233;box-shadow:5px 5px 0 rgba(0,0,0,.28);padding:18px 18px 20px}
+.feature-icon{width:30px;height:30px;border:2px solid #160e18;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2';font-weight:800;color:#2a1820;margin-bottom:12px;font-size:14px}
+.feature-title{font-family:'Baloo 2';font-weight:700;font-size:16px;color:#fff;margin-bottom:5px}
+.feature-text{font-size:13.5px;line-height:1.6;color:#d3bfca}
+
+/* screenshots */
+.shots-section{margin-top:38px}
+.shots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.shot-card{border:2px solid #160e18;border-radius:12px;overflow:hidden;box-shadow:5px 5px 0 rgba(0,0,0,.28)}
+.shot-placeholder{aspect-ratio:16/10;background:repeating-linear-gradient(135deg,#2c2138,#2c2138 11px,#332742 11px,#332742 22px);display:flex;align-items:center;justify-content:center}
+.shot-label{font:500 11px 'IBM Plex Mono';color:#b9a3c4;background:rgba(0,0,0,.45);padding:5px 10px;border-radius:6px}
+.shots-note{font:500 12px 'IBM Plex Mono';color:#8d7790;margin-top:12px}
+
+/* tech */
+.tech-panel{margin-top:38px;border:2px solid #160e18;border-radius:14px;background:#1f1828;box-shadow:6px 6px 0 rgba(0,0,0,.3);padding:26px 30px}
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px 26px}
+.tech-row{display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.tech-label{flex:0 0 120px;font:600 12px 'IBM Plex Mono';color:var(--neon2)}
+.tech-value{font-size:13.5px;line-height:1.5;color:#dcc8d2}
+
+/* footer */
+.page-footer{margin-top:46px;text-align:center}
+.btn-back{display:inline-block;font-family:'Baloo 2';font-weight:700;font-size:14px;padding:12px 24px;border:2px solid #160e18;background:#2e2233;color:#ffce8a;box-shadow:5px 5px 0 rgba(0,0,0,.3);transition:transform .12s,box-shadow .12s}
+.btn-back:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 rgba(0,0,0,.3)}
+.footer-copy{margin-top:26px;font:500 11px 'IBM Plex Mono';color:#8a6f80}
+
+@media(max-width:600px){
+  .hero-h1{font-size:38px}
+  .vignette-frame{flex:0 0 100%}
+}
+</style>
 </head>
 <body>
-  <p>Redirecting to <a href="../index.html#projects">projects</a>...</p>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="../">
+      <span class="nav-brand-mono">TB</span>
+      <span class="nav-brand-name">Thomas Bierly</span>
+    </a>
+    <div class="nav-tabs" id="nav-tabs"></div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <a class="back-link" href="../#projects">← All projects</a>
+  <div class="hero-row">
+    <div class="vignette-frame">
+      <canvas id="vignette" width="360" height="220"></canvas>
+    </div>
+    <div class="hero-right">
+      <div class="hero-eyebrow">Project</div>
+      <h1 class="hero-h1" id="h-name"></h1>
+      <div class="hero-fullname" id="h-fullname"></div>
+      <p class="hero-tagline" id="h-tagline"></p>
+      <div class="hero-actions" id="h-actions"></div>
+    </div>
+  </div>
+
+  <div class="problem-panel">
+    <div class="section-eyebrow-amber">▰ The problem</div>
+    <div id="problem-paras"></div>
+  </div>
+
+  <div class="how-section">
+    <div class="section-eyebrow-teal">▰ How it works</div>
+    <h2 class="section-h2" id="how-title"></h2>
+    <div class="steps" id="steps"></div>
+  </div>
+
+  <div class="features-section">
+    <div class="section-eyebrow-amber">▰ Key features</div>
+    <h2 class="section-h2" id="features-title"></h2>
+    <div class="features-grid" id="features-grid"></div>
+  </div>
+
+  <div class="shots-section">
+    <div class="section-eyebrow-teal">▰ Screens &amp; demo</div>
+    <h2 class="section-h2">A look at it in action</h2>
+    <div class="shots-grid" id="shots-grid"></div>
+    <p class="shots-note">↳ drop real screenshots / a screen-recording here</p>
+  </div>
+
+  <div class="tech-panel">
+    <div class="section-eyebrow-amber">▰ Tech &amp; approach</div>
+    <h2 class="section-h2" id="tech-title" style="font-size:24px;margin-bottom:18px"></h2>
+    <div class="tech-grid" id="tech-grid"></div>
+  </div>
+
+  <div class="page-footer">
+    <a class="btn-back" href="../#projects">← Back to all projects</a>
+    <div class="footer-copy">© 2026 Thomas Bierly</div>
+  </div>
+</div>
+
+<script>
+const DATA = {
+  'negotiate': {
+    name: 'NEGOTIATE',
+    fullName: 'Negotiation-based Evaluation through Grounded, Oral Tasks for Integrity, Authenticity and Transferable Education',
+    tagline: 'A 30-minute AI-mediated oral defence where students defend their own work to a lifelike executive avatar — challenged on their specific claims, scored against a formal rubric.',
+    statusLabel: 'In Development · S2 2026 Pilot', isLive: false,
+    problem: [
+      "Oral defences are among the most effective forms of assessment available. They test whether students actually understand their work — not whether they can produce it, or whether someone else produced it for them.",
+      "The problem is scale. A genuine 30-minute defence with 120 students is 60 hours of tutor time before prep, marking and rescheduling — and consistency is structural, since different examiners probe different things at different depths.",
+      "NEGOTIATE solves scale and consistency without giving up rigour. The same senior executive challenges every student, with equal intensity, on their specific work. The tutor's role shifts from examiner to reviewer — confirming AI scores and exercising judgment where it matters."
+    ],
+    howTitle: 'The student experience',
+    howItWorks: [
+      { n:1, title:'Select an executive', text:'The facilitator configures which AI personas are available — each with a distinct seniority, specialisation and set of concerns.' },
+      { n:2, title:'Upload the assignment', text:'The system reads the submission and extracts a structured negotiation brief: the specific claims, timelines, assumptions and ethical framings the executive will hold the student to.' },
+      { n:3, title:'Enter the defence', text:'The executive opens with a challenge drawn from the work. The student responds by voice; the avatar replies in real time — lip-synced and naturally voiced, with full context.' },
+      { n:4, title:'Receive a grade', text:'The transcript is scored against a five-criterion rubric. The facilitator reviews the AI score, reads the transcript, and confirms or adjusts before release.' }
+    ],
+    featuresTitle: 'What makes it work',
+    features: [
+      { icon:'◎', color:'#ffb152', title:'It knows your work', text:'A structured brief from each submission is injected into every prompt — so push-back is on what this student actually argued, not the topic in general.' },
+      { icon:'4', color:'#4fd6c2', title:'Four executive personas', text:'A CFO, Head of People, COO and CIO each bring a different professional lens — the numbers, the workforce, operations, data governance.' },
+      { icon:'☰', color:'#ff7a6b', title:'Five-criterion rubric', text:'Analysis, evidence, strategic & ethical reasoning, stakeholder responsiveness and oral presentation — each rated P through HD.' },
+      { icon:'♪', color:'#9be07a', title:'Real-time lip-synced avatar', text:'Polly Speech Marks drive per-phoneme lip animation directly — no offline pipeline, no waiting between synthesis and playback.' },
+      { icon:'⊞', color:'#c79bff', title:'Research-grade audit log', text:'Every session event is logged as an immutable record, enabling analysis of engagement, grading validity and tutor confidence.' }
+    ],
+    shots: ['Avatar defence session','Executive persona select','Rubric scorecard'],
+    techTitle: 'Five AI & cloud services, one 30-minute session',
+    tech: [
+      { label:'Frontend', value:'React 18 + Vite + React Three Fiber (Three.js) — WebGL avatar, Tailwind UI' },
+      { label:'3D avatar', value:'ReadyPlayerMe GLB + morph-target visemes, driven by Polly Speech Marks' },
+      { label:'Interview AI', value:'Claude Sonnet — reads the brief + full history, generates each executive response' },
+      { label:'Grading AI', value:'Claude Opus — scores the transcript against the five-criterion rubric' },
+      { label:'Speech', value:'Amazon Transcribe (streaming ASR) + Polly Neural (AU voices) for TTS + lip-sync' },
+      { label:'Backend', value:'Node 20 + Express + Prisma, PostgreSQL on RDS, S3 / App Runner / CloudFront (ap-southeast-2)' }
+    ]
+  },
+
+  '3am-tutor': {
+    name: '3AM Tutor',
+    fullName: '',
+    tagline: 'A digital-twin tutor for accounting and business mathematics — grounded in Flow Theory and Growth Mindset pedagogy, built to teach rather than answer.',
+    statusLabel: 'Live · Available via VAL', isLive: true,
+    problem: [
+      "Students don't panic at convenient times. The week before an assessment, the anxiety about discounted cash flows or break-even analysis arrives at 11pm, or 1am, or 3am — well after tutors are reachable, and right when generic AI tools are most dangerous.",
+      "The default response is one of two bad options: give up, or paste the question into ChatGPT and submit whatever comes back. The first leaves the gap intact. The second is misconduct — and copying an answer is not the same as understanding it.",
+      "Lecturers face the mirror image: the same concepts generate the same late-night questions, semester after semester. Answering them individually is unsustainable; leaving students without support is worse."
+    ],
+    howTitle: 'Teaching, not answering',
+    howItWorks: [
+      { n:1, title:'The student arrives with a problem', text:"A concept they don't understand, a worked example they can't follow, or a practice question they're stuck on." },
+      { n:2, title:'It diagnoses before it teaches', text:'Rather than explaining immediately, it asks questions to locate exactly where understanding breaks down — the Flow Framework in practice.' },
+      { n:3, title:'Explanations are scaffolded, not delivered', text:'Problems are broken into steps; the student attempts each one and gets targeted feedback. The answer is never simply given.' },
+      { n:4, title:'The student does the work', text:'Worked examples are walked through collaboratively. The tutor models the reasoning, then asks the student to apply it. Progress requires participation.' }
+    ],
+    featuresTitle: 'Grounded in real pedagogy',
+    features: [
+      { icon:'?', color:'#ffb152', title:'Socratic, not encyclopaedic', text:'Responds to questions with questions that guide the student toward their own answer.' },
+      { icon:'~', color:'#4fd6c2', title:'Flow Framework calibration', text:'Tunes difficulty to the edge between boredom and anxiety — the channel where genuine learning happens.' },
+      { icon:'+', color:'#9be07a', title:'Growth Mindset error handling', text:'Wrong answers are treated as data, not verdicts — a question helps the student locate their own error and why it occurred.' },
+      { icon:'⛔', color:'#ff7a6b', title:'Architecturally refuses shortcuts', text:'The system prompt is built to refuse direct answer provision and redirect toward the reasoning process.' },
+      { icon:'◐', color:'#c79bff', title:'My digital twin', text:'Built to respond the way I would — high expectations, real interest in where understanding breaks, available when I am not.' }
+    ],
+    shots: ['Tutoring chat','Scaffolded worked example','Diagnostic prompt'],
+    techTitle: 'A digital twin of a teaching approach',
+    tech: [
+      { label:'Core', value:'LLM-powered chatbot delivered to students via VAL' },
+      { label:'Pedagogy', value:"Csikszentmihalyi's Flow Framework + Growth Mindset, encoded into behaviour" },
+      { label:'Guardrails', value:'System prompt architected to refuse answer-provision and redirect to reasoning' },
+      { label:'Goal', value:'Shift quantitative prep from static assessment to iterative, adaptive mastery' },
+      { label:'Team', value:'Thomas Bierly (developer) · Vineet Tawani (collaborator)' }
+    ]
+  },
+
+  'meridian': {
+    name: 'Project Meridian',
+    fullName: '',
+    tagline: 'A semester-long, multi-agent simulation that places future leaders inside the real tensions of AI transformation — where every decision compounds, and consequences are felt rather than discussed.',
+    statusLabel: 'In Development', isLive: false,
+    problem: [
+      "Business schools teach AI transformation through cases that ask students to analyse situations they are not in. The student reads, identifies the theory, writes a recommendation — then the semester ends and no one finds out whether the recommendation was right.",
+      "This is not how consequential decisions are learned. Real decisions are taken under pressure, with incomplete information, while managing stakeholders who want incompatible things — and their effects arrive weeks later, shaped by everything that came before.",
+      "Meridian is built on a different premise: the most important thing a future leader can learn is not the framework, but the experience of navigating it — where decisions have consequences that carry forward, and students must live with what they chose."
+    ],
+    howTitle: 'Meridian Financial Group',
+    howItWorks: [
+      { n:1, title:'Join the organisation', text:'Students join a fictional ASX-listed firm: A$847M revenue, 2,400 employees, a cost-to-income ratio that makes the board uncomfortable.' },
+      { n:2, title:'The mandate', text:'A A$40M Digital Acceleration Fund. The board wants speed and a 15% cost cut; APRA wants governance; the union wants consultation. These cannot all be satisfied at once.' },
+      { n:3, title:'Decide, under pressure', text:'Each chapter is a genuine trade-off. Choices move four organisational health meters and set ripple flags that later chapters remember.' },
+      { n:4, title:'The reckoning', text:'Across twelve weeks every major decision is surfaced, meters are tallied, and students articulate what they would do differently — and why.' }
+    ],
+    featuresTitle: 'The simulation has memory',
+    features: [
+      { icon:'5', color:'#4fd6c2', title:'Five functional roles', text:'HR, Finance, Compliance, Technology and Customer Services — each sees the transformation from one vantage point and must collaborate to see the whole.' },
+      { icon:'▮', color:'#ffb152', title:'Four live meters', text:'Stakeholder Confidence, Staff Trust, AI Performance and Regulatory Compliance shift with every decision and persist across the semester.' },
+      { icon:'⤳', color:'#ff7a6b', title:'Ripple flags', text:'A rushed mandate in Chapter 1 is referenced by characters in Chapter 6. The organisation behaves like an organisation, not a series of scenarios.' },
+      { icon:'☻', color:'#9be07a', title:'Stakeholders who push back', text:"Claude-powered characters model the CEO, union delegate, compliance head and CTO — each contextualised with the student's decision history." },
+      { icon:'✎', color:'#c79bff', title:'Reflection journals', text:'Structured sense-making after each chapter builds the integrative essay that forms the primary assessment artefact.' }
+    ],
+    shots: ['Decision point','Meter dashboard','Stakeholder dialogue'],
+    techTitle: 'A full-stack app built for real classroom deployment',
+    tech: [
+      { label:'Runtime', value:'Node 18+ with Express — server-rendered chapters, session management, REST API' },
+      { label:'Real-time', value:'Socket.io — group synchronisation where cohort decisions are pooled and compared live' },
+      { label:'AI characters', value:'Anthropic Claude SDK — contextualised with decision history, meter state and ripple flags' },
+      { label:'Database', value:'PostgreSQL — per-student state as JSONB + an immutable chapter event log for research export' },
+      { label:'Deployment', value:'Railway — containerised, managed Postgres, zero-downtime across semester cohorts' }
+    ]
+  },
+
+  'tutor': {
+    name: 'Tutor Scheduling',
+    fullName: 'RMIT Tutor Scheduling Platform — automated sessional allocation, built end-to-end as a solo engineering project',
+    tagline: 'Every semester, coordinators spend days hand-matching hundreds of sessional tutors to class slots. I built a platform to automate it entirely.',
+    statusLabel: 'In Development', isLive: false,
+    liveUrl: 'https://tutor.thomasbierly.com',
+    problem: [
+      "Every semester, RMIT course coordinators spend days manually matching hundreds of sessional tutors to class slots — cross-referencing availability spreadsheets, avoiding double-bookings, ensuring workload fairness, and chasing acceptances over email.",
+      "It is error-prone, time-consuming, and doesn't scale. The platform automates the complete tutor-to-class assignment workflow, end to end."
+    ],
+    howTitle: 'The full allocation workflow, automated',
+    howItWorks: [
+      { n:1, title:'Tutors submit & rank', text:'Sessional staff submit availability, course interests and credentials, then rank preferred classes across all courses in a global drag-and-drop list.' },
+      { n:2, title:'Admins & coordinators set preferences', text:'School admins set per-course tutor preferences (Preferred / OK / Not Preferred); coordinators independently rank tutors for each of their classes.' },
+      { n:3, title:'Run the optimiser', text:'Admins trigger the solver for the semester, producing conflict-free assignments that respect a 36 hr/week cap and institutional workforce rates.' },
+      { n:4, title:'Review & approve', text:'Coordinators review results, make bounded adjustments within their own course, and approve the schedule.' },
+      { n:5, title:'Tutors accept offers', text:'Tutors accept or reject offers through the portal, with email notifications at every stage.' }
+    ],
+    featuresTitle: 'A real constraint-solving engine',
+    features: [
+      { icon:'⚙', color:'#4fd6c2', title:'OR-Tools CP-SAT solver', text:"The same constraint-programming technology behind Google's logistics systems, applied to tutor allocation." },
+      { icon:'⛓', color:'#ffb152', title:'Hard constraints', text:'One tutor per class, no double-booking, per-course minimums, and a 36 hr/week cap with RMIT teaching + marking rates.' },
+      { icon:'Σ', color:'#ff7a6b', title:'Weighted objective', text:'Balances coordinator rankings, tutor preferences, admin tiers and historical CES satisfaction scores.' },
+      { icon:'⤵', color:'#9be07a', title:'Relaxation cascade', text:'When no perfect solution exists, six staged relaxations guarantee a result is always returned — every relaxation reported.' },
+      { icon:'✎', color:'#c79bff', title:'Smart marking assignment', text:'Tutors mark their own classes by default; overloaded tutors are relieved and orphaned marking is reallocated by capacity.' }
+    ],
+    shots: ['Schedule calendar','Optimisation results','Tutor offer flow'],
+    techTitle: 'A production-grade TypeScript monorepo',
+    tech: [
+      { label:'Frontend', value:'Next.js 15 (App Router) — SSR, file-based routing, TypeScript-first' },
+      { label:'Backend', value:'Express.js + Prisma ORM — clean REST, type-safe queries; PostgreSQL 16' },
+      { label:'Optimiser', value:'Python 3.13 + FastAPI + OR-Tools CP-SAT — private internal network only' },
+      { label:'Jobs & email', value:'BullMQ + Redis for async solver runs; Resend for transactional offers' },
+      { label:'Security', value:'bcrypt, JWT in httpOnly cookies, role-based access, row-level isolation, Zod, Helmet, audit log' },
+      { label:'Deploy', value:'Railway monorepo — the optimiser is unreachable from the public internet' }
+    ]
+  },
+
+  'book': {
+    name: 'Leading AI & Workforce Transformation',
+    fullName: 'A book in progress',
+    tagline: 'Bridging the gap between technical AI literacy, HR strategy and leadership practice — a practical guide for leaders navigating workforce transformation.',
+    statusLabel: 'In Progress', isLive: false,
+    problem: [
+      "Most writing on AI and work sits at one of two extremes: technical material that assumes a background most leaders don't have, or strategy commentary that never touches how transformation actually lands on people and processes.",
+      "Leaders responsible for workforce transformation are left without a practical bridge between the technology, the HR strategy, and the leadership practice required to do it well — and humanely."
+    ],
+    howTitle: 'What the book sets out to do',
+    howItWorks: [
+      { n:1, title:'Build genuine AI literacy', text:'Enough technical understanding for leaders to make good decisions — without requiring them to become engineers.' },
+      { n:2, title:'Connect it to HR strategy', text:'How AI capability intersects with workforce planning, role redesign, reskilling and the human cost of restructuring.' },
+      { n:3, title:'Translate to leadership practice', text:'Practical guidance grounded in fifteen years of leading enterprise transformations and the retrenchments that came with them.' }
+    ],
+    featuresTitle: 'Themes',
+    features: [
+      { icon:'AI', color:'#4fd6c2', title:'Technical AI literacy', text:'A leader-level understanding of what AI can and cannot do, and where the real risks sit.' },
+      { icon:'HR', color:'#ffb152', title:'Workforce strategy', text:'Role redesign, reskilling and the structural patterns automation creates across industries.' },
+      { icon:'♛', color:'#c79bff', title:'Leadership practice', text:'How to lead transformation with rigour and humanity — informed by real M&A and restructuring experience.' }
+    ],
+    shots: ['Cover concept','Sample chapter'],
+    techTitle: 'Details',
+    tech: [
+      { label:'Status', value:'In progress — more details coming soon' },
+      { label:'Audience', value:'Leaders navigating AI and workforce transformation' },
+      { label:'Author', value:'Thomas Bierly — RMIT University' }
+    ]
+  }
+};
+
+const SLUGS = ['negotiate','3am-tutor','meridian','tutor','book'];
+const TAB_NAMES = { negotiate:'NEGOTIATE', '3am-tutor':'3AM Tutor', meridian:'Project Meridian', tutor:'Tutor Scheduling', book:'Book' };
+
+let currentSlug = 'negotiate';
+let vignetteTimer = null;
+
+function getSlug(){
+  const h = (window.location.hash||'').replace('#','');
+  return DATA[h] ? h : 'negotiate';
+}
+
+function render(){
+  const slug = getSlug();
+  currentSlug = slug;
+  const p = DATA[slug];
+
+  // page title
+  document.title = p.name + ' — Thomas Bierly';
+
+  // nav tabs
+  const tabsEl = document.getElementById('nav-tabs');
+  tabsEl.innerHTML = SLUGS.map(k => `
+    <a class="nav-tab" href="#${k}">
+      ${k===slug ? '<span class="nav-tab-dot"></span>' : ''}
+      ${TAB_NAMES[k]}
+    </a>`).join('');
+
+  // hero
+  document.getElementById('h-name').textContent = p.name;
+  const fn = document.getElementById('h-fullname');
+  fn.textContent = p.fullName || '';
+  fn.style.display = p.fullName ? '' : 'none';
+  document.getElementById('h-tagline').textContent = p.tagline;
+
+  const statusBg = p.isLive ? 'rgba(123,224,160,.14)' : 'rgba(255,177,82,.14)';
+  const statusFg = p.isLive ? '#7be0a0' : '#ffce8a';
+  let actions = `
+    <span class="status-pill" style="background:${statusBg};color:${statusFg}">
+      <span class="status-led" style="background:${statusFg};box-shadow:0 0 8px ${statusFg}"></span>
+      ${p.statusLabel}
+    </span>
+    <a class="btn-amber" href="mailto:tombierly@gmail.com">Talk to me about this →</a>`;
+  if(p.liveUrl) actions += `<a class="btn-teal" href="${p.liveUrl}" target="_blank">Visit the platform ↗</a>`;
+  document.getElementById('h-actions').innerHTML = actions;
+
+  // problem
+  document.getElementById('problem-paras').innerHTML = p.problem.map(t=>`<p class="problem-p">${t}</p>`).join('');
+
+  // how it works
+  document.getElementById('how-title').textContent = p.howTitle;
+  document.getElementById('steps').innerHTML = p.howItWorks.map(s=>`
+    <div class="step">
+      <span class="step-n">${s.n}</span>
+      <div><div class="step-title">${s.title}</div><p class="step-text">${s.text}</p></div>
+    </div>`).join('');
+
+  // features
+  document.getElementById('features-title').textContent = p.featuresTitle;
+  document.getElementById('features-grid').innerHTML = p.features.map(f=>`
+    <div class="feature-card">
+      <div class="feature-icon" style="background:${f.color}">${f.icon}</div>
+      <div class="feature-title">${f.title}</div>
+      <p class="feature-text">${f.text}</p>
+    </div>`).join('');
+
+  // shots
+  document.getElementById('shots-grid').innerHTML = p.shots.map(s=>`
+    <div class="shot-card"><div class="shot-placeholder"><span class="shot-label">${s}</span></div></div>`).join('');
+
+  // tech
+  document.getElementById('tech-title').textContent = p.techTitle;
+  document.getElementById('tech-grid').innerHTML = p.tech.map(r=>`
+    <div class="tech-row"><span class="tech-label">${r.label}</span><span class="tech-value">${r.value}</span></div>`).join('');
+
+  window.scrollTo(0,0);
+}
+
+// Vignette canvas
+function startVignette(){
+  if(vignetteTimer) return;
+  function tick(){ drawVignette(performance.now()); }
+  tick();
+  vignetteTimer = setInterval(tick, 66);
+}
+
+function drawVignette(t){
+  const cv = document.getElementById('vignette'); if(!cv)return;
+  const ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
+  const f = t/1000, S = 4;
+  const P = (x,y,w,h,c)=>{ ctx.fillStyle=c; ctx.fillRect((x*S)|0,(y*S)|0,(w*S)|0,(h*S)|0); };
+  ctx.clearRect(0,0,360,220);
+  const slug = currentSlug;
+
+  if(slug === 'negotiate'){
+    P(0,0,90,55,'#1c1530');
+    P(6,7,50,40,'#13102a'); P(6,7,50,3,'#2a2440');
+    P(26,24,16,14,'#3b4d72');
+    P(28,13,12,11,'#e8b48c'); P(28,13,12,3,'#cdaa6e');
+    P(26,17,2,5,'#15111c'); P(40,17,2,5,'#15111c'); P(27,15,14,2,'#15111c');
+    P(31,18,2,2,'#15111c'); P(36,18,2,2,'#15111c');
+    for(let i=0;i<5;i++){const h=2+Math.round(Math.abs(Math.sin(f*4+i))*7);P(45+i*2,40-h,1,h,'#4fd6c2');}
+    P(60,9,24,38,'#2e2233'); P(60,9,24,4,'#ffb152');
+    for(let r=0;r<5;r++){P(63,18+r*5,15,1,'#6a5765');P(80,18+r*5,2,1,'#9be07a');}
+  }
+  else if(slug === '3am-tutor'){
+    P(0,0,90,55,'#141a30');
+    P(10,8,1,1,'#fff');P(46,6,1,1,'#fff');P(70,30,1,1,'#fff');P(20,40,1,1,'#fff');
+    P(68,8,11,11,'#f3e6b0');P(71,8,8,11,'#141a30');
+    P(22,18,30,30,'#2e2233');P(25,21,24,24,'#15111f');
+    P(36,32,2,2,'#ffb152');
+    P(37,33,8,1,'#ffce8a');
+    P(36,24,1,9,'#fff');
+    const sx=Math.round(Math.cos(f*1.6)*8),sy=Math.round(Math.sin(f*1.6)*8);
+    P(36+sx,32+sy,1,1,'#4fd6c2');
+    P(56,26,26,15,'#ffb152');P(60,41,4,4,'#ffb152');
+    const d=Math.sin(f*3)>0?1:0;
+    P(61,32,3,3,'#2a1820');P(67,32,3,3,d?'#2a1820':'#c8852f');P(73,32,3,3,'#2a1820');
+  }
+  else if(slug === 'meridian'){
+    P(0,0,90,55,'#1c1530');
+    P(8,7,74,5,'#2e2233');P(8,7,20,5,'#4fd6c2');
+    const cols=['#4fd6c2','#ffb152','#ff7a6b','#9be07a'];
+    for(let i=0;i<4;i++){
+      const bx=14+i*18;
+      P(bx,42,12,2,'#2e2233');
+      const h=10+Math.round((0.5+0.5*Math.sin(f*1.1+i*1.3))*20);
+      P(bx,42-h,12,h,cols[i]);P(bx,42-h,12,2,'rgba(255,255,255,.4)');
+      P(bx+4,46,4,2,cols[i]);
+    }
+  }
+  else if(slug === 'tutor'){
+    P(0,0,90,55,'#1c1530');
+    P(8,7,74,7,'#ffb152');P(11,9,10,3,'#2a1820');
+    for(let r=0;r<4;r++) for(let c=0;c<6;c++) P(9+c*12,17+r*8,11,7,'#2e2233');
+    P(9+1*12,17+0*8,11,7,'#4fd6c2');P(9+3*12,17+1*8,11,7,'#9be07a');
+    P(9+0*12,17+2*8,11,7,'#ff7a6b');P(9+4*12,17+3*8,11,7,'#4fd6c2');
+    const on=Math.sin(f*2.5)>0;if(on)P(9+2*12,17+2*8,11,7,'#ffb152');
+  }
+  else {
+    P(0,0,90,55,'#1c1530');
+    P(28,11,34,34,'#b5683f');P(28,11,6,34,'#8a4f30');P(34,11,28,2,'#c87a4e');
+    P(40,19,16,2,'#f3e6d6');P(40,24,12,2,'#f3e6d6');
+    P(42,31,3,7,'#fff');P(46,31,3,7,'#fff');P(50,31,3,7,'#fff');
+    const bm=Math.round(Math.abs(Math.sin(f*1.3))*3);
+    P(56,11,3,38+bm,'#4fd6c2');
+  }
+}
+
+window.addEventListener('hashchange', render);
+render();
+startVignette();
+</script>
 </body>
 </html>
