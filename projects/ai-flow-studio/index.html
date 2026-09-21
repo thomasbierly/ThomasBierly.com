@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student guide — AI Flow Studio — Thomas Bierly</title>
+<meta name="description" content="The full build-along guide for AI Flow Studio: orchestrating eight Langflow agents into a pipeline that researches a company, applies Five Forces, SWOT and TOWS, and writes an analyst report.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23241a2a'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='20' fill='%23ffb152'>TB</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="../../">
+      <span class="nav-brand-mono">TB</span>
+      <span class="nav-brand-name">Thomas Bierly</span>
+    </a>
+    <div class="nav-tabs">
+      <a class="nav-tab" href="../">All projects</a>
+      <a class="nav-tab" href="../#ai-flow-studio">AI Flow Studio</a>
+      <a class="nav-tab" href="#files"><span class="nav-tab-dot"></span>Files</a>
+    </div>
+  </div>
+</nav>
+
+<main class="guide">
+<a class="back-link" href="../#ai-flow-studio">← AI Flow Studio</a>
+
+<div class="archive-banner" style="margin:0 0 30px">
+  <div class="archive-icon">!</div>
+  <div class="archive-text">
+    <strong>Archived.</strong> The hosted workspace this guide was written for is offline. Everything else still works: <a href="#files">the flow files are below</a>, along with <a href="#run-it-yourself">how to get Langflow running yourself</a>. Where the hosted studio did something you'll now have to do differently, there's a note at that step.
+  </div>
+</div>
+
+<h1>Build Your Industry &amp; Company Report</h1>
+<p>You're going to build an eight-agent AI pipeline on a visual canvas, with no code. It researches a real company, applies three strategic frameworks, and writes an analyst-style report that answers a question you choose. At the end it exports the report as a <strong>Word document or PDF</strong>.</p>
+<p>Each agent does one job and hands its output to the next.</p>
+<blockquote>
+<p><strong>Can't find a field?</strong> Langflow's field names shift slightly between versions. If a name here doesn't match what you see, look for the field that does the same job and keep going.</p>
+</blockquote>
+
+<h2 id="files">The files</h2>
+<p>Two Langflow flows, exactly as they ran on the night. Import either through <strong>New Flow → Import</strong>.</p>
+
+<div class="dl-grid">
+  <a class="dl" href="starter-flow.json" download>
+    <span class="dl-ext">json</span>
+    <span>
+      <span class="dl-name">Starter layout</span>
+      <span class="dl-desc">Every node placed on the canvas, nothing connected and no prompts filled in. This is what the room started from.</span>
+      <span class="dl-size">403 KB · Langflow flow</span>
+    </span>
+  </a>
+  <a class="dl" href="complete-flow.json" download>
+    <span class="dl-ext">json</span>
+    <span>
+      <span class="dl-name">Complete pipeline</span>
+      <span class="dl-desc">The finished eight-stage flow, fully wired, with every prompt in place. Import it, type a brief, run it.</span>
+      <span class="dl-size">467 KB · Langflow flow</span>
+    </span>
+  </a>
+</div>
+
+<div class="note"><strong>Before you import:</strong> both flows use two components I wrote for the hosted studio, <strong>Web Research</strong> and <strong>Export Report</strong>, which aren't part of Langflow. They will arrive as missing nodes on your own instance. Delete them: connect the Agent to any search tool you have in place of Web Research, and connect the final report to a <strong>Chat Output</strong> in place of Export Report. You lose the Word and PDF export; everything else runs. The model nodes expect an Anthropic key as <code>ANTHROPIC_API_KEY</code>, and no keys are included in these files.</div>
+
+<h2 id="run-it-yourself">Running Langflow yourself</h2>
+<p><a href="https://www.langflow.org/" target="_blank" rel="noopener">Langflow</a> is an open-source (MIT-licensed) visual builder for AI workflows, started by Logspace, <a href="https://www.datastax.com/press-release/datastax-acquires-langflow-to-make-building-genai-apps-100x-easier-faster-more-fun" target="_blank" rel="noopener">acquired by DataStax in 2024</a> and now part of IBM's watsonx portfolio following <a href="https://www.ibm.com/new/announcements/ibm-to-acquire-datastax-helping-clients-bring-the-power-of-unstructured-data-to-enterprise-ai-applications" target="_blank" rel="noopener">IBM's acquisition of DataStax</a>. Flows built on the canvas can be called as an API and put into production, which is the reason the session used it rather than a teaching mock-up. You supply your own model key and pay the provider per run — a full run of this pipeline costs cents.</p>
+<div class="grid">
+  <div class="card"><div class="card-icon" style="background:#9be07a">▣</div><div class="card-title">Desktop app</div><span class="card-text">Easiest start on macOS 13+ or Windows: download and run, nothing to configure. <a href="https://www.langflow.org/desktop" target="_blank" rel="noopener">langflow.org/desktop</a></span></div>
+  <div class="card"><div class="card-icon" style="background:#4fd6c2">▶</div><div class="card-title">Python</div><span class="card-text">With Python 3.10–3.14: <code>uv pip install langflow</code>, then <code>uv run langflow run</code>, and open <code>localhost:7860</code>.</span></div>
+  <div class="card"><div class="card-icon" style="background:#c79bff">◰</div><div class="card-title">Docker</div><span class="card-text"><code>docker run -p 7860:7860 langflowai/langflow:latest</code> — tidiest option if you already have Docker.</span></div>
+  <div class="card"><div class="card-icon" style="background:#ffb152">⬆</div><div class="card-title">Hugging Face Space</div><span class="card-text">No install at all: duplicate the <a href="https://huggingface.co/spaces/Langflow/Langflow" target="_blank" rel="noopener">official Langflow Space</a> into your own account and add your key.</span></div>
+  <div class="card"><div class="card-icon" style="background:#ff7a6b">◇</div><div class="card-title">Source &amp; docs</div><span class="card-text"><a href="https://github.com/langflow-ai/langflow" target="_blank" rel="noopener">github.com/langflow-ai/langflow</a> for the code, <a href="https://docs.langflow.org/" target="_blank" rel="noopener">docs.langflow.org</a> for the component reference.</span></div>
+</div>
+
+<h2>Step 0: before you open the workspace</h2>
+<p>Decide these first. Everything downstream depends on them.</p>
+<ul>
+<li><strong>Company / organisation:</strong></li>
+<li><strong>Industry sector:</strong></li>
+<li><strong>Strategic question.</strong> Make it specific and decision-shaped, for example <em>"Should [company] enter the Southeast Asian market?"</em> or <em>"How should [company] respond to [competitor]'s pricing move?"</em></li>
+</ul>
+<p>Then open Langflow and create a new flow. There are three ways to start:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>When to use it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Blank Flow</strong></td>
+<td>You want to build everything yourself (recommended).</td>
+</tr>
+<tr>
+<td><strong><a href="starter-flow.json" download>Starter layout</a></strong> (download)</td>
+<td>Nodes are placed for you; you wire them up and add the prompts.</td>
+</tr>
+<tr>
+<td><strong><a href="complete-flow.json" download>Complete pipeline</a></strong> (download)</td>
+<td>You're late or stuck. Add your brief and run it.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>The three frameworks</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>What it does</th>
+<th>Feeds into</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Porter's Five Forces</td>
+<td>Analyses the industry's competitive structure: new entrants, supplier power, buyer power, substitutes, rivalry.</td>
+<td>The Opportunities and Threats side of your SWOT.</td>
+</tr>
+<tr>
+<td>SWOT</td>
+<td>Combines internal capability (Strengths, Weaknesses) with the external picture (Opportunities, Threats).</td>
+<td>Every cell of the TOWS matrix.</td>
+</tr>
+<tr>
+<td>TOWS matrix</td>
+<td>Cross-references SWOT pairs (SO, WO, ST, WT) to generate concrete strategic options.</td>
+<td>Your recommendation.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>How the nodes fit together</h2>
+<p>Every stage follows the same pattern:</p>
+<ul>
+<li>A <strong>Language Model</strong> node does the thinking. In its <strong>Language Model</strong> field, choose <strong>claude-sonnet-5</strong>. It was the only model enabled on the hosted workspace; on your own Langflow, pick whichever Anthropic model you have access to.</li>
+<li>Its <strong>System Message</strong> holds the fixed instructions for the stage (given below).</li>
+<li>Its <strong>Input</strong> holds what the stage looks at on this run: your brief, or the previous stage's output.</li>
+<li><strong>From Stage 3 onwards, every model gets its Input through a Prompt Template.</strong> Type the template text given for that stage, line breaks included; each <code>{variable}</code> becomes an input you connect an earlier output to. Connect the template's output to the model's Input.
+  <em>Why:</em> Langflow passes a model's output along as an "assistant" message, and Claude won't answer a conversation that ends with its own message. A Prompt Template turns the text back into a normal request.</li>
+<li><strong>API key:</strong> on the hosted studio there was nothing to enter — the server held one instructor key. On your own Langflow, set <code>ANTHROPIC_API_KEY</code> in the environment, or paste a key into each model node's API Key field.</li>
+</ul>
+<h2>Pipeline at a glance</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Nodes you add</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Brief</td>
+<td>Chat Input</td>
+<td>You type company, industry and question.</td>
+</tr>
+<tr>
+<td>1. Scoping</td>
+<td>Language Model</td>
+<td>Turns your brief into a research plan.</td>
+</tr>
+<tr>
+<td>2. Research</td>
+<td>Agent + <strong>Web Research</strong> tool</td>
+<td>Searches the web; tags every fact with its URL.</td>
+</tr>
+<tr>
+<td>3. Five Forces</td>
+<td>Prompt Template → Language Model</td>
+<td>Rates each force High/Medium/Low with evidence.</td>
+</tr>
+<tr>
+<td>4. SWOT</td>
+<td>Prompt Template → Language Model</td>
+<td>S/W from internal findings; O/T from Five Forces.</td>
+</tr>
+<tr>
+<td>5. TOWS</td>
+<td>Prompt Template → Language Model</td>
+<td>Turns the SWOT into ranked strategic options.</td>
+</tr>
+<tr>
+<td>6. Drafting</td>
+<td>Prompt Template → Language Model</td>
+<td>Writes the report from stages 3–5 only.</td>
+</tr>
+<tr>
+<td>7. Critique</td>
+<td>Prompt Template → Language Model</td>
+<td>Outputs PASS or REVISE plus a fix list.</td>
+</tr>
+<tr>
+<td>If-Else</td>
+<td>If-Else</td>
+<td>Did the critique say PASS?</td>
+</tr>
+<tr>
+<td>8. Revision</td>
+<td>Prompt Template → Language Model</td>
+<td>Applies the fixes (REVISE branch only).</td>
+</tr>
+<tr>
+<td>7b. Critique 2</td>
+<td>Prompt Template → Language Model + Chat Output</td>
+<td>Scores the revised draft so you can see it.</td>
+</tr>
+<tr>
+<td>Export</td>
+<td><strong>Export Report</strong> + Chat Output (one pair per branch)</td>
+<td>Creates your Word/PDF and shows download links.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>The critique step, and where you take over</h3>
+<p>The pipeline gets one attempt at fixing its own work, then stops and hands the result to you. You build that cap into the shape of the flow:</p>
+<ul>
+<li><strong>PASS</strong> → the Stage 6 draft goes straight to an <strong>Export Report</strong> node. Connect Critique's output to that node's <strong>Reviewer notes</strong> too.</li>
+<li><strong>REVISE</strong> → the draft and the fix list go to <strong>Revision</strong>. The revised report goes to a second <strong>Export Report</strong> node, and to <strong>Critique 2</strong>. Critique 2's output goes into that Export node's <strong>Reviewer notes</strong>.</li>
+</ul>
+<p>Critique 2 doesn't block the export. Its verdict and any fixes it still wants are printed in a <strong>Reviewer notes</strong> section at the end of your report, so you can see exactly what the reviewer still objects to and decide for yourself whether it matters. That is the handover point you are designing: the pipeline does the part it can do reliably, then surfaces what it couldn't settle instead of burying it.</p>
+<p>Only the branch that actually runs produces a download link.</p>
+<h2>Exporting your report</h2>
+<blockquote><p><strong>This part needed the hosted studio.</strong> The <strong>Export Report</strong> node posted your report to a small renderer service that ran alongside the workspace and is now gone. On your own Langflow, connect the final report to a <strong>Chat Output</strong> node instead and copy the Markdown out of the Playground. You lose the Word and PDF export; nothing else changes.</p></blockquote>
+<p>Find <strong>Export Report</strong> in the component sidebar under <strong>Reports</strong>. Connect the final report into its <strong>Report</strong> input and the last Critique's output into <strong>Reviewer notes</strong>, type your name, and choose a format. When you run the flow, the node's output (visible in the Playground) contains download links for your <code>.docx</code> and/or <code>.pdf</code>. <strong>Links expire after 7 days</strong>, so download your copy straight away.</p>
+<h2>Agent prompts</h2>
+<p>For each stage: type the <strong>Prompt Template</strong> text (from Stage 3 on) into a Prompt Template node, and paste the <strong>System Message</strong> block into the matching model node.</p>
+<h3>Stage 1: Scoping Agent (Language Model)</h3>
+<pre><code>You are a research scoping specialist for an industry analysis team.
+You will receive a brief: company name, industry sector, and the strategic
+question the final report must answer.
+Your only job is to produce a structured research plan built around two
+frameworks the pipeline will apply later: Porter's Five Forces and SWOT.
+Do not write any part of the final report, and do not analyse the company
+yourself.
+Output strictly as JSON:
+{
+&quot;company&quot;: &quot;&lt;company&gt;&quot;,
+&quot;industry&quot;: &quot;&lt;industry&gt;&quot;,
+&quot;strategic_question&quot;: &quot;&lt;the student's question&gt;&quot;,
+&quot;five_forces_evidence_needed&quot;: {
+&quot;threat_of_new_entrants&quot;: [&quot;&lt;what evidence would confirm or rule this in/out&gt;&quot;],
+&quot;supplier_power&quot;: [&quot;...&quot;],
+&quot;buyer_power&quot;: [&quot;...&quot;],
+&quot;threat_of_substitutes&quot;: [&quot;...&quot;],
+&quot;competitive_rivalry&quot;: [&quot;...&quot;]
+},
+&quot;internal_evidence_needed&quot;: [&quot;&lt;evidence about the company itself: capabilities, resources, recent performance, weaknesses&gt;&quot;]
+}
+If the brief is missing a company, industry, or question, do not guess.
+Output {&quot;clarification_needed&quot;: &quot;&lt;one specific question&gt;&quot;} instead.
+</code></pre>
+<h3>Stage 2: Research Agent (Agent + Web Research tool)</h3>
+<p>Put this in the Agent's <strong>Agent Instructions</strong> field and choose <strong>claude-sonnet-5</strong> as its model. Add a <strong>Web Research</strong> node, switch on its <strong>Tool Mode</strong>, and connect it to the Agent's <strong>Tools</strong> input. <em>Web Research was a custom component on the hosted studio, not a stock Langflow node; on your own instance, substitute any search tool you have.</em></p>
+<pre><code>You are a research analyst gathering evidence for an industry and company report.
+You have one tool: Web Research. Use it at most 6 times in total, so
+combine related evidence items into a single request.
+You will receive the research plan from the scoping stage.
+For every item under five_forces_evidence_needed and internal_evidence_needed,
+search the web for supporting evidence. If nothing useful turns up, mark it
+OPEN. Do not fabricate a fact to fill the gap.
+Tag every fact with the source URL you found it at. Do not draft prose
+paragraphs; this stage extracts and organises, it does not write.
+Output strictly as JSON:
+{
+&quot;strategic_question&quot;: &quot;&lt;copied from the research plan&gt;&quot;,
+&quot;five_forces_findings&quot;: {
+&quot;threat_of_new_entrants&quot;: [{&quot;fact&quot;: &quot;...&quot;, &quot;source&quot;: &quot;...&quot;}],
+&quot;supplier_power&quot;: [...],
+&quot;buyer_power&quot;: [...],
+&quot;threat_of_substitutes&quot;: [...],
+&quot;competitive_rivalry&quot;: [...]
+},
+&quot;internal_findings&quot;: [{&quot;fact&quot;: &quot;...&quot;, &quot;source&quot;: &quot;...&quot;}],
+&quot;open_gaps&quot;: [&quot;&lt;evidence items with nothing found&gt;&quot;]
+}
+</code></pre>
+<h3>Stage 3: Five Forces Agent</h3>
+<p><strong>Prompt Template</strong> (type it exactly as shown):</p>
+<pre><code>Research findings:
+{research}
+</code></pre>
+<p><strong>System Message:</strong></p>
+<pre><code>You are an industry structure analyst applying Porter's Five Forces.
+You will receive five_forces_findings from the research stage.
+For each of the five forces, assign a rating of High, Medium, or Low
+pressure on the industry, and write a 2-3 sentence rationale that cites the
+specific findings behind it. If a force has no findings (check open_gaps),
+say so explicitly rather than guessing a rating.
+Output strictly as JSON:
+{
+&quot;five_forces&quot;: {
+&quot;threat_of_new_entrants&quot;: {&quot;rating&quot;: &quot;High|Medium|Low|Insufficient evidence&quot;, &quot;rationale&quot;: &quot;...&quot;},
+&quot;supplier_power&quot;: {...},
+&quot;buyer_power&quot;: {...},
+&quot;threat_of_substitutes&quot;: {...},
+&quot;competitive_rivalry&quot;: {...}
+},
+&quot;overall_industry_attractiveness&quot;: &quot;&lt;one sentence synthesising the five ratings&gt;&quot;
+}
+</code></pre>
+<h3>Stage 4: SWOT Agent</h3>
+<p><strong>Prompt Template</strong> (type it exactly as shown):</p>
+<pre><code>Research findings:
+{research}
+
+Five Forces analysis:
+{five_forces}
+</code></pre>
+<p><strong>System Message:</strong></p>
+<pre><code>You are a company analyst building a SWOT.
+You will receive internal_findings from the research stage and the
+five_forces output from the previous stage.
+Build Strengths and Weaknesses from internal_findings only. Build
+Opportunities and Threats primarily from the five_forces ratings and
+rationale (a Low-pressure force is a source of opportunity, a High-pressure
+force is a source of threat), supplemented by any external items in
+internal_findings.
+Every SWOT item must cite what it's drawn from: a specific finding or a
+specific force. Do not add items with no traceable basis.
+Output strictly as JSON:
+{
+&quot;strengths&quot;: [{&quot;item&quot;: &quot;...&quot;, &quot;source&quot;: &quot;...&quot;}],
+&quot;weaknesses&quot;: [{&quot;item&quot;: &quot;...&quot;, &quot;source&quot;: &quot;...&quot;}],
+&quot;opportunities&quot;: [{&quot;item&quot;: &quot;...&quot;, &quot;source&quot;: &quot;...&quot;}],
+&quot;threats&quot;: [{&quot;item&quot;: &quot;...&quot;, &quot;source&quot;: &quot;...&quot;}]
+}
+</code></pre>
+<h3>Stage 5: TOWS Confrontation Matrix Agent</h3>
+<p><strong>Prompt Template</strong> (type it exactly as shown):</p>
+<pre><code>Strategic question and research:
+{research}
+
+SWOT:
+{swot}
+</code></pre>
+<p><strong>System Message:</strong></p>
+<pre><code>You are a strategy analyst building a TOWS confrontation matrix from a SWOT.
+For each pairing, generate 1-2 concrete strategic options, each naming
+exactly which SWOT items it combines:
+- SO (Strength-Opportunity): use a strength to capture an opportunity.
+- WO (Weakness-Opportunity): overcome a weakness by using an opportunity.
+- ST (Strength-Threat): use a strength to defend against a threat.
+- WT (Weakness-Threat): defensive options that minimise weakness and avoid threat.
+Then, using the strategic_question provided, rank the top three options
+across all four quadrants by relevance to that specific question, with one
+sentence on why each is relevant.
+Output strictly as JSON:
+{
+&quot;tows&quot;: {&quot;SO&quot;: [...], &quot;WO&quot;: [...], &quot;ST&quot;: [...], &quot;WT&quot;: [...]},
+&quot;top_options_for_question&quot;: [
+{&quot;option&quot;: &quot;...&quot;, &quot;quadrant&quot;: &quot;SO|WO|ST|WT&quot;, &quot;why_relevant&quot;: &quot;...&quot;}
+]
+}
+</code></pre>
+<h3>Stage 6: Drafting Agent</h3>
+<p><strong>Prompt Template</strong> (type it exactly as shown):</p>
+<pre><code>Strategic question and research:
+{research}
+
+Five Forces:
+{five_forces}
+
+SWOT:
+{swot}
+
+TOWS:
+{tows}
+</code></pre>
+<p><strong>System Message:</strong></p>
+<pre><code>You are an industry analyst writing the first draft of a client-facing report.
+You will receive five_forces, swot, tows, and the original strategic_question.
+Use only these as your source of fact; do not add outside knowledge.
+Length: about 1,000 words of prose in total (not counting tables and
+Sources). Be concise; the tables carry the detail.
+Structure:
+- Executive Summary (150-200 words) that states the strategic question and
+  previews the recommendation.
+- Industry Structure: short prose synthesis of the five_forces output,
+  then Table 1, with columns Force | Rating | Key evidence (one row per force).
+- Company Position: short prose synthesis of the swot output, then Table 2,
+  a SWOT grid laid out exactly like this:
+  | | Helpful | Harmful |
+  |---|---|---|
+  | **Internal** | **Strengths**&lt;br&gt;• item&lt;br&gt;• item | **Weaknesses**&lt;br&gt;• item&lt;br&gt;• item |
+  | **External** | **Opportunities**&lt;br&gt;• item&lt;br&gt;• item | **Threats**&lt;br&gt;• item&lt;br&gt;• item |
+- Strategic Options: short prose synthesis built around
+  top_options_for_question, then Table 3, a TOWS matrix laid out like this:
+  | | Opportunities | Threats |
+  |---|---|---|
+  | **Strengths** | **SO:** option&lt;br&gt;• option | **ST:** option&lt;br&gt;• option |
+  | **Weaknesses** | **WO:** option&lt;br&gt;• option | **WT:** option&lt;br&gt;• option |
+- Recommendation: a direct answer to the strategic question, citing which
+  strategic option(s) it rests on.
+- Sources: a bulleted list of every source URL used.
+Put a caption line in bold directly above each table, e.g.
+&quot;**Table 2. SWOT analysis**&quot;. Keep each table cell item under 20 words, and
+use &lt;br&gt; for line breaks inside a cell.
+Every claim must trace to the inputs provided. Mark anything without a
+clear source [UNSOURCED] rather than inventing support.
+Tone: professional analyst report, plain language, no marketing language,
+no unearned certainty.
+Format the report in Markdown: first line &quot;# &lt;Company&gt;: Industry and
+Strategic Analysis&quot;, then &quot;## &quot; for each section heading. Do not output JSON.
+</code></pre>
+<h3>Stage 7: Critique Agent (use the same prompt for Critique 2)</h3>
+<p><strong>Prompt Template</strong> (type it exactly as shown):</p>
+<pre><code>Draft report to review:
+{draft}
+</code></pre>
+<p>For Critique 2, connect the Revision output to <code>{draft}</code> instead.</p>
+<p><strong>System Message:</strong></p>
+<pre><code>You are a rigorous internal reviewer. You do not write or rewrite report
+content; you only evaluate it.
+You will receive the draft report.
+Score the draft against this rubric:
+1. Framework correctness: is each factor correctly classified (a Five
+   Forces item isn't presented as a SWOT item and vice versa)?
+2. Traceability: is every claim traceable to a prior-stage output, or
+   marked [UNSOURCED]?
+3. No invented certainty: flag any [UNSOURCED] claim stated as fact.
+4. Answers the question: does the Recommendation actually answer the
+   strategic question, using the top-ranked TOWS options?
+5. Clarity: flag unclear, repetitive, or overlong sentences.
+6. Format: the report has Table 1 (Five Forces), Table 2 (SWOT grid) and
+   Table 3 (TOWS matrix), and about 1,000 words of prose (flag it if it is
+   clearly over 1,300 or under 700).
+Output strictly as JSON:
+{
+&quot;verdict&quot;: &quot;PASS&quot; or &quot;REVISE&quot;,
+&quot;fixes&quot;: [
+{&quot;section&quot;: &quot;&lt;section name&gt;&quot;, &quot;issue&quot;: &quot;&lt;what is wrong&gt;&quot;, &quot;fix&quot;: &quot;&lt;specific instruction to correct it&gt;&quot;}
+]
+}
+Return &quot;PASS&quot; only if there are zero fixes required.
+</code></pre>
+<p><strong>If-Else settings:</strong> connect the Critique output to <strong>Text Input</strong>, set <strong>Operator</strong> to <em>regex</em>, and set <strong>Match Text</strong> to <code>"verdict"\s*:\s*"PASS"</code>. Connect the Stage 6 draft to both <strong>True Case Message</strong> and <strong>False Case Message</strong>, so the draft (not the critique) is what flows down whichever branch runs. The <strong>True</strong> output goes to Export; the <strong>False</strong> output goes to the Revision template's <code>{draft}</code>.</p>
+<h3>Stage 8: Revision Agent</h3>
+<p><strong>Prompt Template</strong> (type it exactly as shown):</p>
+<pre><code>Draft report:
+{draft}
+
+Critique fix list:
+{critique}
+</code></pre>
+<p><strong>System Message:</strong></p>
+<pre><code>You are the same analyst who wrote the draft report.
+You will receive the original draft and a critique fix list.
+Apply every fix exactly. Do not introduce any new factual claims that
+weren't already in the draft's underlying data. If a fix can't be applied
+without inventing information, mark that spot [UNSOURCED] instead.
+Output the final report in Markdown, keeping the same structure: first line
+&quot;# &lt;Company&gt;: Industry and Strategic Analysis&quot;, then &quot;## &quot; section headings,
+keeping Tables 1-3 (Five Forces, SWOT grid, TOWS matrix) with their
+captions, the Sources list, and about 1,000 words of prose.
+</code></pre>
+<h2>Reflection questions</h2>
+<p>Answer these from your own run, not in general terms.</p>
+<ol>
+<li>Compare your Stage 6 draft to your final report. What did the critique pass actually change, and what does the <strong>Reviewer notes</strong> section say is still wrong?</li>
+<li>Where did your Research Agent mark something OPEN? What would you have needed to resolve it?</li>
+<li>Pick one item in your SWOT. Trace it back through the Five Forces output to the original finding. Is the chain solid, or did something get reclassified along the way?</li>
+<li>Did your Recommendation genuinely answer your strategic question, or did it default to a generic summary? If the latter, which stage let that happen?</li>
+<li>Building this visually rather than in code: where did the canvas make the pipeline's structure clearer, and where did it get in the way?</li>
+</ol>
+
+<h2>If not Langflow</h2>
+<p>The skill being practised is workflow design, not one vendor's canvas. Any of these will hold the same eight-stage shape, and several may already be licensed where you work or study.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Tool</th><th>What it is</th><th>Worth knowing</th></tr></thead>
+<tbody>
+<tr><td><a href="https://n8n.io/" target="_blank" rel="noopener">n8n</a></td><td>General automation platform with AI agent nodes and 400+ app integrations.</td><td>Self-hostable and free for internal use, though its licence isn't OSI open source. Best pick if your pipeline has to touch email, sheets and CRMs, not just models. The earlier version of this activity was built here.</td></tr>
+<tr><td><a href="https://www.microsoft.com/power-platform/products/power-automate" target="_blank" rel="noopener">Power Automate</a> + <a href="https://www.microsoft.com/microsoft-copilot/microsoft-copilot-studio" target="_blank" rel="noopener">Copilot Studio</a></td><td>Microsoft's low-code automation and agent builders.</td><td>Often already covered by a university or corporate Microsoft 365 licence, and it sits next to the Office data people actually work in. Check what your tenant allows before building.</td></tr>
+<tr><td><a href="https://aws.amazon.com/quick/" target="_blank" rel="noopener">Amazon Quick Suite</a></td><td>AWS's agentic workspace, including a low-code workflow canvas that chains agents.</td><td>Enterprise-shaped: connects to business systems and takes actions in them. Sensible if your organisation is already on AWS.</td></tr>
+<tr><td><a href="https://aws.amazon.com/bedrock/flows/" target="_blank" rel="noopener">Amazon Bedrock Flows</a></td><td>Visual builder inside Bedrock for chaining prompts, models and agents.</td><td>Closest AWS equivalent to this pipeline, with the model governance of Bedrock around it.</td></tr>
+<tr><td><a href="https://flowiseai.com/" target="_blank" rel="noopener">Flowise</a></td><td>Open-source drag-and-drop builder for LLM apps and agents.</td><td>The nearest sibling to Langflow. Very similar canvas, so this guide translates almost node for node.</td></tr>
+<tr><td><a href="https://dify.ai/" target="_blank" rel="noopener">Dify</a></td><td>Open-source platform for LLM apps, with a visual workflow editor and built-in RAG.</td><td>Stronger if the work is document-grounded question answering rather than a linear report pipeline.</td></tr>
+<tr><td><a href="https://www.langchain.com/langgraph" target="_blank" rel="noopener">LangGraph</a></td><td>Code-first framework for agent graphs, with a visual debugger rather than a build canvas.</td><td>Where you end up if the workflow outgrows a canvas: real loops, retries and state, in version control.</td></tr>
+</tbody>
+</table></div>
+<p>One structural note carries across all of them. Here the revision cap is expressed by the shape of the flow — two fixed critique stages with a router between them, so the pipeline can only ever try once more before it stops. On a canvas with cycle support you would write the same rule as a loop with a counter. The expression differs; the design decision — how many attempts before a person looks at it — is the part that transfers.</p>
+
+<div class="page-footer">
+  <a class="btn-back" href="../#ai-flow-studio">← Back to the project</a>
+  <div class="footer-copy">© 2026 Thomas Bierly</div>
+</div>
+</main>
+
+<script src="download.js"></script>
+
+</body>
+</html>

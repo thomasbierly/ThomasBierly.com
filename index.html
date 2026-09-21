@@ -80,6 +80,24 @@ section{position:relative}
 .research-p{font-size:16px;line-height:1.7;color:#decabf;margin:0 0 18px;max-width:680px}
 .tag-row{display:flex;flex-wrap:wrap;gap:9px}
 .tag-teal{font-family:'Baloo 2';font-weight:500;font-size:13px;padding:5px 12px;border-radius:6px;background:rgba(79,214,194,.12);color:#9bead9;border:1px solid rgba(79,214,194,.3)}
+.pubs{margin-top:30px;padding-top:26px;border-top:2px solid rgba(255,255,255,.09)}
+.pubs-head{font-family:'Baloo 2';font-weight:600;font-size:15px;color:var(--neon);margin-bottom:16px}
+.pub-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+.pub{display:flex;gap:16px;align-items:flex-start}
+.pub-year{flex:0 0 auto;font:700 12px 'IBM Plex Mono';color:#2a1820;background:var(--neon2);border:2px solid #160e18;border-radius:7px;padding:5px 8px;margin-top:2px}
+.pub-title{display:block;font-family:'Baloo 2';font-weight:700;font-size:17px;line-height:1.35;color:#fff;transition:color .15s}
+.pub-title:hover{color:#ffce8a}
+.pub-authors{font-size:14px;line-height:1.55;color:#c6b2c1;margin-top:5px}
+.pub-authors strong{color:#f3e2d8}
+.pub-meta{font-size:14px;line-height:1.55;color:#decabf;margin-top:3px}
+.pub-meta em{color:#9bead9;font-style:italic}
+.pub-links{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:8px}
+.pub-doi{font:500 11.5px 'IBM Plex Mono';color:#8d7790;transition:color .15s}
+.pub-doi:hover{color:#ffce8a}
+.pub-project{font:600 11.5px 'IBM Plex Mono';color:#9bead9;transition:color .15s}
+.pub-project:hover{color:#fff}
+.project-research{align-self:flex-start;font:600 11px 'IBM Plex Mono';letter-spacing:.02em;color:#9bead9;background:rgba(79,214,194,.1);border:1px solid rgba(79,214,194,.28);border-radius:6px;padding:5px 9px}
+@media(max-width:600px){.research-card{padding:26px 20px}.pub{gap:12px}}
 
 /* projects */
 #projects{padding:64px 0}
@@ -93,6 +111,8 @@ section{position:relative}
 .project-name{font-family:'Baloo 2';font-weight:700;font-size:18px;color:#fff}
 .status-live{margin-left:auto;font:700 9px 'IBM Plex Mono';letter-spacing:.06em;text-transform:uppercase;color:#0f2417;background:#7be0a0;padding:3px 7px;border-radius:5px}
 .status-dev{margin-left:auto;font:700 9px 'IBM Plex Mono';letter-spacing:.06em;text-transform:uppercase;color:#2a1820;background:#ffb35c;padding:3px 7px;border-radius:5px}
+.status-archived{margin-left:auto;font:700 9px 'IBM Plex Mono';letter-spacing:.06em;text-transform:uppercase;color:#2a1820;background:#c9b3d6;padding:3px 7px;border-radius:5px}
+.project-led-off{width:9px;height:9px;border-radius:50%;background:#7a6a84;flex-shrink:0}
 .project-body{padding:16px 17px 18px;display:flex;flex-direction:column;gap:13px;flex:1}
 .project-desc{font-size:14px;line-height:1.6;color:#d6c2bb;flex:1}
 .tag-chips{display:flex;flex-wrap:wrap;gap:6px}
@@ -227,6 +247,24 @@ section{position:relative}
         <span class="tag-teal">Machine Learning</span>
         <span class="tag-teal">Job-Ad Data</span>
       </div>
+
+      <div class="pubs">
+        <div class="pubs-head">▰ Publications</div>
+        <ol class="pub-list">
+          <li class="pub">
+            <span class="pub-year">2026</span>
+            <div>
+              <a class="pub-title" href="https://doi.org/10.1080/08956308.2026.2705124" target="_blank" rel="noopener">AI Agents in the Double Diamond: Augmenting Design Thinking Practice in Organizational Innovation</a>
+              <div class="pub-authors">Timothy Hor, <strong>Thomas Bierly</strong>, Ashenafi Biru, Joseph Kim &amp; Jessica Helmi</div>
+              <div class="pub-meta"><em>Research-Technology Management</em> · published online 26 August 2026</div>
+              <div class="pub-links">
+                <a class="pub-doi" href="https://doi.org/10.1080/08956308.2026.2705124" target="_blank" rel="noopener">doi:10.1080/08956308.2026.2705124</a>
+                <a class="pub-project" href="projects/#augmenti">project: Augmenti →</a>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </div>
     </div>
   </div>
 </section>
@@ -240,19 +278,20 @@ section{position:relative}
     </div>
     <div class="project-grid">
 
-      <a class="project-card" href="https://augmenti.io" target="_blank">
+      <a class="project-card" href="projects/#augmenti">
         <div class="project-header">
           <span class="project-led"></span>
           <span class="project-name">Augmenti</span>
           <span class="status-dev">In Development</span>
         </div>
         <div class="project-body">
-          <p class="project-desc">A multi-agent AI platform that guides teams through the Double Diamond design process — eight specialised AI services, 30+ collaborative canvas tools, real-time multi-user collaboration.</p>
+          <p class="project-desc">A multi-agent platform that runs teams through structured innovation frameworks — one specialised agent per phase, each defined by what it refuses to do, over forty collaborative canvas tools, and six methodology playbooks on one engine.</p>
           <div class="tag-chips">
             <span class="tag-amber">Multi-Agent</span>
             <span class="tag-amber">AI-Assisted Design</span>
             <span class="tag-amber">EdTech</span>
           </div>
+          <span class="project-research">▰ Published in Research-Technology Management</span>
           <span class="project-link-text">Learn more →</span>
         </div>
       </a>
@@ -264,11 +303,11 @@ section{position:relative}
           <span class="status-dev">In Development</span>
         </div>
         <div class="project-body">
-          <p class="project-desc">A 30-minute AI-mediated oral defence where students defend their work to a lifelike executive avatar — grounded in their submission and scored against a formal rubric.</p>
+          <p class="project-desc">A 30-minute oral defence in front of a four-person executive panel. Students present, then take questions on the claims they actually made — proctored, recorded, and scored against a rubric the examiner moderates.</p>
           <div class="tag-chips">
-            <span class="tag-amber">3D Avatar</span>
+            <span class="tag-amber">3D Avatars</span>
             <span class="tag-amber">Oral Assessment</span>
-            <span class="tag-amber">Multi-Agent</span>
+            <span class="tag-amber">Academic Integrity</span>
           </div>
           <span class="project-link-text">Learn more →</span>
         </div>
@@ -336,6 +375,40 @@ section{position:relative}
             <span class="tag-amber">Multi-Agent</span>
             <span class="tag-amber">Simulation</span>
             <span class="tag-amber">Leadership</span>
+          </div>
+          <span class="project-link-text">Learn more →</span>
+        </div>
+      </a>
+
+      <a class="project-card" href="projects/#cadence">
+        <div class="project-header">
+          <span class="project-led"></span>
+          <span class="project-name">Cadence</span>
+          <span class="status-live">● Live</span>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">A project manager for a job that never quite stops. It breaks big commitments into work that fits a real day, schedules it into the gaps the calendar actually has, and chases what would otherwise slip — so a semester stays manageable and an evening off stops feeling stolen.</p>
+          <div class="tag-chips">
+            <span class="tag-amber">Agents</span>
+            <span class="tag-amber">Planning</span>
+            <span class="tag-amber">Academic Workload</span>
+          </div>
+          <span class="project-link-text">Learn more →</span>
+        </div>
+      </a>
+
+      <a class="project-card" href="projects/#ai-flow-studio">
+        <div class="project-header">
+          <span class="project-led-off"></span>
+          <span class="project-name">AI Flow Studio</span>
+          <span class="status-archived">Archived</span>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">A masterclass in orchestrating AI, taught by building it. Students wired eight agents into a working pipeline on a visual canvas, with no code. The industry report was only the vehicle — a familiar problem to take apart. The workspace is offline; the guide and flow files are still here.</p>
+          <div class="tag-chips">
+            <span class="tag-amber">Langflow</span>
+            <span class="tag-amber">Agentic Workflows</span>
+            <span class="tag-amber">Teaching</span>
           </div>
           <span class="project-link-text">Learn more →</span>
         </div>
