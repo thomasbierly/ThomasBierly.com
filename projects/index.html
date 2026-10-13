@@ -314,63 +314,80 @@ const DATA = {
     howItWorks: [
       { n:1, title:'Join the organisation', text:'Students join a fictional ASX-listed firm: A$847M revenue, 2,400 employees, a cost-to-income ratio that makes the board uncomfortable.' },
       { n:2, title:'The mandate', text:'A A$40M Digital Acceleration Fund. The board wants speed and a 15% cost cut; APRA wants governance; the union wants consultation. These cannot all be satisfied at once.' },
-      { n:3, title:'Decide, under pressure', text:'Each chapter is a genuine trade-off. Choices move four organisational health meters and set ripple flags that later chapters remember.' },
-      { n:4, title:'The reckoning', text:'Across twelve weeks every major decision is surfaced, meters are tallied, and students articulate what they would do differently — and why.' }
+      { n:3, title:'Decide, under pressure', text:'Each chapter is a genuine trade-off. Choices move six organisational indicators and set ripple flags that later chapters remember.' },
+      { n:4, title:'The reckoning', text:'Across twelve weeks every major decision is surfaced, indicators are tallied, and students articulate what they would do differently — and why.' }
     ],
     featuresTitle: 'The simulation has memory',
     features: [
       { icon:'5', color:'#4fd6c2', title:'Five functional roles', text:'HR, Finance, Compliance, Technology and Customer Services — each sees the transformation from one vantage point and must collaborate to see the whole.' },
-      { icon:'▮', color:'#ffb152', title:'Four live meters', text:'Stakeholder Confidence, Staff Trust, AI Performance and Regulatory Compliance shift with every decision and persist across the semester.' },
+      { icon:'▮', color:'#ffb152', title:'Six live indicators', text:'Budget Remaining, Staff Trust, Stakeholder Confidence, Regulatory Compliance, AI Performance and Union Relations shift with every decision and persist across the semester.' },
       { icon:'⤳', color:'#ff7a6b', title:'Ripple flags', text:'A rushed mandate in Chapter 1 is referenced by characters in Chapter 6. The organisation behaves like an organisation, not a series of scenarios.' },
       { icon:'☻', color:'#9be07a', title:'Stakeholders who push back', text:"Claude-powered characters model the CEO, union delegate, compliance head and CTO — each contextualised with the student's decision history." },
       { icon:'✎', color:'#c79bff', title:'Reflection journals', text:'Structured sense-making after each chapter builds the integrative essay that forms the primary assessment artefact.' }
     ],
-    shots: ['Decision point','Meter dashboard','Stakeholder dialogue'],
+    shots: [
+      { img:'meridian/chapter-mandate.png',
+        alt:'Week 1, Chapter 1, "The Mandate": the organisational indicators on the left (budget remaining, staff trust, stakeholder confidence, regulatory compliance, AI performance and union relations), the chapter briefing on Meridian Financial Group in the centre, and a conversation with Rachel Torres, the Chief Customer Officer, on the right.' }
+    ],
+    shotsCaption: 'Chapter 1, "The Mandate". The indicators on the left move with every decision and carry across the semester; the briefing sets out the firm, its finances and the leaders the student will work with; and on the right the Chief Customer Officer presses the student on how a governance committee would avoid rubber-stamping AI decisions.',
     techTitle: 'A full-stack app built for real classroom deployment',
     tech: [
       { label:'Runtime', value:'Node 18+ with Express — server-rendered chapters, session management, REST API' },
       { label:'Real-time', value:'Socket.io — group synchronisation where cohort decisions are pooled and compared live' },
-      { label:'AI characters', value:'Anthropic Claude SDK — contextualised with decision history, meter state and ripple flags' },
+      { label:'AI characters', value:'Anthropic Claude SDK — contextualised with decision history, indicator state and ripple flags' },
       { label:'Database', value:'PostgreSQL — per-student state as JSONB + an immutable chapter event log for research export' },
       { label:'Deployment', value:'Railway — containerised, managed Postgres, zero-downtime across semester cohorts' }
     ]
   },
 
   'tutor': {
-    name: 'Tutor Scheduling',
-    fullName: 'RMIT Tutor Scheduling Platform — automated sessional allocation, built end-to-end as a solo engineering project',
-    tagline: 'Every semester, coordinators spend days hand-matching hundreds of sessional tutors to class slots. I built a platform to automate it entirely.',
-    statusLabel: 'In Development', tone: 'dev',
-    actions: [{ label:'Visit the platform ↗', href:'https://tutor.thomasbierly.com', external:true }],
+    name: 'Teaching Allocation Hub',
+    fullName: 'RMIT Teaching Allocation Hub: sessional and faculty teaching allocation, built end to end as a solo engineering project',
+    tagline: 'Every semester, schools spend weeks matching sessional staff to classes by spreadsheet and email. The Hub does the matching with an optimisation engine and runs the whole cycle, from availability to accepted offer, in one place.',
+    statusLabel: 'Pilot · School of Management 2027 allocation', tone: 'dev',
+    actions: [{ label:'Visit the platform ↗', href:'https://teaching.thomasbierly.com', external:true }],
     problem: [
-      "Every semester, RMIT course coordinators spend days manually matching hundreds of sessional tutors to class slots — cross-referencing availability spreadsheets, avoiding double-bookings, ensuring workload fairness, and chasing acceptances over email.",
-      "It is error-prone, time-consuming, and doesn't scale. The platform automates the complete tutor-to-class assignment workflow, end to end."
+      "Every semester, a school allocates hundreds of sessional staff to classes by hand: cross-referencing availability spreadsheets, avoiding double-bookings, checking qualifications and workload limits, and chasing acceptances over email. It takes weeks of professional staff time each cycle.",
+      "It is also hard to get right. Allocations drift towards whoever replies first, qualification and workload rules are checked from memory, and mistakes tend to surface later, in payroll, where they are expensive to fix.",
+      "The Hub automates the matching and holds the whole cycle in one place, so the rules are applied every time and every decision leaves a record."
     ],
-    howTitle: 'The full allocation workflow, automated',
+    howTitle: 'The full allocation cycle, in one place',
     howItWorks: [
-      { n:1, title:'Tutors submit & rank', text:'Sessional staff submit availability, course interests and credentials, then rank preferred classes across all courses in a global drag-and-drop list.' },
-      { n:2, title:'Admins & coordinators set preferences', text:'School admins set per-course tutor preferences (Preferred / OK / Not Preferred); coordinators independently rank tutors for each of their classes.' },
-      { n:3, title:'Run the optimiser', text:'Admins trigger the solver for the semester, producing conflict-free assignments that respect a 36 hr/week cap and institutional workforce rates.' },
-      { n:4, title:'Review & approve', text:'Coordinators review results, make bounded adjustments within their own course, and approve the schedule.' },
-      { n:5, title:'Tutors accept offers', text:'Tutors accept or reject offers through the portal, with email notifications at every stage.' }
+      { n:1, title:'Tutors set availability and rank courses', text:"Sessional staff mark the hours they can teach on a weekly grid and put the courses they'd like to teach in order. Their details and qualifications sit in the same profile." },
+      { n:2, title:'Coordinators and faculty have their say', text:'Course coordinators rank tutors for their courses. Faculty record their teaching allocation and express interest in coordinating, and Heads of Department approve.' },
+      { n:3, title:"Admins load central's timetable", text:"School admins upload the central timetable as it arrives. The Hub shows what would change before anything is saved, then re-checks every tutor on a changed class." },
+      { n:4, title:'Run the optimiser', text:'One run produces a conflict-free allocation for the whole school that respects availability, qualifications, workload limits and enterprise agreement rates.' },
+      { n:5, title:'Review, approve and offer', text:'Coordinators review the schedule and adjust it within their own courses. Each tutor then receives one offer letter per semester and accepts it in the portal.' }
     ],
     featuresTitle: 'A real constraint-solving engine',
     features: [
-      { icon:'⚙', color:'#4fd6c2', title:'OR-Tools CP-SAT solver', text:"The same constraint-programming technology behind Google's logistics systems, applied to tutor allocation." },
-      { icon:'⛓', color:'#ffb152', title:'Hard constraints', text:'One tutor per class, no double-booking, per-course minimums, and a 36 hr/week cap with RMIT teaching + marking rates.' },
-      { icon:'Σ', color:'#ff7a6b', title:'Weighted objective', text:'Balances coordinator rankings, tutor preferences, admin tiers and historical CES satisfaction scores.' },
-      { icon:'⤵', color:'#9be07a', title:'Relaxation cascade', text:'When no perfect solution exists, six staged relaxations guarantee a result is always returned — every relaxation reported.' },
-      { icon:'✎', color:'#c79bff', title:'Smart marking assignment', text:'Tutors mark their own classes by default; overloaded tutors are relieved and orphaned marking is reallocated by capacity.' }
+      { icon:'⚙', color:'#4fd6c2', title:'OR-Tools CP-SAT solver', text:"The constraint-programming technology behind Google's logistics systems, applied to teaching allocation across a whole school at once." },
+      { icon:'⛓', color:'#ffb152', title:'Hard constraints', text:"One tutor per class, no double-booking, qualifications checked against AQF levels, and CoBL's weekly workload limits built into every run." },
+      { icon:'Σ', color:'#ff7a6b', title:'Weighted objective', text:"Balances coordinators' rankings of tutors, tutors' rankings of courses and school preferences, so the result is fair as well as feasible." },
+      { icon:'✎', color:'#9be07a', title:'Marking that adds up', text:'Marking hours are calculated from enrolment and the workload framework, can be shared between markers, and count towards each tutor’s weekly load.' },
+      { icon:'☰', color:'#c79bff', title:'Faculty and EOI', text:'Faculty teaching allocation and the course coordinator expression of interest run in the same Hub, with Heads of Department making the final call.' },
+      { icon:'◉', color:'#7aa2f7', title:'An audit trail by design', text:'Every change, import and override is logged, so the allocation record doubles as the compliance record.' }
     ],
-    shots: ['Schedule calendar','Optimisation results','Tutor offer flow'],
+    shots: [
+      { img:'teaching-allocation-hub/tutor-dashboard.jpg',
+        alt:"A sessional tutor's dashboard: four steps (weekly availability, rank courses, my details, tutorial offers), the first three marked done, and a timeline of the allocation process." },
+      { img:'teaching-allocation-hub/tutor-availability.jpg',
+        alt:'The weekly availability grid, where a tutor clicks or drags across half-hour slots from Monday to Sunday to mark when they can teach, with the deadline for the semester shown above.' },
+      { img:'teaching-allocation-hub/coordinator-schedule.jpg',
+        alt:"A course coordinator's Course Schedule: a week calendar of the course's eight tutorials, each card showing the class, time, room and the tutor allocated, all confirmed." },
+      { img:'teaching-allocation-hub/admin-class-schedules.jpg',
+        alt:"A school administrator's Class Schedules page: an upload area for central's timetable export, and a table of a course's classes with day, time, room and enrolment." }
+    ],
+    shotsCaption: "From the top: a sessional tutor's dashboard and weekly availability grid; a course coordinator's view of their course's allocation; and a school administrator loading central's timetable. Screenshots are from the live Hub, with every person's name replaced by a fictional one.",
     techTitle: 'A production-grade TypeScript monorepo',
     tech: [
-      { label:'Frontend', value:'Next.js 15 (App Router) — SSR, file-based routing, TypeScript-first' },
-      { label:'Backend', value:'Express.js + Prisma ORM — clean REST, type-safe queries; PostgreSQL 16' },
-      { label:'Optimiser', value:'Python 3.13 + FastAPI + OR-Tools CP-SAT — private internal network only' },
-      { label:'Jobs & email', value:'BullMQ + Redis for async solver runs; Resend for transactional offers' },
-      { label:'Security', value:'bcrypt, JWT in httpOnly cookies, role-based access, row-level isolation, Zod, Helmet, audit log' },
-      { label:'Deploy', value:'Railway monorepo — the optimiser is unreachable from the public internet' }
+      { label:'Frontend', value:'Next.js (App Router), TypeScript, Tailwind; works on a phone' },
+      { label:'Backend', value:'Express + Prisma ORM, PostgreSQL' },
+      { label:'Optimiser', value:'Python + FastAPI + OR-Tools CP-SAT, on a private network only' },
+      { label:'Jobs & email', value:'BullMQ + Redis for optimiser runs; Amazon SES for offers, with templates each school can edit' },
+      { label:'Security', value:'Amazon Cognito sign-in with an authenticator app, six role levels from tutor to university admin, audit log' },
+      { label:'Deploy', value:'AWS in Sydney: ECS Fargate behind CloudFront, released through CodePipeline' },
+      { label:'Testing', value:'About 190 end-to-end tests across every role, desktop and phone, must pass before each release' }
     ]
   },
 
@@ -496,7 +513,7 @@ const DATA = {
 };
 
 const SLUGS = ['augmenti','negotiate','3am-tutor','meridian','tutor','ai-flow-studio','cadence','book'];
-const TAB_NAMES = { augmenti:'Augmenti', negotiate:'NEGOTIATE', '3am-tutor':'3AM Tutor', meridian:'Operation Meridian', tutor:'Tutor Scheduling', 'ai-flow-studio':'AI Flow Studio', cadence:'Cadence', book:'Book' };
+const TAB_NAMES = { augmenti:'Augmenti', negotiate:'NEGOTIATE', '3am-tutor':'3AM Tutor', meridian:'Operation Meridian', tutor:'Teaching Allocation Hub', 'ai-flow-studio':'AI Flow Studio', cadence:'Cadence', book:'Book' };
 const STATUS_TONES = { live:['rgba(123,224,160,.14)','#7be0a0'], dev:['rgba(255,177,82,.14)','#ffce8a'], archived:['rgba(201,179,214,.16)','#c9b3d6'] };
 
 let currentSlug = 'augmenti';
