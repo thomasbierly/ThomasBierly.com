@@ -182,7 +182,7 @@ const DATA = {
     actions: [{ label:'Visit augmenti.io ↗', href:'https://augmenti.io', external:true }],
     problem: [
       "Almost every organisation has been taught the Double Diamond. Very few teams actually run one. Within twenty minutes of being handed a problem somebody proposes a solution, the room latches onto it, and the remaining phases quietly become a justification for a decision taken before anyone understood the problem.",
-      "What prevents that is a facilitator — someone whose entire job, for the first half of the process, is to say not yet. Facilitators are expensive and there is never one per team, so the framework gets taught, the workshop happens once, and the discipline evaporates the moment the room empties.",
+      "What prevents that is a facilitator: someone whose entire job, for the first half of the process, is to say not yet. Facilitators are expensive and there is never one per team, so the framework gets taught, the workshop happens once, and the discipline evaporates the moment the room empties.",
       "Augmenti puts a facilitator in every phase of every team's process, and makes the discipline structural rather than a matter of willpower. Each agent is defined by its refusals as much as its instructions. The team can push as hard as it likes; holding the phase is the agent's entire job."
     ],
     howTitle: 'One agent per phase, and a handoff between them',
@@ -190,14 +190,14 @@ const DATA = {
       { n:1, title:'Pick a playbook', text:'Six tracks share one engine: the Double Diamond, IDEO Human-Centred Design, a business strategy suite running PESTEL into SWOT into TOWS, and Porter\'s Five Forces or SWOT/TOWS on their own. A track is configuration rather than a separate product.' },
       { n:2, title:'The phase agent holds the line', text:'Discover explores and surfaces tensions but never names the problem. Define demands evidence for every claim and never generates a solution. Develop refuses to evaluate ideas before there are enough of them. Deliver will not reopen the problem, and keeps asking how you intend to test that.' },
       { n:3, title:'Talking to it fills the board', text:'Every agent response ends with a structured block naming which canvas the team now needs and what belongs on it. The conversation produces artefacts rather than a transcript somebody has to write up afterwards.' },
-      { n:4, title:'The workspace changes to suit', text:'Over forty canvas tools — empathy and stakeholder maps, affinity clusters, How Might We builders, concept cards, dot voting, two-by-two matrices, service blueprints, business model and pitch canvases — and the workspace switches to whichever the phase has called for.' },
+      { n:4, title:'The workspace changes to suit', text:'There are over forty canvas tools, from empathy and stakeholder maps and affinity clusters to How Might We builders, concept cards, dot voting, two-by-two matrices, service blueprints, and business model and pitch canvases. The workspace switches to whichever one the phase has called for.' },
       { n:5, title:'The orchestrator carries it forward', text:'A separate agent runs only at phase boundaries, compressing everything the team produced into a structured brief for the next phase. It never speaks to the team directly; its only job is that the next agent inherits the work rather than starting cold.' }
     ],
     featuresTitle: 'The discipline is the product',
     features: [
       { icon:'⛔', color:'#A78BFA', title:'Defined by their refusals', text:'What each agent must not do is written into its prompt alongside what it should. A single model across all four phases would drift toward being helpful, which in this context means solving the problem before it has been understood.' },
       { icon:'◑', color:'#8B5CF6', title:'A team in one room', text:'One real-time channel per team: streamed responses, artefacts appearing for everyone as they are created, live presence and cursors. The board is shared rather than screenshared.' },
-      { icon:'▦', color:'#7C3AED', title:'Forty-plus canvas tools', text:'Each one a real working surface rather than a picture of a framework — the affinity cluster can be dragged, the dot vote counts, the two-by-two places things where the team put them.' },
+      { icon:'▦', color:'#7C3AED', title:'Forty-plus canvas tools', text:'Each one is a real working surface rather than a picture of a framework. The affinity cluster can be dragged, the dot vote counts, and the two-by-two places things where the team put them.' },
       { icon:'⚙', color:'#6D28D9', title:'Six playbooks, one engine', text:'Tracks are configuration, not forks. A new framework is a config entry and a prompt, so the platform is not locked to the methodology it launched with.' },
       { icon:'◎', color:'#4fd6c2', title:'Built for teams, not classrooms', text:'Deliberately neutral throughout: teams, participants and facilitators rather than students, learners and teachers. These frameworks belong to practice, and the language should not decide who is allowed to use them.' },
       { icon:'≈', color:'#ffb152', title:'It remembers the session', text:'Artefacts are injected as structured state rather than replayed as chat, and a summary is written when a session ends. A team returning on Thursday does not have to re-explain Tuesday.' }
@@ -205,12 +205,12 @@ const DATA = {
     shots: ['The split workspace','A phase canvas','Facilitator view'],
     techTitle: 'Three services, one monorepo',
     tech: [
-      { label:'Frontend', value:'React 18 + TypeScript, Zustand, Radix UI, Socket.io-client — agent panel beside a workspace canvas that switches per phase' },
+      { label:'Frontend', value:'React 18 + TypeScript, Zustand, Radix UI and Socket.io-client, with the agent panel beside a workspace canvas that switches per phase' },
       { label:'App server', value:'Node 20 + Express 5 with Socket.io, Drizzle ORM' },
       { label:'AI service', value:'Python 3.12 + FastAPI on the Anthropic SDK, running Claude Sonnet' },
       { label:'Data', value:'PostgreSQL 16 for teams, artefacts and transcripts; Redis 7 for cache and queue' },
       { label:'Agents', value:'Twelve phase prompts plus an orchestrator, spread across six playbooks' },
-      { label:'Real-time', value:'One channel per team — token streaming, artefact sync, presence and cursor positions' },
+      { label:'Real-time', value:'One channel per team, carrying token streaming, artefact sync, presence and cursor positions' },
       { label:'Access', value:'Invite-only registration with email verification, short-lived access tokens and refresh cookies, four roles from member to admin' },
       { label:'Research', value:'Published as <a href="https://doi.org/10.1080/08956308.2026.2705124" target="_blank" rel="noopener">AI Agents in the Double Diamond</a>, <em>Research-Technology Management</em> (2026)' }
     ]
@@ -219,43 +219,43 @@ const DATA = {
   'negotiate': {
     name: 'NEGOTIATE',
     fullName: 'Negotiation-based Evaluation through Grounded, Oral Tasks for Integrity, Authenticity and Transferable Education',
-    tagline: 'A 30-minute oral defence in front of a four-person executive panel. The student presents, then opens the floor, and is pressed on the claims they actually made — scored against a formal rubric the examiner can audit line by line.',
+    tagline: 'A 30-minute oral defence in front of a four-person executive panel. The student presents, then opens the floor, and is pressed on the claims they actually made. It is scored against a formal rubric the examiner can audit line by line.',
     statusLabel: 'Live', tone: 'live',
     problem: [
-      "Written assessment has stopped proving what it used to. When anyone can produce a competent essay in a minute, the artefact no longer evidences the understanding behind it — which leaves the oral defence, always the most rigorous option on the list, as one of the few that still holds. It tests whether a student understands their own work, not whether they can produce it or commission it.",
-      "The problem is scale. A genuine 30-minute defence with 120 students is 60 hours of tutor time before prep, marking and rescheduling — and consistency is structural, since different examiners probe different things at different depths.",
-      "NEGOTIATE solves both without giving up rigour. The same four-person panel questions every student, with equal intensity, on their specific work. The examiner's job moves from conducting the defence to moderating the result — reading the transcript, checking the reasoning behind each band, and adjusting where judgement is genuinely required. That is the saving: the human effort goes where it changes the outcome, instead of into running the same conversation 120 times."
+      "Written assessment has stopped proving what it used to. When anyone can produce a competent essay in a minute, the artefact no longer evidences the understanding behind it. That leaves the oral defence, always the most rigorous option on the list, as one of the few that still holds. It tests whether a student understands their own work, not whether they can produce it or commission it.",
+      "The problem is scale. A genuine 30-minute defence with 120 students is 60 hours of tutor time before prep, marking and rescheduling. Consistency is a structural problem too, since different examiners probe different things at different depths.",
+      "NEGOTIATE solves both without giving up rigour. The same four-person panel questions every student, with equal intensity, on their specific work. The examiner's job moves from conducting the defence to moderating the result: reading the transcript, checking the reasoning behind each band, and adjusting where judgement is genuinely required. That is the saving: the human effort goes where it changes the outcome, instead of into running the same conversation 120 times."
     ],
     howTitle: 'How a defence runs',
     howItWorks: [
-      { n:1, title:'Upload the work', text:'The system reads the submission and extracts a structured brief — the specific claims, timelines, assumptions and ethical framings the panel will hold this student to.' },
+      { n:1, title:'Upload the work', text:'The system reads the submission and extracts a structured brief: the specific claims, timelines, assumptions and ethical framings the panel will hold this student to.' },
       { n:2, title:'Present to the panel', text:'A CFO, Head of People & Culture, COO and CIO are in the room together. The session locks to full screen and begins recording from the first minute; the student walks the panel through their slides, then hands over.' },
       { n:3, title:'Open the floor', text:'Each executive presses from their own vantage point, on what this student actually argued, and follows up when an answer restates the proposal instead of answering the question.' },
-      { n:4, title:'Graded against the rubric', text:'The transcript is scored on five criteria, each band carrying a written justification for why it was awarded — so the mark arrives as an argument rather than a number.' },
+      { n:4, title:'Graded against the rubric', text:'The transcript is scored on five criteria, each band carrying a written justification for why it was awarded, so the mark arrives as an argument rather than a number.' },
       { n:5, title:'Reviewed and moderated', text:'The examiner opens the session with everything needed to check it on one screen: the recording cued to any line of the transcript, who spoke when, and the reasoning behind each proposed band. They adjust what they disagree with, and the moderated mark is what is released.' }
     ],
     featuresTitle: 'Designed to be defensible',
     features: [
-      { icon:'◎', color:'#ffb152', title:'It knows your work', text:'A structured brief from each submission is injected into every prompt — so the push-back is on what this student argued, not on the topic in general.' },
+      { icon:'◎', color:'#ffb152', title:'It knows your work', text:'A structured brief from each submission is injected into every prompt, so the push-back is on what this student argued, not on the topic in general.' },
       { icon:'4', color:'#4fd6c2', title:'Four executives, one room', text:'The numbers, the workforce, operations and data governance are all represented at once. A student cannot prepare one good answer and survive the hour on it.' },
-      { icon:'☰', color:'#ff7a6b', title:'A rubric that shows its working', text:'Clarity of argument, depth of analysis, use of evidence, critical thinking under questioning and professional communication — each with a written band descriptor and a justification for the band awarded, so a mark can be argued with rather than only received.' },
-      { icon:'§', color:'#7aa2f7', title:'Questions tagged to the theory', text:'Each challenge carries the framework it is testing — appropriability and complementary assets, say. Afterwards a student can see which piece of theory they failed to apply, not merely that they scored a P.' },
-      { icon:'◉', color:'#ff9e64', title:'Proctored while it runs', text:'The defence is locked to full screen, with gaze, posture and other biometric signals tracked against the session timeline. They do two jobs: judging whether a student is genuinely present and engaged while presenting — part of what an oral defence exists to assess — and catching someone reading their answers off a phone or a second monitor.' },
-      { icon:'⚠', color:'#c79bff', title:'Evidence that holds up', text:'A mark has to survive being questioned. The recording, the transcript and every flag — a possible integrity concern, or a point where the AI was unsure of its own reading — stay attached to the result with timestamps, so any part of it can be checked later.' }
+      { icon:'☰', color:'#ff7a6b', title:'A rubric that shows its working', text:'Clarity of argument, depth of analysis, use of evidence, critical thinking under questioning and professional communication. Each has a written band descriptor and a justification for the band awarded, so a mark can be argued with rather than only received.' },
+      { icon:'§', color:'#7aa2f7', title:'Questions tagged to the theory', text:'Each challenge carries the framework it is testing, such as appropriability and complementary assets. Afterwards a student can see which piece of theory they failed to apply, not merely that they scored a P.' },
+      { icon:'◉', color:'#ff9e64', title:'Proctored while it runs', text:'The defence is locked to full screen, with gaze, posture and other biometric signals tracked against the session timeline. They do two jobs. They judge whether a student is genuinely present and engaged while presenting, which is part of what an oral defence exists to assess, and they catch anyone reading their answers off a phone or a second monitor.' },
+      { icon:'⚠', color:'#c79bff', title:'Evidence that holds up', text:'A mark has to survive being questioned. The recording, the transcript and every flag stay attached to the result with timestamps, whether that flag is a possible integrity concern or a point where the AI was unsure of its own reading. Any part of it can be checked later.' }
     ],
     shots: [
       { img:'negotiate/defence-session.png',
-        alt:'The live defence: a four-person executive panel — CFO, Head of People & Culture, COO and CIO — watching the student present slide 1 of 17, with the student\'s own webcam feed alongside them and a recording timer running.' },
+        alt:'The live defence: a four-person executive panel (CFO, Head of People & Culture, COO and CIO) watching the student present slide 1 of 17, with the student\'s own webcam feed alongside them and a recording timer running.' },
       { img:'negotiate/marking-review.png',
         alt:'The marking view: the session recording beside the slide as presented, a speaker timeline showing who talked when, and the transcript with each question tagged to the framework it tests. The right-hand column shows an AI provisional score of 11.8 out of 20 with its reasoning, the band descriptors, and the moderator\'s own mark for each criterion beside the one the AI proposed.' }
     ],
-    shotsCaption: 'Above: the defence itself. The student walks a four-person executive panel through their slides, then opens the floor and is questioned on their own claims. Below: what the marker sees afterwards — the recording, a speaker timeline, the transcript with every question tagged to the framework it is testing, and the AI\'s provisional mark with the reasoning behind it, which the examiner accepts or overrides criterion by criterion.',
+    shotsCaption: 'Above is the defence itself. The student walks a four-person executive panel through their slides, then opens the floor and is questioned on their own claims. Below is what the marker sees afterwards: the recording, a speaker timeline, the transcript with every question tagged to the framework it is testing, and the AI\'s provisional mark with the reasoning behind it, which the examiner accepts or overrides criterion by criterion.',
     techTitle: 'Five AI & cloud services, one live session',
     tech: [
-      { label:'Frontend', value:'React 18 + Vite + React Three Fiber (Three.js) — WebGL avatars, Tailwind UI' },
+      { label:'Frontend', value:'React 18, Vite and React Three Fiber (Three.js) for the WebGL avatars, with Tailwind UI' },
       { label:'3D avatars', value:'ReadyPlayerMe GLB + morph-target visemes, driven by Polly Speech Marks' },
-      { label:'Interview AI', value:'Claude Sonnet — reads the brief + full history, generates each executive response' },
-      { label:'Grading AI', value:'Claude Opus — scores the transcript against the five-criterion rubric and writes the justification for each band' },
+      { label:'Interview AI', value:'Claude Sonnet, which reads the brief and full history and generates the response for each executive' },
+      { label:'Grading AI', value:'Claude Opus, which scores the transcript against the five-criterion rubric and writes the justification for each band' },
       { label:'Proctoring', value:'Enforced full-screen session; gaze, posture and other biometric signals recorded against the timeline, feeding both the presentation criterion and the integrity flags' },
       { label:'Moderation', value:'Recording, transcript and the reasoning for every band on one screen; the examiner adjusts and releases the mark' },
       { label:'Speech', value:'Amazon Transcribe (streaming ASR) + Polly Neural (AU voices) for TTS + lip-sync' },
@@ -267,27 +267,27 @@ const DATA = {
   '3am-tutor': {
     name: '3AM Tutor',
     fullName: '',
-    tagline: 'A digital-twin tutor for accounting and business mathematics — grounded in Flow Theory and Growth Mindset pedagogy, built to teach rather than answer.',
+    tagline: 'A digital-twin tutor for accounting and business mathematics, grounded in Flow Theory and Growth Mindset pedagogy and built to teach rather than answer.',
     statusLabel: 'Live · Available via VAL', tone: 'live',
     problem: [
-      "Students don't panic at convenient times. The week before an assessment, the anxiety about discounted cash flows or break-even analysis arrives at 11pm, or 1am, or 3am — well after tutors are reachable, and right when generic AI tools are most dangerous.",
-      "The default response is one of two bad options: give up, or paste the question into ChatGPT and submit whatever comes back. The first leaves the gap intact. The second is misconduct — and copying an answer is not the same as understanding it.",
+      "Students don't panic at convenient times. The week before an assessment, the anxiety about discounted cash flows or break-even analysis arrives at 11pm, or 1am, or 3am. That is well after tutors are reachable, and right when generic AI tools are most dangerous.",
+      "The default response is one of two bad options: give up, or paste the question into ChatGPT and submit whatever comes back. The first leaves the gap intact. The second is misconduct, and copying an answer is not the same as understanding it.",
       "Lecturers face the mirror image: the same concepts generate the same late-night questions, semester after semester. Answering them individually is unsustainable; leaving students without support is worse."
     ],
     howTitle: 'Teaching, not answering',
     howItWorks: [
       { n:1, title:'The student arrives with a problem', text:"A concept they don't understand, a worked example they can't follow, or a practice question they're stuck on." },
-      { n:2, title:'It diagnoses before it teaches', text:'Rather than explaining immediately, it asks questions to locate exactly where understanding breaks down — the Flow Framework in practice.' },
+      { n:2, title:'It diagnoses before it teaches', text:'Rather than explaining immediately, it asks questions to locate exactly where understanding breaks down. This is the Flow Framework in practice.' },
       { n:3, title:'Explanations are scaffolded, not delivered', text:'Problems are broken into steps; the student attempts each one and gets targeted feedback. The answer is never simply given.' },
       { n:4, title:'The student does the work', text:'Worked examples are walked through collaboratively. The tutor models the reasoning, then asks the student to apply it. Progress requires participation.' }
     ],
     featuresTitle: 'Grounded in real pedagogy',
     features: [
       { icon:'?', color:'#ffb152', title:'Socratic, not encyclopaedic', text:'Responds to questions with questions that guide the student toward their own answer.' },
-      { icon:'~', color:'#4fd6c2', title:'Flow Framework calibration', text:'Tunes difficulty to the edge between boredom and anxiety — the channel where genuine learning happens.' },
-      { icon:'+', color:'#9be07a', title:'Growth Mindset error handling', text:'Wrong answers are treated as data, not verdicts — a question helps the student locate their own error and why it occurred.' },
+      { icon:'~', color:'#4fd6c2', title:'Flow Framework calibration', text:'Tunes difficulty to the edge between boredom and anxiety, the channel where genuine learning happens.' },
+      { icon:'+', color:'#9be07a', title:'Growth Mindset error handling', text:'Wrong answers are treated as data, not verdicts. A question helps the student locate their own error and why it occurred.' },
       { icon:'⛔', color:'#ff7a6b', title:'Architecturally refuses shortcuts', text:'The system prompt is built to refuse direct answer provision and redirect toward the reasoning process.' },
-      { icon:'◐', color:'#c79bff', title:'My digital twin', text:'Built to respond the way I would — high expectations, real interest in where understanding breaks, available when I am not.' }
+      { icon:'◐', color:'#c79bff', title:'My digital twin', text:'Built to respond the way I would, with high expectations and real interest in where understanding breaks, and available when I am not.' }
     ],
     shots: ['Tutoring chat','Scaffolded worked example','Diagnostic prompt'],
     techTitle: 'A digital twin of a teaching approach',
@@ -303,26 +303,26 @@ const DATA = {
   'meridian': {
     name: 'Operation Meridian',
     fullName: '',
-    tagline: 'A semester-long, multi-agent simulation that places future leaders inside the real tensions of AI transformation — where every decision compounds, and consequences are felt rather than discussed.',
+    tagline: 'A semester-long, multi-agent simulation that places future leaders inside the real tensions of AI transformation, where every decision compounds and consequences are felt rather than discussed.',
     statusLabel: 'Live', tone: 'live',
     problem: [
-      "Business schools teach AI transformation through cases that ask students to analyse situations they are not in. The student reads, identifies the theory, writes a recommendation — then the semester ends and no one finds out whether the recommendation was right.",
-      "This is not how consequential decisions are learned. Real decisions are taken under pressure, with incomplete information, while managing stakeholders who want incompatible things — and their effects arrive weeks later, shaped by everything that came before.",
-      "Meridian is built on a different premise: the most important thing a future leader can learn is not the framework, but the experience of navigating it — where decisions have consequences that carry forward, and students must live with what they chose."
+      "Business schools teach AI transformation through cases that ask students to analyse situations they are not in. The student reads, identifies the theory and writes a recommendation. Then the semester ends and no one finds out whether the recommendation was right.",
+      "This is not how consequential decisions are learned. Real decisions are taken under pressure, with incomplete information, while managing stakeholders who want incompatible things, and their effects arrive weeks later, shaped by everything that came before.",
+      "Meridian is built on a different premise: the most important thing a future leader can learn is not the framework, but the experience of navigating it, where decisions have consequences that carry forward and students must live with what they chose."
     ],
     howTitle: 'Meridian Financial Group',
     howItWorks: [
       { n:1, title:'Join the organisation', text:'Students join a fictional ASX-listed firm: A$847M revenue, 2,400 employees, a cost-to-income ratio that makes the board uncomfortable.' },
       { n:2, title:'The mandate', text:'A A$40M Digital Acceleration Fund. The board wants speed and a 15% cost cut; APRA wants governance; the union wants consultation. These cannot all be satisfied at once.' },
       { n:3, title:'Decide, under pressure', text:'Each chapter is a genuine trade-off. Choices move six organisational indicators and set ripple flags that later chapters remember.' },
-      { n:4, title:'The reckoning', text:'Across twelve weeks every major decision is surfaced, indicators are tallied, and students articulate what they would do differently — and why.' }
+      { n:4, title:'The reckoning', text:'Across twelve weeks every major decision is surfaced, indicators are tallied, and students articulate what they would do differently, and why.' }
     ],
     featuresTitle: 'The simulation has memory',
     features: [
-      { icon:'5', color:'#4fd6c2', title:'Five functional roles', text:'HR, Finance, Compliance, Technology and Customer Services — each sees the transformation from one vantage point and must collaborate to see the whole.' },
+      { icon:'5', color:'#4fd6c2', title:'Five functional roles', text:'HR, Finance, Compliance, Technology and Customer Services. Each sees the transformation from one vantage point and must collaborate to see the whole.' },
       { icon:'▮', color:'#ffb152', title:'Six live indicators', text:'Budget Remaining, Staff Trust, Stakeholder Confidence, Regulatory Compliance, AI Performance and Union Relations shift with every decision and persist across the semester.' },
       { icon:'⤳', color:'#ff7a6b', title:'Ripple flags', text:'A rushed mandate in Chapter 1 is referenced by characters in Chapter 6. The organisation behaves like an organisation, not a series of scenarios.' },
-      { icon:'☻', color:'#9be07a', title:'Stakeholders who push back', text:"Claude-powered characters model the CEO, union delegate, compliance head and CTO — each contextualised with the student's decision history." },
+      { icon:'☻', color:'#9be07a', title:'Stakeholders who push back', text:"Claude-powered characters model the CEO, union delegate, compliance head and CTO, each contextualised with the student's decision history." },
       { icon:'✎', color:'#c79bff', title:'Reflection journals', text:'Structured sense-making after each chapter builds the integrative essay that forms the primary assessment artefact.' }
     ],
     shots: [
@@ -332,11 +332,11 @@ const DATA = {
     shotsCaption: 'Chapter 1, "The Mandate". The indicators on the left move with every decision and carry across the semester; the briefing sets out the firm, its finances and the leaders the student will work with; and on the right the Chief Customer Officer presses the student on how a governance committee would avoid rubber-stamping AI decisions.',
     techTitle: 'A full-stack app built for real classroom deployment',
     tech: [
-      { label:'Runtime', value:'Node 18+ with Express — server-rendered chapters, session management, REST API' },
-      { label:'Real-time', value:'Socket.io — group synchronisation where cohort decisions are pooled and compared live' },
-      { label:'AI characters', value:'Anthropic Claude SDK — contextualised with decision history, indicator state and ripple flags' },
-      { label:'Database', value:'PostgreSQL — per-student state as JSONB + an immutable chapter event log for research export' },
-      { label:'Deployment', value:'Railway — containerised, managed Postgres, zero-downtime across semester cohorts' }
+      { label:'Runtime', value:'Node 18+ with Express, serving rendered chapters, session management and a REST API' },
+      { label:'Real-time', value:'Socket.io for group synchronisation, where cohort decisions are pooled and compared live' },
+      { label:'AI characters', value:'Anthropic Claude SDK, contextualised with decision history, indicator state and ripple flags' },
+      { label:'Database', value:'PostgreSQL, holding per-student state as JSONB and an immutable chapter event log for research export' },
+      { label:'Deployment', value:'Railway, containerised with managed Postgres and zero downtime across semester cohorts' }
     ]
   },
 
@@ -394,30 +394,30 @@ const DATA = {
   'ai-flow-studio': {
     name: 'AI Flow Studio',
     fullName: 'A hosted Langflow workspace built for an MBAS masterclass on agentic workflow design, 18 September 2026',
-    tagline: 'A no-code canvas for learning to orchestrate AI. Business students wired eight agents into a working pipeline, using a task they already knew inside out — the industry report — as the fuzzy problem to take apart.',
+    tagline: 'A no-code canvas for learning to orchestrate AI. Business students wired eight agents into a working pipeline, using a task they already knew inside out (the industry report) as the fuzzy problem to take apart.',
     statusLabel: 'Archived', tone: 'archived',
     actions: [{ label:'Guide & flow files →', href:'ai-flow-studio/' }],
     problem: [
-      "Building an agent system used to need an engineer. It doesn't any more. On a visual canvas the person who actually understands the process — the analyst, the risk officer, the marketing lead — can lay out the steps, write the instructions each agent works to, and decide where a human still has to sign off.",
-      "That is what the evening was for, which is also why the brief was an industry report. It's a task every business student already knows cold, so nobody had to work out what a good one looks like — they could judge the output on sight and put their attention on the workflow design instead: decomposing the task, scoping each agent to one job, and building in a check on the result. I ran the hosting, the accounts and the API keys myself, so nobody had to think about infrastructure or what a run was costing."
+      "Building an agent system used to need an engineer. It doesn't any more. On a visual canvas the person who actually understands the process can lay out the steps, write the instructions each agent works to, and decide where a human still has to sign off. That person might be an analyst, a risk officer or a marketing lead.",
+      "That is what the evening was for, which is also why the brief was an industry report. It's a task every business student already knows cold, so nobody had to work out what a good one looks like. They could judge the output on sight and put their attention on the workflow design instead: decomposing the task, scoping each agent to one job, and building in a check on the result. I ran the hosting, the accounts and the API keys myself, so nobody had to think about infrastructure or what a run was costing."
     ],
     howTitle: 'Eight agents, each with one job and one handoff',
     howItWorks: [
       { n:'IN', title:'You type the brief', text:'A Chat Input node takes the company, the industry, and one specific, decision-shaped strategic question the report has to answer. The narrower the question, the better everything downstream behaves.' },
-      { n:1, title:'Scoping', text:'Turns the brief into a research plan: exactly what evidence each of the five forces needs, and what to establish about the company itself. It is explicitly forbidden from analysing anything — the first lesson in keeping an agent in its lane.' },
+      { n:1, title:'Scoping', text:'Turns the brief into a research plan: exactly what evidence each of the five forces needs, and what to establish about the company itself. It is explicitly forbidden from analysing anything, which is the first lesson in keeping an agent in its lane.' },
       { n:2, title:'Research', text:'An Agent node with a web search tool works through that plan, tags every fact with its source URL, and marks anything it cannot find as OPEN rather than filling the gap with plausible text.' },
-      { n:3, title:'Five Forces', text:'Rates each force High, Medium or Low, with a rationale that cites the specific findings behind it — or declares the evidence insufficient and says so.' },
+      { n:3, title:'Five Forces', text:'Rates each force High, Medium or Low, with a rationale that cites the specific findings behind it, or declares the evidence insufficient and says so.' },
       { n:4, title:'SWOT', text:'Strengths and weaknesses from the internal findings, opportunities and threats from the Five Forces ratings. Every item has to name what it was drawn from, so a claim can be traced back through the pipeline.' },
-      { n:5, title:'TOWS', text:'Crosses the SWOT quadrants into concrete strategic options — SO, WO, ST, WT — then ranks the top three against the question the student actually asked in the brief.' },
+      { n:5, title:'TOWS', text:'Crosses the SWOT quadrants into concrete strategic options (SO, WO, ST and WT), then ranks the top three against the question the student actually asked in the brief.' },
       { n:6, title:'Drafting', text:'Writes the report from stages 3–5 only, with three tables and a sources list, tagging anything unsupported as [UNSOURCED] instead of dressing it up.' },
       { n:7, title:'Critique', text:'A reviewer agent scores the draft against a six-point rubric and returns PASS or REVISE plus a fix list. An If-Else node reads the verdict and picks a branch.' },
-      { n:8, title:'Revision, then over to you', text:'REVISE sends the draft and the fix list to a revision agent, then to a second critique. That verdict does not gate anything — it is printed at the end of the report as reviewer notes. One revision is the deliberate cap: rather than let the system grind away at its own work, it stops and hands you what the reviewer still objects to, so the call on whether the report is good enough is a person\'s.' },
+      { n:8, title:'Revision, then over to you', text:'REVISE sends the draft and the fix list to a revision agent, then to a second critique. That verdict does not gate anything. It is printed at the end of the report as reviewer notes. One revision is the deliberate cap: rather than let the system grind away at its own work, it stops and hands you what the reviewer still objects to, so the call on whether the report is good enough is a person\'s.' },
       { n:'OUT', title:'Export', text:'A custom Export Report node turns the final Markdown into a .docx and a .pdf and returns download links in the Playground. Only the branch that actually ran produces a file.' }
     ],
     featuresTitle: 'What the build actually teaches',
     features: [
       { icon:'◫', color:'#ffb152', title:'Decomposition', text:'Breaking a fuzzy task into discrete steps an agent can do well, instead of one enormous prompt that tries to do all of it at once and does none of it reliably.' },
-      { icon:'◎', color:'#4fd6c2', title:'Specialisation', text:'Writing instructions narrow enough to keep each agent in its lane — and seeing what happens to the report when a stage is allowed to wander outside it.' },
+      { icon:'◎', color:'#4fd6c2', title:'Specialisation', text:'Writing instructions narrow enough to keep each agent in its lane, and seeing what happens to the report when a stage is allowed to wander outside it.' },
       { icon:'→', color:'#9be07a', title:'Orchestration', text:'Passing structured output between stages so later work builds on earlier work, and every claim in the finished report can be walked back to the finding it came from.' },
       { icon:'✓', color:'#ff7a6b', title:'Quality control', text:'A reviewer agent, a pass/revise gate and a hard stop, so the system improves its own output without looping forever or quietly burning money.' },
       { icon:'?', color:'#c79bff', title:'Judgement about limits', text:'Watching where the agents mark evidence as missing rather than inventing it, and working out from there what still needs a person.' }
@@ -426,16 +426,16 @@ const DATA = {
       { img:'ai-flow-studio/langflow-canvas.png',
         alt:'The Langflow canvas showing the back half of the Industry Report pipeline: drafting inputs feeding a drafting model, a critique template and critique model, a PASS or REVISE conditional router, an export node and a revision template, all connected by curved edges.' }
     ],
-    shotsCaption: 'The back half of the pipeline as students saw it: drafting, critique, the PASS/REVISE router, revision, and the Export Report node that produced the Word and PDF files. Everyone started from a canvas with these nodes placed but nothing connected and no prompts written — the wiring and the instructions were the work.',
+    shotsCaption: 'The back half of the pipeline as students saw it: drafting, critique, the PASS/REVISE router, revision, and the Export Report node that produced the Word and PDF files. Everyone started from a canvas with these nodes placed but nothing connected and no prompts written. The wiring and the instructions were the work.',
     techTitle: 'One Langflow instance, an account each, two custom components',
     tech: [
-      { label:'Canvas', value:'Langflow, self-hosted on Railway with Postgres — a real account per student, nothing to install' },
+      { label:'Canvas', value:'Langflow, self-hosted on Railway with Postgres, giving each student a real account and nothing to install' },
       { label:'Models', value:'Claude Sonnet at every stage; Claude Haiku behind the search component' },
       { label:'Search', value:"Custom Web Research component wrapping Claude's server-side web search tool" },
       { label:'Export', value:'Custom Export Report component posting Markdown to a small renderer that returned .docx and .pdf links' },
       { label:'Key handling', value:'One instructor key held as a server-side credential; students never saw or entered a key' },
       { label:'Per run', value:'5–7 minutes, ~1,000 words with three tables and a cited sources list' },
-      { label:'Why archived', value:'Public sign-up running on a personal API key — happy to redeploy it internally on request' },
+      { label:'Why archived', value:'Public sign-up running on a personal API key. Happy to redeploy it internally on request' },
       { label:'Event', value:'<a href="https://campus.hellorubric.com/?s=10699&amp;eid=77684" target="_blank" rel="noopener">MBAS masterclass</a>, 18 September 2026' }
     ]
   },
@@ -447,14 +447,14 @@ const DATA = {
     statusLabel: 'Live · In daily use', tone: 'live',
     problem: [
       "Working from home was meant to make the job easier to fit around a life. What it removed was the moment the day ends: leaving campus used to do that, and now it only changes the room you work in. So marking happens on a Sunday, a student gets an answer at eleven at night, and a forgotten grant deadline ambushes you in the shower.",
-      "And it is not one job. In a single semester it is course coordination, students who need an answer today, research collaborators in other timezones, public engagement, and the university's own administrative machinery — each with its own deadlines, none of them aware of the others. No individual piece is hard. Holding all of it in your head at once, for fifteen weeks, is what wears people down.",
-      "What I wanted was not a smarter list. It was someone to run the schedule: to know what is genuinely due, to turn \"write the ethics application\" into four sittings that fit between teaching, to spot the free ninety minutes on Thursday, and to mention the thing I said I would follow up on and have not. Everything gets done, most of it on time — and an evening off stops feeling like something I am getting away with."
+      "And it is not one job. In a single semester it is course coordination, students who need an answer today, research collaborators in other timezones, public engagement, and the university's own administrative machinery, each with its own deadlines and none of them aware of the others. No individual piece is hard. Holding all of it in your head at once, for fifteen weeks, is what wears people down.",
+      "What I wanted was not a smarter list. It was someone to run the schedule: to know what is genuinely due, to turn \"write the ethics application\" into four sittings that fit between teaching, to spot the free ninety minutes on Thursday, and to mention the thing I said I would follow up on and have not. Everything gets done, most of it on time, and an evening off stops feeling like something I am getting away with."
     ],
     howTitle: 'What it actually does with a week',
     howItWorks: [
-      { n:1, title:'Takes the brief', text:'I describe a new commitment in a sentence — a paper, a course, a review, a grant. The first thing it writes down is what finished actually looks like, which is usually the part I have not thought through yet.' },
+      { n:1, title:'Takes the brief', text:'I describe a new commitment in a sentence: a paper, a course, a review, a grant. The first thing it writes down is what finished actually looks like, which is usually the part I have not thought through yet.' },
       { n:2, title:'Breaks it into real work', text:'The project becomes tasks of one sitting each, thirty minutes to three hours, each with an honest estimate. Anything larger gets split, because a three-day task is something you avoid rather than something you start.' },
-      { n:3, title:'Reads the week I actually have', text:'Teaching, meetings, travel time, the days already gone — the plan is built against the real calendar rather than the one I would like to have had.' },
+      { n:3, title:'Reads the week I actually have', text:'The plan is built against the real calendar, with its teaching, meetings, travel time and days already gone, rather than the one I would like to have had.' },
       { n:4, title:'Puts the work in the gaps', text:'It proposes focus blocks in genuinely free time inside working hours, caps how much lands in any one day, and leaves buffer either side. I see the whole proposed week, move what I do not like, and say yes. Nothing is booked until I do.' },
       { n:5, title:'Chases what slips', text:'Deadlines closing in, a project that has not moved in three weeks, a commitment I flagged for follow-up and never came back to. It raises them where I am already looking rather than waiting to be asked.' }
     ],
@@ -474,8 +474,8 @@ const DATA = {
       { label:'Priorities', value:'Deadline proximity, project priority, how long something has sat untouched, and explicit next actions' },
       { label:'Calendar', value:'Reads the local Outlook application directly and read-only; anything that would write waits for approval' },
       { label:'Interface', value:'A widget docked to the monitor edge through a Windows AppBar, so maximised windows stop at the strip' },
-      { label:'Away from the desk', value:'The same view on phone and laptop, over a private Tailscale connection back to my own machine — there is no public address and nothing for anyone else to find' },
-      { label:'Engine', value:'Python, standard library only — no third-party dependencies to install, audit or keep patched' },
+      { label:'Away from the desk', value:'The same view on phone and laptop, over a private Tailscale connection back to my own machine. There is no public address and nothing for anyone else to find' },
+      { label:'Engine', value:'Python, standard library only, so there are no third-party dependencies to install, audit or keep patched' },
       { label:'Record', value:'Project files are plain text under version control, so every change is visible and recoverable' }
     ]
   },
@@ -484,15 +484,15 @@ const DATA = {
   'book': {
     name: 'Leading AI & Workforce Transformation',
     fullName: 'A book in progress',
-    tagline: 'Bridging the gap between technical AI literacy, HR strategy and leadership practice — a practical guide for leaders navigating workforce transformation.',
+    tagline: 'A practical guide for leaders navigating workforce transformation, bridging the gap between technical AI literacy, HR strategy and leadership practice.',
     statusLabel: 'In Progress', tone: 'dev',
     problem: [
       "Most writing on AI and work sits at one of two extremes: technical material that assumes a background most leaders don't have, or strategy commentary that never touches how transformation actually lands on people and processes.",
-      "Leaders responsible for workforce transformation are left without a practical bridge between the technology, the HR strategy, and the leadership practice required to do it well — and humanely."
+      "Leaders responsible for workforce transformation are left without a practical bridge between the technology, the HR strategy, and the leadership practice required to do it well, and humanely."
     ],
     howTitle: 'What the book sets out to do',
     howItWorks: [
-      { n:1, title:'Build genuine AI literacy', text:'Enough technical understanding for leaders to make good decisions — without requiring them to become engineers.' },
+      { n:1, title:'Build genuine AI literacy', text:'Enough technical understanding for leaders to make good decisions, without requiring them to become engineers.' },
       { n:2, title:'Connect it to HR strategy', text:'How AI capability intersects with workforce planning, role redesign, reskilling and the human cost of restructuring.' },
       { n:3, title:'Translate to leadership practice', text:'Practical guidance grounded in fifteen years of leading enterprise transformations and the retrenchments that came with them.' }
     ],
@@ -500,14 +500,14 @@ const DATA = {
     features: [
       { icon:'AI', color:'#4fd6c2', title:'Technical AI literacy', text:'A leader-level understanding of what AI can and cannot do, and where the real risks sit.' },
       { icon:'HR', color:'#ffb152', title:'Workforce strategy', text:'Role redesign, reskilling and the structural patterns automation creates across industries.' },
-      { icon:'♛', color:'#c79bff', title:'Leadership practice', text:'How to lead transformation with rigour and humanity — informed by real M&A and restructuring experience.' }
+      { icon:'♛', color:'#c79bff', title:'Leadership practice', text:'How to lead transformation with rigour and humanity, informed by real M&A and restructuring experience.' }
     ],
     shots: ['Cover concept','Sample chapter'],
     techTitle: 'Details',
     tech: [
-      { label:'Status', value:'In progress — more details coming soon' },
+      { label:'Status', value:'In progress. More details coming soon' },
       { label:'Audience', value:'Leaders navigating AI and workforce transformation' },
-      { label:'Author', value:'Thomas Bierly — RMIT University' }
+      { label:'Author', value:'Thomas Bierly, RMIT University' }
     ]
   }
 };
