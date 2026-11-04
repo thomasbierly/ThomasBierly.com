@@ -89,7 +89,7 @@
 <div class="map">
   <div class="map-h">If you use… <span>you’ll use…</span></div>
   <div class="map-row"><span>Word</span> <span>a Quarto paper: plain text that becomes a PDF or a Word file</span></div>
-  <div class="map-row"><span>SPSS or Stata</span> <span>Python notebooks, written with the agent’s help (R works too)</span></div>
+  <div class="map-row"><span>SPSS or Stata</span> <span>a live notebook (marimo): Python, written with the agent’s help</span></div>
   <div class="map-row"><span>EndNote or Mendeley</span> <span>Zotero, which is free</span></div>
   <div class="map-row"><span>Track Changes</span> <span>the <em>review</em> tab, which shows every change</span></div>
   <div class="map-row"><span>Dropbox and <em>final_v2</em></span> <span>saved versions (Git), backed up to GitHub</span></div>
@@ -243,8 +243,8 @@
 
 <div class="loop">
   <div class="loop-step"><div class="loop-n">1 · work</div><div class="loop-t">Write the software</div><div class="loop-d">with the agent</div></div>
-  <div class="loop-step"><div class="loop-n">2 · run</div><div class="loop-t">Run it</div><div class="loop-d">and look at the data</div></div>
-  <div class="loop-step"><div class="loop-n">3 · work</div><div class="loop-t">Analyse</div><div class="loop-d">in a notebook</div></div>
+  <div class="loop-step"><div class="loop-n">2 · run</div><div class="loop-t">Run it</div><div class="loop-d">and open the notebook</div></div>
+  <div class="loop-step"><div class="loop-n">3 · notebook</div><div class="loop-t">Analyse</div><div class="loop-d">with live results</div></div>
   <div class="loop-step"><div class="loop-n">4 · paper</div><div class="loop-t">Write</div><div class="loop-d">with a live PDF</div></div>
   <div class="loop-step"><div class="loop-n">5 · review</div><div class="loop-t">Check</div><div class="loop-d">every change</div></div>
   <div class="loop-step"><div class="loop-n">6 · git</div><div class="loop-t">Save</div><div class="loop-d">and back up</div></div>
@@ -263,41 +263,40 @@
 
 <p>To open any file yourself, click it in the file list on the left. Right-click in the text for a menu of everyday actions: find a file, search the whole project, show the PDF, show or hide the file list.</p>
 
-<h3 id="run">Run it and look at the data</h3>
-<p>The <em>run</em> tab has a plain terminal on the left for running your software, and a Python console on the right that already knows about your project, so you can load the data and poke at it.</p>
+<h3 id="run">Run it, and open the notebook</h3>
+<p>The <em>run</em> tab has a plain terminal on the left for running your software. On the right it starts your project’s notebooks. Press <kbd>Enter</kbd> there, or right-click in the editor and choose <strong>Open the analysis notebook</strong>, and the notebook opens in its own window beside your workspace, like the PDF preview.</p>
 
 <figure class="ann wide" id="shot-run">
-  <div class="ann-img"><a href="shots/run.webp" target="_blank" rel="noopener"><img src="shots/run.webp" alt="The run tab: a terminal on the left showing the first rows of simulated students, and an IPython console on the right showing summary statistics and correlations" loading="lazy"></a>
-    <span class="pin" style="left:32%;top:17%">1</span><span class="pin" style="left:76%;top:33%">2</span><span class="pin" style="left:76%;top:51%">3</span>
+  <div class="ann-img"><a href="shots/run-notebook.webp" target="_blank" rel="noopener"><img src="shots/run-notebook.webp" alt="The run tab on the left, with a terminal showing simulated students and a message that the notebooks are ready; the analysis notebook open in its own window on the right, showing a data table and a scatter plot" loading="lazy"></a>
+    <span class="pin" style="left:17.8%;top:3%">1</span><span class="pin" style="left:27.5%;top:19%">2</span><span class="pin" style="left:45%;top:30%">3</span><span class="pin" style="left:59%;top:8.4%">4</span>
   </div>
-  <ol class="ann-key"><li>A terminal for running your software. Here it prints the first eight simulated students, including the new <code>stress</code> column.</li><li>A Python console (IPython) that can import your project&rsquo;s code. Type a line, press <kbd>Enter</kbd>, see the result.</li><li>Quick checks before any formal analysis: here, how sleep, stress and score move together.</li></ol>
-  <figcaption>The <em>run</em> tab</figcaption>
+  <ol class="ann-key"><li>The <em>run</em> tab.</li><li>A terminal for running your software. Here it prints the first eight simulated students, including the new <code>stress</code> column.</li><li>The notebooks for this project. Press <kbd>Enter</kbd> here to open the notebook window again if you close it.</li><li>The notebook, in its own window. It runs as it opens, so you see results straight away.</li></ol>
+  <figcaption>The <em>run</em> tab and the notebook window, side by side</figcaption>
 </figure>
 
-<h3 id="analyse">Analyse in a notebook</h3>
-<p>Analysis lives in notebooks in <code>analysis/</code>. A notebook is one file that mixes three things: notes in plain English, the code that does each step, and the results that code produces. You write it in the editor, often by asking the agent (<em>“add a regression of score on sleep and stress”</em>), and you can run one piece at a time while you explore.</p>
+<h3 id="analyse">Analyse in a live notebook</h3>
+<p>Analysis happens in <a href="https://marimo.io">marimo</a>, a free notebook that runs on your computer. Like any notebook, it mixes notes in plain English, the code for each step, and the results that code produces. Unlike most notebooks, it keeps them in step for you: change a cell and every cell that depends on it runs again, so no table or figure on the page is ever out of date.</p>
 
-<figure class="ann wide" id="shot-notebook">
-  <div class="ann-img"><a href="shots/notebook.webp?v=2" target="_blank" rel="noopener"><img src="shots/notebook.webp?v=2" alt="The analysis notebook open in the editor, showing Python code that fits a line and saves the figure into the paper folder" loading="lazy"></a>
-    <span class="pin" style="left:32.6%;top:7%">1</span><span class="pin" style="left:87%;top:44.7%">2</span><span class="pin" style="left:62.5%;top:50.8%">3</span><span class="pin" style="left:87%;top:71.8%">4</span><span class="pin" style="left:95%;top:85%">5</span>
+<figure class="ann" id="shot-table">
+  <div class="ann-img"><a href="shots/marimo-table.webp" target="_blank" rel="noopener"><img src="shots/marimo-table.webp" alt="The marimo notebook: a heading and short explanation, the code that loads the simulation, and an interactive table of 400 students with a small histogram above each column" loading="lazy"></a>
+    <span class="pin" style="left:49%;top:9%">1</span><span class="pin" style="left:75%;top:28%">2</span><span class="pin" style="left:60%;top:55.5%">3</span><span class="pin" style="left:52%;top:64%">4</span><span class="pin" style="left:26%;top:96.6%">5</span>
   </div>
-  <ol class="ann-key"><li>Notebooks live in <code>analysis/</code>.</li><li>Code: here it runs the project&rsquo;s simulation and saves the data to <code>data/</code>.</li><li>Headings and notes between the code explain the analysis, like a lab notebook.</li><li>This line saves the figure straight into <code>paper/figures/</code>.</li><li>A regression with sleep and stress, in two lines.</li></ol>
-  <figcaption>What you write: the notebook in the editor</figcaption>
+  <ol class="ann-key"><li><strong>Notes</strong>, formatted as headings and text, explain each step.</li><li><strong>The code</strong> that loads the data. It runs the project&rsquo;s own simulation, so the data is always the current version.</li><li>Search, filter, sort and chart the data without writing any code, much like the data view in SPSS.</li><li>A small histogram over each column shows its spread at a glance.</li><li>All 400 students, ten at a time.</li></ol>
+  <figcaption>The data, straight under the code that made it</figcaption>
 </figure>
 
-<p>To run the whole notebook from the start, type this in the <em>run</em> tab’s terminal, or ask the agent to do it:</p>
-<pre><code>uv run quarto render analysis/01-explore.qmd</code></pre>
-<p>You get a report like the one below: every result sits directly under the code that produced it, with your notes around it.</p>
+<p>Further down, the notebook fits the model, saves the figure into <code>paper/figures/</code>, and lets you try out ideas with a slider before you commit to them:</p>
 
-<figure class="ann report" id="shot-report">
-  <div class="ann-img"><a href="shots/notebook-report.webp?v=2" target="_blank" rel="noopener"><img src="shots/notebook-report.webp?v=2" alt="The rendered notebook report: an explanation, the code, a table of means and ranges, a scatter plot of sleep against exam score with a fitted line, and a regression table for sleep and stress" loading="lazy"></a>
-    <span class="pin" style="left:92%;top:18%">1</span><span class="pin" style="left:93%;top:34%">2</span><span class="pin" style="left:76%;top:55.6%">3</span><span class="pin" style="left:72%;top:67.8%">4</span><span class="box" style="left:2.5%;top:94.6%;width:95%;height:2.2%"></span><span class="pin" style="left:35.2%;top:91.8%">5</span>
+<figure class="ann" id="shot-results">
+  <div class="ann-img"><a href="shots/marimo-results.webp" target="_blank" rel="noopener"><img src="shots/marimo-results.webp" alt="The notebook further down: code fitting a regression of exam score on sleep and stress, a table of estimates with confidence intervals, and a slider that changes how much stress costs, with the updated estimates underneath" loading="lazy"></a>
+    <span class="pin" style="left:78%;top:18%">1</span><span class="pin" style="left:21%;top:48.5%">2</span><span class="pin" style="left:45%;top:75.4%">3</span><span class="pin" style="left:60%;top:96.4%">4</span>
   </div>
-  <ol class="ann-key"><li><strong>The code is the record.</strong> It runs the study&rsquo;s simulation and saves the data. Nothing happens off the page, so nobody has to remember which menu options were ticked.</li><li><strong>Results appear under the code that made them</strong>, not in a separate output window.</li><li>The same figure is saved into the paper, so the paper can&rsquo;t show an old version.</li><li>Change the data or the model, render again, and the figure redraws.</li><li><strong>A regression, in one line of code.</strong> Each extra hour of sleep adds about 3.5 points, even after accounting for stress.</li></ol>
-  <figcaption>What you get: the notebook rendered as a report you can send to anyone with a browser</figcaption>
+  <ol class="ann-key"><li>A regression of exam score on sleep and stress, in a few lines of code.</li><li>The results as a table: each extra hour of sleep adds about 3.5 points, even after accounting for stress.</li><li><strong>Try an idea.</strong> Drag the slider to make stress matter more&hellip;</li><li>&hellip;and the simulation, the fit and these numbers update at once.</li></ol>
+  <figcaption>Results, and a &ldquo;what if?&rdquo; slider</figcaption>
 </figure>
 
-<p><strong>Why this beats an output window.</strong> In SPSS or Stata the analysis happens in one place, the results pile up in another, and the explanation lives in your head or a separate document. A notebook keeps all three together, in order, so it reads like a lab notebook that reruns itself. Six months later you can see exactly how every number was made. You can send a supervisor the report and they can check the reasoning without installing anything. Because it’s plain text, the agent can read it as well: ask it to <em>“explain what this notebook does”</em> or <em>“check this analysis for mistakes”</em>, and it works from the same page you do.</p>
+<p><strong>Working with the agent.</strong> Each notebook is an ordinary Python file in <code>analysis/</code>, so the agent can read and change it like any other file. Ask it to <em>“add a regression of score on sleep and stress to the notebook”</em> and the open window updates as soon as it saves, running just the cells that changed. Because the file is plain text, the <em>review</em> tab shows exactly what it changed, line by line.</p>
+<p><strong>Why this beats an output window.</strong> In SPSS or Stata the analysis happens in one place, the results pile up in another, and the explanation lives in your head or a separate document. A notebook keeps all three together, in order, so it reads like a lab notebook that keeps itself up to date. Six months later you can see exactly how every number was made. To run the whole notebook from start to finish, for example after changing the software, type <code>uv run analysis/01-explore.py</code> in the <em>run</em> tab’s terminal, or ask the agent to.</p>
 
 <h3 id="write">Write the paper, with a live PDF</h3>
 <p>The paper is <code>paper/index.qmd</code>, written in Markdown: plain text with a few marks for headings, emphasis and citations. The <em>paper</em> tab rebuilds the PDF every time you save. To see it, right-click in the text and choose <strong>Show PDF preview</strong>. The PDF opens in a window beside the editor, and clicking any sentence in it takes the editor to that sentence.</p>
@@ -346,7 +345,7 @@
 </figure>
 
 <h3 id="iterate">Round again</h3>
-<p>This is where keeping everything in one place pays off. Change the simulation, render the notebook, and the figure in the paper updates with it. Ask the agent to <em>“check that the numbers in the Results section still match the analysis”</em>, and it can, because it can see the code, the data and the paper together.</p>
+<p>This is where keeping everything in one place pays off. Change the simulation and the notebook runs again; the figure it saves into <code>paper/figures/</code> updates in the PDF preview within seconds. Ask the agent to <em>“check that the numbers in the Results section still match the analysis”</em>, and it can, because it can see the code, the data and the paper together.</p>
 
 <!-- ============================================================ -->
 <h2 id="tomorrow">Coming back tomorrow</h2>
@@ -390,6 +389,7 @@
     <tr><td>Close a window</td><td><kbd>Super</kbd> + <kbd>W</kbd></td></tr>
     <tr><td>See every shortcut</td><td><kbd>Super</kbd> + <kbd>K</kbd></td></tr>
     <tr><td>Start or open a project</td><td>Omarchy menu › Projects</td></tr>
+    <tr><td>Open the analysis notebook</td><td>Right-click in the editor › Open the analysis notebook, or <kbd>Enter</kbd> in the <em>run</em> tab</td></tr>
     <tr><td>Switch tabs in a project</td><td><kbd>Alt</kbd> + <kbd>1</kbd> … <kbd>5</kbd>, or click the tab</td></tr>
     <tr><td>Open a file</td><td>Click it in the file list</td></tr>
     <tr><td>Everyday editor actions</td><td>Right-click in the text</td></tr>
