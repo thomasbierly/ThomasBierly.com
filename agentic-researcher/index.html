@@ -254,11 +254,12 @@
 <p>Claude Code sits beside the editor in the <em>work</em> tab. Tell it what you want in plain English. It reads the project, proposes changes and asks before it does anything you haven’t allowed. Here I asked it to add a second factor to the simulation.</p>
 
 <figure class="ann wide" id="shot-agent">
-  <div class="ann-img"><a href="shots/agent.webp?v=3" target="_blank" rel="noopener"><img src="shots/agent.webp?v=3" alt="Claude Code, enlarged to fill the workspace, showing its edit to the simulation in red and green and a note on what it checked" loading="lazy"></a>
-    <span class="pin" style="left:76.5%;top:4.7%">1</span><span class="pin" style="left:13.1%;top:14.4%">2</span><span class="pin" style="left:10.9%;top:84.6%">3</span>
+  <div class="ann-img"><a href="shots/agent.webp?v=4" target="_blank" rel="noopener"><img src="shots/agent.webp?v=4" alt="The work tab: the simulation code in the editor on the left, and Claude Code on the right showing its edit in red and green and what it checked" loading="lazy"></a>
+    
+    <span class="pin" style="left:48.9%;top:12.2%">1</span><span class="pin" style="left:48.9%;top:47%">2</span><span class="pin" style="left:48.9%;top:86.5%">3</span><span class="pin" style="left:26.5%;top:20%">4</span>
   </div>
-  <ol class="ann-key"><li>Your request stays at the top while Claude works.</li><li>Claude shows each edit as it makes it: red lines removed, green lines added. Here it adds a stress score, and a <code>stress_effect</code> setting for how much it costs.</li><li>It says what it checked: a test fit recovers the effects it set. Next it reran the notebook and updated the Methods sentence in the paper, and finished with a summary and a suggested next step.</li></ol>
-  <figcaption>After asking: <em>&ldquo;Add exam stress to the simulation: give each student a stress score from 0 to 10 that lowers their exam score by about one point per unit.&rdquo;</em> The agent&rsquo;s pane is enlarged here to show its work.</figcaption>
+  <ol class="ann-key"><li>Your request, in plain English.</li><li>Claude shows each edit as it makes it: red lines removed, green lines added. Here it adds a stress score, and a <code>stress_effect</code> setting for how much it costs.</li><li>It says what it checked (a test fit recovers the effects it set) and what it will do next: rerun the notebook and update the Methods sentence in the paper.</li><li>The changed file, open in the editor beside it.</li></ol>
+  <figcaption>After asking: <em>&ldquo;Add exam stress to the simulation: give each student a stress score from 0 to 10 that lowers their exam score by about one point per unit.&rdquo;</em></figcaption>
 </figure>
 
 <p>To open any file yourself, click it in the file list on the left. Right-click in the text for a menu of everyday actions: find a file, search the whole project, show the PDF, show or hide the file list.</p>
@@ -267,8 +268,9 @@
 <p>The <em>analysis</em> tab has a terminal on the left, for running your software and any other command-line tool. On the right it starts your project’s notebooks. Press <kbd>Enter</kbd> there, or right-click in the editor and choose <strong>Open the analysis notebook</strong>, and the notebook opens in its own window beside your workspace, like the PDF preview.</p>
 
 <figure class="ann wide" id="shot-run">
-  <div class="ann-img"><a href="shots/analysis-notebook.webp" target="_blank" rel="noopener"><img src="shots/analysis-notebook.webp" alt="The analysis tab on the left, with a terminal showing simulated students and a message that the notebooks are ready; the analysis notebook open in its own window on the right, showing a data table and a scatter plot" loading="lazy"></a>
-    <span class="pin" style="left:23.2%;top:3%">1</span><span class="pin" style="left:29.5%;top:12%">2</span><span class="pin" style="left:40.4%;top:28.8%">3</span><span class="pin" style="left:58.9%;top:8.4%">4</span>
+  <div class="ann-img"><a href="shots/analysis-notebook.webp?v=4" target="_blank" rel="noopener"><img src="shots/analysis-notebook.webp?v=4" alt="The analysis tab on the left, with a terminal showing simulated students and a message that the notebooks are ready; the analysis notebook open in its own window on the right, showing a data table and a scatter plot" loading="lazy"></a>
+    
+    <span class="pin" style="left:18.6%;top:1.6%">1</span><span class="pin" style="left:24.5%;top:9%">2</span><span class="pin" style="left:38%;top:18%">3</span><span class="pin" style="left:65.5%;top:1.6%">4</span>
   </div>
   <ol class="ann-key"><li>The <em>analysis</em> tab.</li><li>A terminal for running your software. Here it prints the first eight simulated students, including the new <code>stress</code> column.</li><li>The notebooks for this project. Press <kbd>Enter</kbd> here to open the notebook window again if you close it.</li><li>The notebook, in its own window. It runs as it opens, so you see results straight away.</li></ol>
   <figcaption>The <em>analysis</em> tab and the notebook window, side by side</figcaption>
@@ -288,11 +290,12 @@
 <p><strong>Ask the agent, watch the notebook.</strong> Because the notebook has its own window, the agent can sit right beside it. Go back to the <em>work</em> tab and ask for the next step in plain English. Each notebook is an ordinary Python file in <code>analysis/</code>, so the agent edits it like any other file, and the open notebook updates as soon as it saves.</p>
 
 <figure class="ann wide" id="shot-live">
-  <div class="ann-img"><a href="shots/agent-notebook.webp" target="_blank" rel="noopener"><img src="shots/agent-notebook.webp" alt="Claude Code on the left explaining the fit it added, with a table of estimates; the notebook on the right showing the new Sleep and stress together section and its results table" loading="lazy"></a>
-    <span class="pin" style="left:11.2%;top:27.9%">1</span><span class="pin" style="left:48.5%;top:45%">2</span><span class="pin" style="left:59%;top:48%">3</span><span class="pin" style="left:60%;top:79.5%">4</span>
+  <div class="ann-img"><a href="shots/agent-notebook.webp?v=4" target="_blank" rel="noopener"><img src="shots/agent-notebook.webp?v=4" alt="Claude Code on the left explaining the fit it added, with a table of estimates; the notebook on the right showing the new Sleep and stress together section and its results table" loading="lazy"></a>
+    
+    <span class="pin" style="left:33.5%;top:22.9%">1</span><span class="pin" style="left:60.6%;top:33%">2</span><span class="pin" style="left:65.3%;top:1.8%">3</span><span class="pin" style="left:65.3%;top:43%">4</span>
   </div>
   <ol class="ann-key"><li>Claude says what it added and how it checked it: it ran the notebook, and marimo&rsquo;s own check passed.</li><li>The results, with each estimate beside the value the simulation was given.</li><li>The new section in the notebook, there as soon as Claude saved the file&hellip;</li><li>&hellip;with the same results as a table you can search and sort. Claude also saved it to <code>paper/tables/</code> for the paper.</li></ol>
-  <figcaption>After asking: <em>&ldquo;Add a fit with both sleep and stress to the notebook, and show the results as a table.&rdquo;</em> The agent&rsquo;s pane fills the workspace here; the notebook window stays where it is when you switch tabs.</figcaption>
+  <figcaption>After asking: <em>&ldquo;Add a fit with both sleep and stress to the notebook, and show the results as a table.&rdquo;</em> The <em>work</em> tab on the left, the notebook window on the right.</figcaption>
 </figure>
 
 <h3 id="data">Your data and databases</h3>
@@ -327,8 +330,9 @@
 <p>The paper is <code>paper/index.qmd</code>, written in Markdown: plain text with a few marks for headings, emphasis and citations. The <em>paper</em> tab rebuilds the PDF every time you save. To see it, right-click in the text and choose <strong>Show PDF preview</strong>. The PDF opens in a window beside the editor, and clicking any sentence in it takes the editor to that sentence.</p>
 
 <figure class="ann wide" id="shot-preview">
-  <div class="ann-img"><a href="shots/preview.webp?v=3" target="_blank" rel="noopener"><img src="shots/preview.webp?v=3" alt="The paper source in the editor on the left and the PDF preview window on the right showing the same sections" loading="lazy"></a>
-    <span class="box" style="left:26.9%;top:46.9%;width:22%;height:6.4%"></span><span class="box" style="left:57.4%;top:82%;width:35%;height:4.6%"></span><span class="pin" style="left:25.6%;top:50%">1</span><span class="pin" style="left:56%;top:84.3%">2</span><span class="pin" style="left:66%;top:17.7%">3</span><span class="pin" style="left:56%;top:73%">4</span>
+  <div class="ann-img"><a href="shots/preview.webp?v=4" target="_blank" rel="noopener"><img src="shots/preview.webp?v=4" alt="The paper source in the editor on the left and the PDF preview window on the right showing the same sections" loading="lazy"></a>
+    
+    <span class="box" style="left:22%;top:34.5%;width:11%;height:9%"></span><span class="box" style="left:67.2%;top:63.4%;width:27.5%;height:3.6%"></span><span class="pin" style="left:21.2%;top:39%">1</span><span class="pin" style="left:66.4%;top:65.2%">2</span><span class="pin" style="left:65%;top:13%">3</span><span class="pin" style="left:66.4%;top:56.5%">4</span>
   </div>
   <ol class="ann-key"><li>The source of the Results section in <code>paper/index.qmd</code>.</li><li>The same paragraph in the PDF. <strong>Click any sentence here</strong> and the editor jumps to it.</li><li>The preview opens in its own window and updates a few seconds after you save.</li><li>The agent&rsquo;s change to the Methods section, already in the PDF.</li></ol>
   <figcaption>Click-to-jump PDF preview</figcaption>
@@ -341,18 +345,20 @@
 <p>By the time you look, the agent’s changes are already in your files. The <em>review</em> tab shows every line that has changed since you last saved a version, whether you changed it or the agent did. You don’t approve changes one at a time. You read them, and if something looks wrong or raises a question, you say so.</p>
 
 <figure class="ann wide" id="shot-review">
-  <div class="ann-img"><a href="shots/review.webp?v=3" target="_blank" rel="noopener"><img src="shots/review.webp?v=3" alt="Hunk in the review tab: each changed line shown twice, the old version in red and the new version in green underneath it" loading="lazy"></a>
-    <span class="pin" style="left:25.6%;top:10.5%">1</span><span class="pin" style="left:26%;top:17%">2</span><span class="pin" style="left:26%;top:23.6%">3</span><span class="pin" style="left:85%;top:55%">4</span>
+  <div class="ann-img"><a href="shots/review.webp?v=4" target="_blank" rel="noopener"><img src="shots/review.webp?v=4" alt="Hunk in the review tab, side by side: the old version of the simulation on the left with removed lines in red, and the new version on the right with added lines in green" loading="lazy"></a>
+    
+    <span class="pin" style="left:21.5%;top:12.5%">1</span><span class="pin" style="left:58.5%;top:40.4%">2</span><span class="pin" style="left:97.4%;top:45%">3</span>
   </div>
-  <ol class="ann-key"><li>Every file that has changed since your last saved version. Click one to jump to it.</li><li>The old version of a line, in red.</li><li>The new version, in green, straight underneath. This is the agent&rsquo;s change to the Methods section. Long lines run off the edge in this picture; press <kbd>w</kbd> to wrap them onto the next line, which the review tab does when it starts (it can split a word at the edge).</li><li>The agent&rsquo;s change to the simulation, line by line.</li></ol>
+  <ol class="ann-key"><li>Every file that has changed since your last saved version. Click one to jump to it.</li><li><strong>On the left, the old version</strong>, with removed lines in red.</li><li><strong>On the right, the new version</strong>, with added lines in green, level with the lines they replace. Here: the agent&rsquo;s change to the simulation.</li></ol>
   <figcaption>The <em>review</em> tab</figcaption>
 </figure>
 
 <p><strong>Leave a note on a line.</strong> In the <em>review</em> tab, move to the line with <kbd>j</kbd> (down) and <kbd>k</kbd> (up), press <kbd>c</kbd>, type your note and press <kbd>Ctrl</kbd> + <kbd>S</kbd> to save it. Then tell the agent in the <em>work</em> tab: <em>“I left a comment in Hunk. Reply to it there.”</em> It reads your note and answers underneath it, on the same line. If you ask for a change, it makes it and the review updates. Press <kbd>a</kbd> to show or hide the agent’s notes.</p>
 
 <figure class="ann wide" id="shot-comments">
-  <div class="ann-img"><a href="shots/review-comments.webp?v=3" target="_blank" rel="noopener"><img src="shots/review-comments.webp?v=3" alt="Hunk in the review tab: a note from the researcher on a changed line of the simulation, asking whether stress should depend on sleep, and the agent&rsquo;s reply underneath it" loading="lazy"></a>
-    <span class="pin" style="left:25.6%;top:14%">1</span><span class="pin" style="left:85.2%;top:59.6%">2</span><span class="pin" style="left:27.5%;top:64%">3</span><span class="pin" style="left:27.5%;top:76%">4</span>
+  <div class="ann-img"><a href="shots/review-comments.webp?v=4" target="_blank" rel="noopener"><img src="shots/review-comments.webp?v=4" alt="Hunk in the review tab: a note from the researcher on a changed line of the simulation, asking whether stress should depend on sleep, and the agent&rsquo;s reply underneath it" loading="lazy"></a>
+    
+    <span class="pin" style="left:20.5%;top:10%">1</span><span class="pin" style="left:98%;top:62%">2</span><span class="pin" style="left:60.3%;top:68%">3</span><span class="pin" style="left:60.3%;top:79%">4</span>
   </div>
   <ol class="ann-key"><li>The star and number show how many notes a file has.</li><li>The line under discussion: the agent&rsquo;s new stress score.</li><li><strong>Your note</strong>: <em>&ldquo;Should stress depend on sleep? Students who sleep less are probably more stressed.&rdquo;</em></li><li><strong>Claude&rsquo;s reply</strong>, on the same line. It explains what the change would mean for the paper&rsquo;s findings, then asks which option you want. Answer in the <em>work</em> tab.</li></ol>
   <figcaption>A conversation about one line of code, inside the review</figcaption>
@@ -362,8 +368,9 @@
 <p>When you’re happy with where the project is, save a version of the whole project (a <em>commit</em>) in the <em>git</em> tab. You can also just ask the agent: <em>“commit this with a short description”</em>. The first time, ask it to <em>“create a private GitHub repository for this project and push it”</em>, and your work is backed up from then on.</p>
 
 <figure class="ann wide" id="shot-git">
-  <div class="ann-img"><a href="shots/git.webp?v=3" target="_blank" rel="noopener"><img src="shots/git.webp?v=3" alt="lazygit in the git tab: changed files on the left, the saved versions below them, and the selected file&rsquo;s changes on the right" loading="lazy"></a>
-    <span class="pin" style="left:36%;top:19%">1</span><span class="pin" style="left:30%;top:74%">2</span><span class="pin" style="left:90%;top:38%">3</span><span class="pin" style="left:53%;top:98%">4</span>
+  <div class="ann-img"><a href="shots/git.webp?v=4" target="_blank" rel="noopener"><img src="shots/git.webp?v=4" alt="lazygit in the git tab: changed files on the left, the saved versions below them, and the selected file&rsquo;s changes on the right" loading="lazy"></a>
+    
+    <span class="pin" style="left:30%;top:14%">1</span><span class="pin" style="left:33%;top:69.8%">2</span><span class="pin" style="left:90%;top:30%">3</span><span class="pin" style="left:51%;top:97.2%">4</span>
   </div>
   <ol class="ann-key"><li>Every changed file. Press <kbd>a</kbd> to include them all in the version you&rsquo;re about to save.</li><li>Saved versions so far, newest first.</li><li>What changed in the selected file.</li><li>The keys for this screen are always listed along the bottom: <kbd>c</kbd> saves a version (a <em>commit</em>) and asks for a short description.</li></ol>
   <figcaption>The <em>git</em> tab</figcaption>
