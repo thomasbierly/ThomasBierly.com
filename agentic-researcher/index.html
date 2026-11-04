@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
@@ -38,8 +38,8 @@
 <p>That is what this setup gives you: the whole project in one place, from the software or survey that produces your data to the paper that reports it, with an AI agent working beside you. You stop copying output from SPSS into Word, and <em>paper_final_v7.docx</em> goes away. You never wonder again which version of the data made Figure&nbsp;3. Every change is recorded, whether you made it or the agent did, and any of them can be undone. It runs on free software on your own computer, and setting it up takes an afternoon.</p>
 
 <div class="needs">
-  <div><span class="needs-h">You’ll need</span>a computer you can give to Linux, a USB stick, an afternoon, and a Claude subscription</div>
-  <div><span class="needs-h">You won’t need</span>to know how to program, or to have used Linux before</div>
+  <div><span class="needs-h">You’ll need:</span> a computer you can give to Linux, a USB stick, an afternoon, and a Claude subscription</div>
+  <div><span class="needs-h">You won’t need:</span> to know how to program, or to have used Linux before</div>
 </div>
 </header>
 
@@ -50,20 +50,20 @@
 
 <nav class="toc" aria-label="Contents">
   <div class="toc-part"><span class="toc-label">Part 1 · Why</span>
-    <a href="#compared"><span class="toc-n">01</span>Compared with SPSS, Stata and Word</a>
-    <a href="#using-it"><span class="toc-n">02</span>What it’s like to use</a>
-    <a href="#why-linux"><span class="toc-n">03</span>Why Linux, now</a>
-    <a href="#why-omarchy"><span class="toc-n">04</span>Why Omarchy</a>
+    <a href="#compared"><span class="toc-n">01</span> Compared with SPSS, Stata and Word</a>
+    <a href="#using-it"><span class="toc-n">02</span> What it’s like to use</a>
+    <a href="#why-linux"><span class="toc-n">03</span> Why Linux, now</a>
+    <a href="#why-omarchy"><span class="toc-n">04</span> Why Omarchy</a>
   </div>
   <div class="toc-part"><span class="toc-label">Part 2 · How</span>
-    <a href="#install-omarchy"><span class="toc-n">05</span>Install Omarchy</a>
-    <a href="#install-setup"><span class="toc-n">06</span>Install the research setup</a>
-    <a href="#first-project"><span class="toc-n">07</span>Your first project</a>
-    <a href="#loop"><span class="toc-n">08</span>The research loop</a>
+    <a href="#install-omarchy"><span class="toc-n">05</span> Install Omarchy</a>
+    <a href="#install-setup"><span class="toc-n">06</span> Install the research setup</a>
+    <a href="#first-project"><span class="toc-n">07</span> Your first project</a>
+    <a href="#loop"><span class="toc-n">08</span> The research loop</a>
   </div>
   <div class="toc-part"><span class="toc-label">Part 3 · Make it yours</span>
-    <a href="#build"><span class="toc-n">09</span>Play, build and share</a>
-    <a href="#cheatsheet"><span class="toc-n">10</span>Cheat sheet and help</a>
+    <a href="#build"><span class="toc-n">09</span> Play, build and share</a>
+    <a href="#cheatsheet"><span class="toc-n">10</span> Cheat sheet and help</a>
   </div>
 </nav>
 
@@ -88,11 +88,11 @@
 
 <div class="map">
   <div class="map-h">If you use… <span>you’ll use…</span></div>
-  <div class="map-row"><span>Word</span><span>a Quarto paper: plain text that becomes a PDF or a Word file</span></div>
-  <div class="map-row"><span>SPSS or Stata</span><span>Python notebooks, written with the agent’s help (R works too)</span></div>
-  <div class="map-row"><span>EndNote or Mendeley</span><span>Zotero, which is free</span></div>
-  <div class="map-row"><span>Track Changes</span><span>the <em>review</em> tab, which shows every change</span></div>
-  <div class="map-row"><span>Dropbox and <em>final_v2</em></span><span>saved versions (Git), backed up to GitHub</span></div>
+  <div class="map-row"><span>Word</span> <span>a Quarto paper: plain text that becomes a PDF or a Word file</span></div>
+  <div class="map-row"><span>SPSS or Stata</span> <span>Python notebooks, written with the agent’s help (R works too)</span></div>
+  <div class="map-row"><span>EndNote or Mendeley</span> <span>Zotero, which is free</span></div>
+  <div class="map-row"><span>Track Changes</span> <span>the <em>review</em> tab, which shows every change</span></div>
+  <div class="map-row"><span>Dropbox and <em>final_v2</em></span> <span>saved versions (Git), backed up to GitHub</span></div>
 </div>
 
 <p>If you already write Stata do-files or SPSS syntax rather than clicking through menus, you’re halfway there: that is the same idea. Your agent can translate those files into Python and check that they give the same results, and Python opens your existing <code>.sav</code> and <code>.dta</code> files directly. Stata and SPSS both have Linux versions, if your field expects a particular procedure.</p>
@@ -278,7 +278,7 @@
 <p>Analysis lives in notebooks in <code>analysis/</code>. A notebook is one file that mixes three things: notes in plain English, the code that does each step, and the results that code produces. You write it in the editor, often by asking the agent (<em>“add a regression of score on sleep and stress”</em>), and you can run one piece at a time while you explore.</p>
 
 <figure class="ann wide" id="shot-notebook">
-  <div class="ann-img"><a href="shots/notebook.webp" target="_blank" rel="noopener"><img src="shots/notebook.webp" alt="The analysis notebook open in the editor, showing Python code that fits a line and saves the figure into the paper folder" loading="lazy"></a>
+  <div class="ann-img"><a href="shots/notebook.webp?v=2" target="_blank" rel="noopener"><img src="shots/notebook.webp?v=2" alt="The analysis notebook open in the editor, showing Python code that fits a line and saves the figure into the paper folder" loading="lazy"></a>
     <span class="pin" style="left:32.6%;top:7%">1</span><span class="pin" style="left:87%;top:44.7%">2</span><span class="pin" style="left:62.5%;top:50.8%">3</span><span class="pin" style="left:87%;top:71.8%">4</span><span class="pin" style="left:95%;top:85%">5</span>
   </div>
   <ol class="ann-key"><li>Notebooks live in <code>analysis/</code>.</li><li>Code: here it runs the project&rsquo;s simulation and saves the data to <code>data/</code>.</li><li>Headings and notes between the code explain the analysis, like a lab notebook.</li><li>This line saves the figure straight into <code>paper/figures/</code>.</li><li>A regression with sleep and stress, in two lines.</li></ol>
@@ -290,7 +290,7 @@
 <p>You get a report like the one below: every result sits directly under the code that produced it, with your notes around it.</p>
 
 <figure class="ann report" id="shot-report">
-  <div class="ann-img"><a href="shots/notebook-report.webp" target="_blank" rel="noopener"><img src="shots/notebook-report.webp" alt="The rendered notebook report: an explanation, the code, a table of means and ranges, a scatter plot of sleep against exam score with a fitted line, and a regression table for sleep and stress" loading="lazy"></a>
+  <div class="ann-img"><a href="shots/notebook-report.webp?v=2" target="_blank" rel="noopener"><img src="shots/notebook-report.webp?v=2" alt="The rendered notebook report: an explanation, the code, a table of means and ranges, a scatter plot of sleep against exam score with a fitted line, and a regression table for sleep and stress" loading="lazy"></a>
     <span class="pin" style="left:92%;top:18%">1</span><span class="pin" style="left:93%;top:34%">2</span><span class="pin" style="left:76%;top:55.6%">3</span><span class="pin" style="left:72%;top:67.8%">4</span><span class="box" style="left:2.5%;top:94.6%;width:95%;height:2.2%"></span><span class="pin" style="left:35.2%;top:91.8%">5</span>
   </div>
   <ol class="ann-key"><li><strong>The code is the record.</strong> It runs the study&rsquo;s simulation and saves the data. Nothing happens off the page, so nobody has to remember which menu options were ticked.</li><li><strong>Results appear under the code that made them</strong>, not in a separate output window.</li><li>The same figure is saved into the paper, so the paper can&rsquo;t show an old version.</li><li>Change the data or the model, render again, and the figure redraws.</li><li><strong>A regression, in one line of code.</strong> Each extra hour of sleep adds about 3.5 points, even after accounting for stress.</li></ol>
@@ -317,18 +317,18 @@
 <p>By the time you look, the agent’s changes are already in your files. The <em>review</em> tab shows every line that has changed since you last saved a version, whether you changed it or the agent did. You don’t approve changes one at a time. You read them, and if something looks wrong or raises a question, you say so.</p>
 
 <figure class="ann wide" id="shot-review">
-  <div class="ann-img"><a href="shots/review.webp" target="_blank" rel="noopener"><img src="shots/review.webp" alt="Hunk in the review tab: on the left the old version of each changed line in red, on the right the new version in green" loading="lazy"></a>
-    <span class="pin" style="left:26.6%;top:14%">1</span><span class="pin" style="left:26.8%;top:21%">2</span><span class="pin" style="left:61.8%;top:21.8%">3</span><span class="pin" style="left:61.8%;top:60%">4</span>
+  <div class="ann-img"><a href="shots/review.webp?v=2" target="_blank" rel="noopener"><img src="shots/review.webp?v=2" alt="Hunk in the review tab: each changed line shown twice, the old version in red and the new version in green underneath it" loading="lazy"></a>
+    <span class="pin" style="left:25.6%;top:10.5%">1</span><span class="pin" style="left:26%;top:17%">2</span><span class="pin" style="left:26%;top:23.6%">3</span><span class="pin" style="left:85%;top:55%">4</span>
   </div>
-  <ol class="ann-key"><li>Every file that has changed since your last saved version. Click one to jump to it.</li><li>The old version, in red.</li><li>The new version, in green. This is the agent&rsquo;s Methods sentence.</li><li>The agent&rsquo;s change to the simulation, line by line. Read it here.</li></ol>
+  <ol class="ann-key"><li>Every file that has changed since your last saved version. Click one to jump to it.</li><li>The old version of a line, in red.</li><li>The new version, in green, straight underneath. This is the agent&rsquo;s change to the Methods section. Very long lines are cut off at the edge of the window.</li><li>The agent&rsquo;s change to the simulation, line by line.</li></ol>
   <figcaption>The <em>review</em> tab</figcaption>
 </figure>
 
 <p><strong>Leave a note on a line.</strong> In the <em>review</em> tab, move to the line with <kbd>j</kbd> (down) and <kbd>k</kbd> (up), press <kbd>c</kbd>, type your note and press <kbd>Ctrl</kbd> + <kbd>S</kbd> to save it. Then tell the agent in the <em>work</em> tab: <em>“I left a comment in Hunk. Reply to it there.”</em> It reads your note and answers underneath it, on the same line. If you ask for a change, it makes it and the review updates. Press <kbd>a</kbd> to show or hide the agent’s notes.</p>
 
 <figure class="ann wide" id="shot-comments">
-  <div class="ann-img"><a href="shots/review-comments.webp" target="_blank" rel="noopener"><img src="shots/review-comments.webp" alt="Hunk in the review tab: a note from the researcher on a changed line of the simulation, asking whether stress should depend on sleep, and the agent&rsquo;s reply underneath it" loading="lazy"></a>
-    <span class="pin" style="left:25.6%;top:17.5%">1</span><span class="pin" style="left:98.2%;top:49%">2</span><span class="pin" style="left:60.8%;top:56.5%">3</span><span class="pin" style="left:60.8%;top:72%">4</span>
+  <div class="ann-img"><a href="shots/review-comments.webp?v=2" target="_blank" rel="noopener"><img src="shots/review-comments.webp?v=2" alt="Hunk in the review tab: a note from the researcher on a changed line of the simulation, asking whether stress should depend on sleep, and the agent&rsquo;s reply underneath it" loading="lazy"></a>
+    <span class="pin" style="left:25.6%;top:14%">1</span><span class="pin" style="left:85%;top:64.8%">2</span><span class="pin" style="left:27.5%;top:69.3%">3</span><span class="pin" style="left:27.5%;top:79.4%">4</span>
   </div>
   <ol class="ann-key"><li>The star and number show how many notes a file has.</li><li>The line under discussion: the agent&rsquo;s new stress score.</li><li><strong>Your note</strong>: <em>&ldquo;Should stress depend on sleep? Students who sleep less are probably more stressed.&rdquo;</em></li><li><strong>The agent&rsquo;s reply</strong>, on the same line. It explains what the change would mean for the paper&rsquo;s findings, then asks which option you want. Answer in the <em>work</em> tab.</li></ol>
   <figcaption>A conversation about one line of code, inside the review</figcaption>
