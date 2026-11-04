@@ -120,7 +120,7 @@
   </div>
 </div>
 
-<p>You stay the researcher. The agent proposes and you decide, and the <em>review</em> tab shows exactly what it changed before you keep it. The same project structure works for a thesis, a grant proposal, a literature review or a course you teach: anything that turns data and reading into writing.</p>
+<p>You stay the researcher. The agent makes changes and explains them, the <em>review</em> tab shows you exactly what it changed, and you can question any line. The same project structure works for a thesis, a grant proposal, a literature review or a course you teach: anything that turns data and reading into writing.</p>
 
 <!-- ============================================================ -->
 <h2 id="why-linux">Why Linux, now</h2>
@@ -313,25 +313,35 @@
 <p><strong>Citations.</strong> With Zotero open, type <code>\ci</code> in the paper (press <kbd>\</kbd> then <kbd>c</kbd> then <kbd>i</kbd>, not in typing mode) and Zotero’s search box appears. Pick a paper and its citation, such as <code>[@knuth1984]</code>, appears at the cursor. The reference list builds itself.</p>
 <p><strong>Grammar.</strong> Spelling and grammar suggestions appear as you write, from a checker called Harper that runs on your own computer.</p>
 
-<h3 id="review">Check every change</h3>
-<p>The <em>review</em> tab shows every line that has changed since you last saved a version, whether you changed it or the agent did. This is where you stay in charge: read what the agent wrote before you keep it.</p>
+<h3 id="review">Read what changed, and talk back</h3>
+<p>By the time you look, the agent’s changes are already in your files. The <em>review</em> tab shows every line that has changed since you last saved a version, whether you changed it or the agent did. You don’t approve changes one at a time. You read them, and if something looks wrong or raises a question, you say so.</p>
 
 <figure class="ann wide" id="shot-review">
   <div class="ann-img"><a href="shots/review.webp" target="_blank" rel="noopener"><img src="shots/review.webp" alt="Hunk in the review tab: on the left the old version of each changed line in red, on the right the new version in green" loading="lazy"></a>
     <span class="pin" style="left:26.6%;top:14%">1</span><span class="pin" style="left:26.8%;top:21%">2</span><span class="pin" style="left:61.8%;top:21.8%">3</span><span class="pin" style="left:61.8%;top:60%">4</span>
   </div>
-  <ol class="ann-key"><li>Every file that has changed since your last saved version. Click one to jump to it.</li><li>The old version, in red.</li><li>The new version, in green. This is the agent&rsquo;s Methods sentence.</li><li>The agent&rsquo;s change to the simulation, line by line. Read it here before you keep it.</li></ol>
+  <ol class="ann-key"><li>Every file that has changed since your last saved version. Click one to jump to it.</li><li>The old version, in red.</li><li>The new version, in green. This is the agent&rsquo;s Methods sentence.</li><li>The agent&rsquo;s change to the simulation, line by line. Read it here.</li></ol>
   <figcaption>The <em>review</em> tab</figcaption>
 </figure>
 
+<p><strong>Leave a note on a line.</strong> In the <em>review</em> tab, move to the line with <kbd>j</kbd> (down) and <kbd>k</kbd> (up), press <kbd>c</kbd>, type your note and press <kbd>Ctrl</kbd> + <kbd>S</kbd> to save it. Then tell the agent in the <em>work</em> tab: <em>“I left a comment in Hunk. Reply to it there.”</em> It reads your note and answers underneath it, on the same line. If you ask for a change, it makes it and the review updates. Press <kbd>a</kbd> to show or hide the agent’s notes.</p>
+
+<figure class="ann wide" id="shot-comments">
+  <div class="ann-img"><a href="shots/review-comments.webp" target="_blank" rel="noopener"><img src="shots/review-comments.webp" alt="Hunk in the review tab: a note from the researcher on a changed line of the simulation, asking whether stress should depend on sleep, and the agent&rsquo;s reply underneath it" loading="lazy"></a>
+    <span class="pin" style="left:25.6%;top:17.5%">1</span><span class="pin" style="left:98.2%;top:49%">2</span><span class="pin" style="left:60.8%;top:56.5%">3</span><span class="pin" style="left:60.8%;top:72%">4</span>
+  </div>
+  <ol class="ann-key"><li>The star and number show how many notes a file has.</li><li>The line under discussion: the agent&rsquo;s new stress score.</li><li><strong>Your note</strong>: <em>&ldquo;Should stress depend on sleep? Students who sleep less are probably more stressed.&rdquo;</em></li><li><strong>The agent&rsquo;s reply</strong>, on the same line. It explains what the change would mean for the paper&rsquo;s findings, then asks which option you want. Answer in the <em>work</em> tab.</li></ol>
+  <figcaption>A conversation about one line of code, inside the review</figcaption>
+</figure>
+
 <h3 id="save">Save a version and back it up</h3>
-<p>When the project is in a state worth keeping, save a version (a <em>commit</em>) in the <em>git</em> tab. You can also just ask the agent: <em>“commit this with a short description”</em>. The first time, ask it to <em>“create a private GitHub repository for this project and push it”</em>, and your work is backed up from then on.</p>
+<p>When you’re happy with where the project is, save a version of the whole project (a <em>commit</em>) in the <em>git</em> tab. You can also just ask the agent: <em>“commit this with a short description”</em>. The first time, ask it to <em>“create a private GitHub repository for this project and push it”</em>, and your work is backed up from then on.</p>
 
 <figure class="ann wide" id="shot-git">
   <div class="ann-img"><a href="shots/git.webp" target="_blank" rel="noopener"><img src="shots/git.webp" alt="lazygit in the git tab: changed files on the left, the saved versions below them, and the selected file&rsquo;s changes on the right" loading="lazy"></a>
     <span class="pin" style="left:36%;top:19%">1</span><span class="pin" style="left:36%;top:72%">2</span><span class="pin" style="left:90%;top:38%">3</span><span class="pin" style="left:50%;top:98%">4</span>
   </div>
-  <ol class="ann-key"><li>Changed files. Press <kbd>Space</kbd> on a file to include it in the next saved version, or <kbd>a</kbd> for all of them.</li><li>Saved versions so far, newest first.</li><li>What changed in the selected file.</li><li>The keys for this screen are always listed along the bottom: <kbd>c</kbd> saves a version (a <em>commit</em>) and asks for a short description.</li></ol>
+  <ol class="ann-key"><li>Every changed file. Press <kbd>a</kbd> to include them all in the version you&rsquo;re about to save.</li><li>Saved versions so far, newest first.</li><li>What changed in the selected file.</li><li>The keys for this screen are always listed along the bottom: <kbd>c</kbd> saves a version (a <em>commit</em>) and asks for a short description.</li></ol>
   <figcaption>The <em>git</em> tab</figcaption>
 </figure>
 
