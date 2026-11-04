@@ -13,7 +13,7 @@ body{font-family:Nunito,system-ui,sans-serif;color:#ecd9cd;-webkit-font-smoothin
 a{text-decoration:none;color:inherit}
 
 /* nav */
-nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(26,18,28,.82);border-bottom:2px solid #160e18}
+nav:not(.toc){position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(26,18,28,.82);border-bottom:2px solid #160e18}
 .nav-inner{max-width:1080px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .nav-brand{display:flex;align-items:center;gap:8px;padding:4px 2px}
 .nav-brand-mono{font-family:'Baloo 2';font-weight:800;font-size:17px;color:var(--neon);text-shadow:1px 1px 0 #160e18}
@@ -270,3 +270,13 @@ tbody tr:hover{background:rgba(255,255,255,.03)}
 }
 .loop{grid-template-columns:repeat(3,1fr)}@media(max-width:700px){.loop{grid-template-columns:1fr 1fr}}
 .toc-n{margin-right:3px}
+
+/* phones: the sticky bar stays one short row; the links scroll sideways if needed */
+@media(max-width:700px){
+  .nav-inner{flex-wrap:nowrap;padding:6px 12px;gap:6px}
+  .nav-brand-name{display:none}
+  .nav-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .nav-tabs::-webkit-scrollbar{display:none}
+  .nav-tab{white-space:nowrap;padding:6px 9px;font-size:13px}
+  .nav-tab-dot{display:none}
+}
