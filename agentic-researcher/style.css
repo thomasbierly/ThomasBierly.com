@@ -280,3 +280,4 @@ tbody tr:hover{background:rgba(255,255,255,.03)}
   .nav-tab{white-space:nowrap;padding:6px 9px;font-size:13px}
   .nav-tab-dot{display:none}
 }
+.ann-img video{display:block;width:100%;height:auto;aspect-ratio:16/9}

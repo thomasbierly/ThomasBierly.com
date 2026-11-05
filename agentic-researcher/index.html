@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -143,6 +143,11 @@
   <li><strong>Everything is meant to be changed, by you or your agent.</strong> Omarchy teaches your agent how it works, from changing a setting to building a whole app. The setup in this guide was made that way: I described what I wanted, and Claude Code built it.</li>
   <li><strong>It’s quick to try.</strong> The installer asks a handful of questions and finishes in minutes.</li>
 </ul>
+<figure class="ann wide" id="shot-themes">
+  <div class="ann-img"><video class="clip" src="shots/themes.mp4" poster="shots/themes-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="The same project workspace shown in twelve Omarchy themes one after another: the wallpaper, window colours, editor and agent all change together"></video></div>
+  <figcaption>It’s also lovely to look at. Pick one of Omarchy’s 24 themes and everything changes together: the wallpaper, the editor, your agent and every window. Press <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>T</kbd> to choose one.</figcaption>
+</figure>
+
 <p>We’re in a transition. Agents can now do much of the mechanical work of research, but most researchers still work in tools designed before agents existed. Omarchy is one of the first computers designed with agents in mind, and a comfortable place to learn to work alongside one. It is keyboard-first, so my setup adds a mouse-friendly layer on top: a file list you can click, a right-click menu, and a <strong>Projects</strong> menu. About six shortcuts get you started, and they’re all in the <a href="#cheatsheet">cheat sheet</a>.</p>
 
 <!-- ============================================================ -->
@@ -438,5 +443,6 @@
   <div class="footer-copy">© 2026 Thomas Bierly · setup: <a href="https://github.com/thomasbierly/agentic-research" style="color:inherit">github.com/thomasbierly/agentic-research</a></div>
 </div>
 </main>
+<script>if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelectorAll("video.clip").forEach(v=>{v.removeAttribute("autoplay");v.pause();v.controls=true})</script>
 </body>
 </html>
