@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One project, from data to paper — The Agentic Researcher</title>
+<meta name="description" content="Why the gaps between SPSS, Stata and Word cause mistakes, what replaces each one, and what a day of work with an agent looks like.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23241a2a'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='20' fill='%23ffb152'>TB</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=5">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="../../">
+      <span class="nav-brand-mono">TB</span>
+      <span class="nav-brand-name">Thomas Bierly</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="../../#about">About</a>
+      <a class="nav-link" href="../../#research">Research</a>
+      <a class="nav-link" href="../../#projects">Projects</a>
+      <a class="nav-link" href="../" aria-current="page">Guide</a>
+      <a class="nav-link" href="../../#teaching">Teaching</a>
+      <a class="nav-link" href="../../#cv">CV</a>
+      <a class="nav-link" href="../../#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="../../#contact">Let's talk</a>
+  </div>
+</nav>
+
+<main class="guide">
+<a class="back-link" href="../../">← thomasbierly.com</a>
+<div class="course" role="navigation" aria-label="Course"><a href="../">Start</a><a href="../agents/"><span class="course-n">1</span>Agents</a><a href="../project/" aria-current="page"><span class="course-n">2</span>One project</a><a href="../linux/"><span class="course-n">3</span>Linux</a><a href="../install/"><span class="course-n">4</span>Install</a><a href="../first-project/"><span class="course-n">5</span>First project</a><a href="../loop/"><span class="course-n">6</span>In depth</a><a href="../make-it-yours/"><span class="course-n">7</span>Make it yours</a></div>
+<header class="hero-guide">
+<p class="hero-eyebrow">Part 2</p>
+<h1>One project, from data to paper</h1>
+<p class="lede">An agent can only work with what it can read. In the usual setup the analysis lives in an SPSS output window, the paper in Word, the references in EndNote and the old versions in Dropbox. The agent can’t see across them, and often neither can you.</p>
+<p>The fix is to keep the whole project as plain files in one folder: the code that makes the data, the analysis, and the paper, which is built straight from the analysis. That’s what makes the agent useful from start to finish, and it’s what makes your work easy to check.</p>
+<div class="learn"><span class="learn-h">In this part</span>
+  <ul><li>Where mistakes come from in the usual setup</li><li>What replaces SPSS, Stata, Word and the rest</li><li>What Git and GitHub are, and why they matter</li><li>What a day of work with an agent looks like</li></ul>
+</div>
+</header>
+
+<h2 id="compared">Compared with SPSS, Stata and Word</h2>
+<p>SPSS, Stata and Word are good tools, and you may have used them for years. The problems come from the gaps between them. Results travel from the statistics package to the paper by copy and paste, and every paste is a chance for the paper to fall out of step with the analysis. These mistakes are easy to make and hard to spot. A spreadsheet error in an influential economics paper on public debt went unnoticed for three years. A 2016 study found that about one in five genetics papers that shared gene lists as Excel files had gene names corrupted by Excel’s automatic formatting.</p>
+<p>In this setup the paper is <em>built from</em> the analysis, so there is nothing to paste. Here is how everyday tasks compare:</p>
+
+<div class="table-wrap compare"><table>
+  <thead><tr><th></th><th>SPSS or Stata, plus Word</th><th>This setup</th></tr></thead>
+  <tbody>
+    <tr><td>You find a data error after drafting the paper</td><td>Rerun the analysis, export each table and figure again, paste them into Word, then hunt for every number in the text</td><td>Fix it once and rebuild: tables, figures and the numbers in the text update together</td></tr>
+    <tr><td>You want to see what changed in a draft</td><td>Track Changes, if everyone remembered to turn it on</td><td>Every change by anyone, including the agent, shown line by line, always</td></tr>
+    <tr><td>A reviewer asks for a reanalysis two years later</td><td>Find the right syntax file, the right version of the data, and a working licence</td><td>One folder holds the code, data and paper with their full history; one command rebuilds everything</td></tr>
+    <tr><td>You’re stuck</td><td>Menus, manuals and forums</td><td>An agent that has read your project explains, writes and checks the analysis with you</td></tr>
+    <tr><td>Cost</td><td>Yearly licences for the statistics package and Office</td><td>Free, apart from the agent subscription</td></tr>
+    <tr><td>Your co-author only uses Word</td><td>Email attachments back and forth</td><td>The paper can also be produced as a Word file; the agent helps bring their edits back in</td></tr>
+  </tbody>
+</table></div>
+
+<div class="map">
+  <div class="map-h">If you use… <span>you’ll use…</span></div>
+  <div class="map-row"><span>Word</span> <span>a Quarto paper: plain text that becomes a PDF or a Word file</span></div>
+  <div class="map-row"><span>SPSS or Stata</span> <span>a live notebook (marimo): Python, written with the agent’s help</span></div>
+  <div class="map-row"><span>EndNote or Mendeley</span> <span>Zotero, which is free</span></div>
+  <div class="map-row"><span>Track Changes</span> <span>the <em>review</em> tab, which shows every change</span></div>
+  <div class="map-row"><span>Dropbox and <em>final_v2</em></span> <span>saved versions (Git), backed up to GitHub</span></div>
+</div>
+
+<p>If you already write Stata do-files or SPSS syntax rather than clicking through menus, you’re halfway there: that is the same idea. Your agent can translate those files into Python and check that they give the same results, and Python opens your existing <code>.sav</code> and <code>.dta</code> files directly. Stata and SPSS both have Linux versions, if your field expects a particular procedure.</p>
+
+<h2 id="github">Saved versions, and what GitHub is for</h2>
+<p>Two names come up again and again in this course: Git and GitHub. They replace <em>paper_final_v7.docx</em>, and they’re a big part of why work with an agent is safe.</p>
+<p><strong>Git keeps saved versions of the whole project.</strong> Whenever you reach a point worth keeping, you save a version (a <em>commit</em>) with a short description, such as “added stress to the simulation”. Each version is a snapshot of every file at once: the code, the data, the notebooks and the paper. You can see exactly what changed between any two versions, line by line, and go back to any of them. Git runs on your own computer, and the agent can do all of it for you when you ask.</p>
+<p><strong>GitHub is a website that keeps a copy of those versions online.</strong> Each project becomes a <em>repository</em> there, private unless you choose otherwise. You send your latest versions to it with one step (a <em>push</em>), or ask the agent to. A free account is all you need.</p>
+
+<div class="points">
+  <div class="point"><div class="point-t">A backup with a history</div><p>If your laptop is lost or broken, every version of every project is safe online. Unlike a plain backup, you can also go back to how things were last March.</p></div>
+  <div class="point"><div class="point-t">Working with co-authors</div><p>Invite them to the repository instead of emailing attachments. Everyone works on the same project, and every change shows who made it and why.</p></div>
+  <div class="point"><div class="point-t">Replication, ready when asked</div><p>When the paper is accepted, make the repository public: code, data and the history behind every result. <a href="https://zenodo.org">Zenodo</a> can archive it with a DOI so it can be cited.</p></div>
+</div>
+
+<p>It also makes the agent safe to work with. Its changes sit on top of your last saved version, so anything you don’t like is one step from being undone, and the version history is the record of how the work was done that <a href="../agents/#disclose">part 1</a> recommends keeping.</p>
+
+<h2 id="using-it">What it’s like to use</h2>
+<p>Most of the day is plain English. You describe what you want, the agent does the mechanical part, and you check what it did. Here are some things you might ask it, at each stage of a project:</p>
+
+<div class="prompts">
+  <div class="prompt-group"><div class="prompt-stage">Getting the data in</div>
+    <p class="prompt">Open <em>survey_export.sav</em>, keep the variables in the codebook, and save a clean copy in data/.</p>
+    <p class="prompt">Here’s my old SPSS syntax. Rewrite it in Python and show me that the means match.</p>
+  </div>
+  <div class="prompt-group"><div class="prompt-stage">Analysis</div>
+    <p class="prompt">Regress score on sleep and stress, controlling for year, and explain the output as you would to a reviewer.</p>
+    <p class="prompt">Make Figure 2 colour-blind friendly and in APA style.</p>
+  </div>
+  <div class="prompt-group"><div class="prompt-stage">Writing</div>
+    <p class="prompt">Check every number in the Results section against the analysis.</p>
+    <p class="prompt">Make a Word version of the paper for my co-author.</p>
+  </div>
+  <div class="prompt-group"><div class="prompt-stage">Housekeeping</div>
+    <p class="prompt">Save a version called “added stress factor” and back it up to GitHub.</p>
+    <p class="prompt">The PDF preview stopped updating. Can you find out why?</p>
+  </div>
+</div>
+
+<p>You stay the researcher. The agent makes changes and explains them, the <em>review</em> tab shows you exactly what it changed, and you can question any line. The same project structure works for a thesis, a grant proposal, a literature review or a course you teach: anything that turns data and reading into writing.</p>
+
+<div class="pager"><a class="pager-prev" href="../agents/"><span>← Part 1</span>Working with an agent</a><a class="pager-next" href="../linux/"><span>Part 3 →</span>Why Linux and Omarchy</a></div>
+
+<div class="page-footer">
+  <a class="btn-back" href="../../">← Back to thomasbierly.com</a>
+  <div class="footer-copy">© 2026 Thomas Bierly · setup: <a href="https://github.com/thomasbierly/agentic-research" style="color:inherit">github.com/thomasbierly/agentic-research</a></div>
+</div>
+</main>
+<script>(function(){var c=document.querySelector(".course"),a=c&&c.querySelector("[aria-current]");if(a)c.scrollLeft=a.offsetLeft-c.offsetLeft-40})()</script>
+<script>if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelectorAll("video.clip").forEach(v=>{v.removeAttribute("autoplay");v.pause();v.controls=true})</script>
+</body>
+</html>

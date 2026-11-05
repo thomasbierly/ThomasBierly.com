@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Working with an agent — The Agentic Researcher</title>
+<meta name="description" content="What an AI agent is, how it differs from a chatbot, what to hand over and what to keep, how to use one with integrity, and a first try on the computer you have.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23241a2a'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='20' fill='%23ffb152'>TB</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=5">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="../../">
+      <span class="nav-brand-mono">TB</span>
+      <span class="nav-brand-name">Thomas Bierly</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="../../#about">About</a>
+      <a class="nav-link" href="../../#research">Research</a>
+      <a class="nav-link" href="../../#projects">Projects</a>
+      <a class="nav-link" href="../" aria-current="page">Guide</a>
+      <a class="nav-link" href="../../#teaching">Teaching</a>
+      <a class="nav-link" href="../../#cv">CV</a>
+      <a class="nav-link" href="../../#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="../../#contact">Let's talk</a>
+  </div>
+</nav>
+
+<main class="guide">
+<a class="back-link" href="../../">← thomasbierly.com</a>
+<div class="course" role="navigation" aria-label="Course"><a href="../">Start</a><a href="../agents/" aria-current="page"><span class="course-n">1</span>Agents</a><a href="../project/"><span class="course-n">2</span>One project</a><a href="../linux/"><span class="course-n">3</span>Linux</a><a href="../install/"><span class="course-n">4</span>Install</a><a href="../first-project/"><span class="course-n">5</span>First project</a><a href="../loop/"><span class="course-n">6</span>In depth</a><a href="../make-it-yours/"><span class="course-n">7</span>Make it yours</a></div>
+<header class="hero-guide">
+<p class="hero-eyebrow">Part 1</p>
+<h1>Working with an agent</h1>
+<p class="lede">An AI agent doesn’t just answer questions. It works on your files: it reads your data and your code, writes and runs new code, looks at what came out, and tells you what it did. Used well, that gives you more time for the research itself and a better record of how every result was made.</p>
+<div class="learn"><span class="learn-h">In this part</span>
+  <ul><li>How an agent differs from a chatbot</li><li>What to hand over, and what to keep for yourself</li><li>Whether it’s cheating, the real risks, and how to guard against them</li><li>How to disclose it honestly</li><li>A first try, today, on the computer you have</li></ul>
+</div>
+</header>
+
+<h2 id="tells-does">A chatbot tells you; an agent does</h2>
+<p>Most people meet AI as a chatbot: you type a question into a website and it answers from what it learned in training. The answer often sounds sure of itself even when it’s wrong, and a chatbot will happily invent a reference that doesn’t exist. If it writes code for you, you copy it into SPSS or R, run it, paste the error back, and go round again.</p>
+<p>An agent such as <a href="https://claude.com/product/claude-code">Claude Code</a> works differently. You open it in a folder on your own computer, and it can work with everything in that folder. Ask for a regression and it writes the code, runs it on your data, reads the output, fixes its own mistakes, and reports back with the code saved where you can read it.</p>
+
+<div class="vs">
+  <div class="vs-col"><div class="vs-h">A chatbot</div><ul><li>Answers from memory</li><li>Can’t see your files</li><li>You copy its code in and its errors out</li><li>Its claims are hard to check</li></ul></div>
+  <div class="vs-col agent"><div class="vs-h">An agent</div><ul><li>Works from your data and code</li><li>Reads and writes files in your project</li><li>Runs the code itself and fixes the errors</li><li>Leaves code you can read and run again</li></ul></div>
+</div>
+
+<p>That last row matters most. A chatbot’s answer is a claim you have to take on trust. An agent’s work is code, and code can be checked: run it again and you get the same number, read it and you can see every step. Tom Pepinsky, a political scientist at Cornell, puts the line simply: use agents for tasks that follow rules, such as cleaning data, running models and drawing figures, and <a href="https://tompepinsky.com/2026/01/23/agentic-ai-and-social-science-research-practice/">“do not use agentic AI for tasks that generate answers, arguments, or interpretations.”</a></p>
+
+<h2 id="hand-over">What to hand over, and what to keep</h2>
+<div class="keep">
+  <div class="keep-col"><div class="keep-h">Hand over</div><ul>
+    <li>Cleaning, merging and reshaping data</li>
+    <li>Translating your old SPSS or Stata syntax, and checking the results match</li>
+    <li>Writing, running and rerunning analysis code</li>
+    <li>Tables and figures, in your journal’s style</li>
+    <li>Checking that every number in the text matches the analysis</li>
+    <li>Formatting, references and the PDF</li>
+    <li>Fixing the computer when something breaks</li>
+  </ul></div>
+  <div class="keep-col yours"><div class="keep-h">Keep for yourself</div><ul>
+    <li>The question, and why it matters</li>
+    <li>The design: what would count as evidence</li>
+    <li>Which analyses to run, decided before you see the results</li>
+    <li>What the results mean</li>
+    <li>Every claim in the paper</li>
+    <li>Reading the work you cite</li>
+  </ul></div>
+</div>
+<p>The agent is still useful on the right-hand side, as long as it advises rather than decides. Ask it to explain an output, to argue against your interpretation, or to list what a sceptical reviewer would ask. Paul Goldsmith-Pinkham, an economist at Yale who teaches researchers to work this way, describes agents as <a href="https://markusacademy.substack.com/p/claude-code-for-applied-economists">“editors and thinking partners rather than judgment outsourcers.”</a></p>
+
+<h2 id="cheating">Is it cheating?</h2>
+<p>No more than statistical software was. Nobody thinks the honest way to fit a regression is by hand, or that a paper is less yours because a research assistant cleaned the data. What makes research trustworthy has never been who typed the code. It’s whether the work is sound, whether you understand it, and whether someone else can check it.</p>
+<p>Done the way this course shows, work with an agent is <em>easier</em> to check than most research done by hand. The analysis is code that anyone can rerun, the paper is built straight from it, and every change is recorded. Compare that with numbers copied by hand from an output window into Word.</p>
+<p>Many researchers already use AI and keep quiet about it. In a 2026 survey of 2,606 researchers by Oxford University Press, <a href="https://www.timeshighereducation.com/news/researchers-not-fully-disclosing-ai-use-oup-survey-reveals">44% worried that disclosing it would colour how their work was judged</a>, and 74% found the rules unclear. Silence is the bigger risk. It leaves no record, and no way to show that the work was done carefully.</p>
+<p>You’d be in good company being open about it. Scott Cunningham, the Baylor economist behind <em>Causal Inference: The Mixtape</em>, has written <a href="https://causalinf.substack.com/p/claude-code-changed-how-i-work-part">a long public series</a> on how Claude Code changed his research. Goldsmith-Pinkham recorded <a href="https://markusacademy.substack.com/p/claude-code-for-applied-economists">a video course</a> for Princeton’s Markus Academy, Chris Blattman at Chicago wrote <a href="https://claudeblattman.com/setup/">a guide for complete beginners</a>, and universities such as <a href="https://afww.uni-konstanz.de/en/node/877">Konstanz</a> now teach it as a course.</p>
+
+<h2 id="risks">The real risks, and how to guard against them</h2>
+<p>The concerns are real. Science magazine has reported automated “AI scientist” tools that made up data and p-hacked their results. An agent working in your project doesn’t remove your responsibility; it changes what you check. Here is what can go wrong, and how the setup in this course protects you:</p>
+
+<div class="table-wrap risks"><table>
+  <thead><tr><th>The risk</th><th>What can happen</th><th>How you guard against it</th></tr></thead>
+  <tbody>
+    <tr><td>Making things up</td><td>A number or a reference that sounds right but isn’t</td><td>Every number comes from code, never from the agent’s memory. References come from your own Zotero library.</td></tr>
+    <tr><td>Telling you what you want to hear</td><td>The agent leans towards the result it thinks you’re hoping for</td><td>Decide your analyses before you see results, and write them down. Ask it to argue the other side.</td></tr>
+    <tr><td>Quietly cutting corners</td><td>A dropped case, a changed setting, a test left out</td><td>Nothing changes without a record: the <em>review</em> tab shows every line the agent changed before you save it.</td></tr>
+    <tr><td>Losing your grip on the analysis</td><td>Results you can’t explain to a reviewer</td><td>Ask the agent to explain each step until you could explain it yourself. Notebooks keep the explanation, code and results together.</td></tr>
+    <tr><td>Your data leaving your computer</td><td>Files the agent reads are sent to Anthropic to be processed</td><td>Check your ethics approval and your institution’s rules first. Keep identifiable data out of the project, or work on an anonymised copy.</td></tr>
+  </tbody>
+</table></div>
+
+<p>Goldsmith-Pinkham’s summary is the one to remember: <a href="https://markusacademy.substack.com/p/claude-code-for-applied-economists">“Verification is the new bottleneck.”</a> The agent makes producing work cheap. Your job is checking it, and the setup is designed to make checking easy.</p>
+
+<h2 id="disclose">Disclosure is easy when the record keeps itself</h2>
+<p>Journals and publishers increasingly ask how AI was used, yet in the same survey only 36% of researchers kept any record of it. In this setup the record keeps itself. Every version of the project is saved with a short description, and you can ask the agent to say in each one what it did and how it was checked. When a journal asks, you can answer precisely. For example:</p>
+<blockquote class="disclose"><p>Data cleaning and analysis code was written with the help of Claude Code (Anthropic), working in the project’s repository. All code was reviewed by the authors, every result in the paper is produced by that code, and the full history of changes is available in the replication package. The research design, interpretation and text are the authors’ own.</p></blockquote>
+<p>Adapt it to what you actually did, and check your journal’s policy.</p>
+
+<h2 id="try-it">Try it today, on the computer you have</h2>
+<p>You don’t need Linux or anything else from this course to feel the difference. Claude Code runs on Mac and Windows too. Give it twenty minutes with a small analysis you’ve already finished:</p>
+
+<div class="steps">
+  <div class="step"><div class="step-n">1</div><div><div class="step-title">Get Claude</div><div class="step-text">You need a paid Claude subscription; Pro is enough to start. Install the <a href="https://claude.com/download">Claude desktop app</a>, sign in, and open the <strong>Code</strong> tab. It includes Claude Code, so there’s nothing else to install.</div></div></div>
+  <div class="step"><div class="step-n">2</div><div><div class="step-title">Make a copy of a small, finished analysis</div><div class="step-text">Put a copy of the data and your syntax or do-file in a new folder. A copy means nothing can happen to the original. Pick something without identifiable data.</div></div></div>
+  <div class="step"><div class="step-n">3</div><div><div class="step-title">Open the folder in Claude Code and ask</div><div class="step-text">Choose the folder when Claude asks for one, then try a few of these. It will ask before it changes anything.</div></div></div>
+</div>
+
+<div class="prompts">
+  <div class="prompt-group"><div class="prompt-stage">Understand</div>
+    <p class="prompt">Look through this folder and explain what this analysis does, step by step.</p>
+    <p class="prompt">What would a sceptical reviewer question about it?</p>
+  </div>
+  <div class="prompt-group"><div class="prompt-stage">Redo</div>
+    <p class="prompt">Rewrite my do-file in Python and show me that the results match.</p>
+    <p class="prompt">Make Figure 1 again, colour-blind friendly, and save it as a PDF.</p>
+  </div>
+</div>
+
+<p>Then read what it did: the code it wrote is in the folder. If something in that twenty minutes changes how you think about your work, the rest of the course builds a whole way of working around it, starting with the project itself.</p>
+
+<h2 id="reading">Further reading</h2>
+<ul class="reading">
+  <li>Tom Pepinsky, <a href="https://tompepinsky.com/2026/01/23/agentic-ai-and-social-science-research-practice/">Agentic AI and social science research practice</a>: where agents help, where they don’t, and what it means for the field.</li>
+  <li>Paul Goldsmith-Pinkham, <a href="https://markusacademy.substack.com/p/claude-code-for-applied-economists">Claude Code for applied economists</a>: an eight-part video course, from data work to verification.</li>
+  <li>Scott Cunningham, <a href="https://causalinf.substack.com/p/claude-code-changed-how-i-work-part">Claude Code changed how I work</a>: a first-person series from a long-time Stata user.</li>
+  <li>Chris Blattman, <a href="https://claudeblattman.com/setup/">Claude Code for newbies</a>: a setup guide for people who have never used a terminal.</li>
+  <li>Ethan Mollick, <a href="https://www.oneusefulthing.org/p/claude-code-and-what-comes-next">Claude Code and what comes next</a>: why agents are more than a better chatbot.</li>
+</ul>
+
+<div class="pager"><a class="pager-prev" href="../"><span>← Start</span>The Agentic Researcher</a><a class="pager-next" href="../project/"><span>Part 2 →</span>One project, from data to paper</a></div>
+
+<div class="page-footer">
+  <a class="btn-back" href="../../">← Back to thomasbierly.com</a>
+  <div class="footer-copy">© 2026 Thomas Bierly · setup: <a href="https://github.com/thomasbierly/agentic-research" style="color:inherit">github.com/thomasbierly/agentic-research</a></div>
+</div>
+</main>
+<script>(function(){var c=document.querySelector(".course"),a=c&&c.querySelector("[aria-current]");if(a)c.scrollLeft=a.offsetLeft-c.offsetLeft-40})()</script>
+<script>if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelectorAll("video.clip").forEach(v=>{v.removeAttribute("autoplay");v.pause();v.controls=true})</script>
+</body>
+</html>

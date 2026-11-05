@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install everything — The Agentic Researcher</title>
+<meta name="description" content="Install Omarchy and the research setup, step by step, with annotated screenshots.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23241a2a'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='20' fill='%23ffb152'>TB</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=5">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="../../">
+      <span class="nav-brand-mono">TB</span>
+      <span class="nav-brand-name">Thomas Bierly</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="../../#about">About</a>
+      <a class="nav-link" href="../../#research">Research</a>
+      <a class="nav-link" href="../../#projects">Projects</a>
+      <a class="nav-link" href="../" aria-current="page">Guide</a>
+      <a class="nav-link" href="../../#teaching">Teaching</a>
+      <a class="nav-link" href="../../#cv">CV</a>
+      <a class="nav-link" href="../../#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="../../#contact">Let's talk</a>
+  </div>
+</nav>
+
+<main class="guide">
+<a class="back-link" href="../../">← thomasbierly.com</a>
+<div class="course" role="navigation" aria-label="Course"><a href="../">Start</a><a href="../agents/"><span class="course-n">1</span>Agents</a><a href="../project/"><span class="course-n">2</span>One project</a><a href="../linux/"><span class="course-n">3</span>Linux</a><a href="../install/" aria-current="page"><span class="course-n">4</span>Install</a><a href="../first-project/"><span class="course-n">5</span>First project</a><a href="../loop/"><span class="course-n">6</span>In depth</a><a href="../make-it-yours/"><span class="course-n">7</span>Make it yours</a></div>
+<header class="hero-guide">
+<p class="hero-eyebrow">Part 4</p>
+<h1>Install everything</h1>
+<p class="lede">Two installs, one after the other: Omarchy itself, then my research setup on top of it. Set aside an afternoon. Most of it is waiting, and every step is shown below.</p>
+<div class="learn"><span class="learn-h">In this part</span>
+  <ul><li>Make a USB stick and install Omarchy</li><li>Find your way round the Omarchy menu</li><li>Install the research setup with two lines in a terminal</li><li>The three things only you can do: Claude, Zotero and GitHub</li></ul>
+</div>
+</header>
+
+<h2 id="install-omarchy">Install Omarchy</h2>
+
+<blockquote class="warn"><p><strong>Back up first.</strong> A normal Omarchy install erases the whole drive you install it on. Copy anything you want to keep somewhere else first. To keep Windows alongside Omarchy instead, follow Omarchy’s <a href="https://omarchy.org/manual/dual-boot-install/">dual-boot guide</a>.</p></blockquote>
+
+<div class="steps">
+  <div class="step"><div class="step-n">1</div><div><div class="step-title">Check what you need</div><div class="step-text">A computer you’re happy to dedicate to Linux (Omarchy runs on almost anything, from recent laptops to Intel Macs and a 2011 ThinkPad), a USB stick of 8 GB or more that can be wiped, and a keyboard plugged in by cable or a 2.4 GHz dongle. A Bluetooth keyboard won’t work at the start-up password screen.</div></div></div>
+  <div class="step"><div class="step-n">2</div><div><div class="step-title">Download Omarchy</div><div class="step-text">Go to <a href="https://omarchy.org">omarchy.org</a> and download the ISO, the installer image (about 6.5 GB).</div></div></div>
+  <div class="step"><div class="step-n">3</div><div><div class="step-title">Make the USB stick</div><div class="step-text">On Windows or a Mac, install <a href="https://etcher.balena.io/">balenaEtcher</a>, open it, choose <em>Flash from file</em> and pick the ISO, choose your USB stick as the target, and click <em>Flash</em>. This erases the stick.</div></div></div>
+  <div class="step"><div class="step-n">4</div><div><div class="step-title">Turn off Secure Boot</div><div class="step-text">Restart the computer and open its BIOS settings, usually by pressing <kbd>F2</kbd>, <kbd>F12</kbd>, <kbd>Del</kbd> or <kbd>Esc</kbd> as it starts (the start-up screen often says which). Find <em>Secure Boot</em> and turn it off; if there’s a <em>TPM</em> setting, turn that off too. Save and exit.</div></div></div>
+  <div class="step"><div class="step-n">5</div><div><div class="step-title">Start from the USB stick</div><div class="step-text">With the stick plugged in, restart and open the boot menu (often <kbd>F12</kbd> or <kbd>F8</kbd>; on an Intel Mac, hold <kbd>Option</kbd>). Choose the USB stick.</div></div></div>
+  <div class="step"><div class="step-n">6</div><div><div class="step-title">Answer the installer’s questions</div><div class="step-text">Pick your keyboard layout, then answer a few questions about you and the computer, such as your username and password, and confirm them. Then choose the drive to install on and confirm. Your password also encrypts the drive, so you’ll type it each time the computer starts. The <a href="https://omarchy.org/manual/getting-started/">Omarchy manual</a> has a screenshot of each screen. The install takes a few minutes, then the computer restarts.</div></div></div>
+  <div class="step"><div class="step-n">7</div><div><div class="step-title">First start</div><div class="step-text">Type your password to unlock the drive. Omarchy opens and invites you to choose a default agent: choose <strong>Claude</strong> to follow this course exactly. Connect to the internet with a network cable, or click the network icon in the top bar and choose your Wi-Fi.</div></div></div>
+</div>
+
+<p style="margin-top:22px">Omarchy starts on an empty desktop. Almost everything starts from one menu.</p>
+
+<figure class="ann" id="shot-menu">
+  <div class="ann-img"><a href="../shots/omarchy-menu.webp" target="_blank" rel="noopener"><img src="../shots/omarchy-menu.webp" alt="The Omarchy menu open over the desktop, listing Apps, Learn, Appearance, Trigger, Setup, Install, Remove, Update, About, System and Projects" loading="lazy"></a>
+    <span class="box" style="left:35.5%;top:82.5%;width:29%;height:8.5%"></span><span class="pin" style="left:31%;top:12.5%">1</span><span class="pin" style="left:31%;top:45.9%">2</span><span class="pin" style="left:31%;top:86.7%">3</span>
+  </div>
+  <ol class="ann-key"><li><strong>Type to search.</strong> Start typing any word, such as <em>wifi</em> or <em>theme</em>, to find a setting without hunting through the menus.</li><li><strong>Setup</strong> holds the everyday settings: displays, keyboard, language, network, and which AI agent is your default.</li><li><strong>Projects</strong> appears after you install the research setup in the next step. It&rsquo;s where every project starts.</li></ol>
+  <figcaption>The Omarchy menu: <kbd>Super</kbd> + <kbd>Space</kbd></figcaption>
+</figure>
+
+<!-- ============================================================ -->
+<h2 id="install-setup">Install the research setup</h2>
+<p>My setup is on GitHub at <a href="https://github.com/thomasbierly/agentic-research">thomasbierly/agentic-research</a>. It adds what Omarchy doesn’t have for research: Quarto and Typst for papers, Zotero for references, Python notebooks, a <strong>Projects</strong> menu, and editor features for writing.</p>
+<p>Open a terminal with <kbd>Super</kbd> + <kbd>Enter</kbd> and type these two lines, pressing <kbd>Enter</kbd> after each:</p>
+<pre><code>git clone https://github.com/thomasbierly/agentic-research ~/.local/share/agentic-research
+~/.local/share/agentic-research/install.sh</code></pre>
+<p>It asks for your password once, to install software, then works through each part and ticks it off.</p>
+
+<figure class="ann" id="shot-install">
+  <div class="ann-img"><a href="../shots/install.webp" target="_blank" rel="noopener"><img src="../shots/install.webp" alt="A terminal showing the installer working through packages, Python tools, the Projects menu and Neovim plugins, each with a tick, and ending with three things to do by hand" loading="lazy"></a>
+    <span class="pin" style="left:27%;top:4.6%">1</span><span class="pin" style="left:44%;top:8.1%">2</span><span class="pin" style="left:92%;top:59.5%">3</span><span class="pin" style="left:41%;top:63.5%">4</span>
+  </div>
+  <ol class="ann-key"><li>The command you typed.</li><li>Each part ticks off as it&rsquo;s done. If one shows <strong>!</strong> instead, the message says what to do; it&rsquo;s always safe to run the installer again.</li><li>This one is expected on a new computer: Claude Code hasn&rsquo;t been opened yet. Sign in (below), then run the installer once more.</li><li>The three things only you can do, explained below.</li></ol>
+  <figcaption>The installer, run in a terminal (about a minute)</figcaption>
+</figure>
+
+<p>When it finishes it lists three things only you can do:</p>
+<ol>
+  <li><strong>Sign in to Claude Code.</strong> In the terminal, type <code>claude</code>, press <kbd>Enter</kbd> and follow the sign-in. You need a Claude subscription (Pro or Max) or an Anthropic API account. Then run the installer line again, so the project workspace can show you when Claude needs you.</li>
+  <li><strong>Add Better BibTeX to Zotero.</strong> Open Zotero from the app launcher (<kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>Space</kbd>). Download the <code>.xpi</code> file from the <a href="https://retorque.re/zotero-better-bibtex/installation/">Better BibTeX site</a>, then in Zotero choose <em>Tools › Plugins</em>, click the gear icon and choose <em>Install Plugin From File</em>.</li>
+  <li><strong>Connect GitHub</strong>, so your projects are backed up (<a href="../project/#github">what GitHub is for</a>). If you don’t have an account, create a free one at <a href="https://github.com/signup">github.com</a>. Then in the terminal type <code>gh auth login</code> and follow the questions.</li>
+</ol>
+<p>To update the setup later, run the installer line again.</p>
+
+<div class="pager"><a class="pager-prev" href="../linux/"><span>← Part 3</span>Why Linux and Omarchy</a><a class="pager-next" href="../first-project/"><span>Part 5 →</span>Your first project</a></div>
+
+<div class="page-footer">
+  <a class="btn-back" href="../../">← Back to thomasbierly.com</a>
+  <div class="footer-copy">© 2026 Thomas Bierly · setup: <a href="https://github.com/thomasbierly/agentic-research" style="color:inherit">github.com/thomasbierly/agentic-research</a></div>
+</div>
+</main>
+<script>(function(){var c=document.querySelector(".course"),a=c&&c.querySelector("[aria-current]");if(a)c.scrollLeft=a.offsetLeft-c.offsetLeft-40})()</script>
+<script>if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelectorAll("video.clip").forEach(v=>{v.removeAttribute("autoplay");v.pause();v.controls=true})</script>
+</body>
+</html>

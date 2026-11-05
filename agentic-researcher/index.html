@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Agentic Researcher — Thomas Bierly</title>
-<meta name="description" content="A research setup where the paper is built from the analysis and an AI agent works beside you: how it compares with SPSS, Stata and Word, and a step-by-step guide with annotated screenshots, from installing Omarchy to your first project.">
+<meta name="description" content="A short course for researchers: work alongside an AI agent so every number comes from code you can rerun and every change is recorded, from the first idea to a computer set up for it.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23241a2a'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='20' fill='%23ffb152'>TB</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -19,430 +19,73 @@
       <span class="nav-brand-mono">TB</span>
       <span class="nav-brand-name">Thomas Bierly</span>
     </a>
-    <div class="nav-tabs">
-      <a class="nav-tab" href="#compared">Why</a>
-      <a class="nav-tab" href="#install-omarchy">Install</a>
-      <a class="nav-tab" href="#loop">The research loop</a>
-      <a class="nav-tab" href="#build"><span class="nav-tab-dot"></span>Build and share</a>
+    <div class="nav-links">
+      <a class="nav-link" href="../#about">About</a>
+      <a class="nav-link" href="../#research">Research</a>
+      <a class="nav-link" href="../#projects">Projects</a>
+      <a class="nav-link" href="./" aria-current="page">Guide</a>
+      <a class="nav-link" href="../#teaching">Teaching</a>
+      <a class="nav-link" href="../#cv">CV</a>
+      <a class="nav-link" href="../#contact">Contact</a>
     </div>
+    <a class="nav-cta" href="../#contact">Let's talk</a>
   </div>
 </nav>
 
 <main class="guide">
 <a class="back-link" href="../">← thomasbierly.com</a>
-
+<div class="course" role="navigation" aria-label="Course"><a href="./" aria-current="page">Start</a><a href="agents/"><span class="course-n">1</span>Agents</a><a href="project/"><span class="course-n">2</span>One project</a><a href="linux/"><span class="course-n">3</span>Linux</a><a href="install/"><span class="course-n">4</span>Install</a><a href="first-project/"><span class="course-n">5</span>First project</a><a href="loop/"><span class="course-n">6</span>In depth</a><a href="make-it-yours/"><span class="course-n">7</span>Make it yours</a></div>
 <header class="hero-guide">
-<p class="hero-eyebrow">Guide</p>
+<p class="hero-eyebrow">A short course for researchers</p>
 <h1>The Agentic Researcher</h1>
-<p class="lede">Fix one number in your data and every table, figure and result in your paper updates to match. Ask an assistant that has read your code, your data and your draft whether the Results section still says what the analysis found, and check its answer line by line.</p>
-<p>That is what this setup gives you: the whole project in one place, from the software or survey that produces your data to the paper that reports it, with an AI agent working beside you. You stop copying output from SPSS into Word, and <em>paper_final_v7.docx</em> goes away. You never wonder again which version of the data made Figure&nbsp;3. Every change is recorded, whether you made it or the agent did, and any of them can be undone. It runs on free software on your own computer, and setting it up takes an afternoon.</p>
+<p class="lede">You became a researcher to answer questions, but you spend much of your week on other work: cleaning the same data again, pasting tables into Word, hunting for the one number that changed, rebuilding a figure for a reviewer two years later.</p>
+<p>AI agents can now do much of that mechanical work inside your own project, while you keep the parts that need a researcher: the question, the design, and what the results mean. Done well, it makes your work more trustworthy, not less. Every number comes from code you can run again, and every change the agent makes is recorded for you to read, so you can always show how a result was made.</p>
+<p>If you already use AI and aren’t sure where the lines are, you’re not alone, and you don’t need to hide it. Start with what an agent is, what to keep for yourself, and how to work with one in a way you can defend. Then, when you’re ready, set up a computer built for this way of working.</p>
 
 <div class="needs">
-  <div><span class="needs-h">You’ll need:</span> a computer you can give to Linux, a USB stick, an afternoon, and a Claude subscription</div>
+  <div><span class="needs-h">You’ll need:</span> curiosity and a Claude subscription to start; later, a computer you can give to Linux, a USB stick and an afternoon</div>
   <div><span class="needs-h">You won’t need:</span> to know how to program, or to have used Linux before</div>
 </div>
 </header>
 
 <figure class="ann wide hero-shot">
   <div class="ann-img"><a href="shots/workspace.webp?v=3" target="_blank" rel="noopener"><img src="shots/workspace.webp?v=3" alt="A research project open on screen: the paper in an editor on the left and the Claude Code agent on the right, with tabs for running code, the paper, reviewing changes and backing up" loading="lazy"></a></div>
-  <figcaption>One project, one window: the paper beside the agent, with tabs for running the code, building the paper, reviewing changes and backing up.</figcaption>
+  <figcaption>Where the course ends up: the paper beside the agent, with tabs for the analysis, the PDF, reviewing changes and backing up.</figcaption>
 </figure>
 
-<nav class="toc" aria-label="Contents">
-  <div class="toc-part"><span class="toc-label">Part 1 · Why</span>
-    <a href="#compared"><span class="toc-n">01</span> Compared with SPSS, Stata and Word</a>
-    <a href="#using-it"><span class="toc-n">02</span> What it’s like to use</a>
-    <a href="#why-linux"><span class="toc-n">03</span> Why Linux, now</a>
-    <a href="#why-omarchy"><span class="toc-n">04</span> Why Omarchy</a>
-  </div>
-  <div class="toc-part"><span class="toc-label">Part 2 · How</span>
-    <a href="#install-omarchy"><span class="toc-n">05</span> Install Omarchy</a>
-    <a href="#install-setup"><span class="toc-n">06</span> Install the research setup</a>
-    <a href="#first-project"><span class="toc-n">07</span> Your first project</a>
-    <a href="#loop"><span class="toc-n">08</span> The research loop</a>
-  </div>
-  <div class="toc-part"><span class="toc-label">Part 3 · Make it yours</span>
-    <a href="#build"><span class="toc-n">09</span> Play, build and share</a>
-    <a href="#cheatsheet"><span class="toc-n">10</span> Cheat sheet and help</a>
-  </div>
-</nav>
+<h2 id="course">The course</h2>
+<p>Seven short parts. The first three need nothing installed, and the first ends with something you can try today on the computer you already have.</p>
 
-<!-- ============================================================ -->
-<div class="part"><span class="part-n">Part 1</span><span class="part-t">Why do this at all?</span></div>
-
-<h2 id="compared">Compared with SPSS, Stata and Word</h2>
-<p>SPSS, Stata and Word are good tools, and you may have used them for years. The problems come from the gaps between them. Results travel from the statistics package to the paper by copy and paste, and every paste is a chance for the paper to fall out of step with the analysis. These mistakes are easy to make and hard to spot. A spreadsheet error in an influential economics paper on public debt went unnoticed for three years. A 2016 study found that about one in five genetics papers that shared gene lists as Excel files had gene names corrupted by Excel’s automatic formatting.</p>
-<p>In this setup the paper is <em>built from</em> the analysis, so there is nothing to paste. Here is how everyday tasks compare:</p>
-
-<div class="table-wrap compare"><table>
-  <thead><tr><th></th><th>SPSS or Stata, plus Word</th><th>This setup</th></tr></thead>
-  <tbody>
-    <tr><td>You find a data error after drafting the paper</td><td>Rerun the analysis, export each table and figure again, paste them into Word, then hunt for every number in the text</td><td>Fix it once and rebuild: tables, figures and the numbers in the text update together</td></tr>
-    <tr><td>You want to see what changed in a draft</td><td>Track Changes, if everyone remembered to turn it on</td><td>Every change by anyone, including the agent, shown line by line, always</td></tr>
-    <tr><td>A reviewer asks for a reanalysis two years later</td><td>Find the right syntax file, the right version of the data, and a working licence</td><td>One folder holds the code, data and paper with their full history; one command rebuilds everything</td></tr>
-    <tr><td>You’re stuck</td><td>Menus, manuals and forums</td><td>An agent that has read your project explains, writes and checks the analysis with you</td></tr>
-    <tr><td>Cost</td><td>Yearly licences for the statistics package and Office</td><td>Free, apart from the agent subscription</td></tr>
-    <tr><td>Your co-author only uses Word</td><td>Email attachments back and forth</td><td>The paper can also be produced as a Word file; the agent helps bring their edits back in</td></tr>
-  </tbody>
-</table></div>
-
-<div class="map">
-  <div class="map-h">If you use… <span>you’ll use…</span></div>
-  <div class="map-row"><span>Word</span> <span>a Quarto paper: plain text that becomes a PDF or a Word file</span></div>
-  <div class="map-row"><span>SPSS or Stata</span> <span>a live notebook (marimo): Python, written with the agent’s help</span></div>
-  <div class="map-row"><span>EndNote or Mendeley</span> <span>Zotero, which is free</span></div>
-  <div class="map-row"><span>Track Changes</span> <span>the <em>review</em> tab, which shows every change</span></div>
-  <div class="map-row"><span>Dropbox and <em>final_v2</em></span> <span>saved versions (Git), backed up to GitHub</span></div>
+<div class="cm-stage">Understand <span>nothing to install</span></div>
+<div class="course-map">
+  <a class="cm-card" href="agents/"><span class="cm-n">1</span><span class="cm-t">Working with an agent</span><span class="cm-d">What an agent is, what to hand over and what to keep, how to use one with integrity, and a first try on your own computer.</span><span class="cm-time">30 minutes</span></a>
+  <a class="cm-card" href="project/"><span class="cm-n">2</span><span class="cm-t">One project, from data to paper</span><span class="cm-d">Why the gaps between SPSS, Stata and Word cause mistakes, and what replaces each one.</span><span class="cm-time">10 minutes</span></a>
+  <a class="cm-card" href="linux/"><span class="cm-n">3</span><span class="cm-t">Why Linux and Omarchy</span><span class="cm-d">Why agents work best on Linux, the honest costs, and the computer this course uses.</span><span class="cm-time">10 minutes</span></a>
 </div>
 
-<p>If you already write Stata do-files or SPSS syntax rather than clicking through menus, you’re halfway there: that is the same idea. Your agent can translate those files into Python and check that they give the same results, and Python opens your existing <code>.sav</code> and <code>.dta</code> files directly. Stata and SPSS both have Linux versions, if your field expects a particular procedure.</p>
-
-<!-- ============================================================ -->
-<h2 id="using-it">What it’s like to use</h2>
-<p>Most of the day is plain English. You describe what you want, the agent does the mechanical part, and you check what it did. Here are some things you might ask it, at each stage of a project:</p>
-
-<div class="prompts">
-  <div class="prompt-group"><div class="prompt-stage">Getting the data in</div>
-    <p class="prompt">Open <em>survey_export.sav</em>, keep the variables in the codebook, and save a clean copy in data/.</p>
-    <p class="prompt">Here’s my old SPSS syntax. Rewrite it in Python and show me that the means match.</p>
-  </div>
-  <div class="prompt-group"><div class="prompt-stage">Analysis</div>
-    <p class="prompt">Regress score on sleep and stress, controlling for year, and explain the output as you would to a reviewer.</p>
-    <p class="prompt">Make Figure 2 colour-blind friendly and in APA style.</p>
-  </div>
-  <div class="prompt-group"><div class="prompt-stage">Writing</div>
-    <p class="prompt">Check every number in the Results section against the analysis.</p>
-    <p class="prompt">Make a Word version of the paper for my co-author.</p>
-  </div>
-  <div class="prompt-group"><div class="prompt-stage">Housekeeping</div>
-    <p class="prompt">Save a version called “added stress factor” and back it up to GitHub.</p>
-    <p class="prompt">The PDF preview stopped updating. Can you find out why?</p>
-  </div>
+<div class="cm-stage">Set up</div>
+<div class="course-map">
+  <a class="cm-card" href="install/"><span class="cm-n">4</span><span class="cm-t">Install everything</span><span class="cm-d">Omarchy, then the research setup, step by step with screenshots.</span><span class="cm-time">An afternoon</span></a>
 </div>
 
-<p>You stay the researcher. The agent makes changes and explains them, the <em>review</em> tab shows you exactly what it changed, and you can question any line. The same project structure works for a thesis, a grant proposal, a literature review or a course you teach: anything that turns data and reading into writing.</p>
-
-<!-- ============================================================ -->
-<h2 id="why-linux">Why Linux, now</h2>
-<p>For most of the last thirty years the operating system barely mattered to research. You needed Word, a statistics package and a reference manager, and they ran on whatever you had. Agents change that, because of how they work.</p>
-<p>An AI agent such as Claude Code doesn’t click through menus. It reads files, runs commands and writes files, the way a programmer does. Give it a computer where everything is a file and every action is a command, and it can do far more for you. That describes Linux.</p>
-
-<div class="points">
-  <div class="point"><div class="point-t">Agents work where you work</div><p>Your code, data, paper and even the computer’s settings are plain text files. The agent can help with the whole project, and fix the computer when something breaks.</p></div>
-  <div class="point"><div class="point-t">The same as the cluster</div><p>University computing clusters and cloud servers run Linux. What you learn on your laptop carries straight over when your analysis outgrows it.</p></div>
-  <div class="point"><div class="point-t">Your data stays with you</div><p>Notebooks, databases and the grammar checker run on your own machine. Only what you send to the agent leaves it, and you decide what that is.</p></div>
+<div class="cm-stage">Do research</div>
+<div class="course-map">
+  <a class="cm-card" href="first-project/"><span class="cm-n">5</span><span class="cm-t">Your first project</span><span class="cm-d">Create a project and take one study round the loop: code, notebook, paper, review, save.</span><span class="cm-time">30 minutes</span></a>
+  <a class="cm-card" href="loop/"><span class="cm-n">6</span><span class="cm-t">The research loop in depth</span><span class="cm-d">Data and databases, SQL, interactive notebooks, citations, and talking back to the agent.</span><span class="cm-time">Dip in as needed</span></a>
+  <a class="cm-card" href="make-it-yours/"><span class="cm-n">7</span><span class="cm-t">Make it yours</span><span class="cm-d">Build the tools you wish you had, share them, and the cheat sheet.</span><span class="cm-time">Whenever you like</span></a>
 </div>
 
-<p><strong>The honest costs.</strong> Linux asks you to learn new habits, and some things are harder. Microsoft Office runs only in the browser, some university software is Windows-only, and a few laptops have hardware Linux doesn’t fully support. The agent softens the learning curve a great deal, because you can ask it to explain or fix anything you meet. If you rely on Windows-only software, Omarchy can sit beside Windows on the same computer (see <a href="#install-omarchy">Install Omarchy</a>).</p>
+<p class="start-cta"><a class="btn-amber" href="agents/">Start with part 1 →</a></p>
 
-<!-- ============================================================ -->
-<h2 id="why-omarchy">Why Omarchy</h2>
-<p><a href="https://omarchy.org">Omarchy</a> is a version of Linux made by David Heinemeier Hansson at 37signals, the company behind Basecamp. It makes every setup decision for you, with good taste, so the computer is ready to work the day you install it. Its tagline is <em>the malleable OS for the age of agents</em>, and that fits researchers right now:</p>
-<ul>
-  <li><strong>The agents are already there.</strong> Claude Code and a dozen other agents come ready to run. On first start Omarchy asks which one you want, and when an app crashes you can click the notification to send your agent to investigate.</li>
-  <li><strong>Everything is meant to be changed, by you or your agent.</strong> Omarchy teaches your agent how it works, from changing a setting to building a whole app. The setup in this guide was made that way: I described what I wanted, and Claude Code built it.</li>
-  <li><strong>It’s quick to try.</strong> The installer asks a handful of questions and finishes in minutes.</li>
-</ul>
-<figure class="ann wide" id="shot-themes">
-  <div class="ann-img"><video class="clip" src="shots/themes.mp4" poster="shots/themes-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="The same project workspace shown in twelve Omarchy themes one after another: the wallpaper, window colours, editor and agent all change together"></video></div>
-  <figcaption>It’s also lovely to look at. Pick one of Omarchy’s 24 themes and everything changes together: the wallpaper, the editor, your agent and every window. Press <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>T</kbd> to choose one.</figcaption>
-</figure>
-
-<p>We’re in a transition. Agents can now do much of the mechanical work of research, but most researchers still work in tools designed before agents existed. Omarchy is one of the first computers designed with agents in mind, and a comfortable place to learn to work alongside one. It is keyboard-first, so my setup adds a mouse-friendly layer on top: a file list you can click, a right-click menu, and a <strong>Projects</strong> menu. About six shortcuts get you started, and they’re all in the <a href="#cheatsheet">cheat sheet</a>.</p>
-
-<!-- ============================================================ -->
-<div class="part"><span class="part-n">Part 2</span><span class="part-t">Set it up and run a project</span></div>
-
-<h2 id="install-omarchy">Install Omarchy</h2>
-
-<blockquote class="warn"><p><strong>Back up first.</strong> A normal Omarchy install erases the whole drive you install it on. Copy anything you want to keep somewhere else first. To keep Windows alongside Omarchy instead, follow Omarchy’s <a href="https://omarchy.org/manual/dual-boot-install/">dual-boot guide</a>.</p></blockquote>
-
-<div class="steps">
-  <div class="step"><div class="step-n">1</div><div><div class="step-title">Check what you need</div><div class="step-text">A computer you’re happy to dedicate to Linux (Omarchy runs on almost anything, from recent laptops to Intel Macs and a 2011 ThinkPad), a USB stick of 8 GB or more that can be wiped, and a keyboard plugged in by cable or a 2.4 GHz dongle. A Bluetooth keyboard won’t work at the start-up password screen.</div></div></div>
-  <div class="step"><div class="step-n">2</div><div><div class="step-title">Download Omarchy</div><div class="step-text">Go to <a href="https://omarchy.org">omarchy.org</a> and download the ISO, the installer image (about 6.5 GB).</div></div></div>
-  <div class="step"><div class="step-n">3</div><div><div class="step-title">Make the USB stick</div><div class="step-text">On Windows or a Mac, install <a href="https://etcher.balena.io/">balenaEtcher</a>, open it, choose <em>Flash from file</em> and pick the ISO, choose your USB stick as the target, and click <em>Flash</em>. This erases the stick.</div></div></div>
-  <div class="step"><div class="step-n">4</div><div><div class="step-title">Turn off Secure Boot</div><div class="step-text">Restart the computer and open its BIOS settings, usually by pressing <kbd>F2</kbd>, <kbd>F12</kbd>, <kbd>Del</kbd> or <kbd>Esc</kbd> as it starts (the start-up screen often says which). Find <em>Secure Boot</em> and turn it off; if there’s a <em>TPM</em> setting, turn that off too. Save and exit.</div></div></div>
-  <div class="step"><div class="step-n">5</div><div><div class="step-title">Start from the USB stick</div><div class="step-text">With the stick plugged in, restart and open the boot menu (often <kbd>F12</kbd> or <kbd>F8</kbd>; on an Intel Mac, hold <kbd>Option</kbd>). Choose the USB stick.</div></div></div>
-  <div class="step"><div class="step-n">6</div><div><div class="step-title">Answer the installer’s questions</div><div class="step-text">Pick your keyboard layout, then answer a few questions about you and the computer, such as your username and password, and confirm them. Then choose the drive to install on and confirm. Your password also encrypts the drive, so you’ll type it each time the computer starts. The <a href="https://omarchy.org/manual/getting-started/">Omarchy manual</a> has a screenshot of each screen. The install takes a few minutes, then the computer restarts.</div></div></div>
-  <div class="step"><div class="step-n">7</div><div><div class="step-title">First start</div><div class="step-text">Type your password to unlock the drive. Omarchy opens and invites you to choose a default agent: choose <strong>Claude</strong> to follow this guide exactly. Connect to the internet with a network cable, or click the network icon in the top bar and choose your Wi-Fi.</div></div></div>
-</div>
-
-<p style="margin-top:22px">Omarchy starts on an empty desktop. Almost everything starts from one menu.</p>
-
-<figure class="ann" id="shot-menu">
-  <div class="ann-img"><a href="shots/omarchy-menu.webp" target="_blank" rel="noopener"><img src="shots/omarchy-menu.webp" alt="The Omarchy menu open over the desktop, listing Apps, Learn, Appearance, Trigger, Setup, Install, Remove, Update, About, System and Projects" loading="lazy"></a>
-    <span class="box" style="left:35.5%;top:82.5%;width:29%;height:8.5%"></span><span class="pin" style="left:31%;top:12.5%">1</span><span class="pin" style="left:31%;top:45.9%">2</span><span class="pin" style="left:31%;top:86.7%">3</span>
-  </div>
-  <ol class="ann-key"><li><strong>Type to search.</strong> Start typing any word, such as <em>wifi</em> or <em>theme</em>, to find a setting without hunting through the menus.</li><li><strong>Setup</strong> holds the everyday settings: displays, keyboard, language, network, and which AI agent is your default.</li><li><strong>Projects</strong> appears after you install the research setup in the next step. It&rsquo;s where every project starts.</li></ol>
-  <figcaption>The Omarchy menu: <kbd>Super</kbd> + <kbd>Space</kbd></figcaption>
-</figure>
-
-<!-- ============================================================ -->
-<h2 id="install-setup">Install the research setup</h2>
-<p>My setup is on GitHub at <a href="https://github.com/thomasbierly/agentic-research">thomasbierly/agentic-research</a>. It adds what Omarchy doesn’t have for research: Quarto and Typst for papers, Zotero for references, Python notebooks, a <strong>Projects</strong> menu, and editor features for writing.</p>
-<p>Open a terminal with <kbd>Super</kbd> + <kbd>Enter</kbd> and type these two lines, pressing <kbd>Enter</kbd> after each:</p>
-<pre><code>git clone https://github.com/thomasbierly/agentic-research ~/.local/share/agentic-research
-~/.local/share/agentic-research/install.sh</code></pre>
-<p>It asks for your password once, to install software, then works through each part and ticks it off.</p>
-
-<figure class="ann" id="shot-install">
-  <div class="ann-img"><a href="shots/install.webp" target="_blank" rel="noopener"><img src="shots/install.webp" alt="A terminal showing the installer working through packages, Python tools, the Projects menu and Neovim plugins, each with a tick, and ending with three things to do by hand" loading="lazy"></a>
-    <span class="pin" style="left:27%;top:4.6%">1</span><span class="pin" style="left:44%;top:8.1%">2</span><span class="pin" style="left:92%;top:59.5%">3</span><span class="pin" style="left:41%;top:63.5%">4</span>
-  </div>
-  <ol class="ann-key"><li>The command you typed.</li><li>Each part ticks off as it&rsquo;s done. If one shows <strong>!</strong> instead, the message says what to do; it&rsquo;s always safe to run the installer again.</li><li>This one is expected on a new computer: Claude Code hasn&rsquo;t been opened yet. Sign in (below), then run the installer once more.</li><li>The three things only you can do, explained below.</li></ol>
-  <figcaption>The installer, run in a terminal (about a minute)</figcaption>
-</figure>
-
-<p>When it finishes it lists three things only you can do:</p>
-<ol>
-  <li><strong>Sign in to Claude Code.</strong> In the terminal, type <code>claude</code>, press <kbd>Enter</kbd> and follow the sign-in. You need a Claude subscription (Pro or Max) or an Anthropic API account. Then run the installer line again, so the project workspace can show you when Claude needs you.</li>
-  <li><strong>Add Better BibTeX to Zotero.</strong> Open Zotero from the app launcher (<kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>Space</kbd>). Download the <code>.xpi</code> file from the <a href="https://retorque.re/zotero-better-bibtex/installation/">Better BibTeX site</a>, then in Zotero choose <em>Tools › Plugins</em>, click the gear icon and choose <em>Install Plugin From File</em>.</li>
-  <li><strong>Connect GitHub</strong>, so your projects are backed up. In the terminal type <code>gh auth login</code> and follow the questions.</li>
-</ol>
-<p>To update the setup later, run the installer line again.</p>
-
-<!-- ============================================================ -->
-<h2 id="first-project">Your first project</h2>
-<p>Every project lives in its own folder in <code>~/Projects</code> and opens in its own workspace. To start one, open the Omarchy menu with <kbd>Super</kbd> + <kbd>Space</kbd> and choose <strong>Projects</strong>.</p>
-
-<figure class="ann" id="shot-projects">
-  <div class="ann-img"><a href="shots/projects-menu.webp" target="_blank" rel="noopener"><img src="shots/projects-menu.webp" alt="The Projects menu, with New project at the top, then a project called sleep-and-grades, then Refresh project list" loading="lazy"></a>
-    <span class="box" style="left:37%;top:29.5%;width:27%;height:11.5%"></span><span class="pin" style="left:33%;top:35%">1</span><span class="pin" style="left:33%;top:48.5%">2</span><span class="pin" style="left:33%;top:61%">3</span>
-  </div>
-  <ol class="ann-key"><li><strong>New project…</strong> creates a project and opens it.</li><li>Your projects, one per line. Click one to open it, or to come back to it later.</li><li><strong>Refresh project list</strong> picks up a project folder you copied into <code>~/Projects</code> yourself, for example one cloned from GitHub.</li></ol>
-  <figcaption><kbd>Super</kbd> + <kbd>Space</kbd> › Projects</figcaption>
-</figure>
-
-<figure class="ann" id="shot-name">
-  <div class="ann-img"><a href="shots/new-project-name.webp" target="_blank" rel="noopener"><img src="shots/new-project-name.webp" alt="A text box with sleep-and-grades typed in" loading="lazy"></a>
-    <span class="box" style="left:29%;top:15%;width:42%;height:24%"></span><span class="pin" style="left:26%;top:27%">1</span>
-  </div>
-  <ol class="ann-key"><li>Type a short name and press <kbd>Enter</kbd>. Letters, numbers and dashes work best; spaces become dashes. Press <kbd>Esc</kbd> to cancel.</li></ol>
-  <figcaption>Naming the project</figcaption>
-</figure>
-
-<p>The project opens in the workspace you saw at the top of this page, with five tabs, one for each kind of work. You switch between them by clicking the tab names or with <kbd>Alt</kbd> + <kbd>1</kbd> to <kbd>5</kbd>.</p>
-
-<figure class="ann wide" id="shot-workspace">
-  <div class="ann-img"><a href="shots/workspace.webp" target="_blank" rel="noopener"><img src="shots/workspace.webp" alt="The project workspace: a sidebar of projects and agents, a file list, the paper open in the editor, and Claude Code on the right, under five tabs" loading="lazy"></a>
-    <span class="box teal" style="left:12%;top:0%;width:24.4%;height:3.4%"></span><span class="pin" style="left:37.6%;top:1.7%">1</span><span class="pin" style="left:27%;top:22%">2</span><span class="pin" style="left:38%;top:41%">3</span><span class="pin" style="left:58.6%;top:36.8%">4</span><span class="pin" style="left:82%;top:6%">5</span><span class="pin" style="left:96%;top:94.7%">6</span><span class="pin" style="left:13.5%;top:57%">7</span>
-  </div>
-  <ol class="ann-key"><li><strong>The five tabs</strong>: work, analysis, paper, review and git. Click one, or press <kbd>Alt</kbd> + <kbd>1</kbd> to <kbd>5</kbd>.</li><li><strong>The file list.</strong> Click a folder to open it and a file to edit it.</li><li><strong>The editor</strong>, showing the paper. Press <kbd>i</kbd> to start typing and <kbd>Esc</kbd> when you&rsquo;re done; long paragraphs wrap to fit.</li><li><strong>Writing suggestions</strong> appear in green after a line, here a suggested comma. They come from a checker that runs on your computer.</li><li><strong>Claude Code</strong>, your agent, already working inside this project.</li><li><strong>Type your request here</strong> and press <kbd>Enter</kbd>.</li><li><strong>Projects and agents.</strong> The dot next to an agent shows whether it&rsquo;s working, waiting for you or done, so you can leave it to work and check back.</li></ol>
-  <figcaption>The <em>work</em> tab: the editor and the agent side by side</figcaption>
-</figure>
-
-<p>The folder has one place for each stage of the project:</p>
-<div class="table-wrap"><table>
-  <thead><tr><th>Folder</th><th>What goes in it</th></tr></thead>
-  <tbody>
-    <tr><td><code>src/</code></td><td>The software: a simulation, a data collector, a model.</td></tr>
-    <tr><td><code>data/</code></td><td>Raw data, and data your software produces.</td></tr>
-    <tr><td><code>analysis/</code></td><td>Notebooks that turn data into tables and figures.</td></tr>
-    <tr><td><code>paper/</code></td><td>The paper, written in Quarto. Figures land in <code>paper/figures/</code> straight from the analysis.</td></tr>
-  </tbody>
-</table></div>
-
-<!-- ============================================================ -->
-<h2 id="loop">The research loop</h2>
-<p>The rest of this guide follows one small, made-up study, <em>sleep-and-grades</em>, round the loop: does sleep in exam week change exam scores? Each stage has its own tab, and the agent can help at every one.</p>
-
-<div class="loop">
-  <div class="loop-step"><div class="loop-n">1 · work</div><div class="loop-t">Write the software</div><div class="loop-d">with the agent</div></div>
-  <div class="loop-step"><div class="loop-n">2 · analysis</div><div class="loop-t">Run it</div><div class="loop-d">and open the notebook</div></div>
-  <div class="loop-step"><div class="loop-n">3 · analysis</div><div class="loop-t">Analyse</div><div class="loop-d">with live results</div></div>
-  <div class="loop-step"><div class="loop-n">4 · paper</div><div class="loop-t">Write</div><div class="loop-d">with a live PDF</div></div>
-  <div class="loop-step"><div class="loop-n">5 · review</div><div class="loop-t">Check</div><div class="loop-d">every change</div></div>
-  <div class="loop-step"><div class="loop-n">6 · git</div><div class="loop-t">Save</div><div class="loop-d">and back up</div></div>
-</div>
-
-<h3 id="code">Write the software, with the agent</h3>
-<p>Claude Code sits beside the editor in the <em>work</em> tab. Tell it what you want in plain English. It reads the project, proposes changes and asks before it does anything you haven’t allowed. Here I asked it to add a second factor to the simulation.</p>
-
-<figure class="ann wide" id="shot-agent">
-  <div class="ann-img"><a href="shots/agent.webp?v=4" target="_blank" rel="noopener"><img src="shots/agent.webp?v=4" alt="The work tab: the simulation code in the editor on the left, and Claude Code on the right showing its edit in red and green and what it checked" loading="lazy"></a>
-    
-    <span class="pin" style="left:48.9%;top:12.2%">1</span><span class="pin" style="left:48.9%;top:47%">2</span><span class="pin" style="left:48.9%;top:86.5%">3</span><span class="pin" style="left:26.5%;top:20%">4</span>
-  </div>
-  <ol class="ann-key"><li>Your request, in plain English.</li><li>Claude shows each edit as it makes it: red lines removed, green lines added. Here it adds a stress score, and a <code>stress_effect</code> setting for how much it costs.</li><li>It says what it checked (a test fit recovers the effects it set) and what it will do next: rerun the notebook and update the Methods sentence in the paper.</li><li>The changed file, open in the editor beside it.</li></ol>
-  <figcaption>After asking: <em>&ldquo;Add exam stress to the simulation: give each student a stress score from 0 to 10 that lowers their exam score by about one point per unit.&rdquo;</em></figcaption>
-</figure>
-
-<p>To open any file yourself, click it in the file list on the left. Right-click in the text for a menu of everyday actions: find a file, search the whole project, show the PDF, show or hide the file list.</p>
-
-<h3 id="run">Run it, and open the notebook</h3>
-<p>The <em>analysis</em> tab has a terminal on the left, for running your software and any other command-line tool. On the right it starts your project’s notebooks. Press <kbd>Enter</kbd> there, or right-click in the editor and choose <strong>Open the analysis notebook</strong>, and the notebook opens in its own window beside your workspace, like the PDF preview.</p>
-
-<figure class="ann wide" id="shot-run">
-  <div class="ann-img"><a href="shots/analysis-notebook.webp?v=4" target="_blank" rel="noopener"><img src="shots/analysis-notebook.webp?v=4" alt="The analysis tab on the left, with a terminal showing simulated students and a message that the notebooks are ready; the analysis notebook open in its own window on the right, showing a data table and a scatter plot" loading="lazy"></a>
-    
-    <span class="pin" style="left:18.6%;top:1.6%">1</span><span class="pin" style="left:24.5%;top:9%">2</span><span class="pin" style="left:38%;top:18%">3</span><span class="pin" style="left:65.5%;top:1.6%">4</span>
-  </div>
-  <ol class="ann-key"><li>The <em>analysis</em> tab.</li><li>A terminal for running your software. Here it prints the first eight simulated students, including the new <code>stress</code> column.</li><li>The notebooks for this project. Press <kbd>Enter</kbd> here to open the notebook window again if you close it.</li><li>The notebook, in its own window. It runs as it opens, so you see results straight away.</li></ol>
-  <figcaption>The <em>analysis</em> tab and the notebook window, side by side</figcaption>
-</figure>
-
-<h3 id="analyse">Analyse in a live notebook</h3>
-<p>Analysis happens in <a href="https://marimo.io">marimo</a>, a free, open-source notebook that runs on your computer. Like any notebook, it mixes notes in plain English, the code for each step, and the results that code produces. Unlike most notebooks, it keeps them in step for you: change a cell and every cell that depends on it runs again, so no table or figure on the page is ever out of date.</p>
-
-<figure class="ann" id="shot-table">
-  <div class="ann-img"><a href="shots/marimo-table.webp?v=3" target="_blank" rel="noopener"><img src="shots/marimo-table.webp?v=3" alt="The marimo notebook: a heading and short explanation, the code that loads the simulation, and an interactive table of 400 students with a small histogram above each column" loading="lazy"></a>
-    <span class="pin" style="left:49%;top:9%">1</span><span class="pin" style="left:75%;top:30%">2</span><span class="pin" style="left:60%;top:56.5%">3</span><span class="pin" style="left:51.6%;top:64%">4</span><span class="pin" style="left:22%;top:96%">5</span>
-  </div>
-  <ol class="ann-key"><li><strong>Notes</strong>, formatted as headings and text, explain each step.</li><li><strong>The code</strong> that loads the data. It runs the project&rsquo;s own simulation, so the data is always the current version.</li><li>Search, filter, sort and chart the data without writing any code, much like the data view in SPSS.</li><li>A small histogram over each column shows its spread at a glance.</li><li>All 400 students, ten at a time.</li></ol>
-  <figcaption>The data, straight under the code that made it</figcaption>
-</figure>
-
-<p><strong>Ask the agent, watch the notebook.</strong> Because the notebook has its own window, the agent can sit right beside it. Go back to the <em>work</em> tab and ask for the next step in plain English. Each notebook is an ordinary Python file in <code>analysis/</code>, so the agent edits it like any other file, and the open notebook updates as soon as it saves.</p>
-
-<figure class="ann wide" id="shot-live">
-  <div class="ann-img"><a href="shots/agent-notebook.webp?v=4" target="_blank" rel="noopener"><img src="shots/agent-notebook.webp?v=4" alt="Claude Code on the left explaining the fit it added, with a table of estimates; the notebook on the right showing the new Sleep and stress together section and its results table" loading="lazy"></a>
-    
-    <span class="pin" style="left:33.5%;top:22.9%">1</span><span class="pin" style="left:60.6%;top:33%">2</span><span class="pin" style="left:65.3%;top:1.8%">3</span><span class="pin" style="left:65.3%;top:43%">4</span>
-  </div>
-  <ol class="ann-key"><li>Claude says what it added and how it checked it: it ran the notebook, and marimo&rsquo;s own check passed.</li><li>The results, with each estimate beside the value the simulation was given.</li><li>The new section in the notebook, there as soon as Claude saved the file&hellip;</li><li>&hellip;with the same results as a table you can search and sort. Claude also saved it to <code>paper/tables/</code> for the paper.</li></ol>
-  <figcaption>After asking: <em>&ldquo;Add a fit with both sleep and stress to the notebook, and show the results as a table.&rdquo;</em> The <em>work</em> tab on the left, the notebook window on the right.</figcaption>
-</figure>
-
-<h3 id="data">Your data and databases</h3>
-<p><strong>Files.</strong> Data files go in <code>data/</code>: CSV, Excel, Parquet, or your existing SPSS and Stata files. Python reads them all; ask the agent to load one into the notebook.</p>
-<p><strong>SQL.</strong> If you’d rather ask questions in SQL, a notebook cell can be SQL instead of Python. It can query the tables already in the notebook, files in <code>data/</code> directly (<code>FROM 'data/survey.csv'</code>), or a database. The answer is another table you can search and sort, and the cells after it can use it.</p>
-
-<figure class="ann" id="shot-sql">
-  <div class="ann-img"><a href="shots/marimo-sql.webp" target="_blank" rel="noopener"><img src="shots/marimo-sql.webp" alt="A SQL cell in the notebook grouping students by whole hours of sleep, and the result: the number of students and the average exam score for each hour" loading="lazy"></a>
-    <span class="pin" style="left:75%;top:32%">1</span><span class="pin" style="left:75%;top:78%">2</span>
-  </div>
-  <ol class="ann-key"><li>A SQL cell: the number of students and their average score for each whole hour of sleep, straight from the <code>students</code> table above it.</li><li>The answer, as a table the next cells can use.</li></ol>
-  <figcaption>A SQL cell. The agent wrote it after being asked for <em>&ldquo;the number of students and the average exam score for each whole hour of sleep&rdquo;</em></figcaption>
-</figure>
-
-<p><strong>Your own database.</strong> To work with a Postgres, MySQL, SQLite or other database, choose <strong>Add database connection</strong> in the notebook’s left-hand panel, or ask the agent to set it up. The database’s tables then appear in that panel, ready to query. Keep the password out of the notebook: put it in a file called <code>.env</code> in the project folder (for example <code>DB_PASSWORD=…</code>) and have the connection read it from there. marimo loads <code>.env</code> when the notebook starts, and Git ignores it, so the password never ends up in a saved version or on GitHub.</p>
-<p><strong>The command line.</strong> The terminal in the <em>analysis</em> tab is there for everything else: database tools such as <code>psql</code> or <code>duckdb</code>, cloud tools such as AWS’s <code>aws</code>, and <code>ssh</code> to log in to a university computing cluster.</p>
-
-<h3 id="what-if">Try ideas with a slider</h3>
-<p>Notebooks can be interactive too. Here the agent added a slider for how much stress costs: drag it, and the simulation and the fit run again at once. It’s a quick way to see how sensitive a result is before you commit to an analysis.</p>
-
-<figure class="ann" id="shot-slider">
-  <div class="ann-img"><a href="shots/marimo-slider.webp" target="_blank" rel="noopener"><img src="shots/marimo-slider.webp" alt="A section of the notebook with a slider for the points lost per unit of stress, the code that reruns the simulation with that value, and a table of the fitted estimates" loading="lazy"></a>
-    <span class="pin" style="left:44%;top:33.7%">1</span><span class="pin" style="left:75%;top:91%">2</span>
-  </div>
-  <ol class="ann-key"><li>Drag the slider to change how many points each unit of stress costs&hellip;</li><li>&hellip;and the simulation reruns and these estimates update. Nothing here is saved to the paper.</li></ol>
-  <figcaption>A &ldquo;what if?&rdquo; slider</figcaption>
-</figure>
-
-<p><strong>Why this beats an output window.</strong> In SPSS or Stata the analysis happens in one place, the results pile up in another, and the explanation lives in your head or a separate document. A notebook keeps all three together, in order, so it reads like a lab notebook that keeps itself up to date. Six months later you can see exactly how every number was made. Because each notebook is plain text, the <em>review</em> tab shows every change to it line by line. To run the whole notebook from start to finish, for example after changing the software, type <code>uv run analysis/01-explore.py</code> in the <em>analysis</em> tab’s terminal, or ask the agent to.</p>
-
-<h3 id="write">Write the paper, with a live PDF</h3>
-<p>The paper is <code>paper/index.qmd</code>, written in Markdown: plain text with a few marks for headings, emphasis and citations. The <em>paper</em> tab rebuilds the PDF every time you save. To see it, right-click in the text and choose <strong>Show PDF preview</strong>. The PDF opens in a window beside the editor, and clicking any sentence in it takes the editor to that sentence.</p>
-
-<figure class="ann wide" id="shot-preview">
-  <div class="ann-img"><a href="shots/preview.webp?v=4" target="_blank" rel="noopener"><img src="shots/preview.webp?v=4" alt="The paper source in the editor on the left and the PDF preview window on the right showing the same sections" loading="lazy"></a>
-    
-    <span class="box" style="left:22%;top:34.5%;width:11%;height:9%"></span><span class="box" style="left:67.2%;top:63.4%;width:27.5%;height:3.6%"></span><span class="pin" style="left:21.2%;top:39%">1</span><span class="pin" style="left:66.4%;top:65.2%">2</span><span class="pin" style="left:65%;top:13%">3</span><span class="pin" style="left:66.4%;top:56.5%">4</span>
-  </div>
-  <ol class="ann-key"><li>The source of the Results section in <code>paper/index.qmd</code>.</li><li>The same paragraph in the PDF. <strong>Click any sentence here</strong> and the editor jumps to it.</li><li>The preview opens in its own window and updates a few seconds after you save.</li><li>The agent&rsquo;s change to the Methods section, already in the PDF.</li></ol>
-  <figcaption>Click-to-jump PDF preview</figcaption>
-</figure>
-
-<p><strong>Citations.</strong> With Zotero open, type <code>\ci</code> in the paper (press <kbd>\</kbd> then <kbd>c</kbd> then <kbd>i</kbd>, not in typing mode) and Zotero’s search box appears. Pick a paper and its citation, such as <code>[@knuth1984]</code>, appears at the cursor. The reference list builds itself.</p>
-<p><strong>Grammar.</strong> Spelling and grammar suggestions appear as you write, from a checker called Harper that runs on your own computer.</p>
-
-<h3 id="review">Read what changed, and talk back</h3>
-<p>By the time you look, the agent’s changes are already in your files. The <em>review</em> tab shows every line that has changed since you last saved a version, whether you changed it or the agent did. You don’t approve changes one at a time. You read them, and if something looks wrong or raises a question, you say so.</p>
-
-<figure class="ann wide" id="shot-review">
-  <div class="ann-img"><a href="shots/review.webp?v=4" target="_blank" rel="noopener"><img src="shots/review.webp?v=4" alt="Hunk in the review tab, side by side: the old version of the simulation on the left with removed lines in red, and the new version on the right with added lines in green" loading="lazy"></a>
-    
-    <span class="pin" style="left:21.5%;top:12.5%">1</span><span class="pin" style="left:58.5%;top:40.4%">2</span><span class="pin" style="left:97.4%;top:45%">3</span>
-  </div>
-  <ol class="ann-key"><li>Every file that has changed since your last saved version. Click one to jump to it.</li><li><strong>On the left, the old version</strong>, with removed lines in red.</li><li><strong>On the right, the new version</strong>, with added lines in green, level with the lines they replace. Here: the agent&rsquo;s change to the simulation.</li></ol>
-  <figcaption>The <em>review</em> tab</figcaption>
-</figure>
-
-<p><strong>Leave a note on a line.</strong> In the <em>review</em> tab, move to the line with <kbd>j</kbd> (down) and <kbd>k</kbd> (up), press <kbd>c</kbd>, type your note and press <kbd>Ctrl</kbd> + <kbd>S</kbd> to save it. Then tell the agent in the <em>work</em> tab: <em>“I left a comment in Hunk. Reply to it there.”</em> It reads your note and answers underneath it, on the same line. If you ask for a change, it makes it and the review updates. Press <kbd>a</kbd> to show or hide the agent’s notes.</p>
-
-<figure class="ann wide" id="shot-comments">
-  <div class="ann-img"><a href="shots/review-comments.webp?v=4" target="_blank" rel="noopener"><img src="shots/review-comments.webp?v=4" alt="Hunk in the review tab: a note from the researcher on a changed line of the simulation, asking whether stress should depend on sleep, and the agent&rsquo;s reply underneath it" loading="lazy"></a>
-    
-    <span class="pin" style="left:20.5%;top:10%">1</span><span class="pin" style="left:98%;top:62%">2</span><span class="pin" style="left:60.3%;top:68%">3</span><span class="pin" style="left:60.3%;top:79%">4</span>
-  </div>
-  <ol class="ann-key"><li>The star and number show how many notes a file has.</li><li>The line under discussion: the agent&rsquo;s new stress score.</li><li><strong>Your note</strong>: <em>&ldquo;Should stress depend on sleep? Students who sleep less are probably more stressed.&rdquo;</em></li><li><strong>Claude&rsquo;s reply</strong>, on the same line. It explains what the change would mean for the paper&rsquo;s findings, then asks which option you want. Answer in the <em>work</em> tab.</li></ol>
-  <figcaption>A conversation about one line of code, inside the review</figcaption>
-</figure>
-
-<h3 id="save">Save a version and back it up</h3>
-<p>When you’re happy with where the project is, save a version of the whole project (a <em>commit</em>) in the <em>git</em> tab. You can also just ask the agent: <em>“commit this with a short description”</em>. The first time, ask it to <em>“create a private GitHub repository for this project and push it”</em>, and your work is backed up from then on.</p>
-
-<figure class="ann wide" id="shot-git">
-  <div class="ann-img"><a href="shots/git.webp?v=4" target="_blank" rel="noopener"><img src="shots/git.webp?v=4" alt="lazygit in the git tab: changed files on the left, the saved versions below them, and the selected file&rsquo;s changes on the right" loading="lazy"></a>
-    
-    <span class="pin" style="left:30%;top:14%">1</span><span class="pin" style="left:33%;top:69.8%">2</span><span class="pin" style="left:90%;top:30%">3</span><span class="pin" style="left:51%;top:97.2%">4</span>
-  </div>
-  <ol class="ann-key"><li>Every changed file. Press <kbd>a</kbd> to include them all in the version you&rsquo;re about to save.</li><li>Saved versions so far, newest first.</li><li>What changed in the selected file.</li><li>The keys for this screen are always listed along the bottom: <kbd>c</kbd> saves a version (a <em>commit</em>) and asks for a short description.</li></ol>
-  <figcaption>The <em>git</em> tab</figcaption>
-</figure>
-
-<h3 id="iterate">Round again</h3>
-<p>This is where keeping everything in one place pays off. Change the simulation and the notebook runs again; the figure it saves into <code>paper/figures/</code> updates in the PDF preview within seconds. Ask the agent to <em>“check that the numbers in the Results section still match the analysis”</em>, and it can, because it can see the code, the data and the paper together.</p>
-
-<!-- ============================================================ -->
-<h2 id="tomorrow">Coming back tomorrow</h2>
-<p>Open the Omarchy menu, choose <strong>Projects</strong> and pick your project. Everything comes back as you left it: the editor, the agent with your conversation, the console and the PDF builder. Even after you restart the computer, opening the project from the menu starts each tab&rsquo;s program again.</p>
-
-<!-- ============================================================ -->
-<div class="part"><span class="part-n">Part 3</span><span class="part-t">Make it yours</span></div>
-
-<h2 id="build">Play, build and share</h2>
-<p>The setup in this guide isn’t finished, and it isn’t meant to be. Every part of it, down to the menus, is text your agent can read and change. That means the most useful software for your research may be software that doesn’t exist yet, and you can ask for it.</p>
-<p>Start with <em>“I wish I had a tool that…”</em> and see how far your agent gets. Some ideas:</p>
-
-<div class="ideas">
-  <div class="idea">A small app for coding interview transcripts, with your codebook built in</div>
-  <div class="idea">A page that shows which participants you still need to recruit</div>
-  <div class="idea">A Monday-morning digest of new papers on your topic, straight into Zotero</div>
-  <div class="idea">A script that turns lecture notes into slides and a handout</div>
-  <div class="idea">A checker that flags any number in your paper the analysis doesn’t produce</div>
-  <div class="idea">A new project template for the kind of study you run most</div>
-</div>
-
-<p>Play with it. Your projects are saved version by version, so a bad experiment is one step to undo, and your agent can usually put back anything it changed on the computer. Most of what’s in this guide started as an afternoon of asking Claude for something I wanted.</p>
-
-<div class="share">
-  <div class="share-t">Built something? Show me.</div>
-  <p>I’d love to see what researchers make with this: a tool, a template, a better way of working, or something that broke and how you fixed it. The best ideas may end up in the setup for everyone.</p>
-  <div class="share-actions">
-    <a class="btn-amber" href="mailto:hello@thomasbierly.com?subject=The%20Agentic%20Researcher">Email me</a>
-    <a class="btn-teal" href="https://github.com/thomasbierly/agentic-research/issues">Share it on GitHub</a>
-  </div>
-</div>
-
-<!-- ============================================================ -->
-<h2 id="cheatsheet">Cheat sheet and help</h2>
-<div class="table-wrap"><table>
-  <thead><tr><th>To</th><th>Do</th></tr></thead>
-  <tbody>
-    <tr><td>Open the Omarchy menu</td><td><kbd>Super</kbd> + <kbd>Space</kbd> (the <kbd>Super</kbd> key has the Windows or ⌘ logo)</td></tr>
-    <tr><td>Open an app</td><td><kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>Space</kbd></td></tr>
-    <tr><td>Open a terminal</td><td><kbd>Super</kbd> + <kbd>Enter</kbd></td></tr>
-    <tr><td>Close a window</td><td><kbd>Super</kbd> + <kbd>W</kbd></td></tr>
-    <tr><td>See every shortcut</td><td><kbd>Super</kbd> + <kbd>K</kbd></td></tr>
-    <tr><td>Start or open a project</td><td>Omarchy menu › Projects</td></tr>
-    <tr><td>Open the analysis notebook</td><td>Right-click in the editor › Open the analysis notebook, or <kbd>Enter</kbd> in the <em>analysis</em> tab</td></tr>
-    <tr><td>Switch tabs in a project</td><td><kbd>Alt</kbd> + <kbd>1</kbd> … <kbd>5</kbd>, or click the tab</td></tr>
-    <tr><td>Open a file</td><td>Click it in the file list</td></tr>
-    <tr><td>Everyday editor actions</td><td>Right-click in the text</td></tr>
-    <tr><td>Type in the editor / stop typing</td><td><kbd>i</kbd> to start typing, <kbd>Esc</kbd> to stop</td></tr>
-    <tr><td>Save the file</td><td><kbd>Esc</kbd>, then type <code>:w</code> and press <kbd>Enter</kbd></td></tr>
-    <tr><td>Find any editor shortcut</td><td>Press <kbd>Space</kbd> and wait</td></tr>
-  </tbody>
-</table></div>
-
-<p><strong>When you’re stuck, ask your agent.</strong> It can read the error, explain it and usually fix it. Try <em>“the PDF preview isn’t updating, can you find out why?”</em> For Omarchy itself, the <a href="https://omarchy.org/manual/getting-started/">Omarchy manual</a> and its <a href="https://omarchy.org/discord/">Discord</a> are friendly places to ask.</p>
+<div class="pager"><span></span><a class="pager-next" href="agents/"><span>Part 1 →</span>Working with an agent</a></div>
 
 <div class="page-footer">
   <a class="btn-back" href="../">← Back to thomasbierly.com</a>
   <div class="footer-copy">© 2026 Thomas Bierly · setup: <a href="https://github.com/thomasbierly/agentic-research" style="color:inherit">github.com/thomasbierly/agentic-research</a></div>
 </div>
 </main>
+<script>(function(){var c=document.querySelector(".course"),a=c&&c.querySelector("[aria-current]");if(a)c.scrollLeft=a.offsetLeft-c.offsetLeft-40})()</script>
 <script>if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelectorAll("video.clip").forEach(v=>{v.removeAttribute("autoplay");v.pause();v.controls=true})</script>
+<script>(function(){var m={"compared": "project", "using-it": "project", "why-linux": "linux", "why-omarchy": "linux", "shot-themes": "linux", "install-omarchy": "install", "install-setup": "install", "shot-menu": "install", "shot-install": "install", "first-project": "first-project", "shot-workspace": "first-project", "loop": "first-project", "code": "first-project", "run": "first-project", "analyse": "loop", "data": "loop", "what-if": "loop", "write": "first-project", "review": "first-project", "save": "first-project", "iterate": "first-project", "tomorrow": "loop", "build": "make-it-yours", "cheatsheet": "make-it-yours"},h=location.hash.slice(1);if(m[h])location.replace(m[h]+'/#'+h)})()</script>
 </body>
 </html>

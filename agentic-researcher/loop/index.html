@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The research loop in depth — The Agentic Researcher</title>
+<meta name="description" content="Data files and databases, SQL, interactive notebooks, citations, and talking back to the agent in the review.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23241a2a'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='20' fill='%23ffb152'>TB</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=5">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="../../">
+      <span class="nav-brand-mono">TB</span>
+      <span class="nav-brand-name">Thomas Bierly</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="../../#about">About</a>
+      <a class="nav-link" href="../../#research">Research</a>
+      <a class="nav-link" href="../../#projects">Projects</a>
+      <a class="nav-link" href="../" aria-current="page">Guide</a>
+      <a class="nav-link" href="../../#teaching">Teaching</a>
+      <a class="nav-link" href="../../#cv">CV</a>
+      <a class="nav-link" href="../../#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="../../#contact">Let's talk</a>
+  </div>
+</nav>
+
+<main class="guide">
+<a class="back-link" href="../../">← thomasbierly.com</a>
+<div class="course" role="navigation" aria-label="Course"><a href="../">Start</a><a href="../agents/"><span class="course-n">1</span>Agents</a><a href="../project/"><span class="course-n">2</span>One project</a><a href="../linux/"><span class="course-n">3</span>Linux</a><a href="../install/"><span class="course-n">4</span>Install</a><a href="../first-project/"><span class="course-n">5</span>First project</a><a href="../loop/" aria-current="page"><span class="course-n">6</span>In depth</a><a href="../make-it-yours/"><span class="course-n">7</span>Make it yours</a></div>
+<header class="hero-guide">
+<p class="hero-eyebrow">Part 6</p>
+<h1>The research loop in depth</h1>
+<p class="lede">Part 5 took one study round the loop. This part goes further into each stage, for when you need it: your own data and databases, SQL, interactive notebooks, citations, and talking back to the agent in the review.</p>
+<div class="learn"><span class="learn-h">In this part</span>
+  <ul><li>The notebook’s data view</li><li>Data files, SQL and your own databases</li><li>“What if?” sliders</li><li>Citations and grammar</li><li>Notes and replies in the review</li><li>Coming back to a project</li></ul>
+</div>
+</header>
+
+<h2 id="notebooks">Notebooks</h2>
+<p>Every notebook opens with your data straight under the code that made it, as a table you can explore without writing any code.</p>
+<figure class="ann" id="shot-table">
+  <div class="ann-img"><a href="../shots/marimo-table.webp?v=3" target="_blank" rel="noopener"><img src="../shots/marimo-table.webp?v=3" alt="The marimo notebook: a heading and short explanation, the code that loads the simulation, and an interactive table of 400 students with a small histogram above each column" loading="lazy"></a>
+    <span class="pin" style="left:49%;top:9%">1</span><span class="pin" style="left:75%;top:30%">2</span><span class="pin" style="left:60%;top:56.5%">3</span><span class="pin" style="left:51.6%;top:64%">4</span><span class="pin" style="left:22%;top:96%">5</span>
+  </div>
+  <ol class="ann-key"><li><strong>Notes</strong>, formatted as headings and text, explain each step.</li><li><strong>The code</strong> that loads the data. It runs the project&rsquo;s own simulation, so the data is always the current version.</li><li>Search, filter, sort and chart the data without writing any code, much like the data view in SPSS.</li><li>A small histogram over each column shows its spread at a glance.</li><li>All 400 students, ten at a time.</li></ol>
+  <figcaption>The data, straight under the code that made it</figcaption>
+</figure>
+
+<h2 id="data">Your data and databases</h2>
+<p><strong>Files.</strong> Data files go in <code>data/</code>: CSV, Excel, Parquet, or your existing SPSS and Stata files. Python reads them all; ask the agent to load one into the notebook.</p>
+<p><strong>SQL.</strong> If you’d rather ask questions in SQL, a notebook cell can be SQL instead of Python. It can query the tables already in the notebook, files in <code>data/</code> directly (<code>FROM 'data/survey.csv'</code>), or a database. The answer is another table you can search and sort, and the cells after it can use it.</p>
+
+<figure class="ann" id="shot-sql">
+  <div class="ann-img"><a href="../shots/marimo-sql.webp" target="_blank" rel="noopener"><img src="../shots/marimo-sql.webp" alt="A SQL cell in the notebook grouping students by whole hours of sleep, and the result: the number of students and the average exam score for each hour" loading="lazy"></a>
+    <span class="pin" style="left:75%;top:32%">1</span><span class="pin" style="left:75%;top:78%">2</span>
+  </div>
+  <ol class="ann-key"><li>A SQL cell: the number of students and their average score for each whole hour of sleep, straight from the <code>students</code> table above it.</li><li>The answer, as a table the next cells can use.</li></ol>
+  <figcaption>A SQL cell. The agent wrote it after being asked for <em>&ldquo;the number of students and the average exam score for each whole hour of sleep&rdquo;</em></figcaption>
+</figure>
+
+<p><strong>Your own database.</strong> To work with a Postgres, MySQL, SQLite or other database, choose <strong>Add database connection</strong> in the notebook’s left-hand panel, or ask the agent to set it up. The database’s tables then appear in that panel, ready to query. Keep the password out of the notebook: put it in a file called <code>.env</code> in the project folder (for example <code>DB_PASSWORD=…</code>) and have the connection read it from there. marimo loads <code>.env</code> when the notebook starts, and Git ignores it, so the password never ends up in a saved version or on GitHub.</p>
+<p><strong>The command line.</strong> The terminal in the <em>analysis</em> tab is there for everything else: database tools such as <code>psql</code> or <code>duckdb</code>, cloud tools such as AWS’s <code>aws</code>, and <code>ssh</code> to log in to a university computing cluster.</p>
+
+<h2 id="what-if">Try ideas with a slider</h2>
+<p>Notebooks can be interactive too. Here the agent added a slider for how much stress costs: drag it, and the simulation and the fit run again at once. It’s a quick way to see how sensitive a result is before you commit to an analysis.</p>
+
+<figure class="ann" id="shot-slider">
+  <div class="ann-img"><a href="../shots/marimo-slider.webp" target="_blank" rel="noopener"><img src="../shots/marimo-slider.webp" alt="A section of the notebook with a slider for the points lost per unit of stress, the code that reruns the simulation with that value, and a table of the fitted estimates" loading="lazy"></a>
+    <span class="pin" style="left:44%;top:33.7%">1</span><span class="pin" style="left:75%;top:91%">2</span>
+  </div>
+  <ol class="ann-key"><li>Drag the slider to change how many points each unit of stress costs&hellip;</li><li>&hellip;and the simulation reruns and these estimates update. Nothing here is saved to the paper.</li></ol>
+  <figcaption>A &ldquo;what if?&rdquo; slider</figcaption>
+</figure>
+
+<p><strong>Why this beats an output window.</strong> In SPSS or Stata the analysis happens in one place, the results pile up in another, and the explanation lives in your head or a separate document. A notebook keeps all three together, in order, so it reads like a lab notebook that keeps itself up to date. Six months later you can see exactly how every number was made. Because each notebook is plain text, the <em>review</em> tab shows every change to it line by line. To run the whole notebook from start to finish, for example after changing the software, type <code>uv run analysis/01-explore.py</code> in the <em>analysis</em> tab’s terminal, or ask the agent to.</p>
+
+<h2 id="writing">Writing: citations and grammar</h2>
+<p><strong>Citations.</strong> With Zotero open, type <code>\ci</code> in the paper (press <kbd>\</kbd> then <kbd>c</kbd> then <kbd>i</kbd>, not in typing mode) and Zotero’s search box appears. Pick a paper and its citation, such as <code>[@knuth1984]</code>, appears at the cursor. The reference list builds itself.</p>
+<p><strong>Grammar.</strong> Spelling and grammar suggestions appear as you write, from a checker called Harper that runs on your own computer.</p>
+
+<h2 id="notes">Notes and replies in the review</h2>
+<p>The <em>review</em> tab shows every line that has changed since you last saved a version. You don’t approve changes one at a time. You read them, and if something looks wrong or raises a question, you say so, right on the line.</p>
+<p>In the <em>review</em> tab, move to the line with <kbd>j</kbd> (down) and <kbd>k</kbd> (up), press <kbd>c</kbd>, type your note and press <kbd>Ctrl</kbd> + <kbd>S</kbd> to save it. Then tell the agent in the <em>work</em> tab: <em>“I left a comment in Hunk. Reply to it there.”</em> It reads your note and answers underneath it, on the same line. If you ask for a change, it makes it and the review updates. Press <kbd>a</kbd> to show or hide the agent’s notes.</p>
+
+<figure class="ann wide" id="shot-comments">
+  <div class="ann-img"><a href="../shots/review-comments.webp?v=4" target="_blank" rel="noopener"><img src="../shots/review-comments.webp?v=4" alt="Hunk in the review tab: a note from the researcher on a changed line of the simulation, asking whether stress should depend on sleep, and the agent&rsquo;s reply underneath it" loading="lazy"></a>
+    
+    <span class="pin" style="left:20.5%;top:10%">1</span><span class="pin" style="left:98%;top:62%">2</span><span class="pin" style="left:60.3%;top:68%">3</span><span class="pin" style="left:60.3%;top:79%">4</span>
+  </div>
+  <ol class="ann-key"><li>The star and number show how many notes a file has.</li><li>The line under discussion: the agent&rsquo;s new stress score.</li><li><strong>Your note</strong>: <em>&ldquo;Should stress depend on sleep? Students who sleep less are probably more stressed.&rdquo;</em></li><li><strong>Claude&rsquo;s reply</strong>, on the same line. It explains what the change would mean for the paper&rsquo;s findings, then asks which option you want. Answer in the <em>work</em> tab.</li></ol>
+  <figcaption>A conversation about one line of code, inside the review</figcaption>
+</figure>
+
+<h2 id="tomorrow">Coming back tomorrow</h2>
+<p>Open the Omarchy menu, choose <strong>Projects</strong> and pick your project. Everything comes back as you left it: the editor, the agent with your conversation, the console and the PDF builder. Even after you restart the computer, opening the project from the menu starts each tab&rsquo;s program again.</p>
+<p>To back the project up as you go, ask the agent once to <em>“create a private GitHub repository for this project and push it”</em>. After that, <em>“commit and push”</em> saves a version and backs it up in one go.</p>
+
+<div class="pager"><a class="pager-prev" href="../first-project/"><span>← Part 5</span>Your first project</a><a class="pager-next" href="../make-it-yours/"><span>Part 7 →</span>Make it yours</a></div>
+
+<div class="page-footer">
+  <a class="btn-back" href="../../">← Back to thomasbierly.com</a>
+  <div class="footer-copy">© 2026 Thomas Bierly · setup: <a href="https://github.com/thomasbierly/agentic-research" style="color:inherit">github.com/thomasbierly/agentic-research</a></div>
+</div>
+</main>
+<script>(function(){var c=document.querySelector(".course"),a=c&&c.querySelector("[aria-current]");if(a)c.scrollLeft=a.offsetLeft-c.offsetLeft-40})()</script>
+<script>if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelectorAll("video.clip").forEach(v=>{v.removeAttribute("autoplay");v.pause();v.controls=true})</script>
+</body>
+</html>

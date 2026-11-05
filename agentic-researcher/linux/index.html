@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Linux and Omarchy — The Agentic Researcher</title>
+<meta name="description" content="Why AI agents work best on Linux, the honest costs, and why Omarchy is a good place to start.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23241a2a'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='20' fill='%23ffb152'>TB</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=5">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="../../">
+      <span class="nav-brand-mono">TB</span>
+      <span class="nav-brand-name">Thomas Bierly</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="../../#about">About</a>
+      <a class="nav-link" href="../../#research">Research</a>
+      <a class="nav-link" href="../../#projects">Projects</a>
+      <a class="nav-link" href="../" aria-current="page">Guide</a>
+      <a class="nav-link" href="../../#teaching">Teaching</a>
+      <a class="nav-link" href="../../#cv">CV</a>
+      <a class="nav-link" href="../../#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="../../#contact">Let's talk</a>
+  </div>
+</nav>
+
+<main class="guide">
+<a class="back-link" href="../../">← thomasbierly.com</a>
+<div class="course" role="navigation" aria-label="Course"><a href="../">Start</a><a href="../agents/"><span class="course-n">1</span>Agents</a><a href="../project/"><span class="course-n">2</span>One project</a><a href="../linux/" aria-current="page"><span class="course-n">3</span>Linux</a><a href="../install/"><span class="course-n">4</span>Install</a><a href="../first-project/"><span class="course-n">5</span>First project</a><a href="../loop/"><span class="course-n">6</span>In depth</a><a href="../make-it-yours/"><span class="course-n">7</span>Make it yours</a></div>
+<header class="hero-guide">
+<p class="hero-eyebrow">Part 3</p>
+<h1>Why Linux and Omarchy</h1>
+<p class="lede">You can work with an agent on any computer, as you may have found in part 1. But agents do their best work where everything is a file and every action is a command, and that describes Linux. This part explains why the course moves you to it, and what that costs.</p>
+<div class="learn"><span class="learn-h">In this part</span>
+  <ul><li>Why the operating system matters again</li><li>The honest costs of switching</li><li>Why Omarchy is a good place to start</li></ul>
+</div>
+</header>
+
+<h2 id="why-linux">Why Linux, now</h2>
+<p>For most of the last thirty years the operating system barely mattered to research. You needed Word, a statistics package and a reference manager, and they ran on whatever you had. Agents change that, because of how they work.</p>
+<p>An AI agent such as Claude Code doesn’t click through menus. It reads files, runs commands and writes files, the way a programmer does. Give it a computer where everything is a file and every action is a command, and it can do far more for you. That describes Linux.</p>
+
+<div class="points">
+  <div class="point"><div class="point-t">Agents work where you work</div><p>Your code, data, paper and even the computer’s settings are plain text files. The agent can help with the whole project, and fix the computer when something breaks.</p></div>
+  <div class="point"><div class="point-t">The same as the cluster</div><p>University computing clusters and cloud servers run Linux. What you learn on your laptop carries straight over when your analysis outgrows it.</p></div>
+  <div class="point"><div class="point-t">Your data stays with you</div><p>Notebooks, databases and the grammar checker run on your own machine. Only what you send to the agent leaves it, and you decide what that is.</p></div>
+</div>
+
+<p><strong>The honest costs.</strong> Linux asks you to learn new habits, and some things are harder. Microsoft Office runs only in the browser, some university software is Windows-only, and a few laptops have hardware Linux doesn’t fully support. The agent softens the learning curve a great deal, because you can ask it to explain or fix anything you meet. If you rely on Windows-only software, Omarchy can sit beside Windows on the same computer (see <a href="../install/#install-omarchy">Install Omarchy</a>).</p>
+
+<h2 id="why-omarchy">Why Omarchy</h2>
+<p><a href="https://omarchy.org">Omarchy</a> is a version of Linux made by David Heinemeier Hansson at 37signals, the company behind Basecamp. It makes every setup decision for you, with good taste, so the computer is ready to work the day you install it. Its tagline is <em>the malleable OS for the age of agents</em>, and that fits researchers right now:</p>
+<ul>
+  <li><strong>The agents are already there.</strong> Claude Code and a dozen other agents come ready to run. On first start Omarchy asks which one you want, and when an app crashes you can click the notification to send your agent to investigate.</li>
+  <li><strong>Everything is meant to be changed, by you or your agent.</strong> Omarchy teaches your agent how it works, from changing a setting to building a whole app. The setup in this course was made that way: I described what I wanted, and Claude Code built it.</li>
+  <li><strong>It’s quick to try.</strong> The installer asks a handful of questions and finishes in minutes.</li>
+</ul>
+<figure class="ann wide" id="shot-themes">
+  <div class="ann-img"><video class="clip" src="../shots/themes.mp4" poster="../shots/themes-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="The same project workspace shown in twelve Omarchy themes one after another: the wallpaper, window colours, editor and agent all change together"></video></div>
+  <figcaption>It’s also lovely to look at. Pick one of Omarchy’s 24 themes and everything changes together: the wallpaper, the editor, your agent and every window. Press <kbd>Super</kbd> + <kbd>Ctrl</kbd> + <kbd>T</kbd> to choose one.</figcaption>
+</figure>
+
+<p>We’re in a transition. Agents can now do much of the mechanical work of research, but most researchers still work in tools designed before agents existed. Omarchy is one of the first computers designed with agents in mind, and a comfortable place to learn to work alongside one. It is keyboard-first, so my setup adds a mouse-friendly layer on top: a file list you can click, a right-click menu, and a <strong>Projects</strong> menu. About six shortcuts get you started, and they’re all in the <a href="../make-it-yours/#cheatsheet">cheat sheet</a>.</p>
+
+<div class="pager"><a class="pager-prev" href="../project/"><span>← Part 2</span>One project, from data to paper</a><a class="pager-next" href="../install/"><span>Part 4 →</span>Install everything</a></div>
+
+<div class="page-footer">
+  <a class="btn-back" href="../../">← Back to thomasbierly.com</a>
+  <div class="footer-copy">© 2026 Thomas Bierly · setup: <a href="https://github.com/thomasbierly/agentic-research" style="color:inherit">github.com/thomasbierly/agentic-research</a></div>
+</div>
+</main>
+<script>(function(){var c=document.querySelector(".course"),a=c&&c.querySelector("[aria-current]");if(a)c.scrollLeft=a.offsetLeft-c.offsetLeft-40})()</script>
+<script>if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelectorAll("video.clip").forEach(v=>{v.removeAttribute("autoplay");v.pause();v.controls=true})</script>
+</body>
+</html>

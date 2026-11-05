@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your first project — The Agentic Researcher</title>
+<meta name="description" content="Create a research project and take one small study round the loop: code, notebook, paper, review and save.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23241a2a'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='20' fill='%23ffb152'>TB</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=5">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="../../">
+      <span class="nav-brand-mono">TB</span>
+      <span class="nav-brand-name">Thomas Bierly</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="../../#about">About</a>
+      <a class="nav-link" href="../../#research">Research</a>
+      <a class="nav-link" href="../../#projects">Projects</a>
+      <a class="nav-link" href="../" aria-current="page">Guide</a>
+      <a class="nav-link" href="../../#teaching">Teaching</a>
+      <a class="nav-link" href="../../#cv">CV</a>
+      <a class="nav-link" href="../../#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="../../#contact">Let's talk</a>
+  </div>
+</nav>
+
+<main class="guide">
+<a class="back-link" href="../../">← thomasbierly.com</a>
+<div class="course" role="navigation" aria-label="Course"><a href="../">Start</a><a href="../agents/"><span class="course-n">1</span>Agents</a><a href="../project/"><span class="course-n">2</span>One project</a><a href="../linux/"><span class="course-n">3</span>Linux</a><a href="../install/"><span class="course-n">4</span>Install</a><a href="../first-project/" aria-current="page"><span class="course-n">5</span>First project</a><a href="../loop/"><span class="course-n">6</span>In depth</a><a href="../make-it-yours/"><span class="course-n">7</span>Make it yours</a></div>
+<header class="hero-guide">
+<p class="hero-eyebrow">Part 5</p>
+<h1>Your first project</h1>
+<p class="lede">Now the pieces come together. Create a project, find your way round its workspace, then take one small study round the whole loop: change the code with the agent, watch the notebook update, see the paper change, read what changed, and save a version.</p>
+<div class="learn"><span class="learn-h">In this part</span>
+  <ul><li>Create a project from the Projects menu</li><li>The workspace and its five tabs</li><li>One trip round the research loop, with the agent at each step</li></ul>
+</div>
+</header>
+
+<h2 id="first-project">Create a project</h2>
+<p>Every project lives in its own folder in <code>~/Projects</code> and opens in its own workspace. To start one, open the Omarchy menu with <kbd>Super</kbd> + <kbd>Space</kbd> and choose <strong>Projects</strong>.</p>
+
+<figure class="ann" id="shot-projects">
+  <div class="ann-img"><a href="../shots/projects-menu.webp" target="_blank" rel="noopener"><img src="../shots/projects-menu.webp" alt="The Projects menu, with New project at the top, then a project called sleep-and-grades, then Refresh project list" loading="lazy"></a>
+    <span class="box" style="left:37%;top:29.5%;width:27%;height:11.5%"></span><span class="pin" style="left:33%;top:35%">1</span><span class="pin" style="left:33%;top:48.5%">2</span><span class="pin" style="left:33%;top:61%">3</span>
+  </div>
+  <ol class="ann-key"><li><strong>New project…</strong> creates a project and opens it.</li><li>Your projects, one per line. Click one to open it, or to come back to it later.</li><li><strong>Refresh project list</strong> picks up a project folder you copied into <code>~/Projects</code> yourself, for example one cloned from GitHub.</li></ol>
+  <figcaption><kbd>Super</kbd> + <kbd>Space</kbd> › Projects</figcaption>
+</figure>
+
+<figure class="ann" id="shot-name">
+  <div class="ann-img"><a href="../shots/new-project-name.webp" target="_blank" rel="noopener"><img src="../shots/new-project-name.webp" alt="A text box with sleep-and-grades typed in" loading="lazy"></a>
+    <span class="box" style="left:29%;top:15%;width:42%;height:24%"></span><span class="pin" style="left:26%;top:27%">1</span>
+  </div>
+  <ol class="ann-key"><li>Type a short name and press <kbd>Enter</kbd>. Letters, numbers and dashes work best; spaces become dashes. Press <kbd>Esc</kbd> to cancel.</li></ol>
+  <figcaption>Naming the project</figcaption>
+</figure>
+
+<p>The project opens in its own workspace, with five tabs, one for each kind of work. You switch between them by clicking the tab names or with <kbd>Alt</kbd> + <kbd>1</kbd> to <kbd>5</kbd>.</p>
+
+<figure class="ann wide" id="shot-workspace">
+  <div class="ann-img"><a href="../shots/workspace.webp" target="_blank" rel="noopener"><img src="../shots/workspace.webp" alt="The project workspace: a sidebar of projects and agents, a file list, the paper open in the editor, and Claude Code on the right, under five tabs" loading="lazy"></a>
+    <span class="box teal" style="left:12%;top:0%;width:24.4%;height:3.4%"></span><span class="pin" style="left:37.6%;top:1.7%">1</span><span class="pin" style="left:27%;top:22%">2</span><span class="pin" style="left:38%;top:41%">3</span><span class="pin" style="left:58.6%;top:36.8%">4</span><span class="pin" style="left:82%;top:6%">5</span><span class="pin" style="left:96%;top:94.7%">6</span><span class="pin" style="left:13.5%;top:57%">7</span>
+  </div>
+  <ol class="ann-key"><li><strong>The five tabs</strong>: work, analysis, paper, review and git. Click one, or press <kbd>Alt</kbd> + <kbd>1</kbd> to <kbd>5</kbd>.</li><li><strong>The file list.</strong> Click a folder to open it and a file to edit it.</li><li><strong>The editor</strong>, showing the paper. Press <kbd>i</kbd> to start typing and <kbd>Esc</kbd> when you&rsquo;re done; long paragraphs wrap to fit.</li><li><strong>Writing suggestions</strong> appear in green after a line, here a suggested comma. They come from a checker that runs on your computer.</li><li><strong>Claude Code</strong>, your agent, already working inside this project.</li><li><strong>Type your request here</strong> and press <kbd>Enter</kbd>.</li><li><strong>Projects and agents.</strong> The dot next to an agent shows whether it&rsquo;s working, waiting for you or done, so you can leave it to work and check back.</li></ol>
+  <figcaption>The <em>work</em> tab: the editor and the agent side by side</figcaption>
+</figure>
+
+<p>The folder has one place for each stage of the project:</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Folder</th><th>What goes in it</th></tr></thead>
+  <tbody>
+    <tr><td><code>src/</code></td><td>The software: a simulation, a data collector, a model.</td></tr>
+    <tr><td><code>data/</code></td><td>Raw data, and data your software produces.</td></tr>
+    <tr><td><code>analysis/</code></td><td>Notebooks that turn data into tables and figures.</td></tr>
+    <tr><td><code>paper/</code></td><td>The paper, written in Quarto. Figures land in <code>paper/figures/</code> straight from the analysis.</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============================================================ -->
+<h2 id="loop">The research loop</h2>
+<p>This part follows one small, made-up study, <em>sleep-and-grades</em>, round the loop: does sleep in exam week change exam scores? Each stage has its own tab, and the agent can help at every one.</p>
+
+<div class="loop">
+  <div class="loop-step"><div class="loop-n">1 · work</div><div class="loop-t">Write the software</div><div class="loop-d">with the agent</div></div>
+  <div class="loop-step"><div class="loop-n">2 · analysis</div><div class="loop-t">Run it</div><div class="loop-d">and open the notebook</div></div>
+  <div class="loop-step"><div class="loop-n">3 · analysis</div><div class="loop-t">Analyse</div><div class="loop-d">with live results</div></div>
+  <div class="loop-step"><div class="loop-n">4 · paper</div><div class="loop-t">Write</div><div class="loop-d">with a live PDF</div></div>
+  <div class="loop-step"><div class="loop-n">5 · review</div><div class="loop-t">Check</div><div class="loop-d">every change</div></div>
+  <div class="loop-step"><div class="loop-n">6 · git</div><div class="loop-t">Save</div><div class="loop-d">and back up</div></div>
+</div>
+
+<h3 id="code">Write the software, with the agent</h3>
+<p>Claude Code sits beside the editor in the <em>work</em> tab. Tell it what you want in plain English. It reads the project, proposes changes and asks before it does anything you haven’t allowed. Here I asked it to add a second factor to the simulation.</p>
+
+<figure class="ann wide" id="shot-agent">
+  <div class="ann-img"><a href="../shots/agent.webp?v=4" target="_blank" rel="noopener"><img src="../shots/agent.webp?v=4" alt="The work tab: the simulation code in the editor on the left, and Claude Code on the right showing its edit in red and green and what it checked" loading="lazy"></a>
+    
+    <span class="pin" style="left:48.9%;top:12.2%">1</span><span class="pin" style="left:48.9%;top:47%">2</span><span class="pin" style="left:48.9%;top:86.5%">3</span><span class="pin" style="left:26.5%;top:20%">4</span>
+  </div>
+  <ol class="ann-key"><li>Your request, in plain English.</li><li>Claude shows each edit as it makes it: red lines removed, green lines added. Here it adds a stress score, and a <code>stress_effect</code> setting for how much it costs.</li><li>It says what it checked (a test fit recovers the effects it set) and what it will do next: rerun the notebook and update the Methods sentence in the paper.</li><li>The changed file, open in the editor beside it.</li></ol>
+  <figcaption>After asking: <em>&ldquo;Add exam stress to the simulation: give each student a stress score from 0 to 10 that lowers their exam score by about one point per unit.&rdquo;</em></figcaption>
+</figure>
+
+<p>To open any file yourself, click it in the file list on the left. Right-click in the text for a menu of everyday actions: find a file, search the whole project, show the PDF, show or hide the file list.</p>
+
+<h3 id="run">Run it, and open the notebook</h3>
+<p>The <em>analysis</em> tab has a terminal on the left, for running your software and any other command-line tool. On the right it starts your project’s notebooks. Press <kbd>Enter</kbd> there, or right-click in the editor and choose <strong>Open the analysis notebook</strong>, and the notebook opens in its own window beside your workspace, like the PDF preview.</p>
+
+<figure class="ann wide" id="shot-run">
+  <div class="ann-img"><a href="../shots/analysis-notebook.webp?v=4" target="_blank" rel="noopener"><img src="../shots/analysis-notebook.webp?v=4" alt="The analysis tab on the left, with a terminal showing simulated students and a message that the notebooks are ready; the analysis notebook open in its own window on the right, showing a data table and a scatter plot" loading="lazy"></a>
+    
+    <span class="pin" style="left:18.6%;top:1.6%">1</span><span class="pin" style="left:24.5%;top:9%">2</span><span class="pin" style="left:38%;top:18%">3</span><span class="pin" style="left:65.5%;top:1.6%">4</span>
+  </div>
+  <ol class="ann-key"><li>The <em>analysis</em> tab.</li><li>A terminal for running your software. Here it prints the first eight simulated students, including the new <code>stress</code> column.</li><li>The notebooks for this project. Press <kbd>Enter</kbd> here to open the notebook window again if you close it.</li><li>The notebook, in its own window. It runs as it opens, so you see results straight away.</li></ol>
+  <figcaption>The <em>analysis</em> tab and the notebook window, side by side</figcaption>
+</figure>
+
+
+<h3 id="analyse">Ask the agent, watch the notebook</h3>
+<p>Analysis happens in <a href="https://marimo.io">marimo</a>, a free, open-source notebook that runs on your computer. Like any notebook, it mixes notes in plain English, the code for each step, and the results that code produces. Unlike most notebooks, it keeps them in step for you: change a cell and every cell that depends on it runs again, so no table or figure on the page is ever out of date.</p>
+<p>Because the notebook has its own window, the agent can sit right beside it. Go back to the <em>work</em> tab and ask for the next step in plain English. Each notebook is an ordinary Python file in <code>analysis/</code>, so the agent edits it like any other file, and the open notebook updates as soon as it saves.</p>
+<figure class="ann wide" id="shot-live">
+  <div class="ann-img"><a href="../shots/agent-notebook.webp?v=4" target="_blank" rel="noopener"><img src="../shots/agent-notebook.webp?v=4" alt="Claude Code on the left explaining the fit it added, with a table of estimates; the notebook on the right showing the new Sleep and stress together section and its results table" loading="lazy"></a>
+    
+    <span class="pin" style="left:33.5%;top:22.9%">1</span><span class="pin" style="left:60.6%;top:33%">2</span><span class="pin" style="left:65.3%;top:1.8%">3</span><span class="pin" style="left:65.3%;top:43%">4</span>
+  </div>
+  <ol class="ann-key"><li>Claude says what it added and how it checked it: it ran the notebook, and marimo&rsquo;s own check passed.</li><li>The results, with each estimate beside the value the simulation was given.</li><li>The new section in the notebook, there as soon as Claude saved the file&hellip;</li><li>&hellip;with the same results as a table you can search and sort. Claude also saved it to <code>paper/tables/</code> for the paper.</li></ol>
+  <figcaption>After asking: <em>&ldquo;Add a fit with both sleep and stress to the notebook, and show the results as a table.&rdquo;</em> The <em>work</em> tab on the left, the notebook window on the right.</figcaption>
+</figure>
+
+<h3 id="write">Write the paper, with a live PDF</h3>
+<p>The paper is <code>paper/index.qmd</code>, written in Markdown: plain text with a few marks for headings, emphasis and citations. The <em>paper</em> tab rebuilds the PDF every time you save. To see it, right-click in the text and choose <strong>Show PDF preview</strong>. The PDF opens in a window beside the editor, and clicking any sentence in it takes the editor to that sentence.</p>
+
+<figure class="ann wide" id="shot-preview">
+  <div class="ann-img"><a href="../shots/preview.webp?v=4" target="_blank" rel="noopener"><img src="../shots/preview.webp?v=4" alt="The paper source in the editor on the left and the PDF preview window on the right showing the same sections" loading="lazy"></a>
+    
+    <span class="box" style="left:22%;top:34.5%;width:11%;height:9%"></span><span class="box" style="left:67.2%;top:63.4%;width:27.5%;height:3.6%"></span><span class="pin" style="left:21.2%;top:39%">1</span><span class="pin" style="left:66.4%;top:65.2%">2</span><span class="pin" style="left:65%;top:13%">3</span><span class="pin" style="left:66.4%;top:56.5%">4</span>
+  </div>
+  <ol class="ann-key"><li>The source of the Results section in <code>paper/index.qmd</code>.</li><li>The same paragraph in the PDF. <strong>Click any sentence here</strong> and the editor jumps to it.</li><li>The preview opens in its own window and updates a few seconds after you save.</li><li>The agent&rsquo;s change to the Methods section, already in the PDF.</li></ol>
+  <figcaption>Click-to-jump PDF preview</figcaption>
+</figure>
+
+<p>Citations come from Zotero and grammar suggestions appear as you write; both are covered in <a href="../loop/#writing">part 6</a>.</p>
+
+<h3 id="review">Read what changed, and talk back</h3>
+<p>By the time you look, the agent’s changes are already in your files. The <em>review</em> tab shows every line that has changed since you last saved a version, whether you changed it or the agent did. You don’t approve changes one at a time. You read them, and if something looks wrong or raises a question, you say so.</p>
+
+<figure class="ann wide" id="shot-review">
+  <div class="ann-img"><a href="../shots/review.webp?v=4" target="_blank" rel="noopener"><img src="../shots/review.webp?v=4" alt="Hunk in the review tab, side by side: the old version of the simulation on the left with removed lines in red, and the new version on the right with added lines in green" loading="lazy"></a>
+    
+    <span class="pin" style="left:21.5%;top:12.5%">1</span><span class="pin" style="left:58.5%;top:40.4%">2</span><span class="pin" style="left:97.4%;top:45%">3</span>
+  </div>
+  <ol class="ann-key"><li>Every file that has changed since your last saved version. Click one to jump to it.</li><li><strong>On the left, the old version</strong>, with removed lines in red.</li><li><strong>On the right, the new version</strong>, with added lines in green, level with the lines they replace. Here: the agent&rsquo;s change to the simulation.</li></ol>
+  <figcaption>The <em>review</em> tab</figcaption>
+</figure>
+
+<p>If a line raises a question, you can leave a note on it right there, and the agent answers underneath. <a href="../loop/#notes">Part 6</a> shows how.</p>
+
+<h3 id="save">Save a version and back it up</h3>
+<p>When you’re happy with where the project is, save a version of the whole project (a <em>commit</em>) in the <em>git</em> tab. You can also just ask the agent: <em>“commit this with a short description”</em>. The first time, ask it to <em>“create a private GitHub repository for this project and push it”</em>, and your work is backed up from then on.</p>
+
+<figure class="ann wide" id="shot-git">
+  <div class="ann-img"><a href="../shots/git.webp?v=4" target="_blank" rel="noopener"><img src="../shots/git.webp?v=4" alt="lazygit in the git tab: changed files on the left, the saved versions below them, and the selected file&rsquo;s changes on the right" loading="lazy"></a>
+    
+    <span class="pin" style="left:30%;top:14%">1</span><span class="pin" style="left:33%;top:69.8%">2</span><span class="pin" style="left:90%;top:30%">3</span><span class="pin" style="left:51%;top:97.2%">4</span>
+  </div>
+  <ol class="ann-key"><li>Every changed file. Press <kbd>a</kbd> to include them all in the version you&rsquo;re about to save.</li><li>Saved versions so far, newest first.</li><li>What changed in the selected file.</li><li>The keys for this screen are always listed along the bottom: <kbd>c</kbd> saves a version (a <em>commit</em>) and asks for a short description.</li></ol>
+  <figcaption>The <em>git</em> tab</figcaption>
+</figure>
+
+<h3 id="iterate">Round again</h3>
+<p>This is where keeping everything in one place pays off. Change the simulation and the notebook runs again; the figure it saves into <code>paper/figures/</code> updates in the PDF preview within seconds. Ask the agent to <em>“check that the numbers in the Results section still match the analysis”</em>, and it can, because it can see the code, the data and the paper together.</p>
+
+<div class="pager"><a class="pager-prev" href="../install/"><span>← Part 4</span>Install everything</a><a class="pager-next" href="../loop/"><span>Part 6 →</span>The research loop in depth</a></div>
+
+<div class="page-footer">
+  <a class="btn-back" href="../../">← Back to thomasbierly.com</a>
+  <div class="footer-copy">© 2026 Thomas Bierly · setup: <a href="https://github.com/thomasbierly/agentic-research" style="color:inherit">github.com/thomasbierly/agentic-research</a></div>
+</div>
+</main>
+<script>(function(){var c=document.querySelector(".course"),a=c&&c.querySelector("[aria-current]");if(a)c.scrollLeft=a.offsetLeft-c.offsetLeft-40})()</script>
+<script>if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelectorAll("video.clip").forEach(v=>{v.removeAttribute("autoplay");v.pause();v.controls=true})</script>
+</body>
+</html>
