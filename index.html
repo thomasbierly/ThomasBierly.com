@@ -40,7 +40,7 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(
 .star{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 6px #cdbfff;animation:tw var(--dur) ease-in-out var(--delay) infinite;animation-play-state:var(--anim,running)}
 .hero-canvas-wrap{max-width:820px;margin:0 auto;padding:0 28px;position:relative;z-index:5}
 .hero-frame{border:3px solid #160e18;border-radius:12px;overflow:hidden;box-shadow:8px 8px 0 rgba(0,0,0,.4),inset 0 0 40px rgba(255,179,92,.06);background:#1d1320}
-#pixelScene{display:block;width:100%;height:auto;image-rendering:pixelated}
+#pixelScene{display:block;width:100%;height:auto;aspect-ratio:16/9;image-rendering:pixelated}
 .hero-caption{display:flex;align-items:center;gap:9px;padding:10px 14px;background:#241624;border-top:2px solid #160e18}
 .hero-led{width:8px;height:8px;border-radius:50%;background:#7be0a0;color:#7be0a0;animation:ledpulse 2s infinite;animation-play-state:var(--anim,running);flex-shrink:0}
 .hero-caption-text{font-family:'Baloo 2';font-size:13px;color:#d8b89a}
@@ -192,7 +192,7 @@ section{position:relative}
   <div id="star-layer" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0"></div>
   <div class="hero-canvas-wrap">
     <div class="hero-frame">
-      <canvas id="pixelScene" width="720" height="400"></canvas>
+      <canvas id="pixelScene" width="1920" height="1080" aria-label="Pixel art of Thomas typing code at his desk while his ginger and black cats wander around the room" role="img"></canvas>
       <div class="hero-caption">
         <span class="hero-led"></span>
         <span class="hero-caption-text">me, two cats, a console &amp; too many side projects, most nights.</span>
@@ -555,118 +555,9 @@ function navTo(id){
 // Canvas scene
 (function(){
   let timer=null;
-  function frame(){ const t=performance.now(); drawScene(t); drawCat(t); }
+  function frame(){ drawCat(performance.now()); }
   frame();
   timer=setInterval(frame,66);
-
-  function drawScene(t){
-    const cv=document.getElementById('pixelScene'); if(!cv)return;
-    const ctx=cv.getContext('2d'); ctx.imageSmoothingEnabled=false;
-    const f=t/1000, S=4;
-    const P=(x,y,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect((x*S)|0,(y*S)|0,(w*S)|0,(h*S)|0)};
-    const A=a=>ctx.globalAlpha=a;
-    ctx.clearRect(0,0,720,400);
-
-    // wall + floor
-    P(0,0,180,84,'#3a2740');
-    for(let x=0;x<180;x+=20)P(x,0,10,84,'#33223a');
-    A(0.5);P(0,0,180,26,'#48314c');A(1);
-    P(0,84,180,16,'#221624');
-    P(54,90,96,10,'#7a3a46');P(58,92,88,6,'#8e4855');
-
-    // window + stars + moon
-    P(8,14,44,46,'#4a3550');P(11,17,38,40,'#1b1533');
-    const st=[[16,22],[23,30],[33,20],[42,36],[19,42],[45,25],[29,46],[38,44],[26,21]];
-    st.forEach((s,i)=>{A(0.3+0.6*Math.abs(Math.sin(f*1.6+i*1.3)));P(s[0],s[1],1,1,'#fff3da')});
-    A(0.9);P(40,20,5,5,'#f5e6b0');A(0.4);P(39,19,7,7,'#f5e6b0');A(1);
-    P(30,17,2,40,'#4a3550');P(11,35,38,2,'#4a3550');
-
-    // string lights
-    P(54,4,122,1,'#5a4550');
-    const lc=['#ff9d5c','#ffd36b','#ff7a6b','#ffb35c','#ffcf8a'];
-    for(let i=0;i<9;i++){const lx=58+i*14,ly=5+Math.round(Math.sin(i*0.9)*2);P(lx+1,ly,1,2,'#5a4550');A(0.65+0.35*Math.abs(Math.sin(f*2+i)));P(lx,ly+2,3,4,lc[i%lc.length]);}
-    A(1);
-
-    // shelf + sleeping ginger cat (white belly)
-    P(8,60,44,3,'#5a3a29');
-    P(13,53,24,7,'#e8915a');P(13,59,24,1,'#f3e6d6');
-    P(12,54,6,5,'#e8915a');P(12,53,2,2,'#c9743f');P(15,53,2,2,'#c9743f');
-    P(12,57,4,1,'#f3e6d6');P(14,56,1,1,'#3a2a26');
-    P(18,53,2,2,'#3a2740');P(18,55,1,4,'#c9743f');
-    const tw=Math.round(Math.sin(f*1.2));
-    P(35,57,3,4,'#c9743f');P(36,60,3,4,'#e8915a');P(36,63,3,4,'#e8915a');P(35+tw,66,3,3,'#f0a86a');
-
-    // gaming chair
-    P(103,40,28,34,'#20242e');P(105,42,24,30,'#333a4a');
-    P(106,53,3,19,'#2b313f');P(125,53,3,19,'#2b313f');P(106,40,22,4,'#20242e');
-    P(108,74,7,12,'#46506a');P(118,74,7,12,'#46506a');
-    P(109,75,2,9,'#56627f');P(119,75,2,9,'#56627f');
-    P(107,86,7,3,'#e2ddd3');P(118,86,7,3,'#e2ddd3');
-    P(106,89,26,2,'#181b22');
-    P(108,91,3,2,'#2b3140');P(117,91,3,2,'#2b3140');P(126,91,3,2,'#2b3140');
-
-    // desk
-    P(64,68,114,6,'#6b4632');P(64,74,114,2,'#523524');
-    P(70,76,4,16,'#523524');P(168,76,4,16,'#523524');
-
-    // desk lamp + glow
-    P(72,52,2,16,'#4a3550');P(67,47,11,5,'#ffcaa0');P(68,52,9,2,'#ffd9a8');
-    A(0.10+0.03*Math.sin(f*5));P(54,52,52,24,'#ffb35c');A(1);
-
-    // plant
-    P(80,60,10,8,'#b5654a');P(80,60,10,2,'#c2754f');
-    const lt=Math.round(Math.sin(f*1.6));
-    P(83,54,2,7,'#5aa06a');P(85,52,2,9,'#5aa06a');P(87,55,2,6,'#5aa06a');
-    P(82+lt,53,3,2,'#6cb87a');P(85,51+lt,3,2,'#6cb87a');P(87-lt,54,2,2,'#6cb87a');
-
-    // mug + steam
-    P(92,61,7,7,'#e0a06a');P(93,61,5,1,'#f0b884');
-    P(100,62,1,4,'#a85f38');P(99,62,1,1,'#a85f38');P(99,65,1,1,'#a85f38');
-    for(let i=0;i<3;i++){const sy=61-((f*6+i*5)%14),sx=93+i+Math.round(Math.sin(f*3+i)*1.5);A(Math.max(0,0.5-(61-sy)/26));P(sx,sy,1,2,'#f3e9dd');}
-    A(1);
-
-    // Thomas (front view)
-    P(107,52,18,2,'#9a958a');P(107,52,18,1,'#a8a399');
-    P(105,54,22,1,'#9a958a');P(108,55,16,13,'#9a958a');
-    P(105,54,3,14,'#86827a');P(124,54,3,14,'#86827a');
-    const hb=(Math.sin(f*9)>0)?0:1;
-    P(105,64+hb,4,3,'#e8b48c');P(124,64+(1-hb),4,3,'#e8b48c');
-    P(107,66,22,3,'#cfc2d6');P(131,67,5,3,'#bfb2c6');
-    P(114,48,5,4,'#d9a076');P(114,48,5,1,'#c08a63');
-    P(113,52,1,2,'#8d8880');P(119,52,1,2,'#8d8880');P(114,52,5,1,'#7a7670');
-    P(116,56,1,10,'#7a7670');P(116,58,1,1,'#c6c0b6');P(116,62,1,1,'#c6c0b6');
-    P(111,39,10,10,'#e8b48c');
-    P(110,37,12,3,'#bf9f63');P(110,40,2,3,'#bf9f63');P(120,40,2,3,'#bf9f63');
-    P(111,34,3,2,'#cdab6e');P(115,33,3,2,'#cdab6e');P(118,34,3,2,'#cdab6e');
-    P(113,43,2,2,'#4f9aa0');P(117,43,2,2,'#4f9aa0');
-    P(113,43,1,1,'#bfeaf0');P(117,43,1,1,'#bfeaf0');
-    P(114,46,4,1,'#cf9a86');
-    P(108,37,3,9,'#23232a');P(121,37,3,9,'#23232a');
-    P(108,40,1,4,'#3c3c46');P(123,40,1,4,'#3c3c46');
-    P(110,35,12,2,'#23232a');P(111,34,10,1,'#34343e');
-
-    // monitor running a little game
-    P(146,38,30,28,'#241b2e');P(149,41,24,18,'#19264a');P(149,53,24,6,'#27543a');
-    const bx=(149+((f*7)%22))|0;P(bx,49,3,4,(Math.sin(f*7)>0.6?'#ffd9a0':'#ffc488'));
-    A(0.5);P(151,43,2,2,'#fff3da');P(168,45,2,2,'#fff3da');A(1);
-    A(0.10);P(146,38,30,28,'#ffe0a0');P(138,38,46,32,'#ffd9a0');A(1);
-    P(157,66,8,3,'#3a2a36');
-
-    // black cat on the desk
-    P(150,57,12,11,'#211d28');P(150,65,12,3,'#efe9dd');
-    P(151,66,2,2,'#cbc4b6');P(157,66,2,2,'#cbc4b6');
-    P(152,51,8,7,'#211d28');P(152,50,2,2,'#211d28');P(158,50,2,2,'#211d28');
-    P(154,58,4,1,'#efe9dd');P(154,59,3,1,'#efe9dd');P(155,60,2,1,'#efe9dd');P(155,61,1,1,'#efe9dd');
-    P(154,53,1,1,'#9be07a');P(158,53,1,1,'#9be07a');
-    const ty=Math.round(Math.sin(f*3)*2);
-    P(161,61,2,5,'#211d28');P(162,59+ty,2,3,'#211d28');
-
-    // console + controller
-    P(150,78,18,9,'#2a2030');P(151,80,11,1,'#46364a');
-    A(0.8);P(165,80,2,2,(Math.sin(f*3)>0?'#7be0a0':'#2f5a40'));A(1);
-    P(86,90,10,4,'#2e2a3a');P(84,89,3,4,'#2e2a3a');P(95,89,3,4,'#2e2a3a');
-    P(87,91,2,1,'#5a5470');P(92,90,1,1,'#ff7a6b');P(94,90,1,1,'#7fd6ff');
-  }
 
   function drawCat(t){
     const cv=document.getElementById('catSprite'); if(!cv)return;
@@ -699,5 +590,12 @@ function navTo(id){
   }
 })();
 </script>
+<script>
+// The hero room is the same pixel scene as the "Joining in a moment" screen in Thomas's OBS kit.
+window.ROOM={canvas:'pixelScene',act:'working',theme:{
+  '--bg':'#1d1320','--panel':'#33223a','--fg':'#ecd9cd','--bright':'#fff3e6','--dim':'#8a7590',
+  '--accent':'#4fd6c2','--hot':'#b07ad0','--good':'#7be0a0','--warn':'#ffb152','--bad':'#ff7a6b','--cyan':'#4fd6c2'}};
+</script>
+<script src="assets/room.js"></script>
 </body>
 </html>
