@@ -518,7 +518,7 @@
     P(bx - 3, 46 + y, 10, 15, F.skin); P(bx + 7, 52 + y, 1, 3, F.skin); P(bx + 7, 55 + y, 1, 1, F.skinS);
     P(bx - 2, 61 + y, 8, 1, F.skin);
     P(bx, 44 + y, 6, 2, F.skin); P(bx + 1, 43 + y, 4, 1, F.skin);
-    hairMask(HAIR_SIDE, bx - 4, 41 + y);
+    hairMask(HAIR_SIDE, bx - 8, 41 + y);
     P(bx - 3, 41 + y, 2, 10, F.ph); P(bx - 4, 50 + y, 5, 7, F.ph); P(bx - 4, 51 + y, 1, 5, F.phH);
     P(bx + 3, 49 + y, 3, 1, F.brow); P(bx + 4, 51 + y, 1, 2, F.eye); P(bx + 3, 57 + y, 3, 1, F.skinD);
     // near leg and near arm
@@ -553,17 +553,23 @@
     ".#s...........s#",
     "..s...........s.",
   ];
-  const HAIR_SIDE = [
-    "..h#s#h...",
-    ".#s#h#s#..",
-    "#h#s#h#s#.",
-    "#s#h#s#h..",
-    "h#s#s#h...",
-    "#s#h#s....",
-    "#h#s#.....",
-    "s#s#......",
-    "#s#.......",
-    ".s........",
+  const HAIR_SIDE = [  // short curls following a round skull; the ear cup sits mid-head
+    ".....h#s#h....",
+    "...#s#h#s#h#..",
+    "..#h#s#h#s#h#.",
+    ".#s#h#s#h#s#..",
+    ".h#s#h#s#h#...",
+    "#s#h#s#h#s....",
+    ".#h#s#h#s.....",
+    ".s#s#h#s......",
+    "#h#h#s#.......",
+    ".s#s#h#.......",
+    ".#h#s#........",
+    ".s#s#h........",
+    "..#h#s........",
+    "..s#s#........",
+    "...s#s........",
+    "....s.........",
   ];
   function hairMask(rows, x, y) {
     rows.forEach((row, j) => { for (let i = 0; i < row.length; i++) {
