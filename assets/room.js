@@ -65,7 +65,7 @@
 
   const F = {
     wood: "#6b4632", woodTop: "#83593e", woodEdge: "#4f3323",
-    hair: "#d9b56c", hairS: "#b38c4a", hairH: "#efd394",
+    hair: "#c9a36a", hairS: "#9a7746", hairH: "#e8cc96",
     skin: "#f0bc94", skinS: "#d99c74", skinD: "#bf805f", eye: "#3f8f99", eyeH: "#e2f7f8", brow: "#a9823f",
     mouth: "#b5675a", blush: "#ea8f80",
     ph: "#24242c", phH: "#43434f",
@@ -385,14 +385,9 @@
     // neck and face
     P(cx - 2, 76 + y, 4, 4, F.skinS);
     P(cx - 6, 64 + y, 12, 13, F.skin); P(cx - 5, 77 + y, 10, 1, F.skin);
-    // hair
-    P(cx - 7, 59 + y, 14, 6, F.hair);
-    P(cx - 8, 61 + y, 2, 6, F.hair); P(cx + 6, 61 + y, 2, 6, F.hair);
-    [[-8, 57], [-5, 56], [-2, 56], [1, 56], [4, 57]].forEach(([dx, dy]) => {
-      P(cx + dx, dy + y, 3, 3, F.hair); P(cx + dx + 1, dy + y, 1, 1, F.hairH); P(cx + dx, dy + 2 + y, 1, 1, F.hairS);
-    });
-    P(cx - 6, 64 + y, 3, 2, F.hair); P(cx - 2, 64 + y, 3, 1, F.hair); P(cx + 3, 64 + y, 3, 2, F.hair);
-    P(cx - 4, 62 + y, 1, 1, F.hairS); P(cx + 1, 61 + y, 1, 1, F.hairS); P(cx + 4, 63 + y, 1, 1, F.hairS);
+    // hair: loose curls with volume on top, and a receding hairline that leaves a high forehead
+    P(cx - 5, 59 + y, 10, 5, F.skin); P(cx - 4, 58 + y, 8, 1, F.skin);
+    hairMask(HAIR_FRONT, cx - 10, 50 + y);
     // headphones
     P(cx - 6, 57 + y, 12, 1, F.ph); P(cx - 8, 58 + y, 2, 2, F.ph); P(cx + 6, 58 + y, 2, 2, F.ph);
     P(cx - 9, 60 + y, 2, 6, F.ph); P(cx + 7, 60 + y, 2, 6, F.ph);
@@ -522,9 +517,8 @@
     P(bx - 1, 60 + y, 5, 5, F.skinS);
     P(bx - 3, 46 + y, 10, 15, F.skin); P(bx + 7, 52 + y, 1, 3, F.skin); P(bx + 7, 55 + y, 1, 1, F.skinS);
     P(bx - 2, 61 + y, 8, 1, F.skin);
-    P(bx - 8, 43 + y, 13, 6, F.hair); P(bx - 8, 45 + y, 6, 9, F.hair); P(bx - 7, 54 + y, 4, 2, F.hair);
-    [[-9, 41], [-5, 40], [-1, 40], [3, 42], [5, 45]].forEach(([dx, dy]) => { P(bx + dx, dy + y, 3, 3, F.hair); P(bx + dx + 1, dy + y, 1, 1, F.hairH); });
-    P(bx - 7, 47 + y, 1, 1, F.hairS); P(bx - 5, 51 + y, 1, 1, F.hairS); P(bx - 2, 44 + y, 1, 1, F.hairS);
+    P(bx, 44 + y, 6, 2, F.skin); P(bx + 1, 43 + y, 4, 1, F.skin);
+    hairMask(HAIR_SIDE, bx - 10, 38 + y);
     P(bx - 3, 41 + y, 2, 10, F.ph); P(bx - 4, 50 + y, 5, 7, F.ph); P(bx - 4, 51 + y, 1, 5, F.phH);
     P(bx + 3, 49 + y, 3, 1, F.brow); P(bx + 4, 51 + y, 1, 2, F.eye); P(bx + 3, 57 + y, 3, 1, F.skinD);
     // near leg and near arm
@@ -546,6 +540,47 @@
       P(bx - 2 + sw, 92 + y, 4, 2, F.hoodS); P(bx - 2 + sw, 94 + y, 4, 4, F.skin);
     }
     MX = null;
+  }
+
+  // ---------- Thomas's hair, as pixel masks: # hair, h highlight, s shadow (curl edges), . none
+  const HAIR_FRONT = [
+    "......h.....h.......",
+    "....#hh#..#hh#.h....",
+    "..h#h###h####h#hs...",
+    "..##s###h##s####s#..",
+    ".s#h###s####h##s##h.",
+    ".h##s##h##s###h###s.",
+    "s#h##s######s##h##s#",
+    ".##s#h##s##h###s###s",
+    "h#s##s###h####s#s##.",
+    ".s##hs#s##.s##h#s#h.",
+    "..#s#...##s...s##s..",
+    "...#s....hs....#s...",
+    "...##.....s....##...",
+    "...#s..........s#...",
+    "...##..........##...",
+    "....s...........s...",
+  ];
+  const HAIR_SIDE = [
+    "....hh..h.h.....",
+    "..#h##s#hh#h....",
+    ".#s###h###s##h..",
+    "h#h#s####h##s##.",
+    "##s#h##s###h##s#",
+    "#s##s#h##s####s.",
+    "s#h###s##h#s#...",
+    "#s##h#s###s#s...",
+    "h#s##s#h##s.....",
+    "##h#s##s#s......",
+    "s##s#h#s#.......",
+    ".#s##s#s........",
+    "..#s#s#.........",
+    "...ss#..........",
+  ];
+  function hairMask(rows, x, y) {
+    rows.forEach((row, j) => { for (let i = 0; i < row.length; i++) {
+      const c = row[i]; if (c !== ".") P(x + i, y + j, 1, 1, c === "h" ? F.hairH : c === "s" ? F.hairS : F.hair);
+    } });
   }
 
   // ---------- cats. x is the left edge of the cat's box, y the surface its paws stand on.
@@ -570,11 +605,13 @@
     if (K.hi) L(5, -11, 10, 1, K.hi);
     if (K.belly) L(5, -5, 11, 1, K.belly);
     if (K.stripe) { L(7, -11, 1, 3, K.stripe); L(10, -12, 1, 3, K.stripe); L(13, -11, 1, 3, K.stripe); }
-    // near legs
-    if (s.air) { L(2, -5, 4, 2, K.base); L(19, -7, 4, 2, K.base); L(1, -5, 1, 2, K.paw); L(22, -7, 1, 2, K.paw); }
+    // near legs: a round haunch over the hind leg, which tapers to the paw
+    L(3, -10, 5, 1, K.base); L(2, -9, 7, 5, K.base); L(3, -4, 5, 1, K.base);
+    L(8, -8, 1, 1, K.shade); L(9, -7, 1, 2, K.shade); L(8, -5, 1, 1, K.shade);
+    if (s.air) { L(1, -5, 5, 2, K.base); L(19, -7, 4, 2, K.base); L(0, -5, 1, 2, K.paw); L(22, -7, 1, 2, K.paw); }
     else {
-      L(5 + o, -4, 2, 4, K.base); L(15 - o, -4, 2, 4, K.base);
-      L(5 + o, -1, 2, 1, K.paw); L(15 - o, -1, 2, 1, K.paw);
+      L(4 + o, -4, 3, 3, K.base); L(5 + o, -1, 2, 1, K.base); L(15 - o, -4, 2, 4, K.base);
+      L(4 + o, -1, 3, 1, K.paw); L(15 - o, -1, 2, 1, K.paw);
     }
     // head
     outline(L, K, 17, -16, 7, 6);
@@ -591,13 +628,16 @@
   function catStretch(K, s) {
     const L = mirror(s.x, s.y, s.dir, 24);
     const sw = Math.round(Math.sin(s.ph * 2));
-    L(4, -8, 2, 8, K.shade); L(15, -3, 8, 2, K.shade);
+    L(3, -9, 4, 3, K.shade); L(4, -6, 3, 5, K.shade); L(4, -1, 3, 1, K.shade); L(15, -3, 8, 2, K.shade);
     L(2, -19, 2, 6, K.tail); L(1 + sw, -22, 2, 3, K.tail);
     L(3, -14, 8, 6, K.base); L(9, -12, 6, 5, K.base); L(13, -9, 5, 4, K.base);
     if (K.hi) L(4, -14, 6, 1, K.hi);
     if (K.belly) L(10, -8, 6, 1, K.belly);
     if (K.stripe) { L(6, -14, 1, 3, K.stripe); L(9, -13, 1, 3, K.stripe); L(12, -11, 1, 3, K.stripe); }
-    L(7, -8, 2, 8, K.base); L(7, -1, 2, 1, K.paw);
+    // near hind leg: a round thigh under the raised rump, tapering to the paw
+    L(5, -10, 6, 1, K.base); L(4, -9, 8, 3, K.base); L(5, -6, 6, 1, K.base); L(6, -5, 4, 1, K.base);
+    L(11, -8, 1, 1, K.shade); L(10, -6, 1, 1, K.shade); L(9, -5, 1, 1, K.shade);
+    L(6, -4, 3, 3, K.base); L(6, -1, 3, 1, K.paw);
     L(12, -6, 4, 4, K.shade); L(13, -3, 3, 1, K.shade);
     L(14, -6, 3, 5, K.base); L(15, -2, 2, 2, K.base);
     L(16, -2, 8, 2, K.base); L(22, -2, 2, 2, K.paw);
