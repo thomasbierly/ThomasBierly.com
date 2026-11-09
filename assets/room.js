@@ -385,9 +385,9 @@
     // neck and face
     P(cx - 2, 76 + y, 4, 4, F.skinS);
     P(cx - 6, 64 + y, 12, 13, F.skin); P(cx - 5, 77 + y, 10, 1, F.skin);
-    // hair: loose curls with volume on top, and a receding hairline that leaves a high forehead
+    // hair: short curls kept under the headband line, and a receding hairline that leaves a high forehead
     P(cx - 5, 59 + y, 10, 5, F.skin); P(cx - 4, 58 + y, 8, 1, F.skin);
-    hairMask(HAIR_FRONT, cx - 10, 50 + y);
+    hairMask(HAIR_FRONT, cx - 8, 57 + y);
     // headphones
     P(cx - 6, 57 + y, 12, 1, F.ph); P(cx - 8, 58 + y, 2, 2, F.ph); P(cx + 6, 58 + y, 2, 2, F.ph);
     P(cx - 9, 60 + y, 2, 6, F.ph); P(cx + 7, 60 + y, 2, 6, F.ph);
@@ -518,7 +518,7 @@
     P(bx - 3, 46 + y, 10, 15, F.skin); P(bx + 7, 52 + y, 1, 3, F.skin); P(bx + 7, 55 + y, 1, 1, F.skinS);
     P(bx - 2, 61 + y, 8, 1, F.skin);
     P(bx, 44 + y, 6, 2, F.skin); P(bx + 1, 43 + y, 4, 1, F.skin);
-    hairMask(HAIR_SIDE, bx - 10, 38 + y);
+    hairMask(HAIR_SIDE, bx - 4, 41 + y);
     P(bx - 3, 41 + y, 2, 10, F.ph); P(bx - 4, 50 + y, 5, 7, F.ph); P(bx - 4, 51 + y, 1, 5, F.phH);
     P(bx + 3, 49 + y, 3, 1, F.brow); P(bx + 4, 51 + y, 1, 2, F.eye); P(bx + 3, 57 + y, 3, 1, F.skinD);
     // near leg and near arm
@@ -544,38 +544,26 @@
 
   // ---------- Thomas's hair, as pixel masks: # hair, h highlight, s shadow (curl edges), . none
   const HAIR_FRONT = [
-    "......h.....h.......",
-    "....#hh#..#hh#.h....",
-    "..h#h###h####h#hs...",
-    "..##s###h##s####s#..",
-    ".s#h###s####h##s##h.",
-    ".h##s##h##s###h###s.",
-    "s#h##s######s##h##s#",
-    ".##s#h##s##h###s###s",
-    "h#s##s###h####s#s##.",
-    ".s##hs#s##.s##h#s#h.",
-    "..#s#...##s...s##s..",
-    "...#s....hs....#s...",
-    "...##.....s....##...",
-    "...#s..........s#...",
-    "...##..........##...",
-    "....s...........s...",
+    ".#h#s##h##s#h#s.",
+    "#h#s##h#s##h#s#h",
+    "#s#h#s#h#s#h#s#s",
+    "#h#s#..s#h..#h#s",
+    ".#s#h....hs..s#h",
+    ".s#s.....s...#s.",
+    ".#s...........s#",
+    "..s...........s.",
   ];
   const HAIR_SIDE = [
-    "....hh..h.h.....",
-    "..#h##s#hh#h....",
-    ".#s###h###s##h..",
-    "h#h#s####h##s##.",
-    "##s#h##s###h##s#",
-    "#s##s#h##s####s.",
-    "s#h###s##h#s#...",
-    "#s##h#s###s#s...",
-    "h#s##s#h##s.....",
-    "##h#s##s#s......",
-    "s##s#h#s#.......",
-    ".#s##s#s........",
-    "..#s#s#.........",
-    "...ss#..........",
+    "..h#s#h...",
+    ".#s#h#s#..",
+    "#h#s#h#s#.",
+    "#s#h#s#h..",
+    "h#s#s#h...",
+    "#s#h#s....",
+    "#h#s#.....",
+    "s#s#......",
+    "#s#.......",
+    ".s........",
   ];
   function hairMask(rows, x, y) {
     rows.forEach((row, j) => { for (let i = 0; i < row.length; i++) {
